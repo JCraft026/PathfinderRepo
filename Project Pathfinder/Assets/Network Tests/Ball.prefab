@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4578379025429474643}
   - component: {fileID: 1405022941487589779}
   - component: {fileID: 2487309585846123477}
-  - component: {fileID: -9023786022214340373}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -163,19 +162,3 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
---- !u!114 &-9023786022214340373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4555507453765879034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  animator: {fileID: 0}
