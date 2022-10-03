@@ -40,13 +40,13 @@ public class RenderMaze : MonoBehaviour
                                                    // Maze floor prefab
 
         // Render the maze floor
-        mazeFloor.localScale = new Vector2(mazeWidth, mazeHeight);
+        mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
 
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
                 currentCell = mazeData[i,j];
-                scenePosition = new Vector2(-mazeWidth / 2 + i, -mazeHeight / 2 + j);
+                scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
@@ -60,7 +60,7 @@ public class RenderMaze : MonoBehaviour
                     var leftWall         = Instantiate(wallPrefab, transform) as Transform;
                     leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                     leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
-                    leftWall.eulerAngles = new Vector3(0, 90, 0);
+                    leftWall.eulerAngles = new Vector3(0, 180, 90);
                 }
 
                 // Render the bottom wall of a maze cell if the current cell is in the bottom row
@@ -80,7 +80,7 @@ public class RenderMaze : MonoBehaviour
                         var rightWall         = Instantiate(wallPrefab, transform) as Transform;
                         rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                         rightWall.localScale  = new Vector2(cellSize, rightWall.localScale.y);
-                        rightWall.eulerAngles = new Vector3(0, 90, 0);
+                        rightWall.eulerAngles = new Vector3(0, 180, 90);
                     }
                 }
             }
