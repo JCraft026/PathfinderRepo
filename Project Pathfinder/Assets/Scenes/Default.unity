@@ -138,6 +138,10 @@ PrefabInstance:
       propertyPath: sceneId
       value: 925164507
       objectReference: {fileID: 0}
+    - target: {fileID: 4022173256323792369, guid: 3faf1eb4ee74a3e468e2a5469aa4ee44, type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4022173256572805577, guid: 3faf1eb4ee74a3e468e2a5469aa4ee44, type: 3}
       propertyPath: sceneId
       value: 1561968764

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5005909729865015225
+--- !u!1 &8730502783563078798
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,13 +8,14 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2319417766789317763}
-  - component: {fileID: 5154553342699087063}
-  - component: {fileID: 7775165224675969356}
-  - component: {fileID: 662715816237845591}
-  - component: {fileID: 2045470884356613755}
-  - component: {fileID: 4832884476505739694}
-  - component: {fileID: 3245808055928113063}
+  - component: {fileID: 8730502783563078799}
+  - component: {fileID: 8730502783563078789}
+  - component: {fileID: 8730502783563078788}
+  - component: {fileID: 8730502783563078795}
+  - component: {fileID: 8730502783563078794}
+  - component: {fileID: 8730502783563078793}
+  - component: {fileID: 8730502783563078792}
+  - component: {fileID: 5810285143206710293}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -22,28 +23,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2319417766789317763
+--- !u!4 &8730502783563078799
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.794525, y: 1.6677909, z: 0.3648303}
+  m_LocalPosition: {x: -16.794525, y: 0.16779065, z: 0.3648303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5154553342699087063
+--- !u!212 &8730502783563078789
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -89,13 +90,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &7775165224675969356
+--- !u!61 &8730502783563078788
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -115,14 +116,14 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 4}
   m_EdgeRadius: 0
---- !u!50 &662715816237845591
+--- !u!50 &8730502783563078795
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -136,30 +137,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
---- !u!114 &2045470884356613755
+--- !u!114 &8730502783563078794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ab2598eed284544811b3f040991e54, type: 3}
+  m_Script: {fileID: 11500000, guid: fce4d3585f4df3446b19cb9a7a89e64c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isPlayer1: 1
-  speed: 5
-  rb: {fileID: 662715816237845591}
---- !u!114 &4832884476505739694
+  isPlayer1: 0
+  speed: 0
+  rb: {fileID: 8730502783563078795}
+--- !u!114 &8730502783563078793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
@@ -168,15 +169,15 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 7b985592c02fa9244bbec8dda24dd00e
+  m_AssetId: 873a3cadc23f8b64b9110ce63f61abea
   hasSpawned: 0
---- !u!114 &3245808055928113063
+--- !u!114 &8730502783563078792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5005909729865015225}
+  m_GameObject: {fileID: 8730502783563078798}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab2cbc52526ea384ba280d13cd1a57b9, type: 3}
@@ -184,11 +185,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  target: {fileID: 662715816237845591}
-  clientAuthority: 0
+  target: {fileID: 8730502783563078795}
+  clientAuthority: 1
   syncVelocity: 1
   clearVelocity: 0
   velocitySensitivity: 0.1
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &5810285143206710293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730502783563078798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendRate: 30
+  bufferTimeMultiplier: 2
+  bufferSizeLimit: 64
+  catchupNegativeThreshold: -1
+  catchupPositiveThreshold: 1
+  catchupSpeed: 0.009999999776482582
+  slowdownSpeed: 0.009999999776482582
+  driftEmaDuration: 1
+  dynamicAdjustment: 1
+  dynamicAdjustmentTolerance: 1
+  deliveryTimeEmaDuration: 2
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
