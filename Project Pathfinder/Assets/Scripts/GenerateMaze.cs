@@ -46,15 +46,15 @@ public class GenerateMaze : MonoBehaviour
 
     // Generate all paths throughout the maze
     private static WallStatus[,] GeneratePaths(WallStatus[,] mazeData, int mazeWidth, int mazeHeight){
-        Stack<CellPosition> positionStack = new Stack<CellPosition>(); // Holds maze cell position data
-        System.Random randomNum           = new System.Random();       // Random number generator
-        CellPosition initialCell          = new CellPosition{ _x = randomNum.Next(0, mazeWidth), _y = randomNum.Next(0, mazeHeight) },
-                                                                       // Starting cell for path generation
-                     currentCell          = new CellPosition(),        // Position of the current cell being processed
-                     neighborCell         = new CellPosition();        // Position of the selected neighbor of the current cell
-        List<CellNeighbor> cellNeighbors  = new List<CellNeighbor>();  // List of unvisited neighbors to the current cell  
-        CellNeighbor randomNeighbour      = new CellNeighbor();        // Randomly selected neighbor from the list of current cell neighbors
-        int randomIndex;                                               // Index used to randomly select a cell neighbor
+        Stack<CellPosition> positionStack      = new Stack<CellPosition>(); // Holds maze cell position data
+        System.Random randomNum                = new System.Random();       // Random number generator
+        CellPosition initialCell               = new CellPosition{ _x = randomNum.Next(0, mazeWidth), _y = randomNum.Next(0, mazeHeight) },
+                                                                            // Starting cell for path generation
+                     currentCell               = new CellPosition(),        // Position of the current cell being processed
+                     neighborCell              = new CellPosition();        // Position of the selected neighbor of the current cell
+        List<CellNeighbor> unvisitedNeighbors  = new List<CellNeighbor>();  // List of unvisited neighbors to the current cell  
+        CellNeighbor randomNeighbour           = new CellNeighbor();        // Randomly selected neighbor from the list of current cell neighbors
+        int randomIndex;                                                    // Index used to randomly select a cell neighbor
         
         // Process the initial cell as part of the maze path
         mazeData[initialCell._x, initialCell._y] |= WallStatus.VISITED;
@@ -62,17 +62,17 @@ public class GenerateMaze : MonoBehaviour
 
         // Generate maze paths until all maze cells have been visited
         while(positionStack.Count > 0){
-            currentCell   = positionStack.Pop();
-            cellNeighbors = GetUnvisitedNeighbours(currentCell, mazeData, mazeWidth, mazeHeight);
+            currentCell        = positionStack.Pop();
+            unvisitedNeighbors = GetUnvisitedNeighbours(currentCell, mazeData, mazeWidth, mazeHeight);
 
             // If the current cell has an unvisited neighbor, add the neighbor cell to the current maze path
-            if(cellNeighbors.Count > 0){
+            if(unvisitedNeighbors.Count > 0){
                 // Add the current cell to the path history
                 positionStack.Push(currentCell);
 
                 // Randomly select an unvisited neighbor
-                randomIndex     = randomNum.Next(0, cellNeighbors.Count);
-                randomNeighbour = cellNeighbors[randomIndex];
+                randomIndex     = randomNum.Next(0, unvisitedNeighbors.Count);
+                randomNeighbour = unvisitedNeighbors[randomIndex];
                 neighborCell    = randomNeighbour._position;
 
                 // Delete the maze wall separating the current cell from its neighbor
@@ -89,37 +89,37 @@ public class GenerateMaze : MonoBehaviour
 
     // Get a list of the current cell's unvisited neighbors
     private static List<CellNeighbor> GetUnvisitedNeighbours(CellPosition currentCell, WallStatus[,] mazeData, int mazeWidth, int mazeHeight){
-        List<CellNeighbor> cellNeighbors = new List<CellNeighbor>(); // List of unvisited neighbors to the current cell
+        List<CellNeighbor> unvisitedNeighbors = new List<CellNeighbor>(); // List of unvisited neighbors to the current cell
 
         // Check if there is an unvisited neighbor above the current cell
         if(currentCell._y < mazeHeight - 1){
             if(!mazeData[currentCell._x, currentCell._y + 1].HasFlag(WallStatus.VISITED)){
-                cellNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x, _y = currentCell._y + 1}, _sharedWall = WallStatus.TOP});
+                unvisitedNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x, _y = currentCell._y + 1}, _sharedWall = WallStatus.TOP});
             }
         }
 
         // Check if there is an unvisited neighbor to the left of the current cell
         if(currentCell._x > 0){
             if(!mazeData[currentCell._x - 1, currentCell._y].HasFlag(WallStatus.VISITED)){
-                cellNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x - 1, _y = currentCell._y}, _sharedWall = WallStatus.LEFT});
+                unvisitedNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x - 1, _y = currentCell._y}, _sharedWall = WallStatus.LEFT});
             }
         }
 
         // Check if there is an unvisited neighbor below the current cell
         if(currentCell._y > 0){
             if(!mazeData[currentCell._x, currentCell._y - 1].HasFlag(WallStatus.VISITED)){
-                cellNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x, _y = currentCell._y - 1}, _sharedWall = WallStatus.BOTTOM});
+                unvisitedNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x, _y = currentCell._y - 1}, _sharedWall = WallStatus.BOTTOM});
             }
         }
 
         // Check if there is an unvisited neighbor to the right of the current cell
         if(currentCell._x < mazeWidth - 1){
             if(!mazeData[currentCell._x + 1, currentCell._y].HasFlag(WallStatus.VISITED)){
-                cellNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x + 1, _y = currentCell._y}, _sharedWall = WallStatus.RIGHT});
+                unvisitedNeighbors.Add(new CellNeighbor{_position = new CellPosition{_x = currentCell._x + 1, _y = currentCell._y}, _sharedWall = WallStatus.RIGHT});
             }
         }
 
-        return cellNeighbors;
+        return unvisitedNeighbors;
     }
 
     // Get the cell wall oposite to the one given

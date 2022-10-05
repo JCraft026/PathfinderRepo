@@ -85,12 +85,5 @@ public class RenderMaze : MonoBehaviour
                 }
             }
         }
-            
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
