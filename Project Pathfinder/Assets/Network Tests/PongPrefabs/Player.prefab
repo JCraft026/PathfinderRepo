@@ -152,7 +152,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isPlayer1: 0
-  speed: 0
+  speed: 5
   rb: {fileID: 8730502783563078795}
 --- !u!114 &8730502783563078793
 MonoBehaviour:
