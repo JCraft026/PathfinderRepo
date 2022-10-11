@@ -42,6 +42,16 @@ public class RenderMaze : MonoBehaviour
         // Render the maze floor
         mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
 
+        // Adujust the maze floor in relation to the maze cells
+        if(mazeHeight % 2 == 0)
+        {
+            mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
+        }
+        if(mazeWidth % 2 == 0)
+        {
+            mazeFloor.position += new Vector3(-cellSize / 2, 0, 0);
+        }
+        
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
@@ -84,6 +94,6 @@ public class RenderMaze : MonoBehaviour
                     }
                 }
             }
-        }
+        }  
     }
 }
