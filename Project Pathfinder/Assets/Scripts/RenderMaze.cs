@@ -42,7 +42,7 @@ public class RenderMaze : MonoBehaviour
         // Render the maze floor
         mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
 
-        // Adujust the maze floor in relation to the maze cells
+        // Adujust the maze floor position to accomodate even numbered dimensions
         if(mazeHeight % 2 == 0)
         {
             mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
