@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json; //Needed for serializing/deserializing the maze sent to the client
 using UnityEngine;
+using Mirror;
 
-public class RenderMaze : MonoBehaviour
+public class RenderMaze : NetworkBehaviour
 {
     // Initialize fields on the inspector
     [SerializeField]
@@ -22,18 +24,23 @@ public class RenderMaze : MonoBehaviour
     [SerializeField]
     private Transform floorPrefab = null;
 
+    private string mazeDataJson;
+
     // Start is called before the first frame update
     void Start()
     {
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
 
+        mazeDataJson = JsonConvert.SerializeObject(mazeData);
+
         // Render the maze in the scene
         Render(mazeData);
     }
 
     // Render the complete maze within the scene
-    private void Render(WallStatus[,] mazeData){
+    public void Render(WallStatus[,] mazeData)
+    {
         WallStatus currentCell = new WallStatus(); // Current maze cell being rendered
         Vector2 scenePosition  = new Vector2();    // x,y position in the scene
         var mazeFloor          = Instantiate(floorPrefab, transform);
@@ -85,5 +92,10 @@ public class RenderMaze : MonoBehaviour
                 }
             }
         }
+    }
+
+    public string GiveMazeDataToNetworkManager()
+    {
+        return mazeDataJson;
     }
 }
