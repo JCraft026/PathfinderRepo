@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 static class Constants{
-    public const float FORWARD  = 1; // Character facing forward
-    public const float LEFT     = 2; // Character facing left
-    public const float BACKWARD = 3; // Character facing backward
-    public const float RIGHT    = 4; // Character facing right
+    public const float FORWARD  = 1f; // Character facing forward
+    public const float LEFT     = 2f; // Character facing left
+    public const float BACKWARD = 3f; // Character facing backward
+    public const float RIGHT    = 4f; // Character facing right
 }
 
 public class MoveCharacter : MonoBehaviour
 {
     public float moveSpeed = 5f,  // Speed at which the character needs to move
                  facingDirection; // Direction the character should face after movement
+    Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
-    Vector2 movementInput;        // Character's current input direction
     public Animator animator;     // Character's animator manager
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class MoveCharacter : MonoBehaviour
         movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
         movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
 
-        // Set character facing direction
+        // Set character idle facing direction
         if(movementInput.x == 0 && movementInput.y == -1){
             facingDirection = Constants.FORWARD;
         }
