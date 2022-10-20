@@ -10,17 +10,14 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     RenderMaze mazeRenderer;
 
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-    }
-
+    // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
     }
 
+    // Runs on the server when a client connects - sends the maze to the client from the server
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
@@ -45,23 +42,29 @@ public class CustomNetworkManager : NetworkManager
     //Called when the client receives the json text of the maze
     public void ReceiveMazeData(MazeMessage mazeText)
     {
-        try
+        // Don't run this code if the server is also a client as it will cause the maze to double render
+        if(!NetworkClient.isHostClient)
         {
-            if(mazeText.jsonMaze == null)
-                throw(new Exception("mazeText.jsonMaze == null, aborting message!"));
-            else
+            try
             {
-                WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
-                mazeRenderer.Render(newMaze);
+                if(mazeText.jsonMaze == null)
+                    throw(new Exception("mazeText.jsonMaze == null, no data sent!"));
+                else
+                {
+                    WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
+                    mazeRenderer.CleanMap();
+                    mazeRenderer.Render(newMaze);
+                }
             }
-        }
-        catch(Exception e)
-        {
-            Debug.Log("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
+            catch(Exception e)
+            {
+                Debug.Log("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
+            }
         }
     }
 
-        public struct MazeMessage : NetworkMessage
+    //Message structure used to send the maze to the client
+    public struct MazeMessage : NetworkMessage
     {
         public string jsonMaze;
     }
