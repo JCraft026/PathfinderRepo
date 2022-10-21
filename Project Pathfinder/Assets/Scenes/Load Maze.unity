@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 154588557}
   - component: {fileID: 154588561}
   - component: {fileID: 154588562}
+  - component: {fileID: 154588563}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -265,8 +266,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
+  facingDirection: 0
   rigidBody: {fileID: 154588561}
   animator: {fileID: 154588557}
+--- !u!70 &154588563
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154588556}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.5, y: 1.5}
+  m_Size: {x: 15, y: 17}
+  m_Direction: 0
 --- !u!1 &969162351
 GameObject:
   m_ObjectHideFlags: 0
