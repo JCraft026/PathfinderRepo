@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-static class Constants{
+static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
     public const float LEFT     = 2f; // Character facing left
     public const float BACKWARD = 3f; // Character facing backward
@@ -25,16 +25,16 @@ public class MoveCharacter : MonoBehaviour
 
         // Set character idle facing direction
         if(movementInput.x == 0 && movementInput.y == -1){
-            facingDirection = Constants.FORWARD;
+            facingDirection = MoveCharacterConstants.FORWARD;
         }
         else if(movementInput.x == -1 && movementInput.y == 0){
-            facingDirection = Constants.LEFT;
+            facingDirection = MoveCharacterConstants.LEFT;
         }
         else if(movementInput.x == 0 && movementInput.y == 1){
-            facingDirection = Constants.BACKWARD;
+            facingDirection = MoveCharacterConstants.BACKWARD;
         }
         else if(movementInput.x == 1 && movementInput.y == 0){
-            facingDirection = Constants.RIGHT;
+            facingDirection = MoveCharacterConstants.RIGHT;
         }
 
         // Communicate movement values with the animator controller
