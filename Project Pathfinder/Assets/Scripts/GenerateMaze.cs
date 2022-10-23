@@ -155,8 +155,8 @@ public class GenerateMaze : MonoBehaviour
         }
     }
 
-        // Get the locations for each maze exit
-    private static CellPosition[] GetExitLocations(int mazeWidth, int mazeHeight){
+    // Get the locations for each maze exit
+    public static CellPosition[] GetExitLocations(int mazeWidth, int mazeHeight){
         int exitSpacingHorizontal    = mazeWidth/6;         // Spacing of maze exits on horizontal walls
         int exitSpacingVertical      = mazeHeight/6;        // Spacing of maze exits on vertical walls
         System.Random randomNum      = new System.Random(); // Random number generator

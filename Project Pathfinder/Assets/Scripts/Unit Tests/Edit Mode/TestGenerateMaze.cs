@@ -47,4 +47,16 @@ public class TestGenerateMaze
         // Test that all the maze cells have been visited
         Assert.That(unvisitedCellCount == 0, "unvisited maze cells present");
     }
+
+    // Confirm that all four maze exits have been generated
+    [Test]
+    public void TestCorrectExitAmountGenerated(){
+        System.Random randomNum = new System.Random();   // Random number generator
+        int mazeWidth           = randomNum.Next(1, 50), // Random maze width
+            mazeHeight          = randomNum.Next(1, 50), // Random maze height
+            exitAmount          = 0;                     // Total exits generated
+
+        exitAmount = GenerateMaze.GetExitLocations(mazeWidth, mazeHeight).Length;
+        Assert.That(exitAmount == 4, "all four maze exits are not present");
+    }
 }

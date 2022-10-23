@@ -230,7 +230,7 @@ Transform:
   m_Children:
   - {fileID: 969162354}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &154588561
 Rigidbody2D:
@@ -442,8 +442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b465351bcae2344a88799d2ab7d332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeWidth: 6
-  mazeHeight: 6
+  mazeWidth: 13
+  mazeHeight: 13
   cellSize: 5
   wallPrefab: {fileID: 1542926893595753881, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
@@ -464,5 +464,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
