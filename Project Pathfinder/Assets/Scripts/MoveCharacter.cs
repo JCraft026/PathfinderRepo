@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
@@ -9,7 +10,7 @@ static class MoveCharacterConstants{
     public const float RIGHT    = 4f; // Character facing right
 }
 
-public class MoveCharacter : MonoBehaviour
+public class MoveCharacter : NetworkBehaviour
 {
     public float moveSpeed = 5f,  // Speed at which the character needs to move
                  facingDirection; // Direction the character should face after movement
@@ -19,9 +20,12 @@ public class MoveCharacter : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        // Get current input data
-        movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
-        movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
+        if(isLocalPlayer)
+        {
+            // Get current input data
+            movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
+            movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
+        }
 
         // Set character idle facing direction
         if(movementInput.x == 0 && movementInput.y == -1){
