@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  moveSpeed: 7
+  moveSpeed: 5
   facingDirection: 0
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
