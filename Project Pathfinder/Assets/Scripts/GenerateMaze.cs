@@ -1,7 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System;
+
+static class GenerateMazeConstants{
+    public const int BOTTOM_LEFT_CORNER  = 1; // Bottom left corner of the maze
+    public const int BOTTOM_RIGHT_CORNER = 2; // Bottom right corner of the maze
+    public const int TOP_LEFT_CORNER     = 3; // Top left corner of the maze
+    public const int TOP_RIGHT_CORNER    = 4; // Top right corner of the maze
+}
 
 // X and Y grid positions of each maze cell
 public struct CellPosition{
@@ -18,10 +26,11 @@ public struct CellNeighbor{
 // Status bits reflecting the presence of each wall within a maze cell
 [Flags]
 public enum WallStatus{
-    TOP     = 1,   // (0001) Top wall bit
-    LEFT    = 2,   // (0010) Left wall bit
-    BOTTOM  = 4,   // (0100) Bottom wall bit
-    RIGHT   = 8,   // (1000) Right wall bit
+    TOP     = 1,   // (0000 0001) Top wall bit
+    LEFT    = 2,   // (0000 0010) Left wall bit
+    BOTTOM  = 4,   // (0000 0100) Bottom wall bit
+    RIGHT   = 8,   // (0000 1000) Right wall bit
+    EXIT    = 64,  // (0100 0000) Maze exit bit
     VISITED = 128, // (1000 0000) Cell visited status bit
 }
 
@@ -54,6 +63,8 @@ public class GenerateMaze : MonoBehaviour
                      neighborCell              = new CellPosition();        // Position of the selected neighbor of the current cell
         List<CellNeighbor> unvisitedNeighbors  = new List<CellNeighbor>();  // List of unvisited neighbors to the current cell  
         CellNeighbor randomNeighbour           = new CellNeighbor();        // Randomly selected neighbor from the list of current cell neighbors
+        CellPosition[] exitLocations           = GetExitLocations(mazeWidth, mazeHeight);  
+                                                                            // Cell locations of each maze exit
         int randomIndex;                                                    // Index used to randomly select a cell neighbor
         
         // Process the initial cell as part of the maze path
@@ -64,6 +75,11 @@ public class GenerateMaze : MonoBehaviour
         while(positionStack.Count > 0){
             currentCell        = positionStack.Pop();
             unvisitedNeighbors = GetUnvisitedNeighbours(currentCell, mazeData, mazeWidth, mazeHeight);
+
+            // If the current cell has an exit, give it an exit flag
+            if(exitLocations.Contains(currentCell)){
+                mazeData[currentCell._x, currentCell._y] |= WallStatus.EXIT;
+            }
 
             // If the current cell has an unvisited neighbor, add the neighbor cell to the current maze path
             if(unvisitedNeighbors.Count > 0){
@@ -76,7 +92,7 @@ public class GenerateMaze : MonoBehaviour
                 neighborCell    = randomNeighbour._position;
 
                 // Delete the maze wall separating the current cell from its neighbor
-                mazeData[currentCell._x, currentCell._y] &= ~randomNeighbour._sharedWall;
+                mazeData[currentCell._x, currentCell._y]   &= ~randomNeighbour._sharedWall;
                 mazeData[neighborCell._x, neighborCell._y] &= ~GetOppositeWall(randomNeighbour._sharedWall);
 
                 // Set the neighbor cell as the new current cell
@@ -137,5 +153,60 @@ public class GenerateMaze : MonoBehaviour
             default:
                 return WallStatus.TOP;
         }
+    }
+
+    // Get the locations for each maze exit
+    public static CellPosition[] GetExitLocations(int mazeWidth, int mazeHeight){
+        int exitSpacingHorizontal    = mazeWidth/6;         // Spacing of maze exits on horizontal walls
+        int exitSpacingVertical      = mazeHeight/6;        // Spacing of maze exits on vertical walls
+        System.Random randomNum      = new System.Random(); // Random number generator
+        CellPosition[] exitLocations = new CellPosition[4]; // Maze cell position of each maze exit location
+
+        // Calculate maze exit locations using a corner as a reference point
+        switch (randomNum.Next(1,4))
+        {
+            case GenerateMazeConstants.BOTTOM_LEFT_CORNER:
+                exitLocations[0]._x = exitSpacingHorizontal;
+                exitLocations[0]._y = 0;
+                exitLocations[1]._x = exitSpacingHorizontal * 2;
+                exitLocations[1]._y = 0;
+                exitLocations[2]._x = 0;
+                exitLocations[2]._y = exitSpacingVertical;
+                exitLocations[3]._x = 0;
+                exitLocations[3]._y = exitSpacingVertical * 2;
+                break;
+            case GenerateMazeConstants.BOTTOM_RIGHT_CORNER:
+                exitLocations[0]._x = (mazeWidth - 1) - exitSpacingHorizontal;
+                exitLocations[0]._y = 0;
+                exitLocations[1]._x = (mazeWidth - 1) - exitSpacingHorizontal * 2;
+                exitLocations[1]._y = 0;
+                exitLocations[2]._x = mazeWidth - 1;
+                exitLocations[2]._y = exitSpacingVertical;
+                exitLocations[3]._x = mazeWidth - 1;
+                exitLocations[3]._y = exitSpacingVertical * 2;
+                break;
+            case GenerateMazeConstants.TOP_LEFT_CORNER:
+                exitLocations[0]._x = 0;
+                exitLocations[0]._y = (mazeHeight - 1) - exitSpacingVertical;
+                exitLocations[1]._x = 0;
+                exitLocations[1]._y = (mazeHeight - 1) - exitSpacingVertical * 2;
+                exitLocations[2]._x = exitSpacingHorizontal;
+                exitLocations[2]._y = mazeHeight - 1;
+                exitLocations[3]._x = exitSpacingHorizontal * 2;
+                exitLocations[3]._y = mazeHeight - 1;
+                break;
+            case GenerateMazeConstants.TOP_RIGHT_CORNER:
+                exitLocations[0]._x = mazeWidth - 1;
+                exitLocations[0]._y = (mazeHeight - 1) - exitSpacingVertical;
+                exitLocations[1]._x = mazeWidth - 1;
+                exitLocations[1]._y = (mazeHeight - 1) - exitSpacingVertical * 2;
+                exitLocations[2]._x = (mazeWidth - 1) - exitSpacingHorizontal;
+                exitLocations[2]._y = mazeHeight - 1;
+                exitLocations[3]._x = (mazeWidth - 1) - exitSpacingHorizontal * 2;
+                exitLocations[3]._y = mazeHeight - 1;
+                break;
+        }
+
+        return exitLocations;
     }
 }
