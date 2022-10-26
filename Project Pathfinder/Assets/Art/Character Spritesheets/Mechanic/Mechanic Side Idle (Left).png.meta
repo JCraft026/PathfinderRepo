@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b78d5909abba9a418eb6e16d9cba4a9
-      internalID: 1449756565
+      spriteID: b43d51d34846a8d419a246f74eb89490
+      internalID: 2043000610
       vertices: []
       indices: 
       edges: []
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da62d79ffe440274f9780b0e207856d4
-      internalID: -694709569
+      spriteID: cfd421da33522e94199317627c803bfc
+      internalID: 1392102077
       vertices: []
       indices: 
       edges: []
@@ -157,8 +157,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Mechanic Side Idle (Left)_1: -694709569
-      Mechanic Side Idle (Left)_0: 1449756565
+      Mechanic Side Idle (Left)_1: 1392102077
+      Mechanic Side Idle (Left)_0: 2043000610
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
