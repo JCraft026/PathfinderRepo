@@ -251,6 +251,14 @@ PrefabInstance:
       propertyPath: mazeRenderer
       value: 
       objectReference: {fileID: 1496269329}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: hostPlayerCharacter
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 39624bc568ebb1843a6e130c0971ef25, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: clientPlayerCharacter
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 39624bc568ebb1843a6e130c0971ef25, type: 3}
     - target: {fileID: 2939840884276580473, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: m_RootOrder
       value: 2
