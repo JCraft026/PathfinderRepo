@@ -50,9 +50,9 @@ GameObject:
   - component: {fileID: 5198763830773318775}
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
-  - component: {fileID: 5435520695507843086}
+  - component: {fileID: 4269093604398241644}
   m_Layer: 0
-  m_Name: Runner
+  m_Name: Trapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1483606082, guid: f21ca55ebeb257745b2fca78397d4c36, type: 3}
+  m_Sprite: {fileID: 439430280, guid: f7735e640556f5f429a979a54e43f411, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,7 +136,7 @@ Animator:
   m_GameObject: {fileID: 2696247814498831812}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5c0421833de098c458169219bf06c25a, type: 2}
+  m_Controller: {fileID: 9100000, guid: e25d9f97d0bf1514288523b539162f27, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 39624bc568ebb1843a6e130c0971ef25
+  m_AssetId: 9d206aeb7efe9f849ba303f863e3da6f
   hasSpawned: 0
 --- !u!114 &5198763830773318775
 MonoBehaviour:
@@ -293,7 +293,7 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
---- !u!114 &5435520695507843086
+--- !u!114 &4269093604398241644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -409,5 +409,5 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 39624bc568ebb1843a6e130c0971ef25
+  m_AssetId: 9d206aeb7efe9f849ba303f863e3da6f
   hasSpawned: 0

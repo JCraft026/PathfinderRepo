@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 
-public class RunnerCameraManager : NetworkBehaviour
+public class ActiveCharacterManager : NetworkBehaviour
 {
     public GameObject cameraHolder;
     public Vector3 offset;
