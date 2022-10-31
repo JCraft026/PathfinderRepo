@@ -10,6 +10,12 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     RenderMaze mazeRenderer;
 
+    [SerializeField]
+    GameObject hostPlayerCharacter;
+    
+    [SerializeField]
+    GameObject clientPlayerCharacter;
+
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
@@ -60,6 +66,23 @@ public class CustomNetworkManager : NetworkManager
             {
                 Debug.Log("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
             }
+        }
+    }
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+    {
+        base.OnServerAddPlayer(conn);
+        
+        // If a client that is not also the host is connected, force the new player to be on the opposing team
+        if(NetworkServer.connections.Count > 1)
+        {
+            GameObject oldPlayer = conn.identity.gameObject;
+
+            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(clientPlayerCharacter));
+
+            Destroy(oldPlayer);
+
+            Debug.Log("Replaced conID: " + conn.connectionId);
         }
     }
 
