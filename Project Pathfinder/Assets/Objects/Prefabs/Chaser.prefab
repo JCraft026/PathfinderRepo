@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 5198763830773318775}
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
-  - component: {fileID: 3428828395239313201}
+  - component: {fileID: 264948650263406450}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 2696247814498831813}
 --- !u!114 &6696561907742982402
 MonoBehaviour:
@@ -293,7 +293,7 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
---- !u!114 &3428828395239313201
+--- !u!114 &264948650263406450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -102,7 +102,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Front Idle
-  m_Speed: 0.07
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8364079252378397626}
@@ -280,7 +280,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle
-  m_Speed: 0.07
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4649869890437182927}
