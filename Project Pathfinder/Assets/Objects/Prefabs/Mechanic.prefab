@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 5198763830773318775}
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
-  - component: {fileID: 849960699044946675}
+  - component: {fileID: 1242463979396715995}
   m_Layer: 0
   m_Name: Mechanic
   m_TagString: Untagged
@@ -293,7 +293,7 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
---- !u!114 &849960699044946675
+--- !u!114 &1242463979396715995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2696247814498831812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed855070475f2b042babb27ad0710522, type: 3}
+  m_Script: {fileID: 11500000, guid: b5ebf7e796b1a174e9158f0de789d0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
