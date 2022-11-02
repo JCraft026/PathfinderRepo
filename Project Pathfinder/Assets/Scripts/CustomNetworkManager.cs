@@ -16,11 +16,12 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     GameObject clientPlayerCharacter;
 
-    public bool isRunner = false; // Reflect whether the current player is playing as the Runner
+    public static bool isRunner = true; // Reflect whether the current player is playing as the Runner
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
+        isRunner = false;
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
     }
