@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -16,17 +17,26 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     GameObject clientPlayerCharacter;
 
-    public static bool isRunner = true; // Reflect whether the current player is playing as the Runner
+    public bool isRunner = false; // Reflect whether the current player is playing as the Runner
+
+    public const int PLAYER_TYPE_RUNNER   = 0;
+    public const int PLAYER_TYPE_CHASER   = 1;
+    public const int PLAYER_TYPE_TRAPPER  = 2;
+    public const int PLAYER_TYPE_MECHANIC = 3;
+    public const int PLAYER_TYPE_UNKNOWN  = 404;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
-        isRunner = false;
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
+        NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
+        //NetworkServer.RegisterHandler<AnimationMessage>(PassAnimationMessage, true);
     }
 
-    // Runs on the server when a client connects - sends the maze to the client from the server
+    // Runs on the server when a client connects
+    // Sends the maze to the client from the server
+    // Also registers the animation handlers for each player
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
@@ -89,9 +99,24 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
+    public void NetworkAnimationHandler(AnimationMessage animationState)
+    {
+        //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
+        
+    }
+
     //Message structure used to send the maze to the client
     public struct MazeMessage : NetworkMessage
     {
         public string jsonMaze;
+    }
+
+    //Message structure used to send animation states between clients
+    public struct AnimationMessage : NetworkMessage
+    {
+        public int characterType;
+        public Vector2 movementInput;
+        public float characterFacingDirection;
+        public int connId;
     }
 }
