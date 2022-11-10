@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class ServerBrowserGameUI : MonoBehaviour
+public class ServerBrowserUI : MonoBehaviour
 {
-    public static ServerBrowserGameUI Instance { set; get; }
+    public static ServerBrowserUI Instance { set; get; }
 
     private void Awake()
     {
@@ -14,9 +14,14 @@ public class ServerBrowserGameUI : MonoBehaviour
     {
         Debug.Log("OnTutorialButton");
     }
-    public void OnOnlineButton()
+    public void OnPlayButton()
     {
-        Debug.Log("OnOnlineButton");
+        Debug.Log("OnPlayButton");
+    }
+
+    public void OnSettingsButton()
+    {
+        Debug.Log("OnSettingsButton");
     }
 
     public void OnOnlineHostButton()
