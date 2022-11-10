@@ -18,4 +18,24 @@ public class ServerBrowserGameUI : MonoBehaviour
     {
         Debug.Log("OnOnlineButton");
     }
+
+    public void OnOnlineHostButton()
+    {
+        Debug.Log("OnOnlineHostButton");
+    }
+
+    public void OnOnlineConnectButton()
+    {
+        Debug.Log("OnOnlineConnectButton");
+    }
+
+    public void OnOnlineBackButton()
+    {
+        Debug.Log("OnOnlineBackButton");
+    }
+
+    public void OnHostCancelButton()
+    {
+        Debug.Log("OnHostCancelButton");
+    }
 }
