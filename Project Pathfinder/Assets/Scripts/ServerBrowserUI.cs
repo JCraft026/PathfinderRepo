@@ -4,6 +4,8 @@ public class ServerBrowserUI : MonoBehaviour
 {
     public static ServerBrowserUI Instance { set; get; }
 
+    [SerializeField] private Animator menuAnimator;
+
     private void Awake()
     {
         Instance = this;
@@ -16,7 +18,7 @@ public class ServerBrowserUI : MonoBehaviour
     }
     public void OnPlayButton()
     {
-        Debug.Log("OnPlayButton");
+        menuAnimator.SetTrigger("OnlineMenu");
     }
 
     public void OnSettingsButton()
