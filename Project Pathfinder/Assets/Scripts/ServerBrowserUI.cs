@@ -38,7 +38,7 @@ public class ServerBrowserUI : MonoBehaviour
 
     public void OnOnlineBackButton()
     {
-        Debug.Log("OnOnlineBackButton");
+        menuAnimator.SetTrigger("StartMenu");
     }
 
     public void OnHostCancelButton()
