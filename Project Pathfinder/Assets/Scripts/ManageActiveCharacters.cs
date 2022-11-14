@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 
+static class ManageActiveCharactersConstants{
+    public const int ENGINEER = 1; // Engineer guard ID
+    public const int MECHANIC = 2; // Mechanic guard ID
+    public const int TRAPPER  = 3; // Trapper guard ID
+}
+
 public class ManageActiveCharacters : NetworkBehaviour
 {
     public GameObject cameraHolder;

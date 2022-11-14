@@ -26,6 +26,8 @@ public class CustomNetworkManager : NetworkManager
     public const int PLAYER_TYPE_MECHANIC = 3;
     public const int PLAYER_TYPE_UNKNOWN  = 404;
 
+    public static int activeGuardId = null;
+
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
@@ -94,13 +96,25 @@ public class CustomNetworkManager : NetworkManager
 
             GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
             GameObject chaser = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Chaser")));
-            GameObject mechanic = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Mechanic")));
+            GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Mechanic")));
 
             NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(chaser);
-            NetworkServer.Spawn(mechanic);
+            NetworkServer.Spawn(engineer);
 
-            NetworkServer.ReplacePlayerForConnection(conn, trapper);
+            // Select a random guard to initialize control
+            switch (activeGuardId)
+            {
+                case ManageActiveCharactersConstants.ENGINEER:
+                    NetworkServer.ReplacePlayerForConnection(conn, engineer);
+                    break;
+                case ManageActiveCharactersConstants.MECHANIC:
+                    NetworkServer.ReplacePlayerForConnection(conn, mechanic);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    NetworkServer.ReplacePlayerForConnection(conn, trapper);
+                    break;
+            }
 
             Destroy(oldPlayer);
 
