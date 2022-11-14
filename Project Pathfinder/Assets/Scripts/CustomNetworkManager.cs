@@ -17,7 +17,8 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     GameObject clientPlayerCharacter;
 
-    public bool isRunner = false; // Reflect whether the current player is playing as the Runner
+    [SerializeField]
+    bool hostIsRunner;
 
     public const int PLAYER_TYPE_RUNNER   = 0;
     public const int PLAYER_TYPE_CHASER   = 1;
@@ -31,7 +32,6 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
-        //NetworkServer.RegisterHandler<AnimationMessage>(PassAnimationMessage, true);
     }
 
     // Runs on the server when a client connects
@@ -85,18 +85,61 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
-        
-        // If a client that is not also the host is connected, force the new player to be on the opposing team
-        if(NetworkServer.connections.Count > 1)
+        Debug.Log("OnServerConnect");
+        // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
+        if((hostIsRunner && NetworkServer.connections.Count > 1) ||
+            (!hostIsRunner && NetworkServer.connections.Count == 1))
         {
             GameObject oldPlayer = conn.identity.gameObject;
 
-            NetworkServer.ReplacePlayerForConnection(conn, Instantiate(clientPlayerCharacter));
+            GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
+            GameObject chaser = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Chaser")));
+            GameObject mechanic = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Mechanic")));
+
+            NetworkServer.Spawn(trapper);
+            NetworkServer.Spawn(chaser);
+            NetworkServer.Spawn(mechanic);
+
+            NetworkServer.ReplacePlayerForConnection(conn, trapper);
 
             Destroy(oldPlayer);
 
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
+    }
+
+    public GameObject ChangeActiveGuard(NetworkConnectionToClient conn)
+    {
+       string currentActiveGuard = conn.identity.gameObject.name;
+       GameObject newGuardObject;
+
+       if(currentActiveGuard.Contains("Trapper"))
+       {
+            newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+       }
+       else if(currentActiveGuard.Contains("Chaser"))
+       {
+            newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Mechanic"));
+       }
+       else if(currentActiveGuard.Contains("Mechanic"))
+       {
+            newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+       }
+       else
+       {
+            newGuardObject = null;
+       }
+
+       if(newGuardObject != null)
+       {
+            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
+       }
+       else
+       {
+            Debug.LogWarning("Could not find a new guard to switch to!");
+       }
+
+       return newGuardObject;
     }
 
     public void NetworkAnimationHandler(AnimationMessage animationState)
