@@ -23,10 +23,10 @@ public class CustomNetworkManager : NetworkManager
     public const int PLAYER_TYPE_RUNNER   = 0;
     public const int PLAYER_TYPE_CHASER   = 1;
     public const int PLAYER_TYPE_TRAPPER  = 2;
-    public const int PLAYER_TYPE_MECHANIC = 3;
+    public const int PLAYER_TYPE_ENGINEER = 3;
     public const int PLAYER_TYPE_UNKNOWN  = 404;
 
-    public static int activeGuardId = null;
+    public static int activeGuardId = 0;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
@@ -88,31 +88,35 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
         Debug.Log("OnServerConnect");
+
         // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
             (!hostIsRunner && NetworkServer.connections.Count == 1))
         {
             GameObject oldPlayer = conn.identity.gameObject;
 
-            GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
             GameObject chaser = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Chaser")));
-            GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Mechanic")));
-
-            NetworkServer.Spawn(trapper);
+            GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Engineer")));
+            GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
+            
             NetworkServer.Spawn(chaser);
+            NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
 
             // Select a random guard to initialize control
             switch (activeGuardId)
             {
+                case ManageActiveCharactersConstants.CHASER:
+                    NetworkServer.ReplacePlayerForConnection(conn, chaser);
+                    activeGuardId = ManageActiveCharactersConstants.CHASER;
+                    break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     NetworkServer.ReplacePlayerForConnection(conn, engineer);
-                    break;
-                case ManageActiveCharactersConstants.MECHANIC:
-                    NetworkServer.ReplacePlayerForConnection(conn, mechanic);
+                    activeGuardId = ManageActiveCharactersConstants.ENGINEER;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     NetworkServer.ReplacePlayerForConnection(conn, trapper);
+                    activeGuardId = ManageActiveCharactersConstants.TRAPPER;
                     break;
             }
 
@@ -122,26 +126,28 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    public GameObject ChangeActiveGuard(NetworkConnectionToClient conn)
+    public GameObject ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
        string currentActiveGuard = conn.identity.gameObject.name;
        GameObject newGuardObject;
 
-       if(currentActiveGuard.Contains("Trapper"))
+       switch (nextActiveGuardId)
        {
+        case ManageActiveCharactersConstants.CHASER:
             newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
-       }
-       else if(currentActiveGuard.Contains("Chaser"))
-       {
-            newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Mechanic"));
-       }
-       else if(currentActiveGuard.Contains("Mechanic"))
-       {
+            activeGuardId = ManageActiveCharactersConstants.CHASER;
+            break;
+        case ManageActiveCharactersConstants.ENGINEER:
+            newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            activeGuardId = ManageActiveCharactersConstants.ENGINEER;
+            break;
+        case ManageActiveCharactersConstants.TRAPPER:
             newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
-       }
-       else
-       {
+            activeGuardId = ManageActiveCharactersConstants.TRAPPER;
+            break;
+        default:
             newGuardObject = null;
+            break;
        }
 
        if(newGuardObject != null)

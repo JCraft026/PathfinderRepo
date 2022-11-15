@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 20050345958379504}
   m_Layer: 0
-  m_Name: Mechanic
+  m_Name: Engineer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
