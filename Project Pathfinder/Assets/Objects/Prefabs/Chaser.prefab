@@ -309,6 +309,11 @@ MonoBehaviour:
   syncInterval: 0.1
   cameraHolder: {fileID: 1420758059646308807}
   offset: {x: 0, y: 0, z: 0}
+  guardId: 0
+  activeGuardId: 0
+  nextActiveGuardId: 0
+  isRunner: 0
+  networkManager: {fileID: 0}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0

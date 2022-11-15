@@ -48,7 +48,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             }
             if(guardId == activeGuardId){
                 cameraHolder.SetActive(false);
-                CustomNetworkManager.ChangeActiveGuard(this.gameObject.connectionToClient, nextActiveGuardId);
+                CustomNetworkManager.ChangeActiveGuard(this.netIdentity.connectionToClient, nextActiveGuardId);
             }
             else if(guardId == nextActiveGuardId){
                 cameraHolder.SetActive(true);
