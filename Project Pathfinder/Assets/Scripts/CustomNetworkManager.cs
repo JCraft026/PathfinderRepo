@@ -99,6 +99,9 @@ public class CustomNetworkManager : NetworkManager
             NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
 
+            // Set guard spawn locations
+            SetGuardSpawnLocations();
+
             // Select a random guard to initialize control
             switch (activeGuardId)
             {
@@ -180,5 +183,129 @@ public class CustomNetworkManager : NetworkManager
         public Vector2 movementInput;
         public float characterFacingDirection;
         public int connId;
+    }
+
+    // Position each guard object at a determined spawn location
+    public void SetGuardSpawnLocations(){
+        bool chaserSet          = false;
+        bool engineerSet        = false;
+        bool trapperSet         = false;
+        bool firstPositionUsed  = false;
+        bool secondPositionUsed = false;
+        bool thirdPositionUsed  = false;
+        bool fourthPositionUsed = false;
+
+        // Maze exit cell locations
+        Vector2 firstExitPosition  = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[0]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[0]._y + .5f));
+        Vector2 secondExitPosition = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[1]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[1]._y + .5f));
+        Vector2 thirdExitPosition  = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[2]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[2]._y + .5f));
+        Vector2 fourthExitPosition = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[3]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[3]._y + .5f));
+
+        // Guard objects
+        GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+        GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+        GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+        while(chaserSet == false){
+            switch (randomNum.Next(1,4))
+            {
+                case 1:
+                    if(firstPositionUsed == false){
+                        chaser.transform.position = firstExitPosition;
+                        firstPositionUsed         = true;
+                        chaserSet                 = true;
+                    }
+                    break;
+                case 2:
+                    if(secondPositionUsed == false){
+                        chaser.transform.position  = secondExitPosition;
+                        secondPositionUsed         = true;
+                        chaserSet                  = true;
+                    }
+                    break;
+                case 3:
+                    if(thirdPositionUsed == false){
+                        chaser.transform.position = thirdExitPosition;
+                        thirdPositionUsed         = true;
+                        chaserSet                 = true;
+                    }
+                    break;
+                case 4:
+                    if(fourthPositionUsed == false){
+                        chaser.transform.position  = fourthExitPosition;
+                        fourthPositionUsed         = true;
+                        chaserSet                  = true;
+                    }
+                    break;
+            }
+        }
+
+        while(engineerSet == false){
+            switch (randomNum.Next(1,4))
+            {
+                case 1:
+                    if(firstPositionUsed == false){
+                        engineer.transform.position = firstExitPosition;
+                        firstPositionUsed           = true;
+                        engineerSet                 = true;
+                    }
+                    break;
+                case 2:
+                    if(secondPositionUsed == false){
+                        engineer.transform.position = secondExitPosition;
+                        secondPositionUsed          = true;
+                        engineerSet                 = true;
+                    }
+                    break;
+                case 3:
+                    if(thirdPositionUsed == false){
+                        engineer.transform.position = thirdExitPosition;
+                        thirdPositionUsed           = true;
+                        engineerSet                 = true;
+                    }
+                    break;
+                case 4:
+                    if(fourthPositionUsed == false){
+                        engineer.transform.position = fourthExitPosition;
+                        fourthPositionUsed          = true;
+                        engineerSet                 = true;
+                    }
+                    break;
+            }
+        }
+
+        while(trapperSet == false){
+            switch (randomNum.Next(1,4))
+            {
+                case 1:
+                    if(firstPositionUsed == false){
+                        trapper.transform.position = firstExitPosition;
+                        firstPositionUsed          = true;
+                        trapperSet                 = true;
+                    }
+                    break;
+                case 2:
+                    if(secondPositionUsed == false){
+                        trapper.transform.position = secondExitPosition;
+                        secondPositionUsed         = true;
+                        trapperSet                 = true;
+                    }
+                    break;
+                case 3:
+                    if(thirdPositionUsed == false){
+                        trapper.transform.position = thirdExitPosition;
+                        thirdPositionUsed          = true;
+                        trapperSet                 = true;
+                    }
+                    break;
+                case 4:
+                    if(fourthPositionUsed == false){
+                        trapper.transform.position = fourthExitPosition;
+                        fourthPositionUsed         = true;
+                        trapperSet                 = true;
+                    }
+                    break;
+            }
+        }
     }
 }

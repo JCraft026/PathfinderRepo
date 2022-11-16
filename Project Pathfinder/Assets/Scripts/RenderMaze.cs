@@ -40,10 +40,20 @@ public class RenderMaze : NetworkBehaviour
     private List<Transform> oldWalls = new List<Transform>();   // List of wall locations last rendered
     private Transform oldMazeFloor; // Last maze floor location rendered
 
+    // Global Variables
+    public static float CellSize;
+    public static float MazeWidth;
+    public static float MazeHeight;
+
     // Called when the host starts a game
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        // Initialize global variables
+        CellSize   = cellSize;
+        MazeWidth  = mazeWidth;
+        MazeHeight = mazeHeight;
 
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);

@@ -36,6 +36,9 @@ public enum WallStatus{
 
 public class GenerateMaze : MonoBehaviour
 {
+    // Global Variables
+    public static CellPosition[] exitLocations; // Cell locations of each maze exit
+
     // Create a completed randomly generated maze
     public static WallStatus[,] Generate(int mazeWidth, int mazeHeight){
         WallStatus[,] mazeData      = new WallStatus[mazeWidth, mazeHeight]; // Maze cell data
@@ -63,10 +66,11 @@ public class GenerateMaze : MonoBehaviour
                      neighborCell              = new CellPosition();        // Position of the selected neighbor of the current cell
         List<CellNeighbor> unvisitedNeighbors  = new List<CellNeighbor>();  // List of unvisited neighbors to the current cell  
         CellNeighbor randomNeighbour           = new CellNeighbor();        // Randomly selected neighbor from the list of current cell neighbors
-        CellPosition[] exitLocations           = GetExitLocations(mazeWidth, mazeHeight);  
-                                                                            // Cell locations of each maze exit
         int randomIndex;                                                    // Index used to randomly select a cell neighbor
         
+        // Get cell exit locations
+        exitLocations = GetExitLocations(mazeWidth, mazeHeight);
+
         // Process the initial cell as part of the maze path
         mazeData[initialCell._x, initialCell._y] |= WallStatus.VISITED;
         positionStack.Push(initialCell);
