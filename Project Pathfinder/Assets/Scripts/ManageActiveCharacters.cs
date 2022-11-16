@@ -21,30 +21,30 @@ public class ManageActiveCharacters : NetworkBehaviour
     Regex runnerExpression = new Regex("Runner");
     public bool isRunner   = false;
 
-    public override void OnStartAuthority()
-    {
-        base.OnStartAuthority();
-
+    public void Start(){
         if(runnerExpression.IsMatch(gameObject.name)){
-            cameraHolder.SetActive(true);
+            isRunner = true;
         }
         else{
             InitializeGuardIdentification();
             activeGuardId = CustomNetworkManager.activeGuardId;
-            if(guardId == activeGuardId){
-                cameraHolder.SetActive(true);
-            }
+        }
+    }
+
+    public void OnStartAuthority(){
+        if(isRunner = true || guardId == activeGuardId){
+            cameraHolder.SetActive(true);
         }
     }
 
     public void Update()
     {
-        if(Input.GetKeyDown("space")){
+        if(Input.GetKeyDown("space") && isRunner == false){
             if(activeGuardId == 3){
                 nextActiveGuardId = 1;
             }
             else{
-                nextActiveGuardId++;
+                nextActiveGuardId = activeGuardId + 1;
             }
             if(guardId == activeGuardId){
                 cameraHolder.SetActive(false);
