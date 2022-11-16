@@ -20,7 +20,8 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     bool hostIsRunner;
 
-    public static int activeGuardId = 0;
+    public static System.Random randomNum = new System.Random(); // Random number generator
+    public static int activeGuardId = randomNum.Next(1,3);
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
@@ -120,7 +121,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    public static GameObject ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
+    public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name;
         GameObject newGuardObject; //Result of the guard query
@@ -154,8 +155,6 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.LogWarning("Could not find a new guard to switch to!");
         }
-
-        return newGuardObject;
     }
 
     public void NetworkAnimationHandler(AnimationMessage animationState)
