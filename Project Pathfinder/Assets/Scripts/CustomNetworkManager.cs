@@ -22,6 +22,7 @@ public class CustomNetworkManager : NetworkManager
 
     public static System.Random randomNum = new System.Random(); // Random number generator
     public static int activeGuardId = randomNum.Next(1,3);
+    public static bool isRunner = false;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
@@ -123,37 +124,40 @@ public class CustomNetworkManager : NetworkManager
 
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
-        string currentActiveGuard = conn.identity.gameObject.name;
-        GameObject newGuardObject; //Result of the guard query
+        // Run this function for only host side calls
+        if(isRunner == false){
+            string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard
+            GameObject newGuardObject;                                 // Result of the guard query
 
-        //Locate the correct guard
-        switch (nextActiveGuardId)
-        {
-            case ManageActiveCharactersConstants.CHASER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
-                activeGuardId = ManageActiveCharactersConstants.CHASER;
-                break;
-            case ManageActiveCharactersConstants.ENGINEER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
-                activeGuardId = ManageActiveCharactersConstants.ENGINEER;
-                break;
-            case ManageActiveCharactersConstants.TRAPPER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
-                activeGuardId = ManageActiveCharactersConstants.TRAPPER;
-                break;
-            default:
-                newGuardObject = null;
-                break;
-        }
+            // Get the next guard's game object and update the active guard identification number
+            switch (nextActiveGuardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                    activeGuardId = ManageActiveCharactersConstants.CHASER;
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                    activeGuardId = ManageActiveCharactersConstants.ENGINEER;
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                    activeGuardId = ManageActiveCharactersConstants.TRAPPER;
+                    break;
+                default:
+                    newGuardObject = null;
+                    break;
+            }
 
-        //Set the guard
-        if(newGuardObject != null)
-        {
-            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
-        }
-        else
-        {
-            Debug.LogWarning("Could not find a new guard to switch to!");
+            // Switch guard control from the old guards object to the next guard's object
+            if(newGuardObject != null)
+            {
+                NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
+            }
+            else
+            {
+                Debug.LogWarning("Could not find a new guard to switch to!");
+            }
         }
     }
 
