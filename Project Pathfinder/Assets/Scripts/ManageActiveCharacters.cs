@@ -25,7 +25,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         // If the parent object is a guard, initialize its cooresponding guard ID and get the ID of the current active guard
         if(!runnerExpression.IsMatch(gameObject.name)){
             InitializeGuardIdentification();
-            activeGuardId = CustomNetworkManager.activeGuardId;
+            activeGuardId = CustomNetworkManager.initialActiveGuardId;
         }
     }
 
@@ -49,7 +49,7 @@ public class ManageActiveCharacters : NetworkBehaviour
     // Run on every frame
     public void Update()
     {
-        // If the user hits space, and is playing as the guard master, process switching guard control to the next guard
+        // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
         if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner == false && !runnerExpression.IsMatch(gameObject.name)){
             if(activeGuardId == 3){
                 nextActiveGuardId = 1;
@@ -57,11 +57,13 @@ public class ManageActiveCharacters : NetworkBehaviour
             else{
                 nextActiveGuardId = activeGuardId + 1;
             }
+
             // If the parent object is the current active guard, disable its camera and give control to the next active guard
             if(guardId == activeGuardId){
                 cameraHolder.SetActive(false);
                 CustomNetworkManager.ChangeActiveGuard(this.netIdentity.connectionToClient, nextActiveGuardId);
             }
+
             // If the parent object is the next active guard, enable the camera
             else if(guardId == nextActiveGuardId){
                 cameraHolder.SetActive(true);

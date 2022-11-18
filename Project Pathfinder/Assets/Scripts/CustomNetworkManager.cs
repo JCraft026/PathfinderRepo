@@ -8,6 +8,11 @@ using System;
 
 public class CustomNetworkManager : NetworkManager
 {
+    // Global Variables
+    public static System.Random randomNum  = new System.Random(); // Random number generator
+    public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
+    public static bool isRunner            = false;               // User playing as Runner status
+
     [SerializeField]
     RenderMaze mazeRenderer;
 
@@ -19,10 +24,6 @@ public class CustomNetworkManager : NetworkManager
 
     [SerializeField]
     bool hostIsRunner;
-
-    public static System.Random randomNum = new System.Random(); // Random number generator
-    public static int activeGuardId = randomNum.Next(1,3);
-    public static bool isRunner = false;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
@@ -103,19 +104,19 @@ public class CustomNetworkManager : NetworkManager
             SetGuardSpawnLocations();
 
             // Select a random guard to initialize control
-            switch (activeGuardId)
+            switch (initialActiveGuardId)
             {
                 case ManageActiveCharactersConstants.CHASER:
                     NetworkServer.ReplacePlayerForConnection(conn, chaser);
-                    activeGuardId = ManageActiveCharactersConstants.CHASER;
+                    initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     NetworkServer.ReplacePlayerForConnection(conn, engineer);
-                    activeGuardId = ManageActiveCharactersConstants.ENGINEER;
+                    initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     NetworkServer.ReplacePlayerForConnection(conn, trapper);
-                    activeGuardId = ManageActiveCharactersConstants.TRAPPER;
+                    initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
                     break;
             }
 
@@ -127,40 +128,34 @@ public class CustomNetworkManager : NetworkManager
 
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
-        // Run this function for only host side calls
-        if(isRunner == false){
-            string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard
-            GameObject newGuardObject;                                 // Result of the guard query
+        string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
+        GameObject newGuardObject;                                 // Result of the guard query
 
-            // Get the next guard's game object and update the active guard identification number
-            switch (nextActiveGuardId)
-            {
-                case ManageActiveCharactersConstants.CHASER:
-                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
-                    activeGuardId = ManageActiveCharactersConstants.CHASER;
-                    break;
-                case ManageActiveCharactersConstants.ENGINEER:
-                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
-                    activeGuardId = ManageActiveCharactersConstants.ENGINEER;
-                    break;
-                case ManageActiveCharactersConstants.TRAPPER:
-                    newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
-                    activeGuardId = ManageActiveCharactersConstants.TRAPPER;
-                    break;
-                default:
-                    newGuardObject = null;
-                    break;
-            }
+        // Get the next guard's game object and update the active guard identification number
+        switch (nextActiveGuardId)
+        {
+            case ManageActiveCharactersConstants.CHASER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                break;
+            case ManageActiveCharactersConstants.ENGINEER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                break;
+            case ManageActiveCharactersConstants.TRAPPER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                break;
+            default:
+                newGuardObject = null;
+                break;
+        }
 
-            // Switch guard control from the old guards object to the next guard's object
-            if(newGuardObject != null)
-            {
-                NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
-            }
-            else
-            {
-                Debug.LogWarning("Could not find a new guard to switch to!");
-            }
+        // Switch guard control from the old guards object to the next guard's object
+        if(newGuardObject != null)
+        {
+            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
+        }
+        else
+        {
+            Debug.LogWarning("Could not find a new guard to switch to!");
         }
     }
 
@@ -187,25 +182,26 @@ public class CustomNetworkManager : NetworkManager
 
     // Position each guard object at a determined spawn location
     public void SetGuardSpawnLocations(){
-        bool chaserSet          = false;
-        bool engineerSet        = false;
-        bool trapperSet         = false;
-        bool firstPositionUsed  = false;
-        bool secondPositionUsed = false;
-        bool thirdPositionUsed  = false;
-        bool fourthPositionUsed = false;
+        bool chaserSet          = false; // Chaser spawn set status
+        bool engineerSet        = false; // Engineer spawn set status
+        bool trapperSet         = false; // Trapper spawn set status
+        bool firstPositionUsed  = false; // First exit position used status
+        bool secondPositionUsed = false; // Second exit position used status
+        bool thirdPositionUsed  = false; // Third exit position used status
+        bool fourthPositionUsed = false; // Fourth exit position used status
 
         // Maze exit cell locations
-        Vector2 firstExitPosition  = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[0]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[0]._y + .5f));
-        Vector2 secondExitPosition = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[1]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[1]._y + .5f));
-        Vector2 thirdExitPosition  = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[2]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[2]._y + .5f));
-        Vector2 fourthExitPosition = new Vector2(RenderMaze.CellSize * (-RenderMaze.MazeWidth / 2 + GenerateMaze.exitLocations[3]._x + .5f), RenderMaze.CellSize * (-RenderMaze.MazeHeight / 2 + GenerateMaze.exitLocations[3]._y + .5f));
+        Vector2 firstExitPosition  = Utilities.GetMazeCellCoordinate(GenerateMaze.ExitLocations[0]._x, GenerateMaze.ExitLocations[0]._y);
+        Vector2 secondExitPosition = Utilities.GetMazeCellCoordinate(GenerateMaze.ExitLocations[1]._x, GenerateMaze.ExitLocations[1]._y);
+        Vector2 thirdExitPosition  = Utilities.GetMazeCellCoordinate(GenerateMaze.ExitLocations[2]._x, GenerateMaze.ExitLocations[2]._y);
+        Vector2 fourthExitPosition = Utilities.GetMazeCellCoordinate(GenerateMaze.ExitLocations[3]._x, GenerateMaze.ExitLocations[3]._y);
 
         // Guard objects
         GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
         GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
         GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
 
+        // Set Chaser spawn position
         while(chaserSet == false){
             switch (randomNum.Next(1,4))
             {
@@ -240,6 +236,7 @@ public class CustomNetworkManager : NetworkManager
             }
         }
 
+        // Set Engineer spawn position
         while(engineerSet == false){
             switch (randomNum.Next(1,4))
             {
@@ -274,6 +271,7 @@ public class CustomNetworkManager : NetworkManager
             }
         }
 
+        // Set Trapper spawn position
         while(trapperSet == false){
             switch (randomNum.Next(1,4))
             {
