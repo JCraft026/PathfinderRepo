@@ -6,6 +6,11 @@ using Mirror;
 
 public class RenderMaze : NetworkBehaviour
 {
+    // Global Variables
+    public static float CellSize;
+    public static float MazeWidth;
+    public static float MazeHeight;
+
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
@@ -36,14 +41,19 @@ public class RenderMaze : NetworkBehaviour
     [SerializeField]
     private Transform fourthExitPrefab = null;
 
-    private string mazeDataJson; // Json string version of the maze (used to send the maze to the client)
-    private List<Transform> oldWalls = new List<Transform>();   // List of wall locations last rendered
-    private Transform oldMazeFloor; // Last maze floor location rendered
+    private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
+    private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
+    private Transform oldMazeFloor;                           // Last maze floor location rendered
 
     // Called when the host starts a game
     public override void OnStartServer()
     {
         base.OnStartServer();
+
+        // Initialize global variables
+        CellSize   = cellSize;
+        MazeWidth  = mazeWidth;
+        MazeHeight = mazeHeight;
 
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
