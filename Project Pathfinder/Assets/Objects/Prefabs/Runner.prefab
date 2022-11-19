@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 3029470954393796011}
+  - component: {fileID: 6023253196419413743}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -309,6 +310,20 @@ MonoBehaviour:
   syncInterval: 0.1
   cameraHolder: {fileID: 1420758059646308807}
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &6023253196419413743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813ff8c1c5c0fd7459d2124546a27cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mazeRenderer: {fileID: 0}
+  mazeRunner: {fileID: 2696247814498831812}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0

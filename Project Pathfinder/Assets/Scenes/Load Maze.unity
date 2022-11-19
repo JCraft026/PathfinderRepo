@@ -204,10 +204,13 @@ MonoBehaviour:
   cellSize: 5
   wallPrefab: {fileID: 1542926893595753881, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
+  ceilingPrefab: {fileID: 3791855236588211117, guid: 17983e1e76bad02479d51fba49dfe529, type: 3}
   firstExitPrefab: {fileID: 7109518832347748834, guid: 3cf69df64dd82da43aab55b4de7badbb, type: 3}
   secondExitPrefab: {fileID: 3303829268976498387, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
   thirdExitPrefab: {fileID: 4557286763423858435, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
   fourthExitPrefab: {fileID: 7046484268077272153, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
+  mazeDataJson: 
+  oldWalls: []
 --- !u!4 &1496269330
 Transform:
   m_ObjectHideFlags: 0

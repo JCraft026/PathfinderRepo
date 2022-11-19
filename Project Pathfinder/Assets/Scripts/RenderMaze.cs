@@ -9,20 +9,23 @@ public class RenderMaze : NetworkBehaviour
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
-    private int mazeWidth = 10;
+    public int mazeWidth = 10;
 
     [SerializeField]
     [Range(1, 50)]
-    private int mazeHeight = 10;
+    public int mazeHeight = 10;
 
     [SerializeField]
-    private float cellSize = 1f;
+    public float cellSize = 1f;
 
     [SerializeField]
     private Transform wallPrefab = null;
 
     [SerializeField]
     private Transform floorPrefab = null;
+    
+    [SerializeField]
+    private Transform ceilingPrefab = null;
 
     [SerializeField]
     private Transform firstExitPrefab = null;
@@ -35,7 +38,8 @@ public class RenderMaze : NetworkBehaviour
 
     [SerializeField]
     private Transform fourthExitPrefab = null;
-
+    
+    private WallStatus[,] mazeData;
     private string mazeDataJson; // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldWalls = new List<Transform>();   // List of wall locations last rendered
     private Transform oldMazeFloor; // Last maze floor location rendered
@@ -46,9 +50,9 @@ public class RenderMaze : NetworkBehaviour
         base.OnStartServer();
 
         // Get the generated maze data
-        WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
+        mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
-
+        
         // Clean up left over walls and such from the last game
         CleanMap();
 
@@ -83,7 +87,7 @@ public class RenderMaze : NetworkBehaviour
         mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
         oldMazeFloor = mazeFloor;
 
-        // Adujust the maze floor position to accomodate even numbered dimensions
+        // Adjust the maze floor position to accomodate even numbered dimensions
         if(mazeHeight % 2 == 0)
         {
             mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
@@ -96,6 +100,21 @@ public class RenderMaze : NetworkBehaviour
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
+                // Generate the fog of war only if the prefab is set.
+                // This "if" is purely for debugging purposes.
+                if (ceilingPrefab != null)
+                {
+                    // Create the ceiling for this cell.
+                    Transform currentCeiling = Instantiate(ceilingPrefab) as Transform;
+                    currentCeiling.localScale = new Vector2(cellSize, cellSize);
+                    currentCeiling.position = new Vector3(
+                        cellSize * (i - mazeWidth/2),
+                        cellSize * (j - mazeHeight/2),
+                        -10
+                    );
+                    currentCeiling.gameObject.name = "Ceiling["+i+","+j+"]";
+                }
+                
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
@@ -201,5 +220,10 @@ public class RenderMaze : NetworkBehaviour
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
+    }
+    
+    public WallStatus[,] GetMazeWallData()
+    {
+        return mazeData;
     }
 }
