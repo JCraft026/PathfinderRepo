@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 5198763830773318775}
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
-  - component: {fileID: 3029470954393796011}
+  - component: {fileID: 769638881372669460}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  moveSpeed: 7
+  moveSpeed: 5
   facingDirection: 0
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 2696247814498831813}
 --- !u!114 &6696561907742982402
 MonoBehaviour:
@@ -293,7 +293,7 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
---- !u!114 &3029470954393796011
+--- !u!114 &769638881372669460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2696247814498831812}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c146b86ae52ee440b734b3091af7cc0, type: 3}
+  m_Script: {fileID: 11500000, guid: b5ebf7e796b1a174e9158f0de789d0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
