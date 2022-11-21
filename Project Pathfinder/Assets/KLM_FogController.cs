@@ -29,16 +29,12 @@ public class KLM_FogController : MonoBehaviour
     private int           newRunnerX = 0;
     private int           newRunnerY = 0;
     
-    // Internal Parameters
-    //private float x_offset = 0.00f;
-    //private float y_offset = 0.00f;
-    
     // External Parameters (and their defaults).
     private int   mazeWidth;
     private int   mazeHeight;
     private float cellSize;
     
-    // Gets the fog object located at the specified coordinates.
+    // Gets the fog game object located at the specified grid coordinates.
     GameObject getFogObject(int x, int y)
     { return fogObjectsGrid[x + mazeWidth * y]; }
     
@@ -143,17 +139,7 @@ public class KLM_FogController : MonoBehaviour
             + (mazeHeight % 2 == 0 ? 0.5f : 0)
         );
         
-        int i = 0; // iterator
-        
-        //=============================================================
-        // Reveal/hide cells algorithms.
-        //=============================================================
-        
-        Debug.Log(
-            "[" + newRunnerX + ", " + newRunnerY + "]"
-            + " = "
-            + "(" + mazeRunner.transform.position.x + ", " + mazeRunner.transform.position.y + ")"
-        );
+        int i = 0; // Iterator
         
         // Has the runner's X-coordinate changed?
         if (newRunnerX != oldRunnerX)
