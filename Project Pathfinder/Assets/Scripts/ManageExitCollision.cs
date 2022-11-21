@@ -12,6 +12,5 @@ public class ManageExitCollision : MonoBehaviour
         if(runnerExpression.IsMatch(collision.gameObject.name)){
             HandleEvents.currentEvent = HandleEventsConstants.RUNNER_WINS;
         }
-        Debug.Log(collision.gameObject.name);
     }
 }

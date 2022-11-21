@@ -248,9 +248,45 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: hostIsRunner
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: mazeRenderer
       value: 
       objectReference: {fileID: 1496269329}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 39624bc568ebb1843a6e130c0971ef25, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: hostPlayerCharacter
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 39624bc568ebb1843a6e130c0971ef25, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: clientPlayerCharacter
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: ae169e1e410561543a9b25a81d024f99, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: spawnPrefabs.Array.data[6]
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 9d206aeb7efe9f849ba303f863e3da6f, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: spawnPrefabs.Array.data[7]
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: 11ebfc62d79ca324c82741c480c55152, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: spawnPrefabs.Array.data[8]
+      value: 
+      objectReference: {fileID: 2696247814498831812, guid: ae169e1e410561543a9b25a81d024f99, type: 3}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: spawnPrefabs.Array.data[9]
+      value: 
+      objectReference: {fileID: 7984240100632830128, guid: 785687d7e57f52c43928f308db69d337, type: 3}
     - target: {fileID: 2939840884276580473, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: m_RootOrder
       value: 2
