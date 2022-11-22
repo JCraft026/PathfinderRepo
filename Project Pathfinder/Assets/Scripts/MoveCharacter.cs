@@ -20,6 +20,16 @@ public class MoveCharacter : NetworkBehaviour
 
     private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
+    
+    private UI_Inventory uiInventory;
+    public static MoveCharacter Instance;
+    
+    public override void OnStartAuthority(){
+        base.OnStartAuthority();
+        uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
+        uiInventory.SetPlayer(this);
+        Instance = this;
+    }
 
     // Update is called once per frame
     void Update(){
@@ -28,7 +38,6 @@ public class MoveCharacter : NetworkBehaviour
             // Get current input data
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
-        
 
             // Set character idle facing direction
             if(movementInput.x == 0 && movementInput.y == -1){
@@ -59,5 +68,9 @@ public class MoveCharacter : NetworkBehaviour
 
         // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
         rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    public Vector2 getPosition(){
+        return rigidBody.position;
     }
 }

@@ -22,9 +22,7 @@ public class UI_Inventory : MonoBehaviour
 
     public void SetInventory(Inventory inventory){
         this.inventory = inventory;
-
         inventory.OnItemListChanged += Inventory_OnItemListChanged;
-
         RefreshInventoryItems();
     }
 
@@ -40,7 +38,7 @@ public class UI_Inventory : MonoBehaviour
 
         int x = 0;
         int y = 0;
-        float itemSlotCellSize = 40.0f;
+        float itemSlotCellSize = 55.0f;
         foreach (Item item in inventory.GetItemList()){
             RectTransform itemSlotRectTransform =
                 Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();

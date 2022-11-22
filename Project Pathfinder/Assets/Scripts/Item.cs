@@ -7,9 +7,9 @@ using UnityEngine;
 public class Item
 {
     public enum ItemType{
-        Sword,
-        Pickaxe,
-        HealthPack
+        Pickaxe
+        //Sword
+        //HealthPack
     }
     public ItemType itemType;
     public int amount;
