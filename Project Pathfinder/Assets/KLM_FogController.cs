@@ -62,6 +62,98 @@ public class KLM_FogController : MonoBehaviour
         return;
     }
     
+    void HideAllCellsFromVector(int x, int y)
+    {
+        HideCell(x,y);
+        int i = 0; // Iterator variable.
+        
+        // Hide all cells north of the location until a wall is hit.
+        if (!mazeData[oldRunnerX,oldRunnerY].HasFlag(WallStatus.TOP))
+        {
+            for (i=1; oldRunnerY+i < mazeHeight; i++)
+            {
+                HideCell(oldRunnerX, oldRunnerY+i);
+                if (mazeData[oldRunnerX,oldRunnerY+i].HasFlag(WallStatus.TOP))
+                    break;
+            }
+        }
+        
+        // Hide all cells south of the location until a wall is hit.
+        if (!mazeData[oldRunnerX,oldRunnerY].HasFlag(WallStatus.BOTTOM))
+        {
+            for (i=-1; oldRunnerY+i >= 0; i--)
+            {
+                HideCell(oldRunnerX, oldRunnerY+i);
+                if (mazeData[oldRunnerX,oldRunnerY+i].HasFlag(WallStatus.BOTTOM))
+                    break;
+            }
+        }
+        
+        // Hide all cells east of the location until a wall is hit.
+        if (!mazeData[oldRunnerX,oldRunnerY].HasFlag(WallStatus.RIGHT))
+        {
+            for (i=1; oldRunnerX+i < mazeWidth; i++)
+            {
+                HideCell(oldRunnerX+i, oldRunnerY);
+                if (mazeData[oldRunnerX+i,oldRunnerY].HasFlag(WallStatus.RIGHT))
+                    break;
+            }
+        }
+        
+        // Hide all cells west of the location until a wall is hit.
+        if (!mazeData[oldRunnerX,oldRunnerY].HasFlag(WallStatus.LEFT))
+        {
+            for (i=-1; oldRunnerX+i >= 0; i--)
+            {
+                HideCell(oldRunnerX+i, oldRunnerY);
+                if (mazeData[oldRunnerX+i,oldRunnerY].HasFlag(WallStatus.LEFT))
+                    break;
+            }
+        }
+        
+        return;
+    }
+    
+    void RevealAllCellsFromVector(int x, int y)
+    {
+        RevealCell(x, y);
+        int i = 0; // Iterator variable.
+        
+        // Reveal all cells north of the location until a wall is hit.
+        for (i=0; y+i < mazeHeight; i++)
+        {
+            RevealCell(x, y+i);
+            if (mazeData[x,y+i].HasFlag(WallStatus.TOP))
+                break;
+        }
+        
+        // Reveal all cells south of the location until a wall is hit.
+        for (i=0; y+i >= 0; i--)
+        {
+            RevealCell(x, y+i);
+            if (mazeData[x,y+i].HasFlag(WallStatus.BOTTOM))
+                break;
+        }
+        
+        // Reveal all cells east of the location until a wall is hit.
+        for (i=0; x+i < mazeHeight; i++)
+        {
+            RevealCell(x+i, y);
+            if (mazeData[x+i,y].HasFlag(WallStatus.RIGHT))
+                break;
+        }
+        
+        // Reveal all cells west of the location until a wall is hit.
+        for (i=0; x+i >= 0; i--)
+        {
+            RevealCell(x+i, y);
+            if (mazeData[x+i,y].HasFlag(WallStatus.LEFT))
+                break;
+        }
+        
+        return;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -87,41 +179,7 @@ public class KLM_FogController : MonoBehaviour
         
         fogObjectsGrid = GameObject.FindGameObjectsWithTag("FogOfWar");
         
-        // Initialize the revealed cells.
-        RevealCell(newRunnerX, newRunnerY);
-        int i = 0; // Iterator variable.
-        
-        // Reveal all cells north of Runner's location until a wall is hit.
-        for (i=0; newRunnerY+i < mazeHeight; i++)
-        {
-            RevealCell(newRunnerX, newRunnerY+i);
-            if (mazeData[newRunnerX,newRunnerY+i].HasFlag(WallStatus.TOP))
-                break;
-        }
-        
-        // Reveal all cells south of Runner's location until a wall is hit.
-        for (i=0; newRunnerY+i >= 0; i--)
-        {
-            RevealCell(newRunnerX, newRunnerY+i);
-            if (mazeData[newRunnerX,newRunnerY+i].HasFlag(WallStatus.BOTTOM))
-                break;
-        }
-        
-        // Reveal all cells east of Runner's location until a wall is hit.
-        for (i=0; newRunnerX+i < mazeHeight; i++)
-        {
-            RevealCell(newRunnerX+i, newRunnerY);
-            if (mazeData[newRunnerX+i,newRunnerY].HasFlag(WallStatus.RIGHT))
-                break;
-        }
-        
-        // Reveal all cells west of Runner's location until a wall is hit.
-        for (i=0; newRunnerX+i >= 0; i--)
-        {
-            RevealCell(newRunnerX+i, newRunnerY);
-            if (mazeData[newRunnerX+i,newRunnerY].HasFlag(WallStatus.LEFT))
-                break;
-        }
+        RevealAllCellsFromVector(newRunnerX, newRunnerY);
     }
     
     // Update is called once per frame
