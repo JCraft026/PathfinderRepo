@@ -18,6 +18,9 @@ public class MoveCharacter : NetworkBehaviour
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
 
+    private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
+    private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
+
     // Update is called once per frame
     void Update(){
         if(isLocalPlayer)
@@ -25,27 +28,28 @@ public class MoveCharacter : NetworkBehaviour
             // Get current input data
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
-        }
+        
 
-        // Set character idle facing direction
-        if(movementInput.x == 0 && movementInput.y == -1){
-            facingDirection = MoveCharacterConstants.FORWARD;
-        }
-        else if(movementInput.x == -1 && movementInput.y == 0){
-            facingDirection = MoveCharacterConstants.LEFT;
-        }
-        else if(movementInput.x == 0 && movementInput.y == 1){
-            facingDirection = MoveCharacterConstants.BACKWARD;
-        }
-        else if(movementInput.x == 1 && movementInput.y == 0){
-            facingDirection = MoveCharacterConstants.RIGHT;
-        }
+            // Set character idle facing direction
+            if(movementInput.x == 0 && movementInput.y == -1){
+                facingDirection = MoveCharacterConstants.FORWARD;
+            }
+            else if(movementInput.x == -1 && movementInput.y == 0){
+                facingDirection = MoveCharacterConstants.LEFT;
+            }
+            else if(movementInput.x == 0 && movementInput.y == 1){
+                facingDirection = MoveCharacterConstants.BACKWARD;
+            }
+            else if(movementInput.x == 1 && movementInput.y == 0){
+                facingDirection = MoveCharacterConstants.RIGHT;
+            }
 
-        // Communicate movement values with the animator controller
-        animator.SetFloat("Horizontal Movement", movementInput.x);
-        animator.SetFloat("Vertical Movement", movementInput.y);
-        animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
-        animator.SetFloat("Facing Direction", facingDirection);
+            // Communicate movement values with the animator controller
+            animator.SetFloat("Horizontal Movement", movementInput.x);
+            animator.SetFloat("Vertical Movement", movementInput.y);
+            animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
+            animator.SetFloat("Facing Direction", facingDirection);
+        }
     }
 
     // FixedUpdate calling frequency is based on a set timer

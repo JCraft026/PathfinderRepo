@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Backward Walk
+  m_Name: Front Idle
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,9 +20,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -348403510, guid: be1ef8f7edbe17846b87c1288d3c10df, type: 3}
+      value: {fileID: -1204209619, guid: 31b34b19ead34af4c9b9b191bb6e5bb1, type: 3}
     - time: 0.083333336
-      value: {fileID: 1779143999, guid: be1ef8f7edbe17846b87c1288d3c10df, type: 3}
+      value: {fileID: -86305767, guid: 31b34b19ead34af4c9b9b191bb6e5bb1, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -42,8 +42,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -348403510, guid: be1ef8f7edbe17846b87c1288d3c10df, type: 3}
-    - {fileID: 1779143999, guid: be1ef8f7edbe17846b87c1288d3c10df, type: 3}
+    - {fileID: -1204209619, guid: 31b34b19ead34af4c9b9b191bb6e5bb1, type: 3}
+    - {fileID: -86305767, guid: 31b34b19ead34af4c9b9b191bb6e5bb1, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

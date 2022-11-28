@@ -6,26 +6,28 @@ using Mirror;
 
 public class RenderMaze : NetworkBehaviour
 {
+    // Global Variables
+    public static float CellSize;
+    public static float MazeWidth;
+    public static float MazeHeight;
+
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
-    public int mazeWidth = 10;
+    private int mazeWidth = 10;
 
     [SerializeField]
     [Range(1, 50)]
-    public int mazeHeight = 10;
+    private int mazeHeight = 10;
 
     [SerializeField]
-    public float cellSize = 1f;
+    private float cellSize = 1f;
 
     [SerializeField]
     private Transform wallPrefab = null;
 
     [SerializeField]
     private Transform floorPrefab = null;
-    
-    [SerializeField]
-    private Transform ceilingPrefab = null;
 
     [SerializeField]
     private Transform firstExitPrefab = null;
@@ -38,21 +40,25 @@ public class RenderMaze : NetworkBehaviour
 
     [SerializeField]
     private Transform fourthExitPrefab = null;
-    
-    private WallStatus[,] mazeData;
-    private string mazeDataJson; // Json string version of the maze (used to send the maze to the client)
-    private List<Transform> oldWalls = new List<Transform>();   // List of wall locations last rendered
-    private Transform oldMazeFloor; // Last maze floor location rendered
+
+    private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
+    private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
+    private Transform oldMazeFloor;                           // Last maze floor location rendered
 
     // Called when the host starts a game
     public override void OnStartServer()
     {
         base.OnStartServer();
 
+        // Initialize global variables
+        CellSize   = cellSize;
+        MazeWidth  = mazeWidth;
+        MazeHeight = mazeHeight;
+
         // Get the generated maze data
-        mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
+        WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
-        
+
         // Clean up left over walls and such from the last game
         CleanMap();
 
@@ -87,7 +93,7 @@ public class RenderMaze : NetworkBehaviour
         mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
         oldMazeFloor = mazeFloor;
 
-        // Adjust the maze floor position to accomodate even numbered dimensions
+        // Adujust the maze floor position to accomodate even numbered dimensions
         if(mazeHeight % 2 == 0)
         {
             mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
@@ -100,21 +106,6 @@ public class RenderMaze : NetworkBehaviour
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
-                // Generate the fog of war only if the prefab is set.
-                // This "if" is purely for debugging purposes.
-                if (ceilingPrefab != null)
-                {
-                    // Create the ceiling for this cell.
-                    Transform currentCeiling = Instantiate(ceilingPrefab) as Transform;
-                    currentCeiling.localScale = new Vector2(cellSize, cellSize);
-                    currentCeiling.position = new Vector3(
-                        cellSize * (i - mazeWidth/2),
-                        cellSize * (j - mazeHeight/2),
-                        -10
-                    );
-                    currentCeiling.gameObject.name = "Ceiling["+i+","+j+"]";
-                }
-                
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
@@ -220,10 +211,5 @@ public class RenderMaze : NetworkBehaviour
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
-    }
-    
-    public WallStatus[,] GetMazeWallData()
-    {
-        return mazeData;
     }
 }
