@@ -10,4 +10,21 @@ public class Utilities : MonoBehaviour
 
         return mazeCoordinate;
     }
+
+    // Get the maze index of the cell a given character is standing in
+    public static int[] GetCharacterCellLocation(int characterCode){
+        int[] cellLocation = new int[2];
+
+        switch (characterCode)
+        {
+            case ManageActiveCharactersConstants.RUNNER:
+                break;
+            case ManageActiveCharactersConstants.CHASER:
+                break;
+            case ManageActiveCharactersConstants.ENGINEER:
+                break;
+            case ManageActiveCharactersConstants.TRAPPER:
+                break;
+        }
+    }
 }

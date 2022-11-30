@@ -6,9 +6,10 @@ using System.Text.RegularExpressions;
 using Mirror;
 
 static class ManageActiveCharactersConstants{
-    public const int CHASER   = 1; // Chaser guard ID
-    public const int ENGINEER = 2; // Engineer guard ID
-    public const int TRAPPER  = 3; // Trapper guard ID
+    public const int RUNNER   = 0; // Runner character ID
+    public const int CHASER   = 1; // Chaser character ID
+    public const int ENGINEER = 2; // Engineer character ID
+    public const int TRAPPER  = 3; // Trapper character ID
 }
 
 public class ManageActiveCharacters : NetworkBehaviour
