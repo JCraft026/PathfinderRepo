@@ -90,7 +90,8 @@ public class RenderMaze : NetworkBehaviour
         int currentExit        = 1;                // Next exit prefab to render
 
         // Render the maze floor
-        mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
+        //mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
+        
         oldMazeFloor = mazeFloor;
 
         // Adujust the maze floor position to accomodate even numbered dimensions
