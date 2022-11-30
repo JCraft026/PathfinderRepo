@@ -7,31 +7,28 @@ using Mirror;
 public class ManageInventory : NetworkBehaviour
 {
     private UI_Inventory uiInventory;
-
     private Inventory inventory;
-
     private Item selectedItem;
-
     private List<Item> selectedItemList;
-
     private int slotNumber = 0;
-
     private MoveCharacter rigidBody;
-
     public InventoryControls inventoryControls;
 
     private void Awake(){
         inventoryControls = new InventoryControls();
     }
 
+    // Ensures the input controller works correctly
     private void OnEnable(){
         inventoryControls.Enable();
     }
     
+    // Ensures the input controller works correctly
     private void OnDisable(){
         inventoryControls.Disable();
     }
 
+    // Runs on Start
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
@@ -40,19 +37,23 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.SetInventory(inventory);
     }
 
+    // Runs when colliding with an item
     private void OnTriggerEnter2D(Collider2D collider){
         ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
+        // If touching an item
         if(itemWorld != null){
-            // Touching item
+            // Checks for the ability to hold more items
             if(inventory.GetItemList().Count < 8 ||
                 itemWorld.GetItem().isStackable()){
                 inventory.AddItem(itemWorld.GetItem());
                 itemWorld.DestroySelf();
+                // Controls if the item you pick up is selected (ready to be used) or not
                 if(inventory.GetItemList().Count == 1){
                     selectedItem = itemWorld.GetItem();
                     selectedItem.selected = true;
                     slotNumber = 0;
                 }
+                // If the item you just dropped is picked up, it will be selected again
                 else if(slotNumber + 1 == inventory.GetItemList().Count){
                     slotNumber = inventory.GetItemList().Count - 1;
                     selectedItem = itemWorld.GetItem();
@@ -66,6 +67,7 @@ public class ManageInventory : NetworkBehaviour
         }
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory1()
     {
         selectedItemList = inventory.GetItemList();
@@ -78,6 +80,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory2()
     {
         selectedItemList = inventory.GetItemList();
@@ -90,6 +93,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory3()
     {
         selectedItemList = inventory.GetItemList();
@@ -102,6 +106,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory4()
     {
         selectedItemList = inventory.GetItemList();
@@ -114,6 +119,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory5()
     {
         selectedItemList = inventory.GetItemList();
@@ -126,6 +132,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory6()
     {
         selectedItemList = inventory.GetItemList();
@@ -138,6 +145,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory7()
     {
         selectedItemList = inventory.GetItemList();
@@ -150,6 +158,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Select the first item slot (Keypad1)
     void OnInventory8()
     {
         selectedItemList = inventory.GetItemList();
@@ -162,6 +171,7 @@ public class ManageInventory : NetworkBehaviour
         uiInventory.RefreshInventoryItems();
     }
 
+    // Controls which item does which action
     public void UseItem(Item item){ 
     switch (item.itemType){
         case Item.ItemType.Pickaxe:
@@ -170,11 +180,15 @@ public class ManageInventory : NetworkBehaviour
         }
     }
 
+    // Select the first item slot (Keypad1)
     void OnUseItem()
     {
+        // Check if the item exists
         if(selectedItem != null){
+            // Check if there are enough items to be used
             if(selectedItem.amount > 0){
                 inventory.UseItem(selectedItem);
+                // 
                 if(selectedItem.amount <= 0){
                     inventory.RemoveItem(selectedItem);
                     selectedItem = null;
