@@ -23,10 +23,5 @@ public class HandleEvents : MonoBehaviour
                 currentEvent = HandleEventsConstants.NONE;
                 break;
         }
-
-        if(CustomNetworkManager.isRunner == true){
-            var currentCharacterCell = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
-            Debug.Log(currentCharacterCell[0] + "," + currentCharacterCell[1]);
-        }
     }
 }
