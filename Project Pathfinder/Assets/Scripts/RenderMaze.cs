@@ -6,6 +6,7 @@ using Mirror;
 
 public class RenderMaze : NetworkBehaviour
 {
+<<<<<<< Updated upstream
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
@@ -17,6 +18,24 @@ public class RenderMaze : NetworkBehaviour
 
     [SerializeField]
     public float cellSize = 1f;
+=======
+    // Global Variables
+    public static float CellSize; //KLM: Public
+    public static float MazeWidth; //KLM: Public
+    public static float MazeHeight; //KLM: Public
+
+    // Initialize fields on the inspector
+    [SerializeField]
+    [Range(1, 50)]
+    public int mazeWidth = 10; //KLM: Public
+
+    [SerializeField]
+    [Range(1, 50)]
+    public int mazeHeight = 10; //KLM: Public
+
+    [SerializeField]
+    public float cellSize = 1f; //KLM: Public
+>>>>>>> Stashed changes
 
     [SerializeField]
     private Transform wallPrefab = null;
@@ -24,6 +43,9 @@ public class RenderMaze : NetworkBehaviour
     [SerializeField]
     private Transform floorPrefab = null;
 
+    [SerializeField]
+    private Transform ceilingPrefab = null; // KLM: Added this line
+    
     [SerializeField]
     private Transform firstExitPrefab = null;
 
@@ -39,6 +61,7 @@ public class RenderMaze : NetworkBehaviour
     private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
     private Transform oldMazeFloor;                           // Last maze floor location rendered
+    private WallStatus[,] mazeData; //KLM: New Variable
 
     // Called when the host starts a game
     public override void OnStartServer()
@@ -46,7 +69,7 @@ public class RenderMaze : NetworkBehaviour
         base.OnStartServer();
 
         // Get the generated maze data
-        WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
+        mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight); //KLM: Now a public variable, no longer declared here.
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
 
         // Clean up left over walls and such from the last game
@@ -59,14 +82,14 @@ public class RenderMaze : NetworkBehaviour
     // Cleans the left over objects from the last game
     public void CleanMap()
     {
-        oldWalls.ForEach(wall => GameObject.Destroy(wall.gameObject));
-        oldWalls = new();
-        
-        if(oldMazeFloor != null)
-        {
-            GameObject.Destroy(oldMazeFloor.gameObject);
-            oldMazeFloor = null;
-        }
+        //oldWalls.ForEach(wall => GameObject.Destroy(wall.gameObject));
+        //oldWalls = new();
+        //
+        //if(oldMazeFloor != null)
+        //{
+        //    GameObject.Destroy(oldMazeFloor.gameObject);
+        //    oldMazeFloor = null;
+        //}
     }
 
     // Render the complete maze within the scene
@@ -83,7 +106,7 @@ public class RenderMaze : NetworkBehaviour
         mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
         oldMazeFloor = mazeFloor;
 
-        // Adujust the maze floor position to accomodate even numbered dimensions
+        // Adjust the maze floor position to accomodate even numbered dimensions
         if(mazeHeight % 2 == 0)
         {
             mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
@@ -96,6 +119,22 @@ public class RenderMaze : NetworkBehaviour
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
+                // KLM: Added the following block
+                // Generate the fog of war only if the prefab is set.
+                // This "if" is purely for debugging purposes.
+                if (ceilingPrefab != null)
+                {
+                    // Create the ceiling for this cell.
+                    Transform currentCeiling = Instantiate(ceilingPrefab) as Transform;
+                    currentCeiling.localScale = new Vector2(cellSize, cellSize);
+                    currentCeiling.position = new Vector3(
+                        cellSize * (i - mazeWidth/2),
+                        cellSize * (j - mazeHeight/2),
+                        100//-10
+                    );
+                    currentCeiling.gameObject.name = "Ceiling["+i+","+j+"]";
+                }
+                
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
@@ -201,5 +240,10 @@ public class RenderMaze : NetworkBehaviour
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
+    }
+    
+    public WallStatus[,] GetMazeWallData()
+    {
+        return mazeData;
     }
 }
