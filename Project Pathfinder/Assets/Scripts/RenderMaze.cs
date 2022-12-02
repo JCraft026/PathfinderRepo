@@ -6,22 +6,17 @@ using Mirror;
 
 public class RenderMaze : NetworkBehaviour
 {
-    // Global Variables
-    public static float CellSize;
-    public static float MazeWidth;
-    public static float MazeHeight;
-
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
-    private int mazeWidth = 10;
+    public int mazeWidth = 10;
 
     [SerializeField]
     [Range(1, 50)]
-    private int mazeHeight = 10;
+    public int mazeHeight = 10;
 
     [SerializeField]
-    private float cellSize = 1f;
+    public float cellSize = 1f;
 
     [SerializeField]
     private Transform wallPrefab = null;
@@ -49,11 +44,6 @@ public class RenderMaze : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-
-        // Initialize global variables
-        CellSize   = cellSize;
-        MazeWidth  = mazeWidth;
-        MazeHeight = mazeHeight;
 
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
