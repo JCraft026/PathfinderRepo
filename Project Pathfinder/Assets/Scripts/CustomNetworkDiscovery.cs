@@ -101,6 +101,13 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         Debug.Log("ServerName: " + response.serverName);
         Debug.Log("Team Available: " + response.teamAvailable);
         Debug.Log("Players In Game: " + response.playersInGame);
+        //UriBuilder builder = new(endpoint.Address.ToString());
+        OnServerFound.Invoke(new ServerResponse(){
+            EndPoint = endpoint,
+            serverId = RandomLong(),
+            //uri = builder.Uri
+            uri = new("kcp://"+endpoint.Address.ToString()/*+endpoint.Port.ToString()*/)
+        });
     }
 
     #endregion
