@@ -15,6 +15,9 @@ public class CustomNetworkManager : NetworkManager
 
     [SerializeField]
     RenderMaze mazeRenderer;
+    
+    [SerializeField]
+    KLM_FogController FogController;
 
     [SerializeField]
     GameObject hostPlayerCharacter;
@@ -29,6 +32,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
     }
@@ -39,6 +43,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
+        
         try
         {
             MazeMessage mazeMessage;
@@ -85,7 +90,12 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
         Debug.Log("OnServerConnect");
-
+        
+        //GameObject FogController = GameObject.Find("FogController");
+        //GameObject MazeRenderer = GameObject.Find("MazeRenderer");
+        FogController.mazeRenderer = mazeRenderer.gameObject;
+        FogController.initializeFogRenderer();
+        
         // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
             (!hostIsRunner && NetworkServer.connections.Count == 1))
@@ -108,18 +118,22 @@ public class CustomNetworkManager : NetworkManager
             {
                 case ManageActiveCharactersConstants.CHASER:
                     NetworkServer.ReplacePlayerForConnection(conn, chaser);
+                    FogController.initializeNewEntity(chaser);
                     initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     NetworkServer.ReplacePlayerForConnection(conn, engineer);
+                    FogController.initializeNewEntity(engineer);
                     initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     NetworkServer.ReplacePlayerForConnection(conn, trapper);
+                    FogController.initializeNewEntity(trapper);
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
                     break;
             }
 
+            // Destroy the duplicate runner
             Destroy(oldPlayer);
 
             Debug.Log("Replaced conID: " + conn.connectionId);
@@ -152,6 +166,7 @@ public class CustomNetworkManager : NetworkManager
         if(newGuardObject != null)
         {
             NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
+            FogController.initializeNewEntity(newGuardObject);
         }
         else
         {

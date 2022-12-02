@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8083412251201332127}
   - component: {fileID: 8083412251201332124}
   - component: {fileID: 8083412251201332126}
-  - component: {fileID: 3903328762830350823}
   m_Layer: 0
   m_Name: MazeRenderer
   m_TagString: Untagged
@@ -58,8 +57,6 @@ MonoBehaviour:
   secondExitPrefab: {fileID: 3303829268976498387, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
   thirdExitPrefab: {fileID: 4557286763423858435, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
   fourthExitPrefab: {fileID: 7046484268077272153, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
-  mazeDataJson: 
-  oldWalls: []
 --- !u!114 &8083412251201332126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,17 +74,3 @@ MonoBehaviour:
   visible: 0
   m_AssetId: ae628528a3706d44f8da7d4ca14245cb
   hasSpawned: 0
---- !u!114 &3903328762830350823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8083412251201332125}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 813ff8c1c5c0fd7459d2124546a27cee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mazeRenderer: {fileID: 8083412251201332125}
-  mazeRunner: {fileID: 2696247814498831812, guid: 39624bc568ebb1843a6e130c0971ef25, type: 3}

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2939840884276580472}
   - component: {fileID: 2939840884276580479}
   - component: {fileID: 2939840884276580478}
+  - component: {fileID: -1392831759330199979}
   m_Layer: 0
   m_Name: CustomNetworkManager
   m_TagString: Untagged
@@ -67,6 +68,9 @@ MonoBehaviour:
   - {fileID: 4736767510328132004, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
   - {fileID: 2254325141038199550, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
   mazeRenderer: {fileID: 0}
+  hostPlayerCharacter: {fileID: 0}
+  clientPlayerCharacter: {fileID: 0}
+  hostIsRunner: 0
 --- !u!114 &2939840884276580479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +114,17 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+--- !u!114 &-1392831759330199979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2939840884276580475}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813ff8c1c5c0fd7459d2124546a27cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mazeRenderer: {fileID: 8083412251201332125, guid: ae628528a3706d44f8da7d4ca14245cb, type: 3}
+  mazeEntity: {fileID: 0}

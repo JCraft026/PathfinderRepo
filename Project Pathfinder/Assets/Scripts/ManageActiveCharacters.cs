@@ -20,16 +20,20 @@ public class ManageActiveCharacters : NetworkBehaviour
     public int activeGuardId;                     // Guard ID of the current active guard
     public int nextActiveGuardId;                 // Guard ID of the next active guard
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    public GameObject FogController;
 
     // Run when object is created
     public void Start(){
-        // If the parent object is a guard, initialize its cooresponding guard ID and get the ID of the current active guard
+        // If the parent object is a guard, initialize its corresponding guard ID and get the ID of the current active guard
         if(!runnerExpression.IsMatch(gameObject.name)){
             InitializeGuardIdentification();
             activeGuardId = CustomNetworkManager.initialActiveGuardId;
         }
+        
+        //if (FogController == null)
+        //    FogController = GameObject.Find("FogController"); // KLM
     }
-
+    
     // Run when Object is given authority
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -44,7 +48,9 @@ public class ManageActiveCharacters : NetworkBehaviour
         else if(guardId == activeGuardId){
             cameraHolder.SetActive(true);
             CustomNetworkManager.isRunner = false;
+            FogController.GetComponent<KLM_FogController>().initializeNewEntity(gameObject);
         }
+        
     }
 
     // Run on every frame
@@ -80,7 +86,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         Regex engineerExpression = new Regex("Engineer"); // Match "Engineer"
         Regex trapperExpression  = new Regex("Trapper");  // Match "Trapper"
 
-        // Assign the appropirate guard identification number to the parent object
+        // Assign the appropriate guard identification number to the parent object
         if(chaserExpression.IsMatch(gameObject.name)){
             guardId = ManageActiveCharactersConstants.CHASER;
         }

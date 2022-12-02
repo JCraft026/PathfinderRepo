@@ -312,8 +312,7 @@ MonoBehaviour:
   guardId: 0
   activeGuardId: 0
   nextActiveGuardId: 0
-  isRunner: 0
-  networkManager: {fileID: 0}
+  FogController: {fileID: 737704938188888234, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0

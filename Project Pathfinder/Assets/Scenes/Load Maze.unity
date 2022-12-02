@@ -165,7 +165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1147477695
 GameObject:
@@ -230,8 +230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  mazeWidth: 13
-  mazeHeight: 13
+  mazeWidth: 8
+  mazeHeight: 8
   cellSize: 5
   wallPrefab: {fileID: 1542926893595753881, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
@@ -240,8 +240,6 @@ MonoBehaviour:
   secondExitPrefab: {fileID: 3303829268976498387, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
   thirdExitPrefab: {fileID: 4557286763423858435, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
   fourthExitPrefab: {fileID: 7046484268077272153, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
-  mazeDataJson: 
-  oldWalls: []
 --- !u!4 &1496269330
 Transform:
   m_ObjectHideFlags: 0
@@ -255,7 +253,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1496269331
 MonoBehaviour:
@@ -281,6 +279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1392831759330199979, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: hostIsRunner
       value: 0
@@ -369,5 +371,67 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomNetworkManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1392831759330199979, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+--- !u!1001 &737704937872427842
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888232, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888234, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: m_Name
+      value: FogController
+      objectReference: {fileID: 0}
+    - target: {fileID: 737704938188888235, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
+      propertyPath: mazeRenderer
+      value: 
+      objectReference: {fileID: 1496269328}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eeebf0962f27d424284048d03dcce4d0, type: 3}
