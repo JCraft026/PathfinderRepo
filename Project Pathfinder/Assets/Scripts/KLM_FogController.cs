@@ -61,6 +61,9 @@ public class KLM_FogController : MonoBehaviour
     private int   mazeWidth;//  = 13;
     private int   mazeHeight;// = 13;
     private float cellSize;//   = 5;
+    //private int   mazeWidth;//  = 13;
+    //private int   mazeHeight;// = 13;
+    //private float cellSize;//   = 5;
     
     // Gets the fog game object located at the specified grid coordinates.
     GameObject getFogObject(int x, int y)
