@@ -18,11 +18,11 @@ public class MoveCharacter : NetworkBehaviour
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
 
-    private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
+    private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
-    
-    private UI_Inventory uiInventory;
-    public static MoveCharacter Instance;
+
+    private UI_Inventory uiInventory;     // Imports the UI_Inventory to access what is the player
+    public static MoveCharacter Instance; // Makes an instance of this class to access attribtues
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();

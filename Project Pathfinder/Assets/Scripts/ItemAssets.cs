@@ -10,7 +10,10 @@ public class ItemAssets : MonoBehaviour
         Instance = this;
     }
 
-    public Transform pfItemWorld;
-
-    public Sprite pickaxeSprite;
+    public Transform pfItemWorld;   // Transform of prefab item in the scene
+    public Sprite    pickaxeSprite; // Pickaxe sprite
+    public Sprite    Keys0Sprite,   // Red key sprite
+                     Keys1Sprite,   // Blue key sprite
+                     Keys2Sprite,   // Green key sprite
+                     Keys3Sprite;   // Yellow key sprite
 }

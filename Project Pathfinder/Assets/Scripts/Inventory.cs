@@ -5,19 +5,20 @@ using UnityEngine;
 
 public class Inventory
 {
+    public event EventHandler OnItemListChanged; // Event recording every time the item list changes
+    private List<Item> itemList;                 // List of items
+    private Action<Item> useItemAction;          // Action using an item
 
-    public event EventHandler OnItemListChanged;
-
-    private List<Item> itemList;
-    private Action<Item> useItemAction;
-
+    // Initiates the item list and the use item action 
     public Inventory(Action<Item> useItemAction)
     {
         this.useItemAction = useItemAction;
         itemList = new List<Item>();
     }
 
+    // Adds the passed item into the inventory
     public void AddItem(Item item){
+        // Checks to see if the item can stack or not
         if(item.isStackable()) {
             bool itemAlreadyInInventory = false;
             foreach (Item inventoryItem in itemList){
@@ -26,6 +27,7 @@ public class Inventory
                     itemAlreadyInInventory = true;
                 }
             }
+            // Checks to see if the item is already in the inventory
             if(!itemAlreadyInInventory){
                 itemList.Add(item);
             }
@@ -36,6 +38,7 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    // Removes the selected item from the inventory
     public void RemoveItem(Item item){
         if(item.isStackable()){
             Item itemInInventory = null;
@@ -55,10 +58,12 @@ public class Inventory
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    // Use the selected item
     public void UseItem(Item item){
         useItemAction(item);
     }
 
+    // Returns the list contained in the inventory
     public List<Item> GetItemList(){
         return itemList;
     }
