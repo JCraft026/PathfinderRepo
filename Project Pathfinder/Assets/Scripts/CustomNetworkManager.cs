@@ -17,12 +17,6 @@ public class CustomNetworkManager : NetworkManager
     RenderMaze mazeRenderer;
 
     [SerializeField]
-    GameObject hostPlayerCharacter;
-    
-    [SerializeField]
-    GameObject clientPlayerCharacter;
-
-    [SerializeField]
     bool hostIsRunner;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
