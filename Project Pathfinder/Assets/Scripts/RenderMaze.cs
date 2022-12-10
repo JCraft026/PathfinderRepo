@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json; //Needed for serializing/deserializing the maze sent to the client
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class RenderMaze : NetworkBehaviour
 {
@@ -195,6 +196,9 @@ public class RenderMaze : NetworkBehaviour
                 }
             }
         }
+
+        // Render the minimap in the canvas
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler")).GetComponent<RenderMiniMap>().Render(mazeData);
     }
 
     // Used by the network manager to get the maze json string

@@ -26,7 +26,7 @@ public class Utilities : MonoBehaviour
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).transform.position;
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Enginieer")).transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer")).transform.position;
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper")).transform.position;
@@ -61,5 +61,12 @@ public class Utilities : MonoBehaviour
         GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
 
         return (float)mazeRenderer.GetComponent<RenderMaze>().mazeHeight;
+    }
+
+    // Get the Mini Map Cell Size
+    public static float GetMapCellSize(){
+        GameObject miniMapHandler = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler"));
+
+        return miniMapHandler.GetComponent<RenderMiniMap>().cellSize;
     }
 }
