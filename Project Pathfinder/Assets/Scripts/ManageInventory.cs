@@ -11,7 +11,6 @@ public class ManageInventory : NetworkBehaviour
     private Item selectedItem;                  // The item currently selected
     private List<Item> itemList;                // The local list of inventory items
     private int slotNumber = 0;                 // The slot number the player is choosing
-    private MoveCharacter rigidBody;            // Imports the player's rigidbody component
     public InventoryControls inventoryControls; // Imports the inventory controller
 
     // Called on awake
@@ -182,10 +181,21 @@ public class ManageInventory : NetworkBehaviour
     // Does an action based of of which item is passed
     public void UseItem(Item item){ 
     switch (item.itemType){
+        default:
+            Debug.Log("This item don't do much, eh?");
+            break;
         case Item.ItemType.Pickaxe:
             Debug.Log("Pickaxe used");
+            ManageCrackedWalls.Instance.findClosestWall();
+            ManageCrackedWalls.Instance.breakWall();
+            break;
+        case Item.ItemType.SmokeBomb:
+            Debug.Log("SmokeBomb used");
+            RenderSmokeScreen.Instance.useSmoke();
+            inventory.RemoveItem(item);
             break;
         }
+
     }
 
     // Select the first item slot (Keypad1)

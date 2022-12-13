@@ -24,7 +24,13 @@ public class RenderMaze : NetworkBehaviour
     private float cellSize = 1f;
 
     [SerializeField]
+    private int crackedWallRatio = 10;
+
+    [SerializeField]
     private Transform wallPrefab = null;
+
+    [SerializeField]
+    private Transform crackedWallPrefab = null;
 
     [SerializeField]
     private Transform floorPrefab = null;
@@ -44,6 +50,7 @@ public class RenderMaze : NetworkBehaviour
     private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
     private Transform oldMazeFloor;                           // Last maze floor location rendered
+    private int randomNumber = 0;                             // To control the frequency of cracked walls
 
     // Called when the host starts a game
     public override void OnStartServer()
@@ -108,6 +115,7 @@ public class RenderMaze : NetworkBehaviour
             for (int i = 0; i < mazeWidth; i++){
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
+                randomNumber  = Random.Range(1, crackedWallRatio + 1); // For cracked wall generation
 
                 // Select the next exit prefab to render
                 switch (currentExit)
@@ -135,6 +143,12 @@ public class RenderMaze : NetworkBehaviour
                         currentExit++;
                         oldWalls.Add(topExit);
                     }
+                    else if(randomNumber == 1 && j != mazeHeight-1){
+                        var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
+                        topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
+                        topWall.localScale = new Vector2(cellSize, topWall.localScale.y);
+                        oldWalls.Add(topWall);
+                    }
                     else{
                         var topWall        = Instantiate(wallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
@@ -152,6 +166,13 @@ public class RenderMaze : NetworkBehaviour
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
                         currentExit++;
                         oldWalls.Add(leftExit);
+                    }
+                    else if(randomNumber == 1 && i != 0){
+                        var leftWall         = Instantiate(crackedWallPrefab, transform) as Transform;
+                        leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
+                        leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
+                        leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        oldWalls.Add(leftWall);
                     }
                     else{
                         var leftWall         = Instantiate(wallPrefab, transform) as Transform;

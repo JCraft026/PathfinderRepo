@@ -7,11 +7,12 @@ using UnityEngine;
 public class Item
 {
     public enum ItemType{
-        Pickaxe, // Pickaxe
-        Keys_0,  // Red Key
-        Keys_1,  // Blue Key
-        Keys_2,  // Green Key
-        Keys_3   // Yellow Key
+        Pickaxe,   // Pickaxe
+        SmokeBomb, // Smoke Bomb
+        Keys_0,    // Red Key
+        Keys_1,    // Blue Key
+        Keys_2,    // Green Key
+        Keys_3     // Yellow Key
     }
     public ItemType itemType; // Holds the enum type of the item
     public int amount;        // The amount of each item
@@ -21,11 +22,12 @@ public class Item
     public Sprite GetSprite(){
         switch(itemType){
             default:
-            case ItemType.Pickaxe: return ItemAssets.Instance.pickaxeSprite;
-            case ItemType.Keys_0:  return ItemAssets.Instance.Keys0Sprite;
-            case ItemType.Keys_1:  return ItemAssets.Instance.Keys1Sprite;
-            case ItemType.Keys_2:  return ItemAssets.Instance.Keys2Sprite;
-            case ItemType.Keys_3:  return ItemAssets.Instance.Keys3Sprite;
+            case ItemType.Pickaxe:   return ItemAssets.Instance.pickaxeSprite;
+            case ItemType.SmokeBomb: return ItemAssets.Instance.smokeBombSprite;
+            case ItemType.Keys_0:    return ItemAssets.Instance.Keys0Sprite;
+            case ItemType.Keys_1:    return ItemAssets.Instance.Keys1Sprite;
+            case ItemType.Keys_2:    return ItemAssets.Instance.Keys2Sprite;
+            case ItemType.Keys_3:    return ItemAssets.Instance.Keys3Sprite;
         }
     }
 
@@ -36,6 +38,8 @@ public class Item
             return true;
         case ItemType.Pickaxe:
             return false;
+        case ItemType.SmokeBomb:
+            return true;
         case ItemType.Keys_0:
             return false;
         case ItemType.Keys_1:

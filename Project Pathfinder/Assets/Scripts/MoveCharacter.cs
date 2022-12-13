@@ -26,9 +26,9 @@ public class MoveCharacter : NetworkBehaviour
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
+        Instance = this;
         uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
         uiInventory.SetPlayer(this);
-        Instance = this;
     }
 
     // Update is called once per frame
