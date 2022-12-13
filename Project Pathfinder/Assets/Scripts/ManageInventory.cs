@@ -184,13 +184,13 @@ public class ManageInventory : NetworkBehaviour
         default:
             Debug.Log("This item don't do much, eh?");
             break;
+        // Pickaxe Action
         case Item.ItemType.Pickaxe:
-            Debug.Log("Pickaxe used");
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
             break;
+        // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:
-            Debug.Log("SmokeBomb used");
             RenderSmokeScreen.Instance.useSmoke();
             inventory.RemoveItem(item);
             break;

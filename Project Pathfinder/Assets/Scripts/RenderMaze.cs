@@ -24,6 +24,7 @@ public class RenderMaze : NetworkBehaviour
     private float cellSize = 1f;
 
     [SerializeField]
+    [Range(1,100)]
     private int crackedWallRatio = 10;
 
     [SerializeField]
@@ -232,5 +233,10 @@ public class RenderMaze : NetworkBehaviour
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
+    }
+
+    // Used by ManageCrackedWalls to adjust the detection size for wall breaking
+    public float GetCellSize(){
+        return cellSize;
     }
 }

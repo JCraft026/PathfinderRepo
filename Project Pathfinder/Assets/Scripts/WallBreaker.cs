@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallBreaker : MonoBehaviour
 {
-    // Called on awake
+    // Adds itself to a list of cracked wall objects
     void Awake(){
         ManageCrackedWalls.Instance.AddWalls(gameObject);
     }
