@@ -8,47 +8,26 @@ using System;
 
 public class CustomNetworkManager : NetworkManager
 {
+    #region Global Variables
     // Global Variables
     public static System.Random randomNum  = new System.Random(); // Random number generator
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
     public static bool isRunner            = false;               // User playing as Runner status
 
     [SerializeField]
-    RenderMaze mazeRenderer;
+    public RenderMaze mazeRenderer;
 
     [SerializeField]
     bool hostIsRunner;
+    #endregion
 
+    #region Client Only Code
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
-    }
-
-    // Runs on the server when a client connects
-    // Sends the maze to the client from the server
-    // Also registers the animation handlers for each player
-    public override void OnServerConnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerConnect(conn);
-        try
-        {
-            MazeMessage mazeMessage;
-            mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
-
-            if(mazeMessage.jsonMaze != null)
-                conn.Send(mazeMessage);
-            else
-            {
-                Debug.Log("mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
-            }
-        }
-        catch
-        {
-            Debug.Log("Exception caught in OnServerConnect!");
-        }
     }
 
     //Called when the client receives the json text of the maze
@@ -74,7 +53,44 @@ public class CustomNetworkManager : NetworkManager
             }
         }
     }
+    #endregion
 
+    #region Server Only Code
+    public override void OnStartHost()
+    {
+        base.OnStartHost();
+        
+    }
+
+    // Runs on the server when a client connects
+    // Sends the maze to the client from the server
+    // Also registers the animation handlers for each player
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        try
+        {
+            if(mazeRenderer == null)
+                Debug.LogError("The error below is because the maze renderer is null");
+            MazeMessage mazeMessage;
+            
+            mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
+
+            if(mazeMessage.jsonMaze != null)
+                conn.Send(mazeMessage);
+            else
+            {
+                Debug.Log("mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.Log("Exception caught in OnServerConnect!");
+            Debug.LogError(e);
+        }
+    }
+    
+    // Responsible for initial set up of clients (ie. Getting players on the right teams, spawning their characters, etc.)
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
@@ -119,7 +135,10 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
     }
+    #endregion
 
+    #region Game Events And Misc. Handlers
+    // Changes the active guard for the guard master
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
@@ -153,28 +172,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    public void NetworkAnimationHandler(AnimationMessage animationState)
-    {
-        //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
-        
-    }
-
-    //Message structure used to send the maze to the client
-    public struct MazeMessage : NetworkMessage
-    {
-        public string jsonMaze;
-    }
-
-    //Message structure used to send animation states between clients
-    public struct AnimationMessage : NetworkMessage
-    {
-        public int characterType;
-        public Vector2 movementInput;
-        public float characterFacingDirection;
-        public int connId;
-    }
-
-    // Position each guard object at a determined spawn location
+    // Position each guard objectat a determined spawn location
     public void SetGuardSpawnLocations(){
         bool chaserSet          = false; // Chaser spawn set status
         bool engineerSet        = false; // Engineer spawn set status
@@ -300,4 +298,29 @@ public class CustomNetworkManager : NetworkManager
             }
         }
     }
+   
+    // Originally was supposed to handle animations but it needs to be empty for some reason
+    public void NetworkAnimationHandler(AnimationMessage animationState)
+    {
+        //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
+        
+    }
+    #endregion
+
+    #region Message Structures
+    //Message structure used to send the maze to the client
+    public struct MazeMessage : NetworkMessage
+    {
+        public string jsonMaze;
+    }
+
+    //Message structure used to send animation states between clients
+    public struct AnimationMessage : NetworkMessage
+    {
+        public int characterType;
+        public Vector2 movementInput;
+        public float characterFacingDirection;
+        public int connId;
+    }
+    #endregion
 }

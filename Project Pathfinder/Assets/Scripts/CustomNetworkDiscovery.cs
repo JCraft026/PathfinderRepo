@@ -66,8 +66,8 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         return new DiscoveryResponse()
         {
             serverName = "NOT_IMPLEMENTED_:_SERVERNAME",
-            teamAvailable = "NOT_IMPLEMENTED:_TEAMSAVAILABLE",
-            playersInGame = 9001
+            teamAvailable = "NOT_IMPLEMENTED_:_TEAMAVAILABLE",
+            playersInGame = NetworkManager.singleton.numPlayers
         };
     }
 
