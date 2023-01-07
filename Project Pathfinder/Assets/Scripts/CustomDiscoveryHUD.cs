@@ -9,10 +9,14 @@ namespace Mirror.Discovery
     [RequireComponent(typeof(CustomNetworkDiscovery))]
     public class CustomDiscoveryHUD : MonoBehaviour
     {
-        readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
+        readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>(); // Servers currently listed as joinable
         Vector2 scrollViewPos = Vector2.zero;
 
-        public CustomNetworkDiscovery networkDiscovery;
+        public CustomNetworkDiscovery networkDiscovery; // Communication information for the server browser
+        [SerializeField]
+        public ServerBrowserBackend Backend; // Used to allow a client to join a server
+        [SerializeField]
+        public CustomNetworkManager networkManager; // Required for the backend to join a server
 
 #if UNITY_EDITOR
         void OnValidate()
@@ -47,6 +51,15 @@ namespace Mirror.Discovery
             {
                 discoveredServers.Clear();
                 networkDiscovery.StartDiscovery();
+                //Debug logger
+                /*
+                Debug.Log("CustomDiscoverHUD Found " + discoveredServers.Count + " Servers");
+                foreach(var x in discoveredServers)
+                {
+                    Debug.Log("Server ID: " + x.Value.serverId);
+                }
+                Debug.Log("End CustomDiscoveryHUD server logs");
+                */
             }
 
             // LAN Host
@@ -117,10 +130,12 @@ namespace Mirror.Discovery
             GUILayout.EndArea();
         }
 
+        // Tells the server browser backend to join a server (We can probably remove this later as its a bit redundant to call a function that only calls another function)
         void Connect(ServerResponse info)
         {
-            networkDiscovery.StopDiscovery();
-            NetworkManager.singleton.StartClient(info.uri);
+            /*networkDiscovery.StopDiscovery();
+            NetworkManager.singleton.StartClient(info.uri);*/
+            Backend.JoinServer(info, networkManager);
         }
 
         public void OnDiscoveredServer(ServerResponse info)

@@ -15,13 +15,17 @@ public class CustomNetworkManager : NetworkManager
     public static bool isRunner            = false;               // User playing as Runner status
 
     [SerializeField]
-    public RenderMaze mazeRenderer;
+    public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
+
+    [SerializeField]
+    public RenderMaze mazeRenderer; // Enables us to render the maze
 
     [SerializeField]
     bool hostIsRunner;
     #endregion
 
     #region Client Only Code
+
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
     {
@@ -42,6 +46,15 @@ public class CustomNetworkManager : NetworkManager
                     throw(new Exception("mazeText.jsonMaze == null, no data sent!"));
                 else
                 {
+                    // The mazeRenderer will probably be null for the incoming client so we'll need to locate it when we join a server
+                    if(mazeRenderer == null)
+                    {
+                        mazeRenderer = backend.GetMazeRenderer();
+                        if(mazeRenderer == null)
+                            throw(new Exception("mazeRenderer is still null"));
+                    }
+
+                    // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
                     mazeRenderer.CleanMap();
                     mazeRenderer.Render(newMaze);
@@ -49,7 +62,7 @@ public class CustomNetworkManager : NetworkManager
             }
             catch(Exception e)
             {
-                Debug.Log("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
+                Debug.LogError("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
             }
         }
     }
@@ -59,7 +72,6 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartHost()
     {
         base.OnStartHost();
-        
     }
 
     // Runs on the server when a client connects

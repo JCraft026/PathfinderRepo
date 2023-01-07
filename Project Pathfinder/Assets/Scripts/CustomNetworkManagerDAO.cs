@@ -7,8 +7,10 @@ using UnityEngine;
 
 public class CustomNetworkManagerDAO : MonoBehaviour
 {
-    private static GameObject NetworkManagerGameObject;
+    private static GameObject NetworkManagerGameObject; // The custom network manager's gameobject (note this is the gameobject containing the actual script)
+    private Dictionary<long, ServerResponse> FoundServersCache; // Contains all the servers from the last search
 
+    // Make sure the CustomNetworkManager singleton is up to date
     private static void RefreshSingletonReference()
     {
         if(CustomNetworkManager.singleton == null)
@@ -63,6 +65,22 @@ public class CustomNetworkManagerDAO : MonoBehaviour
         return GetServerBrowserBackend().LookForOtherServers();
     }
 
+    // Used for button presses to tell the backend to look for servers (button presses require void functions)
+    public void StartClientSearching()
+    {
+        FoundServersCache = SearchForServers();
+    }
+
+    public Dictionary<long, ServerResponse> GetServerCache()
+    {
+        if(FoundServersCache == null)
+        {
+            StartClientSearching();
+        }
+        return FoundServersCache;
+    }
+
+    // Tell the backend to join the specified server
     public void ServerBrowserJoinServer(ServerResponse serverInfo)
     {
         GetServerBrowserBackend().JoinServer(serverInfo, GetCustomNetworkManager());
