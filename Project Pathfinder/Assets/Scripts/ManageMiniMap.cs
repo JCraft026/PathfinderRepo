@@ -58,15 +58,16 @@ public class ManageMiniMap : MonoBehaviour
         else{
             runnerIcon = Instantiate(runnerIconPrefab, transform);
             runnerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
-            runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
+            runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2) * 1.2f, (cellSize/2) * 1.2f);
             runnerIcon.name = "RunnerIcon";
         }
     }
 
     // Update is called once per frame
     void Update(){
-        string mapCellName,  // GameObject name of the minimap cell cooresponding to the character's position
-               cellRoofName; // GameObject name of the minimap cell roof cooresponding to the runner's position
+        string mapCellName,                   // GameObject name of the minimap cell cooresponding to the character's position
+               cellRoofName;                  // GameObject name of the minimap cell roof cooresponding to the runner's position
+        bool   runnerIconInitialized = false; // Reflects whether the positon of the runner's minimap icon has been initialized
 
         // If the player is playing as the guard master, update the guard icons' locations
         if(CustomNetworkManager.isRunner == false){
@@ -107,7 +108,7 @@ public class ManageMiniMap : MonoBehaviour
         // If the player is playing as the runner, update the runner icon location
         else{
             newRunnerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
-            if((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])){
+            if(((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])) || runnerIconInitialized == false){
                 if(CellLocationIsValid(newRunnerCellLocation)){
                     mapCellName  = "cf(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
                     cellRoofName = "cr(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
@@ -115,6 +116,7 @@ public class ManageMiniMap : MonoBehaviour
                     Destroy(GameObject.Find(cellRoofName));
                     runnerCellLocation[0] = newRunnerCellLocation[0];
                     runnerCellLocation[1] = newRunnerCellLocation[1];
+                    runnerIconInitialized = true;
                 }
             }
         }

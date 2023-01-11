@@ -73,7 +73,7 @@ public class RenderMiniMap : MonoBehaviour
                 if(CustomNetworkManager.isRunner == true){
                     var cellRoof = Instantiate(roofPrefab, transform);
                     cellRoof.transform.SetParent(GameObject.Find("Minimap").transform, false);
-                    cellRoof.GetComponent<RectTransform>().localScale    = new Vector2(cellSize, cellSize);
+                    cellRoof.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 1.1f, cellSize * 1.1f);
                     cellRoof.GetComponent<RectTransform>().localPosition = scenePosition;
                     cellRoof.name = "cr(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
                 }
