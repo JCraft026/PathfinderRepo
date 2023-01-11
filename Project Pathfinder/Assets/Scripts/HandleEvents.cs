@@ -19,7 +19,12 @@ public class HandleEvents : MonoBehaviour
         switch (currentEvent)
         {
             case HandleEventsConstants.RUNNER_WINS:
-                SceneManager.LoadScene("Player Wins");
+                if(CustomNetworkManager.isRunner){
+                    SceneManager.LoadScene("Player Wins");
+                }
+                else{
+                    SceneManager.LoadScene("Player Loses");
+                }
                 currentEvent = HandleEventsConstants.NONE;
                 break;
         }

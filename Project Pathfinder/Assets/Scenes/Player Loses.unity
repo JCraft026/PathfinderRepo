@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 91591414}
   - component: {fileID: 91591413}
   m_Layer: 0
-  m_Name: PlayerWin
+  m_Name: PlayerLose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,12 +181,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f4c9a232f8581f844beef5bbd566416a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ba9edb6e7f0d324bb121373d6626936, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 12.7, y: 7.08}
+  m_Size: {x: 4.8, y: 2.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -200,8 +200,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91591412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06, y: 0.0541, z: 0}
-  m_LocalScale: {x: 1.6972123, y: 1.6972123, z: 0.28286874}
+  m_LocalPosition: {x: -0.0514, y: -0.0049, z: 0}
+  m_LocalScale: {x: 1.6693566, y: 1.6693566, z: 0.2782261}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
