@@ -181,12 +181,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mreowllo!!!! Thank you for choosing to play Project Pathfinder! You can
-    join an available lobby, directly connect using an IP adress, or host your own
-    game! Don''t be too scared of the robots chasing you. They only want to hunt
-    you down and destroy you, nothing too serious. While you''re having fun, I''ll
-    be watching from here, enjoying some high-quality catnip! Don''t worry, I''m
-    cheering for YOU!
+  m_text: '"Mreowllo!!!! Welcom to Project Pathfinder! You can join an available
+    lobby, directly connect using an IP adress, or host your own game! If you choose
+    to be the runner, don''t be too scared of the robots chasing you. They only want
+    to hunt you down and destroy you, nothing too serious. While you''re having fun,
+    I''ll be watching from here, enjoying some high-quality catnip. Don''t worry,
+    I''m cheering for YOU!
 
     Hug-Cat out!" :3'
   m_isRightToLeft: 0
