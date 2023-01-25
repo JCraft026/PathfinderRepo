@@ -85,6 +85,5 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     {
         GetServerBrowserBackend().JoinServer(serverInfo, GetCustomNetworkManager());
     }
-
     #endregion ServerBrowserBackend communication
 }

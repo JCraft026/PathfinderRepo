@@ -63,12 +63,25 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <returns>A message containing information about this server</returns>
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint) 
     {
-        return new DiscoveryResponse()
+        var networkManagerDao = new CustomNetworkManagerDAO();
+        var response = new DiscoveryResponse()
         {
             serverName = "NOT_IMPLEMENTED_:_SERVERNAME",
-            teamAvailable = "NOT_IMPLEMENTED_:_TEAMAVAILABLE",
+            teamAvailable = "UNSET_:_TEAM",
             playersInGame = NetworkManager.singleton.numPlayers
         };
+
+        // Determine which team is available and advertise accordingly
+        if(networkManagerDao.GetCustomNetworkManager().IsHostRunner())
+        {
+            response.teamAvailable = "Guards";
+        }
+        else
+        {
+            response.teamAvailable = "Runner";
+        }
+
+        return response;
     }
 
     #endregion
@@ -98,9 +111,10 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <param name="endpoint">Address of the server that replied</param>
     protected override void ProcessResponse(DiscoveryResponse response, IPEndPoint endpoint)
     {
-        Debug.Log("ServerName: " + response.serverName);
-        Debug.Log("Team Available: " + response.teamAvailable);
-        Debug.Log("Players In Game: " + response.playersInGame);
+        /* To get these to display on the front-end of the server browser we can override assing OnServerFound(ServerResponse)
+           to a delagate function used to create a lobby entry with the information from the response.
+           If you have any questions about this strategy let me know (-Caleb) */
+
         //UriBuilder builder = new(endpoint.Address.ToString());
         OnServerFound.Invoke(new ServerResponse(){
             EndPoint = endpoint,

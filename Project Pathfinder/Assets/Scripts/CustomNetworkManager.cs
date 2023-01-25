@@ -12,7 +12,7 @@ public class CustomNetworkManager : NetworkManager
     // Global Variables
     public static System.Random randomNum  = new System.Random(); // Random number generator
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
-    public static bool isRunner            = false;               // User playing as Runner status
+    public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client as well)
 
     [SerializeField]
     public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -21,7 +21,9 @@ public class CustomNetworkManager : NetworkManager
     public RenderMaze mazeRenderer; // Enables us to render the maze
 
     [SerializeField]
-    bool hostIsRunner;
+    bool hostIsRunner; // Used to determine if the host is the runner or not
+
+    public bool IsHostRunner() {return hostIsRunner;} // Required for CustomNetworkDiscovery to advertise which team the client will join as
     #endregion
 
     #region Client Only Code
