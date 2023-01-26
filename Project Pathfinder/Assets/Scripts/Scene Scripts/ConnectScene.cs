@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class ConnectScene : MonoBehaviour
 {
-    public GameObject HostCanvas;
+    public GameObject ConnectCanvas;
 
     public void Awake()
     {
-        HostCanvas = GameObject.Find("HostMenu");
+        ConnectCanvas = GameObject.Find("ConnectCanvas");
     }
 
     public void ShowHostMenu()
     {
-        
+        ConnectCanvas.SetActive(false);
+    }
+
+    public void HideHostMenu()
+    {
+        ConnectCanvas.SetActive(true);
     }
 }
