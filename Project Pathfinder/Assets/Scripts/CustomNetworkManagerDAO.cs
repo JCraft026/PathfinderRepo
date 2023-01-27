@@ -54,9 +54,10 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     #endregion Getters for the CustomNetworkManager
 
     #region ServerBrowserBackend communication
-    public void ServerBrowserStartHosting(bool hostIsRunner)
+    public void ServerBrowserStartHosting(bool hostIsRunner, GameObject dropdown)
     {
         GetCustomNetworkManager().hostIsRunner = hostIsRunner;
+        dropdown.GetComponent(Type.GetType("Dropdown - TextMesh"));
         GetServerBrowserBackend().StartHosting();
     }
 
