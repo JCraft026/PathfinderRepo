@@ -14,6 +14,7 @@ public class ServerBrowserBackend : MonoBehaviour
     Vector2 scrollViewPos = Vector2.zero; // I don't know what this is doing here, this is something that frontend will handle
     public CustomNetworkDiscovery networkDiscovery; // Allows the server browser to detect open games and connect to them
     private const int LOAD_MAZE_SCENE_INDEX = 5;    // Build index for the LoadMaze scene, this is subject to change in the future
+    public string serverName;
     #endregion
 
     #region Hosting

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror.Discovery;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class CustomNetworkManagerDAO : MonoBehaviour
 {
@@ -54,11 +57,21 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     #endregion Getters for the CustomNetworkManager
 
     #region ServerBrowserBackend communication
-    public void ServerBrowserStartHosting(bool hostIsRunner, GameObject dropdown)
+    public void ServerBrowserStartHosting(bool hostIsRunner)
     {
         GetCustomNetworkManager().hostIsRunner = hostIsRunner;
-        dropdown.GetComponent(Type.GetType("Dropdown - TextMesh"));
         GetServerBrowserBackend().StartHosting();
+    }
+
+    public void UpdateServerName()
+    {
+        var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>();
+        if(dropdown == null)
+        {
+            Debug.LogError("Dropdown is null");
+        }
+        Debug.Log(dropdown.captionText.text);
+        GetServerBrowserBackend().serverName = dropdown.captionText.text;
     }
 
     // Probably needs changed but tells the backend to look for servers

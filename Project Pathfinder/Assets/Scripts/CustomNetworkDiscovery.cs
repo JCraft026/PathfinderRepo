@@ -66,7 +66,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         var networkManagerDao = new CustomNetworkManagerDAO();
         var response = new DiscoveryResponse()
         {
-            serverName = "NOT_IMPLEMENTED_:_SERVERNAME",
+            serverName = networkManagerDao.GetServerBrowserBackend().serverName,
             teamAvailable = "UNSET_:_TEAM",
             playersInGame = NetworkManager.singleton.numPlayers
         };
