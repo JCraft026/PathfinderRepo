@@ -1335,7 +1335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c8f49a6ec4208459cff018267eb283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConnectCanvas: {fileID: 0}
+  ConnectCanvas: {fileID: 600113756}
 --- !u!1 &605039745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3006,6 +3006,7 @@ GameObject:
   - component: {fileID: 1534480040}
   - component: {fileID: 1534480039}
   - component: {fileID: 1534480038}
+  - component: {fileID: 1534480041}
   m_Layer: 0
   m_Name: LobbyButton
   m_TagString: Untagged
