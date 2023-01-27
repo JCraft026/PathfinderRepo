@@ -54,8 +54,9 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     #endregion Getters for the CustomNetworkManager
 
     #region ServerBrowserBackend communication
-    public void ServerBrowserStartHosting()
+    public void ServerBrowserStartHosting(bool hostIsRunner)
     {
+        GetCustomNetworkManager().hostIsRunner = hostIsRunner;
         GetServerBrowserBackend().StartHosting();
     }
 

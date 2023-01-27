@@ -21,7 +21,7 @@ public class CustomNetworkManager : NetworkManager
     public RenderMaze mazeRenderer; // Enables us to render the maze
 
     [SerializeField]
-    bool hostIsRunner; // Used to determine if the host is the runner or not
+    public bool hostIsRunner; // Used to determine if the host is the runner or not
 
     public bool IsHostRunner() {return hostIsRunner;} // Required for CustomNetworkDiscovery to advertise which team the client will join as
     #endregion
