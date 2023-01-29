@@ -17,13 +17,14 @@ public class MoveCharacter : NetworkBehaviour
     Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
+    public static bool canMove = true;   // Character movement lock status
 
     private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
 
     // Update is called once per frame
     void Update(){
-        if(isLocalPlayer)
+        if(isLocalPlayer && canMove)
         {
             // Get current input data
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
@@ -58,6 +59,9 @@ public class MoveCharacter : NetworkBehaviour
         movementInput.Normalize();
 
         // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
-        rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+        if(canMove){
+            rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+        }
+        
     }
 }

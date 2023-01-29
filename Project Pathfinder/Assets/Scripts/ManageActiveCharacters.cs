@@ -68,6 +68,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             else if(guardId == nextActiveGuardId){
                 cameraHolder.SetActive(true);
             }
+
             activeGuardId = nextActiveGuardId;
         }
         cameraHolder.transform.position = transform.position + offset;
