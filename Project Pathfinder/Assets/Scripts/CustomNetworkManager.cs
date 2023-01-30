@@ -6,13 +6,16 @@ using UnityEngine;
 using Mirror;
 using System;
 
+/*
+    *This class is responsible for all general networking that is not specifically covered by any other class
+*/
 public class CustomNetworkManager : NetworkManager
 {
     #region Global Variables
     // Global Variables
     public static System.Random randomNum  = new System.Random(); // Random number generator
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
-    public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client as well)
+    public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
 
     [SerializeField]
     public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -317,7 +320,6 @@ public class CustomNetworkManager : NetworkManager
     public void NetworkAnimationHandler(AnimationMessage animationState)
     {
         //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
-        
     }
     #endregion
 
