@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+    *This class is the debug server browser HUD
+    *It was also used as a template for ServerBrowserBackend
+*/
 namespace Mirror.Discovery
 {
     [DisallowMultipleComponent]

@@ -7,13 +7,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
+/*
+    *This class is used to grab references to network components when a gameobject does not have a way to access said component
+    *This class can also be used to give common commands to said network components without requiring a reference to be returned
+*/
 public class CustomNetworkManagerDAO : MonoBehaviour
 {
     private static GameObject NetworkManagerGameObject; // The custom network manager's gameobject (note this is the gameobject containing the actual script)
     private Dictionary<long, ServerResponse> FoundServersCache; // Contains all the servers from the last search
 
-    // Make sure the CustomNetworkManager singleton is up to date
+    // Makes sure the CustomNetworkManager singleton is up to date
     private static void RefreshSingletonReference()
     {
         if(CustomNetworkManager.singleton == null)
@@ -57,12 +60,14 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     #endregion Getters for the CustomNetworkManager
 
     #region ServerBrowserBackend communication
+    // Commands the ServerBrowserBackend to start hosting a game
     public void ServerBrowserStartHosting(bool hostIsRunner)
     {
         GetCustomNetworkManager().hostIsRunner = hostIsRunner;
         GetServerBrowserBackend().StartHosting();
     }
 
+    // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
     public void UpdateServerName()
     {
         var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>();
@@ -74,7 +79,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
         GetServerBrowserBackend().serverName = dropdown.captionText.text;
     }
 
-    // Probably needs changed but tells the backend to look for servers
+    // Tells the backend to look for servers
     public Dictionary<long, ServerResponse> SearchForServers()
     {
         return GetServerBrowserBackend().LookForOtherServers();
@@ -86,6 +91,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
         FoundServersCache = SearchForServers();
     }
 
+    // Updates the server cache and returns it
     public Dictionary<long, ServerResponse> GetServerCache()
     {
         if(FoundServersCache == null)

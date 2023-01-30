@@ -31,6 +31,9 @@ public class DiscoveryResponse : NetworkMessage
     public int playersInGame;    // Number of players in the game
 }
 
+/*
+    *This class is responsible for advertising and discovering games waiting for players
+*/
 public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, DiscoveryResponse>
 {
     [Tooltip("Invoked when a server is found")]
@@ -67,7 +70,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         var response = new DiscoveryResponse()
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
-            teamAvailable = "UNSET_:_TEAM",
+            // The available team is changed below
             playersInGame = NetworkManager.singleton.numPlayers
         };
 
