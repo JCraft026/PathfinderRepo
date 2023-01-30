@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkDiscovery: {fileID: 308214969}
+  serverName: 
 --- !u!114 &308214974 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
@@ -1533,7 +1534,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1.1447144
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
