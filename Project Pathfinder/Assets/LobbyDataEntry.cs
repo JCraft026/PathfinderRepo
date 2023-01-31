@@ -6,6 +6,7 @@ using TMPro;
 using System.Reflection;
 using System;
 using UnityEngine.Events;
+using System.Linq;
 
 public class LobbyDataEntry : MonoBehaviour
 {
@@ -40,24 +41,32 @@ public class LobbyDataEntry : MonoBehaviour
             Debug.Log("Team Available: " + discoveryResponse.teamAvailable);
             Debug.Log("Players In Game: " + discoveryResponse.playersInGame);
         }
-        discoveredServers[serverResponse.serverId] = serverResponse;
 
-        GameObject newBox = Instantiate(serverEntryPrefab);
-        GameObject newServerName = newBox.transform.GetChild(1).gameObject;
-        GameObject newJoinButton = newBox.transform.GetChild(2).gameObject;
-        GameObject teamAvailable = newBox.transform.GetChild(3).gameObject;
-        GameObject numOfPlayers  = newBox.transform.GetChild(4).gameObject;
+        bool isCopy =
+        (discoveredServers.Values.AsEnumerable<ServerResponse>()
+            .Select(x => x.EndPoint == serverResponse.EndPoint)
+            .Count() == 0);
+        if(isCopy)
+        {
+            discoveredServers[serverResponse.serverId] = serverResponse;
 
-        newServerName.GetComponent<TMP_Text>().text = discoveryResponse.serverName;
-        
-        var backend = networkManagerInterface.GetServerBrowserBackend();
-        var networkManager = networkManagerInterface.GetCustomNetworkManager();
-        
-        newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager));
+            GameObject newBox = Instantiate(serverEntryPrefab);
+            GameObject newServerName = newBox.transform.GetChild(1).gameObject;
+            GameObject newJoinButton = newBox.transform.GetChild(2).gameObject;
+            GameObject teamAvailable = newBox.transform.GetChild(3).gameObject;
+            GameObject numOfPlayers  = newBox.transform.GetChild(4).gameObject;
 
-        teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable;
-        numOfPlayers.GetComponent<TMP_Text>().text = "Players: " + discoveryResponse.playersInGame.ToString() + "/2";
+            newServerName.GetComponent<TMP_Text>().text = discoveryResponse.serverName;
 
-        newBox.transform.SetParent(this.gameObject.transform);
+            var backend = networkManagerInterface.GetServerBrowserBackend();
+            var networkManager = networkManagerInterface.GetCustomNetworkManager();
+
+            newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager));
+
+            teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable;
+            numOfPlayers.GetComponent<TMP_Text>().text = "Players: " + discoveryResponse.playersInGame.ToString() + "/2";
+
+            newBox.transform.SetParent(this.gameObject.transform);
+        }
     }
 }
