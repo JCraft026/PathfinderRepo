@@ -313,7 +313,6 @@ MonoBehaviour:
   guardId: 0
   activeGuardId: 0
   nextActiveGuardId: 0
-  animator: {fileID: 2696247814498831813}
 --- !u!114 &3838798175788494265
 MonoBehaviour:
   m_ObjectHideFlags: 0

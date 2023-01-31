@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LockCharacterMovement : StateMachineBehaviour
 {
+    public Animator animator;   // Character's animator manager
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
         MoveCharacter.canMove = false;
@@ -12,6 +14,7 @@ public class LockCharacterMovement : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
         MoveCharacter.canMove = true;
+        animator.SetBool("Attack", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

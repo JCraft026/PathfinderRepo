@@ -24,4 +24,23 @@ public class HandleEvents : MonoBehaviour
                 break;
         }
     }
+
+    // Manipulate runner animations and hp to reflect the landed guard attack
+    public static void ProcessAttackImpact(int direction){
+        switch ((float)direction)
+        {
+            case MoveCharacterConstants.FORWARD:
+                Debug.Log("Guard struck runner from above");
+                break;
+            case MoveCharacterConstants.LEFT:
+                Debug.Log("Guard struck runner from the right");
+                break;
+            case MoveCharacterConstants.BACKWARD:
+                Debug.Log("Guard struck runner from below");
+                break;
+            case MoveCharacterConstants.RIGHT:
+                Debug.Log("Guard struck runner from the left");//
+                break;
+        }
+    }
 }
