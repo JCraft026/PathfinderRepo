@@ -29,7 +29,7 @@ namespace Mirror.Discovery
             if (networkDiscovery == null)
             {
                 networkDiscovery = GetComponent<CustomNetworkDiscovery>();
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(networkDiscovery.OnServerFound, OnDiscoveredServer);
+                //UnityEditor.Events.UnityEventTools.AddPersistentListener(networkDiscovery.OnServerFound, OnDiscoveredServer);
                 UnityEditor.Undo.RecordObjects(new Object[] { this, networkDiscovery }, "Set NetworkDiscovery");
             }
         }

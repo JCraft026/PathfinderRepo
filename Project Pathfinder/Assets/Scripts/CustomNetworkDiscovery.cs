@@ -31,13 +31,16 @@ public class DiscoveryResponse : NetworkMessage
     public int playersInGame;    // Number of players in the game
 }
 
+public class CustomServerFoundUnityEvent : UnityEvent<ServerResponse, DiscoveryResponse> {};
+
 /*
     *This class is responsible for advertising and discovering games waiting for players
 */
 public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, DiscoveryResponse>
 {
     [Tooltip("Invoked when a server is found")]
-    public ServerFoundUnityEvent OnServerFound;
+    //public ServerFoundUnityEvent OnServerFound;
+    public CustomServerFoundUnityEvent OnServerFound = new();
     #region Server
 
     /// <summary>
@@ -124,7 +127,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
             serverId = RandomLong(),
             //uri = builder.Uri
             uri = new("kcp://"+endpoint.Address.ToString()/*+endpoint.Port.ToString()*/)
-        });
+        }, response);
     }
 
     #endregion

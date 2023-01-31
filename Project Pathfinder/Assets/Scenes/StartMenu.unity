@@ -130,6 +130,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Mirror.Discovery.CustomDiscoveryHUD, Scripts
+      objectReference: {fileID: 0}
     - target: {fileID: 551824407, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: Backend
       value: 
