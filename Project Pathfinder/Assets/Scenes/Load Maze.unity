@@ -383,6 +383,7 @@ MonoBehaviour:
   chaserIconPrefab: {fileID: 865285139028212073, guid: 3d8dcbd37ce17534cb5386630578f00e, type: 3}
   engineerIconPrefab: {fileID: 8046102986509301644, guid: 307dc9112841916499fa3afd8878aa4b, type: 3}
   trapperIconPrefab: {fileID: 5673582472352373814, guid: a655dd05ededb3a4181a9cad4f735305, type: 3}
+  componentsInitialized: 0
 --- !u!114 &1147477699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,7 +483,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: hostIsRunner
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: mazeRenderer

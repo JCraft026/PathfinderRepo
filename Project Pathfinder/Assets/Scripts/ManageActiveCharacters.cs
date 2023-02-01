@@ -38,14 +38,14 @@ public class ManageActiveCharacters : NetworkBehaviour
         if(runnerExpression.IsMatch(gameObject.name)){
             cameraHolder.SetActive(true);
             SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
-            CustomNetworkManager.isRunner = true;
+            //CustomNetworkManager.isRunner = true;
         }
 
         // If the parent object is the initial active guard, enable its camera and update the isRunner status to label proceeding actions as host side actions
         else if(guardId == activeGuardId){
             cameraHolder.SetActive(true);
             SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
-            CustomNetworkManager.isRunner = false;
+            //CustomNetworkManager.isRunner = false;
         }
     }
 

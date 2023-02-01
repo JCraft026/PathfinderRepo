@@ -11,7 +11,8 @@ public class CustomNetworkManager : NetworkManager
     // Global Variables
     public static System.Random randomNum  = new System.Random(); // Random number generator
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
-    public static bool isRunner            = false;               // User playing as Runner status
+    public static bool isRunner            = true;               // User playing as Runner status
+    public static bool playerRoleSet       = false;               // Status of player role being assigned
 
     [SerializeField]
     RenderMaze mazeRenderer;
@@ -32,8 +33,27 @@ public class CustomNetworkManager : NetworkManager
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
         
-        if(!hostIsRunner){
-            isRunner = true;
+        // Set the status of the player being the guard master or the runner
+        if(hostIsRunner){
+            if(NetworkServer.connections.Count == 1){
+               isRunner = true; 
+            }
+            else{
+                isRunner = false;
+            }
+        }
+        else{
+            if(NetworkServer.connections.Count == 1){
+               isRunner = false; 
+            }
+            else{
+                isRunner = true;
+            }
+        }
+
+        // Create the maze initially on the host side
+        if(NetworkServer.connections.Count == 1){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
         }
     }
 
@@ -89,6 +109,9 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerAddPlayer(conn);
         Debug.Log("OnServerConnect");
+
+        // Reflect that the runner/guard master status has been set
+        playerRoleSet = true;
 
         // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
