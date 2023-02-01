@@ -81,6 +81,7 @@ public class ManageMiniMap : MonoBehaviour
 
             // If the player is playing as the guard master, update the guard icons' locations
             if(CustomNetworkManager.isRunner == false){
+                //Debug.Log("isRunner is false");
                 // Update the Chaser Icon's location on the minimap
                 newChaserCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.CHASER);
                 if((chaserCellLocation[0] != newChaserCellLocation[0]) || (chaserCellLocation[1] != newChaserCellLocation[1])){
@@ -117,6 +118,7 @@ public class ManageMiniMap : MonoBehaviour
 
             // If the player is playing as the runner, update the runner icon location
             else{
+                //Debug.Log("isRunner is true");
                 newRunnerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
                 if(((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])) || runnerIconInitialized == false){
                     if(CellLocationIsValid(newRunnerCellLocation)){

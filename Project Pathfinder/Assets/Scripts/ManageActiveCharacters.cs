@@ -38,14 +38,14 @@ public class ManageActiveCharacters : NetworkBehaviour
         if(runnerExpression.IsMatch(gameObject.name)){
             cameraHolder.SetActive(true);
             SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
-            //CustomNetworkManager.isRunner = true;
+            CustomNetworkManager.isRunner = true; //these were commented out before
         }
 
         // If the parent object is the initial active guard, enable its camera and update the isRunner status to label proceeding actions as host side actions
         else if(guardId == activeGuardId){
             cameraHolder.SetActive(true);
             SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
-            //CustomNetworkManager.isRunner = false;
+            CustomNetworkManager.isRunner = false; //these were commented out before
         }
     }
 
@@ -54,7 +54,8 @@ public class ManageActiveCharacters : NetworkBehaviour
     {
         // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
         if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner == false && !runnerExpression.IsMatch(gameObject.name)){
-            if(activeGuardId == 3){
+            Debug.Log("attempted guard swap");
+            if(activeGuardId >= 3){
                 nextActiveGuardId = 1;
             }
             else{
