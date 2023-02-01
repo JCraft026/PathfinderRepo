@@ -31,6 +31,10 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
+        
+        if(!hostIsRunner){
+            isRunner = true;
+        }
     }
 
     // Runs on the server when a client connects
