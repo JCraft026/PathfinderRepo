@@ -7,7 +7,7 @@ using UnityEngine;
 public class Item
 {
     public enum ItemType{
-        Pickaxe,   // Pickaxe
+        Sledge,   // Sledge Hammer
         SmokeBomb, // Smoke Bomb
         Keys_0,    // Red Key
         Keys_1,    // Blue Key
@@ -22,7 +22,7 @@ public class Item
     public Sprite GetSprite(){
         switch(itemType){
             default:
-            case ItemType.Pickaxe:   return ItemAssets.Instance.pickaxeSprite;
+            case ItemType.Sledge:   return ItemAssets.Instance.sledgeSprite;
             case ItemType.SmokeBomb: return ItemAssets.Instance.smokeBombSprite;
             case ItemType.Keys_0:    return ItemAssets.Instance.Keys0Sprite;
             case ItemType.Keys_1:    return ItemAssets.Instance.Keys1Sprite;
@@ -36,7 +36,7 @@ public class Item
         switch(itemType){
         default:
             return true;
-        case ItemType.Pickaxe:
+        case ItemType.Sledge:
             return false;
         case ItemType.SmokeBomb:
             return true;

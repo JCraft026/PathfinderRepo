@@ -184,8 +184,8 @@ public class ManageInventory : NetworkBehaviour
         default:
             Debug.Log("This item don't do much, eh?");
             break;
-        // Pickaxe Action
-        case Item.ItemType.Pickaxe:
+        // Sledge Action
+        case Item.ItemType.Sledge:
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
             break;

@@ -12,7 +12,7 @@ public class ItemAssets : MonoBehaviour
 
     public Transform pfItemWorld,     // Transform of prefab item in the scene
                      SmokeScreen;     // Prefab smoke screen to instantiate
-    public Sprite    pickaxeSprite,   // Pickaxe sprite
+    public Sprite    sledgeSprite,    // Sledge Hammer sprite
                      smokeBombSprite, // Smoke Bomb Sprite
                      Keys0Sprite,     // Red key sprite
                      Keys1Sprite,     // Blue key sprite
