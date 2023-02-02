@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 using Mirror;
+using System;
+using System.Linq;
 
 static class ManageActiveCharactersConstants{
     public const int RUNNER   = 0; // Runner character ID
@@ -54,8 +56,9 @@ public class ManageActiveCharacters : NetworkBehaviour
     {
         // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
         if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner == false && !runnerExpression.IsMatch(gameObject.name)){
-            Debug.Log("attempted guard swap");
-            if(activeGuardId >= 3){
+            Debug.Log("active guard ID: " + activeGuardId.ToString());
+            Debug.Log("next guard ID: " + nextActiveGuardId.ToString());
+            if(activeGuardId == 3 || activeGuardId < 1){
                 nextActiveGuardId = 1;
             }
             else{
@@ -65,7 +68,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             // If the parent object is the current active guard, disable its camera and give control to the next active guard
             if(guardId == activeGuardId){
                 cameraHolder.SetActive(false);
-                CustomNetworkManager.ChangeActiveGuard(this.netIdentity.connectionToClient, nextActiveGuardId);
+                ChangeActiveGuard(this.netIdentity, nextActiveGuardId);
             }
 
             // If the parent object is the next active guard, enable the camera
@@ -74,6 +77,10 @@ public class ManageActiveCharacters : NetworkBehaviour
                 SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
             }
             activeGuardId = nextActiveGuardId;
+            if(activeGuardId == 0)
+            {
+                Debug.LogError("activeGuardID == 0");
+            }
         }
         cameraHolder.transform.position = transform.position + offset;
     }
@@ -102,4 +109,47 @@ public class ManageActiveCharacters : NetworkBehaviour
 
         canvas.worldCamera = camera;
     }
+
+    [Command]
+    public void ChangeActiveGuard(NetworkIdentity conn, int nextActiveGuardId)
+    {
+        if(conn == null)
+        {
+            throw(new Exception("NetworkConnectionToClient is null"));
+        }
+        string currentActiveGuard = conn.connectionToClient.identity.gameObject.name; // Name of the current active guard object
+        GameObject newGuardObject;                                 // Result of the guard query
+        Debug.Log("nextActiveGuardId in ChangeActiveGuard(): " + nextActiveGuardId.ToString());
+        if(nextActiveGuardId < 1 || nextActiveGuardId > 3)
+        {
+            Debug.LogWarning("nextActiveGuardId is out of bounds (nextActiveGuardId = " + nextActiveGuardId.ToString() + ")");
+        }
+        // Get the next guard's game object and update the active guard identification number
+        switch (nextActiveGuardId)
+        {
+            case ManageActiveCharactersConstants.CHASER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                break;
+            case ManageActiveCharactersConstants.ENGINEER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                break;
+            case ManageActiveCharactersConstants.TRAPPER:
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                break;
+            default:
+                newGuardObject = null;
+                break;
+        }
+
+        // Switch guard control from the old guards object to the next guard's object
+        if(newGuardObject != null)
+        {
+            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject);
+        }
+        else
+        {
+            Debug.LogWarning("Could not find a new guard to switch to!");
+        }
+    }
+
 }
