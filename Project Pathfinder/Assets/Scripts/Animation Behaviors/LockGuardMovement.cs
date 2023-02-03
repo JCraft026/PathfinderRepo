@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockCharacterMovement : StateMachineBehaviour
+public class LockGuardMovement : StateMachineBehaviour
 {
     public Animator animator;   // Character's animator manager
 

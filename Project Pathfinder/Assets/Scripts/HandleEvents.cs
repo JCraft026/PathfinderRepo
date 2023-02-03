@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 static class HandleEventsConstants{
     public const int NONE        = 0; // No event active
@@ -10,7 +11,8 @@ static class HandleEventsConstants{
 
 public class HandleEvents : MonoBehaviour
 {
-    public static int currentEvent = 0; // Current game event to be handled
+    public static int currentEvent          = 0;     // Current game event to be handled
+    public static int runnerImpactDirection = 0;     // Direction the runner is thrown on guard attack impact
 
     // Update is called once per frame
     void Update()
@@ -27,19 +29,25 @@ public class HandleEvents : MonoBehaviour
 
     // Manipulate runner animations and hp to reflect the landed guard attack
     public static void ProcessAttackImpact(int direction){
+        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner ["));
+
         switch ((float)direction)
         {
             case MoveCharacterConstants.FORWARD:
-                Debug.Log("Guard struck runner from above");
+                runnerImpactDirection = (int)MoveCharacterConstants.BACKWARD;
+                runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.LEFT:
-                Debug.Log("Guard struck runner from the right");
+                runnerImpactDirection = (int)MoveCharacterConstants.RIGHT;
+                runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.BACKWARD:
-                Debug.Log("Guard struck runner from below");
+                runnerImpactDirection = (int)MoveCharacterConstants.FORWARD;
+                runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.RIGHT:
-                Debug.Log("Guard struck runner from the left");//
+                runnerImpactDirection = (int)MoveCharacterConstants.LEFT;
+                runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
         }
     }
