@@ -340,6 +340,7 @@ GameObject:
   - component: {fileID: 484271919}
   - component: {fileID: 484271923}
   - component: {fileID: 484271918}
+  - component: {fileID: 484271924}
   m_Layer: 5
   m_Name: PauseCanvas
   m_TagString: Untagged
@@ -359,6 +360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf421335e1ffe5e48890c5c1e6adbaaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   PauseCanvas: {fileID: 484271917}
 --- !u!114 &484271919
 MonoBehaviour:
@@ -454,6 +457,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369ddb38a3e46ab499eaf7efb67bad12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &484271924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484271917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1119748501
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &656941121
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +618,6 @@ GameObject:
   m_Component:
   - component: {fileID: 845080597}
   - component: {fileID: 845080596}
-  - component: {fileID: 845080598}
   m_Layer: 0
   m_Name: EventHandler
   m_TagString: Untagged
@@ -633,19 +652,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &845080598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845080595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf421335e1ffe5e48890c5c1e6adbaaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseCanvas: {fileID: 484271917}
 --- !u!1 &846926947
 GameObject:
   m_ObjectHideFlags: 0

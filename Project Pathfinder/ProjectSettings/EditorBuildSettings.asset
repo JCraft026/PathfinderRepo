@@ -23,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Load Maze.unity
     guid: d8d91e7ba92efa5409e12fd7e9ea9659
-  - enabled: 1
-    path: Assets/Scenes/PauseMenu.unity
-    guid: 9aead775dbe10214bb28251ad13036f1
   m_configObjects: {}
