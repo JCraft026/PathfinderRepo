@@ -26,21 +26,21 @@ public class Attack : NetworkBehaviour
                 guardPosition  = transform.position;
 
                 animator.SetBool("Attack", true);
-                if(runnerSpawned == true && Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.0f){
+                if(runnerSpawned == true && Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
                     switch (animator.GetFloat("Facing Direction"))
                     {
                         case MoveCharacterConstants.FORWARD:
-                            if((runnerPosition.y-guardPosition.y) >= 1.5f){
+                            if((guardPosition.y-runnerPosition.y) >= 1.5f){
                                 HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.FORWARD);
                             }
                             break;
                         case MoveCharacterConstants.LEFT:
-                            if((guardPosition.y - runnerPosition.y) >= 1.5f){
+                            if((guardPosition.x - runnerPosition.x) >= 1.5f){
                                 HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.LEFT);
                             }
                             break;
                         case MoveCharacterConstants.BACKWARD:
-                            if((guardPosition.y - runnerPosition.y) >= 1.5f){
+                            if((runnerPosition.y-guardPosition.y) >= 1.5f){
                                 HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.BACKWARD);
                             }
                             break;
