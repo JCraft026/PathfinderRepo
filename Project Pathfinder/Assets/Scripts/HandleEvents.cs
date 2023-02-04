@@ -12,7 +12,6 @@ static class HandleEventsConstants{
 public class HandleEvents : MonoBehaviour
 {
     public static int currentEvent          = 0;     // Current game event to be handled
-    public static int runnerImpactDirection = 0;     // Direction the runner is thrown on guard attack impact
 
     // Update is called once per frame
     void Update()
@@ -34,19 +33,19 @@ public class HandleEvents : MonoBehaviour
         switch ((float)direction)
         {
             case MoveCharacterConstants.FORWARD:
-                runnerImpactDirection = (int)MoveCharacterConstants.BACKWARD;
+                runner.GetComponent<Animator>().SetFloat("Impact Direction", MoveCharacterConstants.BACKWARD);
                 runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.LEFT:
-                runnerImpactDirection = (int)MoveCharacterConstants.RIGHT;
+                runner.GetComponent<Animator>().SetFloat("Impact Direction", MoveCharacterConstants.LEFT);
                 runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.BACKWARD:
-                runnerImpactDirection = (int)MoveCharacterConstants.FORWARD;
+                runner.GetComponent<Animator>().SetFloat("Impact Direction", MoveCharacterConstants.FORWARD);
                 runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
             case MoveCharacterConstants.RIGHT:
-                runnerImpactDirection = (int)MoveCharacterConstants.LEFT;
+                runner.GetComponent<Animator>().SetFloat("Impact Direction", MoveCharacterConstants.RIGHT);
                 runner.GetComponent<Animator>().SetBool("Hurt", true);
                 break;
         }

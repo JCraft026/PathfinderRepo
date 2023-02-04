@@ -11,27 +11,30 @@ public class DisplayRunnerImpact : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         MoveCharacter.canMove = false;
+        Debug.Log("Woop");
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner ["));
-        int impactDirction = GameObject.Find("EventHandler").GetComponent<HandleEvents>().runnerImpactDirection;
-
-        switch (impactDirection)
+        switch (animator.GetFloat("Impact Direction"))
         {
-            case (int)MoveCharacterConstants.FORWARD:
-                runner.transform.position += new Vector3(0,2,0) * Time.deltaTime;
+            case MoveCharacterConstants.FORWARD:
+                Debug.Log("Runner is thrown upward");
+                //runner.transform.position = new Vector3(0,20,0) * Time.deltaTime;
                 break;    
-            case (int)MoveCharacterConstants.LEFT:
-                runner.transform.position += new Vector3(-2,0,0) * Time.deltaTime;
+            case MoveCharacterConstants.LEFT:
+                Debug.Log("Runner is thrown to the left");
+                //runner.transform.position = new Vector3(-20,0,0) * Time.deltaTime;
                 break;   
-            case (int)MoveCharacterConstants.BACKWARD:
-                runner.transform.position += new Vector3(0,-2,0) * Time.deltaTime;
+            case MoveCharacterConstants.BACKWARD:
+                Debug.Log("Runner is thrown downward");
+                //runner.transform.position = new Vector3(0,-20,0) * Time.deltaTime;
                 break;   
-            case (int)MoveCharacterConstants.RIGHT:
-                runner.transform.position += new Vector3(2,0,0) * Time.deltaTime;
+            case MoveCharacterConstants.RIGHT:
+                Debug.Log("Runner is thrown to the right");
+                //runner.transform.position = new Vector3(20,0,0) * Time.deltaTime;
                 break; 
         }
     }
