@@ -186,8 +186,9 @@ public class CustomNetworkManager : NetworkManager
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
+        Debug.Log("currentActiveGuard = " + currentActiveGuard);
         GameObject newGuardObject;                                 // Result of the guard query
-
+        Debug.Log("switch nextActiveGuardId = " + nextActiveGuardId.ToString());
         // Get the next guard's game object and update the active guard identification number
         switch (nextActiveGuardId)
         {
@@ -202,6 +203,7 @@ public class CustomNetworkManager : NetworkManager
                 break;
             default:
                 newGuardObject = null;
+                Debug.LogError("newGuardObject is null");
                 break;
         }
 
