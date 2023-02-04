@@ -29,7 +29,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-
+        
         if(hostIsRunner && NetworkClient.isHostClient)
         {
             Debug.Log("isRunner=true");
@@ -65,6 +65,29 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
+        
+        /*// Set the status of the player being the guard master or the runner
+        if(hostIsRunner){
+            if(NetworkServer.connections.Count == 1){
+               isRunner = true; 
+            }
+            else if(NetworkServer.connections.Count > 1){
+                isRunner = false;
+            }
+        }
+        else{
+            if(NetworkServer.connections.Count == 1){
+               isRunner = false; 
+            }
+            else if(NetworkServer.connections.Count > 1){
+                isRunner = true;
+            }
+        }
+
+        // Create the maze initially on the host side
+        if(NetworkServer.connections.Count == 1){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
+        }*/
     }
 
     // Runs on the server when a client connects
@@ -160,20 +183,11 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    
-    public static void ChangeActiveGuard(NetworkIdentity conn, int nextActiveGuardId)
+    public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
-        if(conn == null)
-        {
-            throw(new Exception("NetworkConnectionToClient is null"));
-        }
-        string currentActiveGuard = conn.connectionToClient.identity.gameObject.name; // Name of the current active guard object
+        string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
         GameObject newGuardObject;                                 // Result of the guard query
-        Debug.Log("nextActiveGuardId in ChangeActiveGuard(): " + nextActiveGuardId.ToString());
-        if(nextActiveGuardId < 1 || nextActiveGuardId > 3)
-        {
-            Debug.LogWarning("nextActiveGuardId is out of bounds (nextActiveGuardId = " + nextActiveGuardId.ToString() + ")");
-        }
+
         // Get the next guard's game object and update the active guard identification number
         switch (nextActiveGuardId)
         {
@@ -194,7 +208,7 @@ public class CustomNetworkManager : NetworkManager
         // Switch guard control from the old guards object to the next guard's object
         if(newGuardObject != null)
         {
-            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject);
+            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
         }
         else
         {
