@@ -28,7 +28,7 @@ public class HandleEvents : MonoBehaviour
 
     // Manipulate runner animations and hp to reflect the landed guard attack
     public static void ProcessAttackImpact(int direction){
-        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner ["));
+        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
 
         switch ((float)direction)
         {
