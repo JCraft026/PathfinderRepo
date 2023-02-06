@@ -16,7 +16,7 @@ public class ManageRunnerStats : MonoBehaviour
     void Update()
     {
         if(health <= 0){
-            //Debug.Log("Runner dead");
+            Debug.Log("Runner dead");
             // Call Runner dead event
         }
     }

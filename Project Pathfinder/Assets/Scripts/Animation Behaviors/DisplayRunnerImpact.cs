@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System;
 
 public class DisplayRunnerImpact : StateMachineBehaviour
 {
@@ -28,7 +29,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
             switch (animator.GetFloat("Impact Direction"))
             {
                 case MoveCharacterConstants.FORWARD:
-                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.FORWARD))
                         {
                             runner.transform.position += new Vector3(0,1,0) * Time.deltaTime;
@@ -36,7 +37,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;    
                 case MoveCharacterConstants.LEFT:
-                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.LEFT))
                         {
                             runner.transform.position += new Vector3(-1,0,0) * Time.deltaTime;
@@ -44,7 +45,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;   
                 case MoveCharacterConstants.BACKWARD:
-                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.BACKWARD))
                         {
                             runner.transform.position += new Vector3(0,-1,0) * Time.deltaTime;
@@ -52,7 +53,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;   
                 case MoveCharacterConstants.RIGHT:
-                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.RIGHT))
                         {
                             runner.transform.position += new Vector3(1,0,0) * Time.deltaTime;
@@ -93,32 +94,28 @@ public class DisplayRunnerImpact : StateMachineBehaviour
         {
             case MoveCharacterConstants.FORWARD:
                 foreach(var nearByObject in nearByObjects){
-                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.y-characterPosition.y) <= 2f && Math.Abs(nearByObject.transform.position.x-characterPosition.x) < 2){
-                        Debug.Log(nearByObject.gameObject.name);
+                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.y-characterPosition.y) <= 2f && Math.Abs(nearByObject.transform.position.x-characterPosition.x) < (Utilities.GetCellSize()/2)){
                         trajectoryClear = false;
                     }
                 }
                 break;
             case MoveCharacterConstants.LEFT:
                 foreach(var nearByObject in nearByObjects){
-                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.x-nearByObject.transform.position.x) <= 2f){
-                        Debug.Log(nearByObject.gameObject.name);
+                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.x-nearByObject.transform.position.x) <= 2f && Math.Abs(nearByObject.transform.position.y-characterPosition.y) < (Utilities.GetCellSize()/2)){
                         trajectoryClear = false;
                     }
                 }
                 break;
             case MoveCharacterConstants.BACKWARD:
                 foreach(var nearByObject in nearByObjects){
-                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.y-nearByObject.transform.position.y) <= 2f){
-                        Debug.Log(nearByObject.gameObject.name);
+                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.y-nearByObject.transform.position.y) <= 2f && Math.Abs(nearByObject.transform.position.x-characterPosition.x) < (Utilities.GetCellSize()/2)){
                         trajectoryClear = false;
                     }
                 }
                 break;
             case MoveCharacterConstants.RIGHT:
                 foreach(var nearByObject in nearByObjects){
-                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.x-characterPosition.x) <= 2f){
-                        Debug.Log(nearByObject.gameObject.name);
+                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.x-characterPosition.x) <= 2f && Math.Abs(nearByObject.transform.position.y-characterPosition.y) < (Utilities.GetCellSize()/2)){
                         trajectoryClear = false;
                     }
                 }

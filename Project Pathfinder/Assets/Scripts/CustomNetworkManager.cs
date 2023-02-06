@@ -183,6 +183,8 @@ public class CustomNetworkManager : NetworkManager
         public float characterFacingDirection;
         public int connId;
         public bool attack;
+        public bool hurt;
+        public float impactDirection;
     }
 
     // Position each guard object at a determined spawn location

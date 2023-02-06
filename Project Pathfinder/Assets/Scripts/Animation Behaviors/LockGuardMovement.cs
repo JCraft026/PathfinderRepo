@@ -15,6 +15,7 @@ public class LockGuardMovement : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
         MoveCharacter.canMove = true;
         animator.SetBool("Attack", false);
+        animator.SetBool("Attack Triggered", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

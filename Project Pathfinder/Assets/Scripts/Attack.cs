@@ -7,7 +7,6 @@ using Mirror;
 public class Attack : NetworkBehaviour
 {
     public Animator animator;   // Character's animator manager
-    Transform runner;           // Runner's game objece
     Vector3 runnerPosition,     // Scene position of the runner
             guardPosition;      // Scene position of the attacking guard master
 
@@ -15,13 +14,14 @@ public class Attack : NetworkBehaviour
     void Update()
     {
         // Trigger attack processing on both the runner and guard master side if the guard master hits the "E" key
-        if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && animator.GetBool("Attack") == false) || (animator.GetBool("Attack") == true) && CustomNetworkManager.isRunner == true){
-            runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform;
+        if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && animator.GetBool("Attack Triggered") == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) || ((animator.GetBool("Attack Triggered") == true) && CustomNetworkManager.isRunner == true)){
+            var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
             runnerPosition = runner.transform.position;
             guardPosition  = transform.position;
 
             // Trigger guard master attack animation
             animator.SetBool("Attack", true);
+            animator.SetBool("Attack Triggered", true);
 
             // If the runner is within attack range, process guard master attack
             if(Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
@@ -67,10 +67,10 @@ public class Attack : NetworkBehaviour
 
                 // Subtract HP from the runner
                 runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+            }
 
-                if(CustomNetworkManager.isRunner){
-                    animator.SetBool("Attack", false);
-                }
+            if(CustomNetworkManager.isRunner){
+                animator.SetBool("Attack Triggered", false);
             }
         }
     }
