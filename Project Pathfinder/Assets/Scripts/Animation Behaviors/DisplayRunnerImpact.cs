@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public class DisplayRunnerImpact : StateMachineBehaviour
 {
-    public Animator animator;   // Character's animator manager
-    public int frameCount;       // Amount of frames passed in update statement
+    public Animator animator; // Character's animator manager
+    public int frameCount;    // Amount of frames passed in update statement
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -19,23 +20,44 @@ public class DisplayRunnerImpact : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+                         // Runner game object
+        frameCount += 1; // Amount of frames passed
 
-        frameCount += 1;
-
+        // Display runner throwback force from guard master attack
         if(frameCount <= 4){
             switch (animator.GetFloat("Impact Direction"))
             {
                 case MoveCharacterConstants.FORWARD:
-                    runner.transform.position += new Vector3(0,30,0) * Time.deltaTime;
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                        if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.FORWARD))
+                        {
+                            runner.transform.position += new Vector3(0,1,0) * Time.deltaTime;
+                        }
+                    }
                     break;    
                 case MoveCharacterConstants.LEFT:
-                    runner.transform.position += new Vector3(-30,0,0) * Time.deltaTime;
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                        if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.LEFT))
+                        {
+                            runner.transform.position += new Vector3(-1,0,0) * Time.deltaTime;
+                        }
+                    }
                     break;   
                 case MoveCharacterConstants.BACKWARD:
-                    runner.transform.position += new Vector3(0,-30,0) * Time.deltaTime;
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                        if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.BACKWARD))
+                        {
+                            runner.transform.position += new Vector3(0,-1,0) * Time.deltaTime;
+                        }
+                    }
                     break;   
                 case MoveCharacterConstants.RIGHT:
-                    runner.transform.position += new Vector3(30,0,0) * Time.deltaTime;
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                        if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.RIGHT))
+                        {
+                            runner.transform.position += new Vector3(1,0,0) * Time.deltaTime;
+                        }
+                    }
                     break; 
             }
         }
@@ -60,4 +82,49 @@ public class DisplayRunnerImpact : StateMachineBehaviour
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+    
+    public bool ImpactTrajectoryClear(Vector2 characterPosition, float moveDirection){
+        bool trajectoryClear = true;
+        Regex lrWallExpression = new Regex("Wall_LR"); // Match left and right walls
+        Regex tbWallExpression = new Regex("Wall_TB"); // Match top and bottom walls
+        Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(characterPosition, 1f);
+
+        switch (moveDirection)
+        {
+            case MoveCharacterConstants.FORWARD:
+                foreach(var nearByObject in nearByObjects){
+                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.y-characterPosition.y) <= 2f && Math.Abs(nearByObject.transform.position.x-characterPosition.x) < 2){
+                        Debug.Log(nearByObject.gameObject.name);
+                        trajectoryClear = false;
+                    }
+                }
+                break;
+            case MoveCharacterConstants.LEFT:
+                foreach(var nearByObject in nearByObjects){
+                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.x-nearByObject.transform.position.x) <= 2f){
+                        Debug.Log(nearByObject.gameObject.name);
+                        trajectoryClear = false;
+                    }
+                }
+                break;
+            case MoveCharacterConstants.BACKWARD:
+                foreach(var nearByObject in nearByObjects){
+                    if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (characterPosition.y-nearByObject.transform.position.y) <= 2f){
+                        Debug.Log(nearByObject.gameObject.name);
+                        trajectoryClear = false;
+                    }
+                }
+                break;
+            case MoveCharacterConstants.RIGHT:
+                foreach(var nearByObject in nearByObjects){
+                    if(lrWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.x-characterPosition.x) <= 2f){
+                        Debug.Log(nearByObject.gameObject.name);
+                        trajectoryClear = false;
+                    }
+                }
+                break;
+        }
+
+        return trajectoryClear;
+    }
 }

@@ -11,7 +11,7 @@ static class HandleEventsConstants{
 
 public class HandleEvents : MonoBehaviour
 {
-    public static int currentEvent = 0;     // Current game event to be handled
+    public static int currentEvent = 0; // Current game event to be handled
 
     // Update is called once per frame
     void Update()

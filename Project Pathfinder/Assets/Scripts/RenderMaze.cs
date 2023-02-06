@@ -139,6 +139,7 @@ public class RenderMaze : NetworkBehaviour
                         var topWall        = Instantiate(wallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
                         topWall.localScale = new Vector2(cellSize, topWall.localScale.y);
+                        topWall.name       = "Wall_TB"; 
                         oldWalls.Add(topWall);
                     }
                 }
@@ -158,6 +159,7 @@ public class RenderMaze : NetworkBehaviour
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        leftWall.name        = "Wall_LR"; 
                         oldWalls.Add(leftWall);
                     }
                 }
@@ -177,6 +179,7 @@ public class RenderMaze : NetworkBehaviour
                             var bottomWall        = Instantiate(wallPrefab, transform) as Transform;
                             bottomWall.position   = scenePosition + new Vector2(0, -cellSize / 2);
                             bottomWall.localScale = new Vector2(cellSize, bottomWall.localScale.y);
+                            bottomWall.name       = "Wall_TB"; 
                             oldWalls.Add(bottomWall);
                         }
                     }
@@ -199,6 +202,7 @@ public class RenderMaze : NetworkBehaviour
                             rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                             rightWall.localScale  = new Vector2(cellSize, rightWall.localScale.y);
                             rightWall.eulerAngles = new Vector3(0, 180, 90);
+                            rightWall.name        = "Wall_LR"; 
                             oldWalls.Add(rightWall);
                         }
                     }
