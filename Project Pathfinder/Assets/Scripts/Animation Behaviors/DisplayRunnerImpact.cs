@@ -6,37 +6,40 @@ using System.Linq;
 public class DisplayRunnerImpact : StateMachineBehaviour
 {
     public Animator animator;   // Character's animator manager
+    public int frameCount;       // Amount of frames passed in update statement
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         MoveCharacter.canMove = false;
-        Debug.Log("Woop");
+        frameCount = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner ["));
-        switch (animator.GetFloat("Impact Direction"))
-        {
-            case MoveCharacterConstants.FORWARD:
-                Debug.Log("Runner is thrown upward");
-                //runner.transform.position = new Vector3(0,20,0) * Time.deltaTime;
-                break;    
-            case MoveCharacterConstants.LEFT:
-                Debug.Log("Runner is thrown to the left");
-                //runner.transform.position = new Vector3(-20,0,0) * Time.deltaTime;
-                break;   
-            case MoveCharacterConstants.BACKWARD:
-                Debug.Log("Runner is thrown downward");
-                //runner.transform.position = new Vector3(0,-20,0) * Time.deltaTime;
-                break;   
-            case MoveCharacterConstants.RIGHT:
-                Debug.Log("Runner is thrown to the right");
-                //runner.transform.position = new Vector3(20,0,0) * Time.deltaTime;
-                break; 
+        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+
+        frameCount += 1;
+
+        if(frameCount <= 4){
+            switch (animator.GetFloat("Impact Direction"))
+            {
+                case MoveCharacterConstants.FORWARD:
+                    runner.transform.position += new Vector3(0,30,0) * Time.deltaTime;
+                    break;    
+                case MoveCharacterConstants.LEFT:
+                    runner.transform.position += new Vector3(-30,0,0) * Time.deltaTime;
+                    break;   
+                case MoveCharacterConstants.BACKWARD:
+                    runner.transform.position += new Vector3(0,-30,0) * Time.deltaTime;
+                    break;   
+                case MoveCharacterConstants.RIGHT:
+                    runner.transform.position += new Vector3(30,0,0) * Time.deltaTime;
+                    break; 
+            }
         }
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
