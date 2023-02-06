@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75d7976f1a176d84dad882571f56081c
-      internalID: 1122486482
+      spriteID: 06477d12db185764b8378fdf5d2a3f0c
+      internalID: 1397981407
       vertices: []
       indices: 
       edges: []
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5ebe52aac060d447b972ff882aa21c3
-      internalID: -1534435896
+      spriteID: 0605ce5802deadd42a9411f29c93afbb
+      internalID: 214399795
       vertices: []
       indices: 
       edges: []
@@ -157,8 +157,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Chaser Attack Right_0: 1122486482
-      Chaser Attack Right_1: -1534435896
+      Chaser Attack Right_0: 1397981407
+      Chaser Attack Right_1: 214399795
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

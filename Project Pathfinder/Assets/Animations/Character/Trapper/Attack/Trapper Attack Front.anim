@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ChaserAttackLeft
+  m_Name: Trapper Attack Front
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,9 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1867742650, guid: 8f106b3037fd49848b47d425616b104a, type: 3}
+      value: {fileID: -1471477910, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
     - time: 0.083333336
-      value: {fileID: 2023906362, guid: 8f106b3037fd49848b47d425616b104a, type: 3}
+      value: {fileID: -296445021, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
+    - time: 0.16666667
+      value: {fileID: 2004131557, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
+    - time: 0.25
+      value: {fileID: 884324131, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -42,14 +46,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1867742650, guid: 8f106b3037fd49848b47d425616b104a, type: 3}
-    - {fileID: 2023906362, guid: 8f106b3037fd49848b47d425616b104a, type: 3}
+    - {fileID: -1471477910, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
+    - {fileID: -296445021, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
+    - {fileID: 2004131557, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
+    - {fileID: 884324131, guid: b20c23d411558834f86a7a6ae2881902, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.16666667
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

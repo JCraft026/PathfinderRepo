@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9a308f4db633d94a8fc92a95e311457
-      internalID: -940239632
+      spriteID: a197a83d6f313284097b32a859145673
+      internalID: -1381808287
       vertices: []
       indices: 
       edges: []
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7fda3ddd293e1b544a1dec6365ad0e3e
-      internalID: 1909071803
+      spriteID: 367b88fa84252394d9eb670be6accc40
+      internalID: 431294568
       vertices: []
       indices: 
       edges: []
@@ -161,8 +161,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dfee66689a47c94b806247db8bf4a2c
-      internalID: 1823711472
+      spriteID: b7e2001f5976803468dcb9cedfb30072
+      internalID: -1554385751
       vertices: []
       indices: 
       edges: []
@@ -182,29 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66c54dc6bd314dc4686715947e81d2fb
-      internalID: -547082644
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trapper Attack Right_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 10cfef81998aeec478a7c31771619f88
-      internalID: 1415195440
+      spriteID: d3f18b6d048cf9f4892517da255dcdc5
+      internalID: 516764331
       vertices: []
       indices: 
       edges: []
@@ -220,11 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Trapper Attack Right_0: -940239632
-      Trapper Attack Right_2: 1823711472
-      Trapper Attack Right_1: 1909071803
-      Trapper Attack Right_3: -547082644
-      Trapper Attack Right_4: 1415195440
+      Trapper Attack Right_0: -1381808287
+      Trapper Attack Right_2: -1554385751
+      Trapper Attack Right_1: 431294568
+      Trapper Attack Right_3: 516764331
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
