@@ -21,11 +21,22 @@ public class HandleEvents : MonoBehaviour
         switch (currentEvent)
         {
             case HandleEventsConstants.RUNNER_WINS:
-                SceneManager.LoadScene("Player Wins");
+                if(CustomNetworkManager.isRunner){
+                    SceneManager.LoadScene("Player Wins");
+                }
+                else{
+                    SceneManager.LoadScene("Player Loses");
+                }
                 currentEvent = HandleEventsConstants.NONE;
                 break;
             case HandleEventsConstants.GUARDMASTER_WINS:
-                
+                if(!CustomNetworkManager.isRunner){
+                    SceneManager.LoadScene("Player Wins");
+                }
+                else{
+                    SceneManager.LoadScene("Player Loses");
+                }
+                currentEvent = HandleEventsConstants.NONE;
                 break;
         }
     }
@@ -33,7 +44,9 @@ public class HandleEvents : MonoBehaviour
     // Manipulate runner animations and hp to reflect the landed guard attack
     public static void ProcessAttackImpact(int direction){
         var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+            // Runner character object
 
+        // Set up animator for displaying guard attack impact
         switch ((float)direction)
         {
             case MoveCharacterConstants.FORWARD:

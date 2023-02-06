@@ -69,6 +69,7 @@ public class Attack : NetworkBehaviour
                 runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
             }
 
+            // Disable attack triggered status if the player is the runner to reset attack processing
             if(CustomNetworkManager.isRunner){
                 animator.SetBool("Attack Triggered", false);
             }

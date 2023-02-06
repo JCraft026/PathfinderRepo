@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 91591414}
   - component: {fileID: 91591413}
   m_Layer: 0
-  m_Name: PlayerWin
+  m_Name: PlayerLose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,12 +181,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d228c6f88274aad4db010a68cd4ace73, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3fa0858f1bc7bbb4d82ee6ba77de8045, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 12.7, y: 7.08}
+  m_Size: {x: 12.73, y: 7.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -29,7 +29,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
             switch (animator.GetFloat("Impact Direction"))
             {
                 case MoveCharacterConstants.FORWARD:
-                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.FORWARD))
                         {
                             runner.transform.position += new Vector3(0,1,0) * Time.deltaTime;
@@ -37,7 +37,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;    
                 case MoveCharacterConstants.LEFT:
-                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.LEFT))
                         {
                             runner.transform.position += new Vector3(-1,0,0) * Time.deltaTime;
@@ -45,7 +45,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;   
                 case MoveCharacterConstants.BACKWARD:
-                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.BACKWARD))
                         {
                             runner.transform.position += new Vector3(0,-1,0) * Time.deltaTime;
@@ -53,7 +53,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
                     }
                     break;   
                 case MoveCharacterConstants.RIGHT:
-                    for(int moveNudges = 8; moveNudges > 0; moveNudges--){
+                    for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                         if(ImpactTrajectoryClear(runner.transform.position, MoveCharacterConstants.RIGHT))
                         {
                             runner.transform.position += new Vector3(1,0,0) * Time.deltaTime;
@@ -84,12 +84,15 @@ public class DisplayRunnerImpact : StateMachineBehaviour
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
     
+    // Determine whether there are no walls in the way of the guard attack impact trajectory to avoid the runner phasing through walls
     public bool ImpactTrajectoryClear(Vector2 characterPosition, float moveDirection){
         bool trajectoryClear = true;
         Regex lrWallExpression = new Regex("Wall_LR"); // Match left and right walls
         Regex tbWallExpression = new Regex("Wall_TB"); // Match top and bottom walls
         Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(characterPosition, 1f);
+                                                       // Collider objects near the runner
 
+        // Move the runner in the appropriate direction based on the attack direction to simulate guard attack impact
         switch (moveDirection)
         {
             case MoveCharacterConstants.FORWARD:
