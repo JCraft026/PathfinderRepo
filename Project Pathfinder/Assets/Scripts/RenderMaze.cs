@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using Newtonsoft.Json; //Needed for serializing/deserializing the maze sent to the client
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class RenderMaze : NetworkBehaviour
 {
-    // Global Variables
-    public static float CellSize;
-    public static float MazeWidth;
-    public static float MazeHeight;
-
     // Initialize fields on the inspector
     [SerializeField]
     [Range(1, 50)]
-    private int mazeWidth = 10;
+    public int mazeWidth = 10;
 
     [SerializeField]
     [Range(1, 50)]
-    private int mazeHeight = 10;
+    public int mazeHeight = 10;
 
     [SerializeField]
-    private float cellSize = 1f;
+    public float cellSize = 1f;
 
     [SerializeField]
     private Transform wallPrefab = null;
@@ -49,11 +45,6 @@ public class RenderMaze : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-
-        // Initialize global variables
-        CellSize   = cellSize;
-        MazeWidth  = mazeWidth;
-        MazeHeight = mazeHeight;
 
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
@@ -209,6 +200,9 @@ public class RenderMaze : NetworkBehaviour
                 }
             }
         }
+
+        // Render the minimap in the canvas
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler")).GetComponent<RenderMiniMap>().Render(mazeData);
     }
 
     // Used by the network manager to get the maze json string

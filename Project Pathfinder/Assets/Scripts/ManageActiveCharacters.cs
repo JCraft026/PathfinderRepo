@@ -6,9 +6,10 @@ using System.Text.RegularExpressions;
 using Mirror;
 
 static class ManageActiveCharactersConstants{
-    public const int CHASER   = 1; // Chaser guard ID
-    public const int ENGINEER = 2; // Engineer guard ID
-    public const int TRAPPER  = 3; // Trapper guard ID
+    public const int RUNNER   = 0; // Runner character ID
+    public const int CHASER   = 1; // Chaser character ID
+    public const int ENGINEER = 2; // Engineer character ID
+    public const int TRAPPER  = 3; // Trapper character ID
 }
 
 public class ManageActiveCharacters : NetworkBehaviour
@@ -36,12 +37,14 @@ public class ManageActiveCharacters : NetworkBehaviour
         // If the parent object is the runner, enable its camera and update the isRunner status to label proceeding actions as client side actions
         if(runnerExpression.IsMatch(gameObject.name)){
             cameraHolder.SetActive(true);
+            SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
             CustomNetworkManager.isRunner = true;
         }
 
         // If the parent object is the initial active guard, enable its camera and update the isRunner status to label proceeding actions as host side actions
         else if(guardId == activeGuardId){
             cameraHolder.SetActive(true);
+            SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
             CustomNetworkManager.isRunner = false;
         }
     }
@@ -67,6 +70,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             // If the parent object is the next active guard, enable the camera
             else if(guardId == nextActiveGuardId){
                 cameraHolder.SetActive(true);
+                SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
             }
 
             activeGuardId = nextActiveGuardId;
@@ -90,5 +94,12 @@ public class ManageActiveCharacters : NetworkBehaviour
         else if(trapperExpression.IsMatch(gameObject.name)){
             guardId = ManageActiveCharactersConstants.TRAPPER;
         }
+    }
+
+    // Set the render camera for the UI canvas
+    public void SetUICamera(Camera camera){
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // UI Canvas
+
+        canvas.worldCamera = camera;
     }
 }
