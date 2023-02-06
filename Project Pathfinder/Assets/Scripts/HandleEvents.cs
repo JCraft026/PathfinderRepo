@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 
 static class HandleEventsConstants{
-    public const int NONE        = 0; // No event active
-    public const int RUNNER_WINS = 1; // Runner win event
+    public const int NONE             = 0; // No event active
+    public const int RUNNER_WINS      = 1; // Runner win event
+    public const int GUARDMASTER_WINS = 2; // Guard Master win event
 }
 
 public class HandleEvents : MonoBehaviour
@@ -22,6 +23,9 @@ public class HandleEvents : MonoBehaviour
             case HandleEventsConstants.RUNNER_WINS:
                 SceneManager.LoadScene("Player Wins");
                 currentEvent = HandleEventsConstants.NONE;
+                break;
+            case HandleEventsConstants.GUARDMASTER_WINS:
+                
                 break;
         }
     }

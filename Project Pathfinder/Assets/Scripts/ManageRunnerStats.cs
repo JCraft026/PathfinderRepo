@@ -9,15 +9,25 @@ public class ManageRunnerStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // If character is runner: Initialize health hearts on canvas
+        if(CustomNetworkManager.isRunner){
+            GameObject.Find("Heart1").SetActive(true);
+            GameObject.Find("Heart2").SetActive(true);
+            GameObject.Find("Heart3").SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(health <= 4){
+            GameObject.Find("Heart3").SetActive(false);
+        }
+        if(health <= 2){
+            GameObject.Find("Heart3").SetActive(false);
+        }
         if(health <= 0){
-            Debug.Log("Runner dead");
-            // Call Runner dead event
+            GameObject.Find("Heart3").SetActive(false);
+            HandleEvents.currentEvent = HandleEventsConstants.GUARDMASTER_WINS;
         }
     }
 
