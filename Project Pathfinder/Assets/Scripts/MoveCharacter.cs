@@ -14,6 +14,8 @@ public class MoveCharacter : NetworkBehaviour
 {
     public float moveSpeed = 5f,  // Speed at which the character needs to move
                  facingDirection; // Direction the character should face after movement
+
+    private int greenVariable = 0; // Toggleable for animating the green screen animations
     Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
@@ -57,7 +59,7 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Horizontal Movement", movementInput.x);
             animator.SetFloat("Vertical Movement", movementInput.y);
             animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
-            animator.SetFloat("Facing Direction", facingDirection);
+            animator.SetFloat("Facing Direction", facingDirection + greenVariable);
         }
     }
 
@@ -72,5 +74,15 @@ public class MoveCharacter : NetworkBehaviour
 
     public Vector2 getPosition(){
         return rigidBody.position;
+    }
+
+    public void greenScreen(){
+        Debug.Log("GREEN");
+        greenVariable = 4;
+    }
+
+    public void notGreenScreen(){
+        greenVariable = 0;
+        Debug.Log("NO GREEN");
     }
 }

@@ -14,6 +14,9 @@ public class ItemAssets : MonoBehaviour
                      SmokeScreen;     // Prefab smoke screen to instantiate
     public Sprite    sledgeSprite,    // Sledge Hammer sprite
                      smokeBombSprite, // Smoke Bomb Sprite
+                     coffeeSprite,    // Common Grounds Coffee Sprite
+                     greenScreenSuitSprite,
+                                      // 
                      Keys0Sprite,     // Red key sprite
                      Keys1Sprite,     // Blue key sprite
                      Keys2Sprite,     // Green key sprite

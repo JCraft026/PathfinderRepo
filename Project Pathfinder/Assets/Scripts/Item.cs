@@ -7,8 +7,11 @@ using UnityEngine;
 public class Item
 {
     public enum ItemType{
-        Sledge,   // Sledge Hammer
+        Sledge,    // Sledge Hammer
         SmokeBomb, // Smoke Bomb
+        Coffee,    // Common Grounds Coffee 
+        GreenScreenSuit, 
+                   // Green Screen Suit
         Keys_0,    // Red Key
         Keys_1,    // Blue Key
         Keys_2,    // Green Key
@@ -22,8 +25,11 @@ public class Item
     public Sprite GetSprite(){
         switch(itemType){
             default:
-            case ItemType.Sledge:   return ItemAssets.Instance.sledgeSprite;
+            case ItemType.Sledge:    return ItemAssets.Instance.sledgeSprite;
             case ItemType.SmokeBomb: return ItemAssets.Instance.smokeBombSprite;
+            case ItemType.Coffee:    return ItemAssets.Instance.coffeeSprite;
+            case ItemType.GreenScreenSuit:
+                                     return ItemAssets.Instance.greenScreenSuitSprite;
             case ItemType.Keys_0:    return ItemAssets.Instance.Keys0Sprite;
             case ItemType.Keys_1:    return ItemAssets.Instance.Keys1Sprite;
             case ItemType.Keys_2:    return ItemAssets.Instance.Keys2Sprite;
@@ -39,6 +45,8 @@ public class Item
         case ItemType.Sledge:
             return false;
         case ItemType.SmokeBomb:
+            return true;
+        case ItemType.Coffee:
             return true;
         case ItemType.Keys_0:
             return false;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RenderSmokeScreen : MonoBehaviour
 {
-    public  static RenderSmokeScreen Instance;          // Makes an instance of this class to access attribtues
+    public static RenderSmokeScreen Instance;          // Makes an instance of this class to access attribtues
 
     // Called on Start
     void Start(){

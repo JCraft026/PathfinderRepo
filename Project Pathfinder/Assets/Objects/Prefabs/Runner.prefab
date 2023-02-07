@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 769638881372669460}
   - component: {fileID: 830324306875223836}
+  - component: {fileID: 4926477638044684199}
   - component: {fileID: 1654429642604035035}
   m_Layer: 0
   m_Name: Runner
@@ -328,6 +329,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &4926477638044684199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d078c8499c458974189bf07960db99af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1654429642604035035
 MonoBehaviour:
   m_ObjectHideFlags: 0

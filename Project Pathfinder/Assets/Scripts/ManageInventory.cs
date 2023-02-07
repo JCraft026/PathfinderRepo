@@ -6,12 +6,12 @@ using Mirror;
 
 public class ManageInventory : NetworkBehaviour
 {
-    private UI_Inventory uiInventory;           // Imports the UI_Inventory's members and functions
-    private Inventory inventory;                // Imports the inventory's members and functions
-    private Item selectedItem;                  // The item currently selected
-    private List<Item> itemList;                // The local list of inventory items
-    private int slotNumber = 0;                 // The slot number the player is choosing
-    public InventoryControls inventoryControls; // Imports the inventory controller
+    private UI_Inventory uiInventory;             // Imports the UI_Inventory's members and functions
+    private Inventory inventory;                  // Imports the inventory's members and functions
+    private Item selectedItem;                    // The item currently selected
+    private List<Item> itemList;                  // The local list of inventory items
+    private int slotNumber = 0;                   // The slot number the player is choosing
+    public InventoryControls inventoryControls;   // Imports the inventory controller
 
     // Called on awake
     private void Awake(){
@@ -184,7 +184,7 @@ public class ManageInventory : NetworkBehaviour
         default:
             Debug.Log("This item don't do much, eh?");
             break;
-        // Sledge Action
+        // Sledge Hammer Action
         case Item.ItemType.Sledge:
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
@@ -194,8 +194,34 @@ public class ManageInventory : NetworkBehaviour
             RenderSmokeScreen.Instance.useSmoke();
             inventory.RemoveItem(item);
             break;
+        // Common Grounds Coffee Action
+        case Item.ItemType.Coffee:
+            if(CooldownController.Instance.coffeeIsOver){
+                Debug.Log("Hey that was tasty :)");
+                inventory.RemoveItem(item);
+                MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
+                CooldownController cooldownController = gameObject.GetComponent<CooldownController>();
+                runnerMovementScript.moveSpeed = 10.0f;
+                CooldownController.Instance.setCooldown(10, Item.ItemType.Coffee);
+            }
+            else{
+                Debug.Log("Still in Use");
+            }
+            break;
+        case Item.ItemType.GreenScreenSuit:
+            if(CooldownController.Instance.greenScreenIsOver){
+                Debug.Log("Yay suit");
+                MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
+                CooldownController nextCooldownController = gameObject.GetComponent<CooldownController>();
+                runnerScript.greenScreen(); 
+                nextCooldownController.setCooldown(2, Item.ItemType.GreenScreenSuit);
+                inventory.RemoveItem(item);
+            }
+            else{
+                Debug.Log("Still in Use");
+            }
+            break;
         }
-
     }
 
     // Select the first item slot (Keypad1)
