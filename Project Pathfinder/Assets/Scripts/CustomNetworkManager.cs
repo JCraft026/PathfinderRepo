@@ -69,6 +69,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+        NetworkClient.RegisterHandler<IsServerRunnerMessage>(OnIsServerRunnerMessage);
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
         
@@ -127,6 +128,15 @@ public class CustomNetworkManager : NetworkManager
                 Debug.LogError("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
             }
         }
+    }
+
+    // Receives the IsServerRunnerMessage and sets isRunner accordingly
+    public void OnIsServerRunnerMessage(IsServerRunnerMessage message)
+    {
+        if(NetworkClient.isHostClient)
+            isRunner = message.isServerRunner;
+        else
+            isRunner = !message.isServerRunner;
     }
     #endregion
 
@@ -396,6 +406,11 @@ public class CustomNetworkManager : NetworkManager
         public Vector2 movementInput;
         public float characterFacingDirection;
         public int connId;
+    }
+
+        public struct IsServerRunnerMessage : NetworkMessage
+    {
+        public bool isServerRunner;
     }
     #endregion
 }

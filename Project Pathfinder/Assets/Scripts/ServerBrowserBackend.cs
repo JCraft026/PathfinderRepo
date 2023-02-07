@@ -63,12 +63,15 @@ public class ServerBrowserBackend : MonoBehaviour
         // Set the networkManager's maze renderer
         networkManagerObject.mazeRenderer = GetMazeRenderer();
 
-        // Start the server
+        // Start the server if we are a host
         if(isHost)
         {
             networkManagerObject.StartHost();
             networkDiscovery.AdvertiseServer();
         }
+
+        // Command the server to set isRunner for both host and client
+        NetworkCommands.GetNetworkCommands().IsHostRunnerFromClient();
     }
 
     //Grab the mazeRenderer script from the gameplay scene (LoadMaze)

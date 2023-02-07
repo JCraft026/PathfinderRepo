@@ -58,7 +58,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     }
 
     /// <summary>
-    /// Process the request from a client
+    /// Process the request from a client, send a response containing info about the game being hosted
     /// </summary>
     /// <remarks>
     /// Override if you wish to provide more information to the clients
@@ -73,8 +73,8 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         var response = new DiscoveryResponse()
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
-            // The available team is changed below
             playersInGame = NetworkManager.singleton.numPlayers
+            // The available team is changed below
         };
 
         // Determine which team is available and advertise accordingly
