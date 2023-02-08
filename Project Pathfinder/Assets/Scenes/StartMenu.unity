@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: backend
       value: 
       objectReference: {fileID: 308214970}
+    - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scenes/StartMenu.unity
+      objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580473, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: m_RootOrder
       value: 3

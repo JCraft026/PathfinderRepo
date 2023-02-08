@@ -73,9 +73,32 @@ public class PauseGame : NetworkBehaviour
 
     public void ExitGame(int index)
     {
-        NetworkClient.Shutdown();
-        NetworkServer.Shutdown();
-        Application.Quit();
+        CustomNetworkManager netManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
+        CustomNetworkDiscovery netDiscovery = netManager.GetComponent<CustomNetworkDiscovery>();
+        
+        // stop host if host mode
+        if(CustomNetworkManager.isHost)
+        {
+            if (NetworkServer.active && NetworkClient.isConnected)
+            {
+                Debug.Log("I quit and I am the host");
+                NetworkManager.singleton.StopHost();
+                netDiscovery.StopDiscovery();
+            }
+        }
+
+        // stop client if client-only
+        else if(NetworkClient.isConnected && !CustomNetworkManager.isHost)
+        {
+            Debug.Log("I quit and I am the client");
+            NetworkManager.singleton.StopClient();
+            netDiscovery.StopDiscovery();
+        }
+
+        else
+        {
+            throw(new Exception("ExitGame(): Cannot exit, isHost" + CustomNetworkManager.isHost.ToString() + " and NetworkClient.isConnected is " + NetworkClient.isConnected.ToString()));
+        }
         SceneManager.LoadScene(index);
     }
 }
