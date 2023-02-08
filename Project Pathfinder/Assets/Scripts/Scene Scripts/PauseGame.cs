@@ -10,11 +10,16 @@ public class PauseGame : NetworkBehaviour
 {
     public GameObject PauseCanvas;
 
+    public void Start()
+    {
+        PauseCanvas.SetActive(false);
+    }
+
     public void Awake()
     {
         //PauseCanvas = GameObject.Find("PauseCanvas");
         PauseCanvas = FindPauseCanvas();
-        PauseCanvas.SetActive(false);
+        PauseCanvas.SetActive(true);
     }
 
     public void Update()
