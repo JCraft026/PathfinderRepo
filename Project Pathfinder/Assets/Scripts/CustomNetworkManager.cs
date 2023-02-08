@@ -88,6 +88,8 @@ public class CustomNetworkManager : NetworkManager
         base.OnStartHost();
     }
 
+    // Fires when the client disconnects, forces the host to end the game.
+    // Change the offline scene to change the scene the host is transferred to
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
