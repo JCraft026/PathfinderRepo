@@ -63,6 +63,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     // Commands the ServerBrowserBackend to start hosting a game
     public void ServerBrowserStartHosting(bool hostIsRunner)
     {
+        CustomNetworkManager.isHost = true;
         GetCustomNetworkManager().hostIsRunner = hostIsRunner;
         GetServerBrowserBackend().StartHosting();
     }
@@ -104,6 +105,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     // Tell the backend to join the specified server
     public void ServerBrowserJoinServer(ServerResponse serverInfo)
     {
+        CustomNetworkManager.isHost = false;
         GetServerBrowserBackend().JoinServer(serverInfo, GetCustomNetworkManager());
     }
     #endregion ServerBrowserBackend communication
