@@ -39,7 +39,6 @@ public class RenderMaze : NetworkBehaviour
 
     private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
-    private Transform oldMazeFloor;                           // Last maze floor location rendered
 
     // Called when the host starts a game
     public override void OnStartServer()
@@ -62,12 +61,6 @@ public class RenderMaze : NetworkBehaviour
     {
         oldWalls.ForEach(wall => GameObject.Destroy(wall.gameObject));
         oldWalls = new();
-        
-        if(oldMazeFloor != null)
-        {
-            GameObject.Destroy(oldMazeFloor.gameObject);
-            oldMazeFloor = null;
-        }
     }
 
     // Render the complete maze within the scene
@@ -76,23 +69,7 @@ public class RenderMaze : NetworkBehaviour
         WallStatus currentCell = new WallStatus(); // Current maze cell being rendered
         Vector2 scenePosition  = new Vector2();    // x,y position in the scene
         Transform exitPrefab   = null;             // Exit prefab being rendered
-        var mazeFloor          = Instantiate(floorPrefab, transform);
-                                                   // Maze floor prefab
         int currentExit        = 1;                // Next exit prefab to render
-
-        // Render the maze floor
-        mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
-        oldMazeFloor = mazeFloor;
-
-        // Adujust the maze floor position to accomodate even numbered dimensions
-        if(mazeHeight % 2 == 0)
-        {
-            mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
-        }
-        if(mazeWidth % 2 == 0)
-        {
-            mazeFloor.position += new Vector3(-cellSize / 2, 0, 0);
-        }
 
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
@@ -116,6 +93,13 @@ public class RenderMaze : NetworkBehaviour
                         exitPrefab = fourthExitPrefab;
                         break;
                 }
+
+                // Render the cell floor
+                var cellFloor        = Instantiate(floorPrefab, transform);
+                cellFloor.localScale = new Vector2(cellSize, cellSize);
+                cellFloor.position   = scenePosition;
+                cellFloor.name       = "mcf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
+                oldWalls.Add(cellFloor);
 
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
