@@ -66,11 +66,7 @@ public class PauseGame : NetworkBehaviour
         PauseCanvas.SetActive(false);
     }
 
-    public void ContinueGame(int index)
-    {
-        SceneManager.LoadScene(index);
-    }
-
+    // Executed when the exit game button is pressed.
     public void ExitGame(int index)
     {
         CustomNetworkManager netManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
