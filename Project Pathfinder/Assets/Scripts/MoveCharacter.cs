@@ -17,9 +17,15 @@ public class MoveCharacter : NetworkBehaviour
     Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
+    public GameObject PauseCanvas;
 
     private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
+
+    private void Awake()
+    {
+        PauseCanvas = GameObject.Find("PauseCanvas");
+    }
 
     // Update is called once per frame
     void Update(){
@@ -28,21 +34,29 @@ public class MoveCharacter : NetworkBehaviour
             // Get current input data
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
-        
 
-            // Set character idle facing direction
-            if(movementInput.x == 0 && movementInput.y == -1){
-                facingDirection = MoveCharacterConstants.FORWARD;
+
+            if (PauseCanvas.gameObject.activeSelf == false)
+            {
+                // Set character idle facing direction
+                if (movementInput.x == 0 && movementInput.y == -1)
+                {
+                    facingDirection = MoveCharacterConstants.FORWARD;
+                }
+                else if (movementInput.x == -1 && movementInput.y == 0)
+                {
+                    facingDirection = MoveCharacterConstants.LEFT;
+                }
+                else if (movementInput.x == 0 && movementInput.y == 1)
+                {
+                    facingDirection = MoveCharacterConstants.BACKWARD;
+                }
+                else if (movementInput.x == 1 && movementInput.y == 0)
+                {
+                    facingDirection = MoveCharacterConstants.RIGHT;
+                }
             }
-            else if(movementInput.x == -1 && movementInput.y == 0){
-                facingDirection = MoveCharacterConstants.LEFT;
-            }
-            else if(movementInput.x == 0 && movementInput.y == 1){
-                facingDirection = MoveCharacterConstants.BACKWARD;
-            }
-            else if(movementInput.x == 1 && movementInput.y == 0){
-                facingDirection = MoveCharacterConstants.RIGHT;
-            }
+
 
             // Communicate movement values with the animator controller
             animator.SetFloat("Horizontal Movement", movementInput.x);
@@ -57,7 +71,10 @@ public class MoveCharacter : NetworkBehaviour
         // Make movement speed equal in all directions
         movementInput.Normalize();
 
-        // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
-        rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+        if(PauseCanvas.gameObject.activeSelf == false)
+        {
+            // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
+            rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 }

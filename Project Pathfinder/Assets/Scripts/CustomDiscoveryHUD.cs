@@ -113,6 +113,7 @@ namespace Mirror.Discovery
                     networkDiscovery.StopDiscovery();
                 }
             }
+            
             // stop client if client-only
             else if (NetworkClient.isConnected)
             {
@@ -122,6 +123,7 @@ namespace Mirror.Discovery
                     networkDiscovery.StopDiscovery();
                 }
             }
+
             // stop server if server-only
             else if (NetworkServer.active)
             {

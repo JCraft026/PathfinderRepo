@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.SceneManagement;
 
 /*
     *This class is responsible for all general networking that is not specifically covered by any other class
@@ -17,6 +18,7 @@ public class CustomNetworkManager : NetworkManager
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
     public static bool playerRoleSet       = false;               // Status of player role being assigned
     public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
+    public static bool isHost; // Keeps track of which network manager is the host
 
     [SerializeField]
     public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -138,12 +140,28 @@ public class CustomNetworkManager : NetworkManager
         else
             isRunner = !message.isServerRunner;
     }
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        StopHost();
+    }
+
     #endregion
 
     #region Server Only Code
     public override void OnStartHost()
     {
         base.OnStartHost();
+    }
+
+    // Fires when the client disconnects, forces the host to end the game.
+    // Change the offline scene to change the scene the host is transferred to
+    public override void OnServerDisconnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerDisconnect(conn);
+        StopHost();
+        this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
+        SceneManager.LoadScene(offlineScene);
     }
 
     // Runs on the server when a client connects
