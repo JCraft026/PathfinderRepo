@@ -145,6 +145,8 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnClientDisconnect();
         StopHost();
+        Debug.Log("OnClientDisconnect");
+        mazeRenderer = null; // reset the maze renderer
     }
 
     #endregion
@@ -164,6 +166,7 @@ public class CustomNetworkManager : NetworkManager
         this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
         SceneManager.LoadScene(offlineScene);
         Debug.Log("OnServerDisconnect");
+        mazeRenderer = null; // Reset the maze renderer
     }
 
     // Runs on the server when a client connects
@@ -210,12 +213,14 @@ public class CustomNetworkManager : NetworkManager
             GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Engineer")));
             GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
             
+            SetGuardSpawnLocations();
+
             NetworkServer.Spawn(chaser);
             NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
 
             // Set guard spawn locations
-            SetGuardSpawnLocations(); // This is the issue for the mini map being out of sync with actual guard positions. This code only runs on the server
+            //SetGuardSpawnLocations(); // This is the issue for the mini map being out of sync with actual guard positions. This code only runs on the server
                                         //So we will have to find a way to notify the client that the host/server moved their players
 
             // Select a random guard to initialize control
