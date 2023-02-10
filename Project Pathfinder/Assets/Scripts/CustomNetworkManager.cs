@@ -18,7 +18,7 @@ public class CustomNetworkManager : NetworkManager
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
     public static bool playerRoleSet       = false;               // Status of player role being assigned
     public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
-    public static bool isHost; // Keeps track of which network manager is the host
+    public static bool isHost; // Each player will have this variable, it is set when you decide to join or jost a game
 
     [SerializeField]
     public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -37,23 +37,23 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-        
-        if(hostIsRunner && NetworkClient.isHostClient)
+                            //NetworkClient.isHostClient
+        if(hostIsRunner && isHost)
         {
             Debug.Log("isRunner=true");
             isRunner = true; 
         }
-        else if(!hostIsRunner && NetworkClient.isHostClient)
+        else if(!hostIsRunner && isHost)
         {
             Debug.Log("isRunner=false");
             isRunner = false;
         }
-        else if(hostIsRunner && !NetworkClient.isHostClient)
+        else if(hostIsRunner && !isHost)
         {
             Debug.Log("isRunner=false");
             isRunner = false; 
         }
-        else if(!hostIsRunner && !NetworkClient.isHostClient)
+        else if(!hostIsRunner && !isHost)
         {
             Debug.Log("isRunner=true");
             isRunner = true;
@@ -71,10 +71,18 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        NetworkClient.RegisterHandler<IsServerRunnerMessage>(OnIsServerRunnerMessage);
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
         
+        /*if(Resources.FindObjectsOfTypeAll<GameObject>()
+            .FirstOrDefault(x => 
+                x.name.Contains("Chaser") ||
+                x.name.Contains("Trapper") ||
+                x.name.Contains("Engineer")) != null)
+        {
+            SetGuardSpawnLocations();
+        }*/
+
         /*// Set the status of the player being the guard master or the runner
         if(hostIsRunner){
             if(NetworkServer.connections.Count == 1){
@@ -132,14 +140,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    // Receives the IsServerRunnerMessage and sets isRunner accordingly
-    public void OnIsServerRunnerMessage(IsServerRunnerMessage message)
-    {
-        if(NetworkClient.isHostClient)
-            isRunner = message.isServerRunner;
-        else
-            isRunner = !message.isServerRunner;
-    }
+    // Shuts down the client and the host
     public override void OnClientDisconnect()
     {
         base.OnClientDisconnect();
@@ -162,6 +163,7 @@ public class CustomNetworkManager : NetworkManager
         StopHost();
         this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
         SceneManager.LoadScene(offlineScene);
+        Debug.Log("OnServerDisconnect");
     }
 
     // Runs on the server when a client connects
@@ -198,7 +200,7 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerAddPlayer(conn);
         Debug.Log("OnServerConnect");
 
-        // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
+        // Determine who is on what team
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
             (!hostIsRunner && NetworkServer.connections.Count == 1))
         {
@@ -213,7 +215,8 @@ public class CustomNetworkManager : NetworkManager
             NetworkServer.Spawn(engineer);
 
             // Set guard spawn locations
-            SetGuardSpawnLocations();
+            SetGuardSpawnLocations(); // This is the issue for the mini map being out of sync with actual guard positions. This code only runs on the server
+                                        //So we will have to find a way to notify the client that the host/server moved their players
 
             // Select a random guard to initialize control
             switch (initialActiveGuardId)
@@ -276,7 +279,7 @@ public class CustomNetworkManager : NetworkManager
         }
     }
 
-    // Position each guard objectat a determined spawn location
+    // Position each guard object at a determined spawn location
     public void SetGuardSpawnLocations(){
         bool chaserSet          = false; // Chaser spawn set status
         bool engineerSet        = false; // Engineer spawn set status

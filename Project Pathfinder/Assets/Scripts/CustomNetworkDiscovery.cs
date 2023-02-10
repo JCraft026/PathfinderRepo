@@ -29,6 +29,7 @@ public class DiscoveryResponse : NetworkMessage
     public string serverName;    // Name of the server set by the host
     public string teamAvailable; // The team (runner/guards) available for the client to play as
     public int playersInGame;    // Number of players in the game
+    public bool isHostRunner;
 }
 
 public class CustomServerFoundUnityEvent : UnityEvent<ServerResponse, DiscoveryResponse> {};
@@ -40,6 +41,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
 {
     [Tooltip("Invoked when a server is found")]
     //public ServerFoundUnityEvent OnServerFound;
+    public CustomNetworkManagerDAO networkManagerDao;
     public CustomServerFoundUnityEvent OnServerFound = new();
     #region Server
 
@@ -69,11 +71,11 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <returns>A message containing information about this server</returns>
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint) 
     {
-        var networkManagerDao = new CustomNetworkManagerDAO();
         var response = new DiscoveryResponse()
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
-            playersInGame = NetworkManager.singleton.numPlayers
+            playersInGame = NetworkManager.singleton.numPlayers,
+            isHostRunner = networkManagerDao.GetCustomNetworkManager().IsHostRunner()
             // The available team is changed below
         };
 

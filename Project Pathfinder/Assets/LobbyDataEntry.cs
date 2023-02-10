@@ -19,6 +19,7 @@ public class LobbyDataEntry : MonoBehaviour
 
     public void Start() {
         OnNewServer = CreateNewLobbyEntry;
+
         if(networkManagerInterface.GetCustomNetworkDiscovery() == null)
         {
             Debug.LogError("networkDiscovery is null");
@@ -34,7 +35,6 @@ public class LobbyDataEntry : MonoBehaviour
     public void CreateNewLobbyEntry(ServerResponse serverResponse, DiscoveryResponse discoveryResponse)
     {
         bool debugLogging=true;
-        // UNFINISHED, still needs to create lobby entries but it will (probably) save them successfully
         if(debugLogging)
         {
             Debug.Log("ServerName: " + discoveryResponse.serverName);
@@ -61,7 +61,7 @@ public class LobbyDataEntry : MonoBehaviour
             var backend = networkManagerInterface.GetServerBrowserBackend();
             var networkManager = networkManagerInterface.GetCustomNetworkManager();
 
-            newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager));
+            newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager, discoveryResponse.isHostRunner));
 
             teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable;
             numOfPlayers.GetComponent<TMP_Text>().text = "Players: " + discoveryResponse.playersInGame.ToString() + "/2";

@@ -6,6 +6,9 @@ using UnityEngine;
     *This class is the debug server browser HUD
     *It was also used as a template for ServerBrowserBackend
 */
+
+//NOTICE: THIS CLASS IS OUTDATED ---- DO NOT USE IT FOR ANYTHING
+
 namespace Mirror.Discovery
 {
     [DisallowMultipleComponent]
@@ -142,7 +145,7 @@ namespace Mirror.Discovery
         {
             /*networkDiscovery.StopDiscovery();
             NetworkManager.singleton.StartClient(info.uri);*/
-            Backend.JoinServer(info, networkManager);
+            //Backend.JoinServer(info, networkManager);
         }
 
         public void OnDiscoveredServer(ServerResponse info)

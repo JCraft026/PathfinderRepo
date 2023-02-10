@@ -71,10 +71,13 @@ public class MoveCharacter : NetworkBehaviour
         // Make movement speed equal in all directions
         movementInput.Normalize();
 
-        if(PauseCanvas.gameObject.activeSelf == false)
+        if(isLocalPlayer)
         {
-            // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
-            rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+            if(PauseCanvas.gameObject.activeSelf == false)
+            {
+                // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
+                rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+            }
         }
     }
 }

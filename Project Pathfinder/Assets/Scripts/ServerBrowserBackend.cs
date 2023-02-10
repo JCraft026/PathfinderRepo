@@ -25,7 +25,7 @@ public class ServerBrowserBackend : MonoBehaviour
     public void StartHosting()
     {
         discoveredServers.Clear(); // We might as well wipe out the old servers that we won't need anymore once we start hosting
-
+        CustomNetworkManager.isHost = true;
         // This needs to run within a coroutine as it is a thread safe version of "async" for unity
         StartCoroutine(LoadMazeSceneAsync(true));
     }
@@ -51,9 +51,7 @@ public class ServerBrowserBackend : MonoBehaviour
         // Isolate the network manager
         var networkManagerObject = (networkDiscovery.gameObject
                                                     .GetComponent(Type.GetType("CustomNetworkManager"))
-                                                    as CustomNetworkManager); //The code below was the code that was more stable but breaks too
-        /*CustomNetworkManagerDAO dao = new();
-        var networkManagerObject = dao.GetCustomNetworkManager();*/
+                                                    as CustomNetworkManager);
         if(networkManagerObject == null)
         {
             Debug.LogError("NETWORK MANAGER IS NULL");
@@ -66,12 +64,10 @@ public class ServerBrowserBackend : MonoBehaviour
         // Start the server if we are a host
         if(isHost)
         {
+            Debug.Log("I am hosting");
             networkManagerObject.StartHost();
             networkDiscovery.AdvertiseServer();
         }
-
-        // Command the server to set isRunner for both host and client
-        NetworkCommands.GetNetworkCommands().IsHostRunnerFromClient();
     }
 
     //Grab the mazeRenderer script from the gameplay scene (LoadMaze)
@@ -124,8 +120,11 @@ public class ServerBrowserBackend : MonoBehaviour
     }
 
     // Join the specified server
-    public void JoinServer(ServerResponse serverInfo, CustomNetworkManager networkManager)
+    public void JoinServer(ServerResponse serverInfo, CustomNetworkManager networkManager, bool isHostRunnerFromHost)
     {
+        CustomNetworkManager.isHost = false;
+        networkManager.hostIsRunner = isHostRunnerFromHost;
+        CustomNetworkManager.isRunner = !isHostRunnerFromHost;
         networkDiscovery.StopDiscovery();
         networkManager.StartClient(serverInfo.uri);
         StartCoroutine(LoadMazeSceneAsync(false));
