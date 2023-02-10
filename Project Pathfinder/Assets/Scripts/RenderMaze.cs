@@ -132,16 +132,7 @@ public class RenderMaze : NetworkBehaviour
                         oldComponents.Add(leftExit);
                     }
                     else{
-                        /*
-                        // Spawn the left wall collider
-                        var leftWall         = Instantiate(wallPrefab, transform) as Transform;
-                        leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
-                        leftWall.eulerAngles = new Vector3(0, 180, 90);
-                        oldComponents.Add(leftWall);
-                        */
-
-                        // Spawn the left wall texture
+                        // Spawn the left wall
                         var leftWall         = Instantiate(sideWallPrefab, transform) as Transform;
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.localScale  = new Vector2(leftWall.localScale.y * cellSize, leftWall.localScale.y * cellSize);
@@ -183,16 +174,7 @@ public class RenderMaze : NetworkBehaviour
                             oldComponents.Add(rightExit);
                         }
                         else{
-                            /*
-                            // Spawn the right wall collider
-                            var rightWall         = Instantiate(wallPrefab, transform) as Transform;
-                            rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
-                            rightWall.localScale  = new Vector2(cellSize, rightWall.localScale.y);
-                            rightWall.eulerAngles = new Vector3(0, 180, 90);
-                            oldComponents.Add(rightWall);
-                            */
-
-                            // Spawn the right wall texture
+                            // Spawn the right wall
                             var rightWall         = Instantiate(sideWallPrefab, transform) as Transform;
                             rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                             rightWall.localScale  = new Vector2(rightWall.localScale.x * cellSize, rightWall.localScale.y * cellSize);

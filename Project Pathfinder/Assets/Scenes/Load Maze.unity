@@ -434,9 +434,9 @@ MonoBehaviour:
   syncInterval: 0.1
   mazeWidth: 13
   mazeHeight: 13
-  cellSize: 1
+  cellSize: 8
   wallPrefab: {fileID: 1542926893595753881, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
-  sideWallTexturePrefab: {fileID: 1542926893595753881, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
+  sideWallPrefab: {fileID: 1542926893595753881, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
   firstExitPrefab: {fileID: 7109518832347748834, guid: 3cf69df64dd82da43aab55b4de7badbb, type: 3}
   secondExitPrefab: {fileID: 3303829268976498387, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
