@@ -36,24 +36,27 @@ public class MoveCharacter : NetworkBehaviour
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
 
 
-            if (PauseCanvas.gameObject.activeSelf == false)
+            if(isLocalPlayer)
             {
-                // Set character idle facing direction
-                if (movementInput.x == 0 && movementInput.y == -1)
+                if (PauseCanvas.gameObject.activeSelf == false)
                 {
-                    facingDirection = MoveCharacterConstants.FORWARD;
-                }
-                else if (movementInput.x == -1 && movementInput.y == 0)
-                {
-                    facingDirection = MoveCharacterConstants.LEFT;
-                }
-                else if (movementInput.x == 0 && movementInput.y == 1)
-                {
-                    facingDirection = MoveCharacterConstants.BACKWARD;
-                }
-                else if (movementInput.x == 1 && movementInput.y == 0)
-                {
-                    facingDirection = MoveCharacterConstants.RIGHT;
+                    // Set character idle facing direction
+                    if (movementInput.x == 0 && movementInput.y == -1)
+                    {
+                        facingDirection = MoveCharacterConstants.FORWARD;
+                    }
+                    else if (movementInput.x == -1 && movementInput.y == 0)
+                    {
+                        facingDirection = MoveCharacterConstants.LEFT;
+                    }
+                    else if (movementInput.x == 0 && movementInput.y == 1)
+                    {
+                        facingDirection = MoveCharacterConstants.BACKWARD;
+                    }
+                    else if (movementInput.x == 1 && movementInput.y == 0)
+                    {
+                        facingDirection = MoveCharacterConstants.RIGHT;
+                    }
                 }
             }
 
@@ -71,10 +74,13 @@ public class MoveCharacter : NetworkBehaviour
         // Make movement speed equal in all directions
         movementInput.Normalize();
 
-        if(PauseCanvas.gameObject.activeSelf == false)
+        if(isLocalPlayer)
         {
-            // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
-            rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+            if (PauseCanvas.gameObject.activeSelf == false)
+            {
+                // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
+                rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+            }
         }
     }
 }
