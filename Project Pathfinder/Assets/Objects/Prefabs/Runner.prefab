@@ -52,8 +52,9 @@ GameObject:
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 769638881372669460}
   - component: {fileID: 830324306875223836}
-  - component: {fileID: 4926477638044684199}
   - component: {fileID: 1654429642604035035}
+  - component: {fileID: 4926477638044684199}
+  - component: {fileID: 6717583350883348588}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -329,18 +330,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &4926477638044684199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2696247814498831812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d078c8499c458974189bf07960db99af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1654429642604035035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +360,33 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4926477638044684199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d078c8499c458974189bf07960db99af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 1
+  actionType: 0
+--- !u!114 &6717583350883348588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f246debb9589167449acb37bc998eb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOver: 1
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0
