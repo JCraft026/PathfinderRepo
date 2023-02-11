@@ -20,7 +20,7 @@ public class RenderMaze : NetworkBehaviour
     public float cellSize = 1f;
 
     [SerializeField]
-    private Transform wallPrefab = null;
+    private Transform brickWallPrefab = null;
 
     [SerializeField]
     private Transform sideWallPrefab = null;
@@ -114,10 +114,10 @@ public class RenderMaze : NetworkBehaviour
                         oldComponents.Add(topExit);
                     }
                     else{
-                        var topWall        = Instantiate(wallPrefab, transform) as Transform;
-                        topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
-                        topWall.localScale = new Vector2(cellSize, topWall.localScale.y);
-                        oldComponents.Add(topWall);
+                        var topBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
+                        topBrickWall.position   = scenePosition + new Vector2(0, cellSize / 1.6f);
+                        topBrickWall.localScale = new Vector2(topBrickWall.localScale.x * cellSize, topBrickWall.localScale.y * cellSize);
+                        oldComponents.Add(topBrickWall);
                     }
                 }
 
@@ -153,10 +153,10 @@ public class RenderMaze : NetworkBehaviour
                             oldComponents.Add(bottomExit);
                         }
                         else{
-                            var bottomWall        = Instantiate(wallPrefab, transform) as Transform;
-                            bottomWall.position   = scenePosition + new Vector2(0, -cellSize / 2);
-                            bottomWall.localScale = new Vector2(cellSize, bottomWall.localScale.y);
-                            oldComponents.Add(bottomWall);
+                            var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
+                            bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.7f);
+                            bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
+                            oldComponents.Add(bottomBrickWall);
                         }
                     }
                 }
