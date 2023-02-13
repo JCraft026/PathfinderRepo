@@ -29,6 +29,54 @@ public class RenderMaze : NetworkBehaviour
     private Transform floorPrefab = null;
 
     [SerializeField]
+    private Transform exit1LeftRightClosed = null;
+
+    [SerializeField]
+    private Transform exit1LeftRightOpen = null;
+
+    [SerializeField]
+    private Transform exit1TopBottomClosed = null;
+
+    [SerializeField]
+    private Transform exit1TopBottomOpen = null;
+
+    [SerializeField]
+    private Transform exit2LeftRightClosed = null;
+
+    [SerializeField]
+    private Transform exit2LeftRightOpen = null;
+
+    [SerializeField]
+    private Transform exit2TopBottomClosed = null;
+
+    [SerializeField]
+    private Transform exit2TopBottomOpen = null;
+
+    [SerializeField]
+    private Transform exit3LeftRightClosed = null;
+
+    [SerializeField]
+    private Transform exit3LeftRightOpen = null;
+
+    [SerializeField]
+    private Transform exit3TopBottomClosed = null;
+
+    [SerializeField]
+    private Transform exit3TopBottomOpen = null;
+
+    [SerializeField]
+    private Transform exit4LeftRightClosed = null;
+
+    [SerializeField]
+    private Transform exit4LeftRightOpen = null;
+
+    [SerializeField]
+    private Transform exit4TopBottomClosed = null;
+
+    [SerializeField]
+    private Transform exit4TopBottomOpen = null;
+
+    [SerializeField]
     private Transform firstExitPrefab = null;
 
     [SerializeField]
