@@ -128,23 +128,6 @@ public class RenderMaze : NetworkBehaviour
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
-                // Select the next exit prefab to render
-                switch (currentExit)
-                {
-                    case 1:
-                        exitPrefab = firstExitPrefab;
-                        break;
-                    case 2:
-                        exitPrefab = secondExitPrefab;
-                        break;
-                    case 3:
-                        exitPrefab = thirdExitPrefab;
-                        break;
-                    case 4:
-                        exitPrefab = fourthExitPrefab;
-                        break;
-                }
-
                 // Render the cell floor
                 var cellFloor        = Instantiate(floorPrefab, transform);
                 cellFloor.localScale = new Vector2(cellSize, cellSize);
@@ -155,9 +138,24 @@ public class RenderMaze : NetworkBehaviour
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && j == mazeHeight-1){
+                        switch (currentExit)
+                        {
+                            case 1:
+                                exitPrefab = exit1TopBottomClosed;
+                                break;
+                            case 2:
+                                exitPrefab = exit2TopBottomClosed;
+                                break;
+                            case 3:
+                                exitPrefab = exit3TopBottomClosed;
+                                break;
+                            case 4:
+                                exitPrefab = exit4TopBottomClosed;
+                                break;
+                        }
                         var topExit        = Instantiate(exitPrefab, transform) as Transform;
-                        topExit.position   = scenePosition + new Vector2(0, cellSize / 2);
-                        topExit.localScale = new Vector2(cellSize, topExit.localScale.y);
+                        topExit.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        topExit.localScale = new Vector2(topExit.localScale.x * cellSize, topExit.localScale.y * cellSize);
                         currentExit++;
                         oldComponents.Add(topExit);
                     }
@@ -172,9 +170,24 @@ public class RenderMaze : NetworkBehaviour
                 // Render the left wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.LEFT)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && i == 0){
+                        switch (currentExit)
+                        {
+                            case 1:
+                                exitPrefab = exit1LeftRightClosed;
+                                break;
+                            case 2:
+                                exitPrefab = exit2LeftRightClosed;
+                                break;
+                            case 3:
+                                exitPrefab = exit3LeftRightClosed;
+                                break;
+                            case 4:
+                                exitPrefab = exit4LeftRightClosed;
+                                break;
+                        }
                         var leftExit         = Instantiate(exitPrefab, transform) as Transform;
                         leftExit.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftExit.localScale  = new Vector2(cellSize, leftExit.localScale.y);
+                        leftExit.localScale  = new Vector2(leftExit.localScale.x * cellSize, leftExit.localScale.y * cellSize);
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
                         currentExit++;
                         oldComponents.Add(leftExit);
@@ -194,9 +207,24 @@ public class RenderMaze : NetworkBehaviour
                     if (currentCell.HasFlag(WallStatus.BOTTOM))
                     {
                         if(currentCell.HasFlag(WallStatus.EXIT)){
+                            switch (currentExit)
+                            {
+                                case 1:
+                                    exitPrefab = exit1TopBottomClosed;
+                                    break;
+                                case 2:
+                                    exitPrefab = exit2TopBottomClosed;
+                                    break;
+                                case 3:
+                                    exitPrefab = exit3TopBottomClosed;
+                                    break;
+                                case 4:
+                                    exitPrefab = exit4TopBottomClosed;
+                                    break;
+                            }
                             var bottomExit        = Instantiate(exitPrefab, transform) as Transform;
-                            bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2);
-                            bottomExit.localScale = new Vector2(cellSize, bottomExit.localScale.y);
+                            bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
+                            bottomExit.localScale = new Vector2(bottomExit.localScale.x * cellSize, bottomExit.localScale.y * cellSize);
                             currentExit++;
                             oldComponents.Add(bottomExit);
                         }
@@ -214,9 +242,24 @@ public class RenderMaze : NetworkBehaviour
                     if (currentCell.HasFlag(WallStatus.RIGHT))
                     {
                         if(currentCell.HasFlag(WallStatus.EXIT)){
+                            switch (currentExit)
+                            {
+                                case 1:
+                                    exitPrefab = exit1LeftRightClosed;
+                                    break;
+                                case 2:
+                                    exitPrefab = exit2LeftRightClosed;
+                                    break;
+                                case 3:
+                                    exitPrefab = exit3LeftRightClosed;
+                                    break;
+                                case 4:
+                                    exitPrefab = exit4LeftRightClosed;
+                                    break;
+                            }
                             var rightExit         = Instantiate(exitPrefab, transform) as Transform;
                             rightExit.position    = scenePosition + new Vector2(+cellSize / 2, 0);
-                            rightExit.localScale  = new Vector2(cellSize, rightExit.localScale.y);
+                            rightExit.localScale  = new Vector2(rightExit.localScale.x * cellSize, rightExit.localScale.y * cellSize);
                             rightExit.eulerAngles = new Vector3(0, 180, 90);
                             currentExit++;
                             oldComponents.Add(rightExit);
