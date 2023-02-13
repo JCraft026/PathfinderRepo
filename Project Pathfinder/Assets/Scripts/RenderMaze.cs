@@ -115,7 +115,7 @@ public class RenderMaze : NetworkBehaviour
                     }
                     else{
                         var topBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
-                        topBrickWall.position   = scenePosition + new Vector2(0, cellSize / 1.6f);
+                        topBrickWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topBrickWall.localScale = new Vector2(topBrickWall.localScale.x * cellSize, topBrickWall.localScale.y * cellSize);
                         oldComponents.Add(topBrickWall);
                     }
@@ -154,7 +154,7 @@ public class RenderMaze : NetworkBehaviour
                         }
                         else{
                             var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
-                            bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.7f);
+                            bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
                             oldComponents.Add(bottomBrickWall);
                         }
