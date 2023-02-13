@@ -13,11 +13,12 @@ using UnityEngine.SceneManagement;
 public class ServerBrowserBackend : MonoBehaviour
 {
     #region Global Variables
-    readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>(); // List of servers discovered to return to the frontend
-    Vector2 scrollViewPos = Vector2.zero; // I don't know what this is doing here, this is something that frontend will handle
+    readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
+                                                    // List of servers discovered to return to the frontend
+    Vector2 scrollViewPos = Vector2.zero;           // I don't know what this is doing here, this is something that frontend will handle
     public CustomNetworkDiscovery networkDiscovery; // Allows the server browser to detect open games and connect to them
     private const int LOAD_MAZE_SCENE_INDEX = 5;    // Build index for the LoadMaze scene, this is subject to change in the future
-    public string serverName; // The name the server will use when advertising its self to potential clients
+    public string serverName;                       // The name the server will use when advertising its self to potential clients
     #endregion
 
     #region Hosting
@@ -25,7 +26,8 @@ public class ServerBrowserBackend : MonoBehaviour
     public void StartHosting()
     {
         discoveredServers.Clear(); // We might as well wipe out the old servers that we won't need anymore once we start hosting
-        CustomNetworkManager.isHost = true;
+        CustomNetworkManager.isHost = true; // Set the network manager to run in host mode
+
         // This needs to run within a coroutine as it is a thread safe version of "async" for unity
         StartCoroutine(LoadMazeSceneAsync(true));
     }
@@ -107,6 +109,7 @@ public class ServerBrowserBackend : MonoBehaviour
     // Search for other servers and return them as a dictionary
     public Dictionary<long, ServerResponse> LookForOtherServers()
     {
+        // Wipe out the servers we found last time, search for new ones
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
 
@@ -122,11 +125,18 @@ public class ServerBrowserBackend : MonoBehaviour
     // Join the specified server
     public void JoinServer(ServerResponse serverInfo, CustomNetworkManager networkManager, bool isHostRunnerFromHost)
     {
+        // Tell the network manager to run in client mode and figure out what team we are on
         CustomNetworkManager.isHost = false;
         networkManager.hostIsRunner = isHostRunnerFromHost;
         CustomNetworkManager.isRunner = !isHostRunnerFromHost;
+
+        // Stop searching for new servers
         networkDiscovery.StopDiscovery();
+
+        // Join the selected server
         networkManager.StartClient(serverInfo.uri);
+
+        // Load the maze from the host
         StartCoroutine(LoadMazeSceneAsync(false));
     }
     #endregion Client Side Functionality

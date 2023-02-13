@@ -14,22 +14,27 @@ public class CustomNetworkManager : NetworkManager
 {
     #region Global Variables
     // Global Variables
-    public static System.Random randomNum  = new System.Random(); // Random number generator
-    public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
-    public static bool playerRoleSet       = false;               // Status of player role being assigned
-    public static bool isRunner            = false;               // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
-    public static bool isHost; // Each player will have this variable, it is set when you decide to join or jost a game
+    public static System.Random randomNum  = new System.Random();
+                                            // Random number generator
+    public static int initialActiveGuardId = randomNum.Next(1,3);
+                                            // Guard ID of the initial active guard
+    public static bool playerRoleSet       = false;
+                                            // Status of player role being assigned
+    public static bool isRunner            = false;               
+                                            // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
+    public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
 
     [SerializeField]
-    public ServerBrowserBackend backend; // References the ServerBrowserBackend, this is required when we join from the server browser
+    public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
 
     [SerializeField]
-    public RenderMaze mazeRenderer; // Enables us to render the maze
+    public RenderMaze mazeRenderer;         // Enables us to render the maze
 
     [SerializeField]
-    public bool hostIsRunner; // Used to determine if the host is the runner or not
+    public bool hostIsRunner;               // Used to determine if the host is the runner or not
 
-    public bool IsHostRunner() {return hostIsRunner;} // Required for CustomNetworkDiscovery to advertise which team the client will join as
+    public bool IsHostRunner() {return hostIsRunner;}
+                                            // Required for CustomNetworkDiscovery to advertise which team the client will join as
     #endregion
 
     #region Client Only Code
@@ -37,7 +42,8 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-                            //NetworkClient.isHostClient
+
+        // Set who the runner is
         if(hostIsRunner && isHost)
         {
             Debug.Log("isRunner=true");
@@ -59,6 +65,7 @@ public class CustomNetworkManager : NetworkManager
             isRunner = true;
         }
 
+        // Find the maze renderer and create the maze (if we are the host)
         if(NetworkServer.connections.Count == 1){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
         }
@@ -73,38 +80,6 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
-        
-        /*if(Resources.FindObjectsOfTypeAll<GameObject>()
-            .FirstOrDefault(x => 
-                x.name.Contains("Chaser") ||
-                x.name.Contains("Trapper") ||
-                x.name.Contains("Engineer")) != null)
-        {
-            SetGuardSpawnLocations();
-        }*/
-
-        /*// Set the status of the player being the guard master or the runner
-        if(hostIsRunner){
-            if(NetworkServer.connections.Count == 1){
-               isRunner = true; 
-            }
-            else if(NetworkServer.connections.Count > 1){
-                isRunner = false;
-            }
-        }
-        else{
-            if(NetworkServer.connections.Count == 1){
-               isRunner = false; 
-            }
-            else if(NetworkServer.connections.Count > 1){
-                isRunner = true;
-            }
-        }
-
-        // Create the maze initially on the host side
-        if(NetworkServer.connections.Count == 1){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
-        }*/
     }
 
     //Called when the client receives the json text of the maze
@@ -152,11 +127,6 @@ public class CustomNetworkManager : NetworkManager
     #endregion
 
     #region Server Only Code
-    public override void OnStartHost()
-    {
-        base.OnStartHost();
-    }
-
     // Fires when the client disconnects, forces the host to end the game.
     // Change the offline scene to change the scene the host is transferred to
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -213,15 +183,12 @@ public class CustomNetworkManager : NetworkManager
             GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Engineer")));
             GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
             
+            // Set guard spawn locations
             SetGuardSpawnLocations();
 
             NetworkServer.Spawn(chaser);
             NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
-
-            // Set guard spawn locations
-            //SetGuardSpawnLocations(); // This is the issue for the mini map being out of sync with actual guard positions. This code only runs on the server
-                                        //So we will have to find a way to notify the client that the host/server moved their players
 
             // Select a random guard to initialize control
             switch (initialActiveGuardId)
@@ -255,6 +222,7 @@ public class CustomNetworkManager : NetworkManager
         Debug.Log("currentActiveGuard = " + currentActiveGuard);
         GameObject newGuardObject;                                 // Result of the guard query
         Debug.Log("switch nextActiveGuardId = " + nextActiveGuardId.ToString());
+
         // Get the next guard's game object and update the active guard identification number
         switch (nextActiveGuardId)
         {
@@ -432,11 +400,6 @@ public class CustomNetworkManager : NetworkManager
         public Vector2 movementInput;
         public float characterFacingDirection;
         public int connId;
-    }
-
-        public struct IsServerRunnerMessage : NetworkMessage
-    {
-        public bool isServerRunner;
     }
     #endregion
 }

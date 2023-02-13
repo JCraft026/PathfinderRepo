@@ -13,7 +13,7 @@ using TMPro;
 */
 public class CustomNetworkManagerDAO : MonoBehaviour
 {
-    private static GameObject NetworkManagerGameObject; // The custom network manager's gameobject (note this is the gameobject containing the actual script)
+    private static GameObject NetworkManagerGameObject;         // The custom network manager's gameobject (note this is the gameobject containing the actual script)
     private Dictionary<long, ServerResponse> FoundServersCache; // Contains all the servers from the last search
 
     // Makes sure the CustomNetworkManager singleton is up to date
@@ -70,7 +70,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
     public void UpdateServerName()
     {
-        var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>();
+        var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>(); // the dropdown box that sets the server name
         if(dropdown == null)
         {
             Debug.LogError("Dropdown is null");
@@ -100,11 +100,5 @@ public class CustomNetworkManagerDAO : MonoBehaviour
         }
         return FoundServersCache;
     }
-
-    // Tell the backend to join the specified server -- OUTDATE: DO NOT USE WILL CAUSE A COMPILATION ERROR
-    /*public void ServerBrowserJoinServer(ServerResponse serverInfo)
-    {
-        GetServerBrowserBackend().JoinServer(serverInfo, GetCustomNetworkManager());
-    }*/
     #endregion ServerBrowserBackend communication
 }

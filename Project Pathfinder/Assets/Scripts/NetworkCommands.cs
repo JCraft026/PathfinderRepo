@@ -5,25 +5,15 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
+/*
+    *This class is used to allow the client to command the host to do something
+*/
 public class NetworkCommands : NetworkBehaviour
 {
-    public CustomNetworkManagerDAO dao;
-    public static NetworkCommands instance;
-    public static GameObject instanceGameObject;
-    public static bool instanceSet = false;
-
-    #region Client To Server Commands
-
-    [Command]
-    public void IsHostRunnerFromClient()
-    {
-        CustomNetworkManager.IsServerRunnerMessage message = new();
-        //message.isServerRunner = dao.GetCustomNetworkManager().IsHostRunner();
-        message.isServerRunner = CustomNetworkManager.isRunner;
-        NetworkServer.SendToAll<CustomNetworkManager.IsServerRunnerMessage>(message);
-    }
-
-    #endregion Client To Server Commands
+    public CustomNetworkManagerDAO dao;             // The way to communicate with the network manager/server browser/discovery
+    public static NetworkCommands instance;         // This is a really bad implementation of a singleton
+    public static GameObject instanceGameObject;    // The game object of the really bad singleton implementation
+    public static bool instanceSet = false;         // Has the singleton been created
 
     #region Misc.
     void  Awake() 
@@ -41,12 +31,14 @@ public class NetworkCommands : NetworkBehaviour
         RefreshInstances();
     }
 
+    // Returns the singleton
     public static NetworkCommands GetNetworkCommands()
     {
         RefreshInstances();
         return instance;
     }
 
+    // Refreshes the singleton if the reference somehow becomes null (which yes it does, like I said the singleton implementation was bad)
     public static void RefreshInstances()
     {
         instanceGameObject = SceneManager.GetSceneByName("CommandScene")

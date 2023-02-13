@@ -17,11 +17,13 @@ public class MoveCharacter : NetworkBehaviour
     Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
-    public GameObject PauseCanvas;
+    public GameObject PauseCanvas; 
+                                 // Exit game menu
 
-    private Vector2 lastMovementInput; //Unused as of now remove later (-Caleb)
+    private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
 
+    // Initialize the exit game menu variable
     private void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
@@ -73,6 +75,7 @@ public class MoveCharacter : NetworkBehaviour
 
         if(isLocalPlayer)
         {
+            // If the exit game menu is open do not let the player move
             if(PauseCanvas.gameObject.activeSelf == false)
             {
                 // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call

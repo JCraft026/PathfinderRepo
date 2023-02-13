@@ -6,15 +6,18 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 
+// This class manages the exit game interface
 public class PauseGame : NetworkBehaviour
 {
-    public GameObject PauseCanvas;
+    public GameObject PauseCanvas;  // Exit menu game object
 
+    // Start the game with the exit game menu invisble
     public void Start()
     {
         PauseCanvas.SetActive(false);
     }
 
+    // Initialize the exit menu
     public void Awake()
     {
         //PauseCanvas = GameObject.Find("PauseCanvas");
@@ -22,6 +25,7 @@ public class PauseGame : NetworkBehaviour
         PauseCanvas.SetActive(true);
     }
 
+    // Open (or close) the exit game menu
     public void Update()
     {
 
@@ -41,6 +45,7 @@ public class PauseGame : NetworkBehaviour
         }
     }
 
+    // Locate the exit game menu
     public GameObject FindPauseCanvas()
     {
        PauseCanvas = SceneManager.GetActiveScene()
@@ -54,12 +59,14 @@ public class PauseGame : NetworkBehaviour
             return PauseCanvas;
     }
 
+    // Open the exit game menu
     public void OpenPauseCanvas()
     {
         Debug.Log("Open Exit Menu");
         PauseCanvas.SetActive(true);
     }
 
+    // Close the exit game menu
     public void ClosePauseCanvas()
     {
         Debug.Log("Close Exit Menu");
@@ -70,7 +77,9 @@ public class PauseGame : NetworkBehaviour
     public void ExitGame(int index)
     {
         CustomNetworkManager netManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
+                                            // Reference to the network manager
         CustomNetworkDiscovery netDiscovery = netManager.GetComponent<CustomNetworkDiscovery>();
+                                            // Reference to the discovery system
         
         // stop host if host mode
         if(CustomNetworkManager.isHost)
@@ -91,10 +100,13 @@ public class PauseGame : NetworkBehaviour
             netDiscovery.StopDiscovery();
         }
 
+        // If we aren't a client or a host but we can still call exit game, something is wrong so throw an error
         else
         {
             throw(new Exception("ExitGame(): Cannot exit, isHost" + CustomNetworkManager.isHost.ToString() + " and NetworkClient.isConnected is " + NetworkClient.isConnected.ToString()));
         }
+
+        // Load into the offline scene
         SceneManager.LoadScene(index);
     }
 }

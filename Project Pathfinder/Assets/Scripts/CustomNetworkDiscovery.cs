@@ -15,13 +15,14 @@ using Mirror.Discovery;
 [Serializable]
 public class ServerFoundUnityEvent : UnityEvent<ServerResponse> {};
 
-
+// Sent by a client to request a discovery response from games being hosted
 public class DiscoveryRequest : NetworkMessage
 {
     // Add properties for whatever information you want sent by clients
     // in their broadcast messages that servers will consume.
 }
 
+// Sent by a host as a reply to a discovery request, contains information about the game
 public class DiscoveryResponse : NetworkMessage
 {
     // Add properties for whatever information you want the server to return to
@@ -32,15 +33,14 @@ public class DiscoveryResponse : NetworkMessage
     public bool isHostRunner;
 }
 
+// Used to contain an event for OnServerFound
 public class CustomServerFoundUnityEvent : UnityEvent<ServerResponse, DiscoveryResponse> {};
 
-/*
-    *This class is responsible for advertising and discovering games waiting for players
-*/
+
+//This class is responsible for advertising and discovering games waiting for players
 public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, DiscoveryResponse>
 {
     [Tooltip("Invoked when a server is found")]
-    //public ServerFoundUnityEvent OnServerFound;
     public CustomNetworkManagerDAO networkManagerDao;
     public CustomServerFoundUnityEvent OnServerFound = new();
     #region Server
@@ -71,6 +71,7 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <returns>A message containing information about this server</returns>
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint) 
     {
+        // Build the discovery response
         var response = new DiscoveryResponse()
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
@@ -122,8 +123,6 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         /* To get these to display on the front-end of the server browser we can override assing OnServerFound(ServerResponse)
            to a delagate function used to create a lobby entry with the information from the response.
            If you have any questions about this strategy let me know (-Caleb) */
-
-        //UriBuilder builder = new(endpoint.Address.ToString());
         OnServerFound.Invoke(new ServerResponse(){
             EndPoint = endpoint,
             serverId = RandomLong(),
