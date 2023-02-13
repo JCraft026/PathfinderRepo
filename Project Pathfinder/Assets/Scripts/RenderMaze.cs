@@ -20,7 +20,17 @@ public class RenderMaze : NetworkBehaviour
     public float cellSize = 1f;
 
     [SerializeField]
+    [Range(1, 20)]
+    public int mossyWallSpawnChance = 10;
+
+    [SerializeField]
     private Transform brickWallPrefab = null;
+
+    [SerializeField]
+    private Transform mossyWallPrefab = null;
+
+    [SerializeField]
+    private Transform torchWallPrefab = null;
 
     [SerializeField]
     private Transform sideWallPrefab = null;
@@ -76,18 +86,6 @@ public class RenderMaze : NetworkBehaviour
     [SerializeField]
     private Transform exit4TopBottomOpen = null;
 
-    [SerializeField]
-    private Transform firstExitPrefab = null;
-
-    [SerializeField]
-    private Transform secondExitPrefab = null;
-
-    [SerializeField]
-    private Transform thirdExitPrefab = null;
-
-    [SerializeField]
-    private Transform fourthExitPrefab = null;
-
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
 
@@ -117,10 +115,13 @@ public class RenderMaze : NetworkBehaviour
     // Render the complete maze within the scene
     public void Render(WallStatus[,] mazeData)
     {
-        WallStatus currentCell = new WallStatus(); // Current maze cell being rendered
-        Vector2 scenePosition  = new Vector2();    // x,y position in the scene
-        Transform exitPrefab   = null;             // Exit prefab being rendered
-        int currentExit        = 1;                // Next exit prefab to render
+        WallStatus currentCell  = new WallStatus();    // Current maze cell being rendered
+        Vector2 scenePosition   = new Vector2();       // x,y position in the scene
+        Transform exitPrefab    = null;                // Exit prefab being rendered
+        System.Random randomNum = new System.Random(); // Random number generator
+        Transform topWallPrefab,                       // Object prefab for selected top wall
+                  bottomWallPrefab;                    // Object prefab for selected bottom wall
+        int currentExit         = 1;                   // Next exit prefab to render
 
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
@@ -160,7 +161,16 @@ public class RenderMaze : NetworkBehaviour
                         oldComponents.Add(topExit);
                     }
                     else{
-                        var topBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
+                        if(i % 3 == 0){
+                            topWallPrefab = torchWallPrefab;
+                        }
+                        else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
+                            topWallPrefab = mossyWallPrefab;
+                        }
+                        else{
+                            topWallPrefab = brickWallPrefab;
+                        }
+                        var topBrickWall = Instantiate(topWallPrefab, transform) as Transform;
                         topBrickWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topBrickWall.localScale = new Vector2(topBrickWall.localScale.x * cellSize, topBrickWall.localScale.y * cellSize);
                         oldComponents.Add(topBrickWall);
@@ -229,7 +239,16 @@ public class RenderMaze : NetworkBehaviour
                             oldComponents.Add(bottomExit);
                         }
                         else{
-                            var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
+                            if(i % 3 == 0){
+                                bottomWallPrefab = torchWallPrefab;
+                            }
+                            else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
+                                bottomWallPrefab = mossyWallPrefab;
+                            }
+                            else{
+                                bottomWallPrefab = brickWallPrefab;
+                            }
+                            var bottomBrickWall        = Instantiate(bottomWallPrefab, transform) as Transform;
                             bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
                             oldComponents.Add(bottomBrickWall);
