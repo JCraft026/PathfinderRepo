@@ -198,9 +198,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: 1.5}
-  m_Size: {x: 15, y: 17}
-  m_Direction: 0
+  m_Offset: {x: -0.50000125, y: -6.1263247}
+  m_Size: {x: 17.000002, y: 1.8}
+  m_Direction: 1
 --- !u!114 &-6749338964606658377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,8 +312,6 @@ MonoBehaviour:
   guardId: 0
   activeGuardId: 0
   nextActiveGuardId: 0
-  isRunner: 0
-  networkManager: {fileID: 0}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0

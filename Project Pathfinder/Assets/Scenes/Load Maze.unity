@@ -435,6 +435,7 @@ MonoBehaviour:
   mazeWidth: 13
   mazeHeight: 13
   cellSize: 8
+  mossyWallSpawnChance: 5
   brickWallPrefab: {fileID: 817046200794294661, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
   mossyWallPrefab: {fileID: 7736250127893158314, guid: fedb49fe7d784964aa8c9b374aaf7b46, type: 3}
   torchWallPrefab: {fileID: 7992786418637363845, guid: 11795baa64d12e94494b8ce0c9714977, type: 3}
