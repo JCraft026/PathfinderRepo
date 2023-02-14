@@ -34,7 +34,7 @@ public class HandleEvents : MonoBehaviour
         UpdateActiveCharacterLocation();
 
         // Update the elevation rank of each character
-        UpdateCharacterElevationOrder();
+        //UpdateCharacterElevationOrder();
     }
 
     // Update the scene location of the character the player is controlling

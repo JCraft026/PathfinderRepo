@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3702555221104463119}
   - component: {fileID: -3186512940323406780}
   - component: {fileID: 8692589880442981796}
+  - component: {fileID: 8254044066047794190}
   m_Layer: 0
   m_Name: Stone Brick Wall
   m_TagString: Untagged
@@ -167,3 +168,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.01}
   m_EdgeRadius: 0
+--- !u!114 &8254044066047794190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505745279242397786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
