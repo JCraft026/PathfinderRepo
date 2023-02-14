@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8592968201638968297}
   - component: {fileID: 3201557464444985285}
   - component: {fileID: 9033514639062350684}
+  - component: {fileID: 6912875111549101707}
   m_Layer: 0
   m_Name: Exit 4 Top Bottom Door (closed)
   m_TagString: Untagged
@@ -111,3 +112,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.01}
   m_EdgeRadius: 0
+--- !u!114 &6912875111549101707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607298928581256544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

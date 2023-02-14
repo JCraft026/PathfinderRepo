@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3220200938691745055}
   - component: {fileID: 4773370898877448297}
   - component: {fileID: 1282581669304436750}
+  - component: {fileID: 4538044995484162080}
   m_Layer: 0
   m_Name: Exit 1 Top Bottom Door (Open)
   m_TagString: Untagged
@@ -122,5 +123,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bad3ab5bcadd674448938bf9f97c0b89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4538044995484162080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5599860559495530190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
