@@ -119,8 +119,7 @@ public class RenderMaze : NetworkBehaviour
         Vector2 scenePosition   = new Vector2();       // x,y position in the scene
         Transform exitPrefab    = null;                // Exit prefab being rendered
         System.Random randomNum = new System.Random(); // Random number generator
-        Transform topWallPrefab,                       // Object prefab for selected top wall
-                  bottomWallPrefab;                    // Object prefab for selected bottom wall
+        Transform topWallPrefab;                       // Object prefab for selected top wall
         int currentExit         = 1;                   // Next exit prefab to render
 
         // Render the cell walls of every maze cell
@@ -239,16 +238,7 @@ public class RenderMaze : NetworkBehaviour
                             oldComponents.Add(bottomExit);
                         }
                         else{
-                            if(i % 3 == 0){
-                                bottomWallPrefab = torchWallPrefab;
-                            }
-                            else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
-                                bottomWallPrefab = mossyWallPrefab;
-                            }
-                            else{
-                                bottomWallPrefab = brickWallPrefab;
-                            }
-                            var bottomBrickWall        = Instantiate(bottomWallPrefab, transform) as Transform;
+                            var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
                             bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
                             oldComponents.Add(bottomBrickWall);
