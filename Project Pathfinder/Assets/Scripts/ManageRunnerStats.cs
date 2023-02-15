@@ -13,6 +13,7 @@ public class ManageRunnerStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Spawn UI hearts
         if(CustomNetworkManager.isRunner){
             heart1 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1"));
             heart2 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2"));
@@ -27,6 +28,7 @@ public class ManageRunnerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update UI hearts
         if(health <= 4){
             if(CustomNetworkManager.isRunner){
                 heart3.SetActive(false);
@@ -45,9 +47,9 @@ public class ManageRunnerStats : MonoBehaviour
         }
     }
 
+    // Process runner damage
     public void TakeDamage(int damage){
         health -= damage;
         Debug.Log(health);
-        // If character is runner: Check health amount and adjust hearts accordingly
     }
 }

@@ -33,7 +33,6 @@ public class Attack : NetworkBehaviour
                 {
                     case MoveCharacterConstants.FORWARD:
                         if((guardPosition.y-runnerPosition.y) > 0f){
-                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -42,7 +41,6 @@ public class Attack : NetworkBehaviour
                         break;
                     case MoveCharacterConstants.LEFT:
                         if((guardPosition.x - runnerPosition.x) > 0f){
-                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -51,7 +49,6 @@ public class Attack : NetworkBehaviour
                         break;
                     case MoveCharacterConstants.BACKWARD:
                         if((runnerPosition.y-guardPosition.y) > 0f){
-                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -60,7 +57,6 @@ public class Attack : NetworkBehaviour
                         break;
                     case MoveCharacterConstants.RIGHT:
                         if((runnerPosition.x-guardPosition.x) > 0f){
-                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }

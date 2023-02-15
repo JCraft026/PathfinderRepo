@@ -278,7 +278,7 @@ public class RenderMaze : NetworkBehaviour
                             // Spawn the right wall
                             var rightWall         = Instantiate(sideWallPrefab, transform) as Transform;
                             rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
-                            rightWall.localScale  = new Vector2(rightWall.localScale.x * cellSize, rightWall.localScale.y * cellSize);
+                            rightWall.localScale  = new Vector3(rightWall.localScale.x * cellSize, rightWall.localScale.y * cellSize, 1);
                             rightWall.eulerAngles = new Vector3(0, 180, 90);
                             rightWall.name        = "Wall_LR"; 
                             oldComponents.Add(rightWall);
