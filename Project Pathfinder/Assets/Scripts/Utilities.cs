@@ -27,15 +27,19 @@ public class Utilities : MonoBehaviour
         {
             case ManageActiveCharactersConstants.RUNNER:
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner(Clone)")).transform.position;
+                characterObjectPosition.y -= .5f;
                 break;
             case ManageActiveCharactersConstants.CHASER:
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).transform.position;
+                characterObjectPosition.y -= .84f;
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).transform.position;
+                characterObjectPosition.y -= .91f;
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
                 characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).transform.position;
+                characterObjectPosition.y -= .76f;
                 break;
             default:
                 characterObjectPosition.x = 0.0f;
