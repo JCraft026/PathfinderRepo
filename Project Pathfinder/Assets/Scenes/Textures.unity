@@ -434,6 +434,7 @@ MonoBehaviour:
   syncInterval: 0.1
   mazeWidth: 13
   mazeHeight: 13
+  cellSize: 8
   mossyWallSpawnChance: 5
   brickWallPrefab: {fileID: 817046200794294661, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
   mossyWallPrefab: {fileID: 7736250127893158314, guid: fedb49fe7d784964aa8c9b374aaf7b46, type: 3}
@@ -441,14 +442,21 @@ MonoBehaviour:
   sideWallPrefab: {fileID: 1542926893595753881, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
   exit1LeftRightClosed: {fileID: 6965621078266617755, guid: 155bac5e55afd9f43a2153a6590aed6c, type: 3}
+  exit1LeftRightOpen: {fileID: 4753395640915498602, guid: 3b2cecac0c32612428ca6d4946eb4b14, type: 3}
   exit1TopBottomClosed: {fileID: 5218289819359317342, guid: fce56476fc026de439470bad6b2acec2, type: 3}
+  exit1TopBottomOpen: {fileID: 7960870771748954124, guid: 37709d8ab386992459e84c52664d7cda, type: 3}
   exit2LeftRightClosed: {fileID: 2259281566429291191, guid: 0fe85f2bc8979904c8f0441587f431dd, type: 3}
+  exit2LeftRightOpen: {fileID: 7818448365546160009, guid: 5a35bea12e17f314b8951a96f9f50aa9, type: 3}
   exit2TopBottomClosed: {fileID: 3543452175595729748, guid: 9b3a5589b7201f14893a5a557933bde8, type: 3}
+  exit2TopBottomOpen: {fileID: 8196115226583685161, guid: a1ea6a6a708062d4194ea497790b657d, type: 3}
   exit3LeftRightClosed: {fileID: 4294748905625167207, guid: 4c33b90176c656b479a0960b4f4cefbe, type: 3}
+  exit3LeftRightOpen: {fileID: 1677326103379654775, guid: 9792d08e0e90a5f4d9a756f3e7df1c17, type: 3}
   exit3TopBottomClosed: {fileID: 3788224658161008814, guid: 421030c249f24594e8ed5b0737ac5fec, type: 3}
+  exit3TopBottomOpen: {fileID: 2709989934648240601, guid: 4fb0c16a8ba578144b0d43034fade92c, type: 3}
   exit4LeftRightClosed: {fileID: 667724499965224618, guid: ee3bf820be39153488105954a12096d3, type: 3}
+  exit4LeftRightOpen: {fileID: 6992651255925291826, guid: cc83434dbd7f15042b6378525c50c2e3, type: 3}
   exit4TopBottomClosed: {fileID: 8592968201638968297, guid: 392b96dac211e2b428eba1a865c83b79, type: 3}
-  cellSize: 8
+  exit4TopBottomOpen: {fileID: 5758463466077660680, guid: 1337dcf8b7289d94c907796b540515bb, type: 3}
 --- !u!4 &1496269330
 Transform:
   m_ObjectHideFlags: 0
@@ -481,6 +489,50 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!1 &1535619751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535619752}
+  - component: {fileID: 1535619753}
+  m_Layer: 0
+  m_Name: DynamicLayeringHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1535619752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535619751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -24.941242, y: -25.358507, z: 141.06277}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1535619753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535619751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7371ab303934f847bdb06e1f0f165ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1706218546
 PrefabInstance:
   m_ObjectHideFlags: 0
