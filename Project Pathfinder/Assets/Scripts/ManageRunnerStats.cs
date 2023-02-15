@@ -47,6 +47,7 @@ public class ManageRunnerStats : MonoBehaviour
 
     public void TakeDamage(int damage){
         health -= damage;
+        Debug.Log(health);
         // If character is runner: Check health amount and adjust hearts accordingly
     }
 }

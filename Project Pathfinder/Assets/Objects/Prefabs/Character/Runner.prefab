@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 769638881372669460}
   - component: {fileID: 7644494353048612690}
+  - component: {fileID: -1660078735167207271}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -323,6 +324,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1d6d01e10524dc46830eb28564f3583, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 6
+  heart1: {fileID: 0}
+  heart2: {fileID: 0}
+  heart3: {fileID: 0}
+--- !u!114 &-1660078735167207271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef8598a780d63442a9281244f399cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8806066953676061027
