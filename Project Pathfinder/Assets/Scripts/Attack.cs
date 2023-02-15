@@ -32,7 +32,8 @@ public class Attack : NetworkBehaviour
                 switch (animator.GetFloat("Facing Direction"))
                 {
                     case MoveCharacterConstants.FORWARD:
-                        if((guardPosition.y-runnerPosition.y) >= 0.3f){
+                        if((guardPosition.y-runnerPosition.y) > 0f){
+                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -40,7 +41,8 @@ public class Attack : NetworkBehaviour
                         }
                         break;
                     case MoveCharacterConstants.LEFT:
-                        if((guardPosition.x - runnerPosition.x) >= 0.3f){
+                        if((guardPosition.x - runnerPosition.x) > 0f){
+                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -48,7 +50,8 @@ public class Attack : NetworkBehaviour
                         }
                         break;
                     case MoveCharacterConstants.BACKWARD:
-                        if((runnerPosition.y-guardPosition.y) >= 0.3f){
+                        if((runnerPosition.y-guardPosition.y) > 0f){
+                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }
@@ -56,7 +59,8 @@ public class Attack : NetworkBehaviour
                         }
                         break;
                     case MoveCharacterConstants.RIGHT:
-                        if((runnerPosition.x-guardPosition.x) >= 0.3f){
+                        if((runnerPosition.x-guardPosition.x) > 0f){
+                            Debug.Log("woop");
                             if(CustomNetworkManager.isRunner == true){
                                 StartCoroutine(cameraShake.Shake(.15f, .7f));
                             }

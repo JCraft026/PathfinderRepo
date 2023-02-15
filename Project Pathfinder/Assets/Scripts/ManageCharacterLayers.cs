@@ -15,12 +15,10 @@ public class ManageCharacterLayers : MonoBehaviour
     void Update()
     {
         // Set character order in layer based on its y value rank
-        /*
         if(runnerExpression.IsMatch(gameObject.name)){
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = HandleLayers.runnerElevationRank;
         }
-        */
-        if(chaserExpression.IsMatch(gameObject.name)){
+        else if(chaserExpression.IsMatch(gameObject.name)){
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = HandleLayers.chaserElevationRank;
         }
         else if(engineerExpression.IsMatch(gameObject.name)){
