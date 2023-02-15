@@ -12,8 +12,11 @@ public class ManageTextureLayers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(CustomNetworkManager.isRunner){
+            Debug.Log(HandleLayers.activeCharacterLocation.y);
+        }
         // If the game object is below the active character, adjust order in layer accordingly
-        if(gameObject.transform.position.y - HandleLayers.activeCharacterLocation.y < 0){
+        if((gameObject.transform.position.y - 1.12f) - HandleLayers.activeCharacterLocation.y < 0){
             if(wallExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
             }
