@@ -17,75 +17,29 @@ public class RenderMaze : NetworkBehaviour
     public int mazeHeight = 10;
 
     [SerializeField]
-    [Range(1, 20)]
-    public int mossyWallSpawnChance = 10;
+    public float cellSize = 1f;
 
     [SerializeField]
-    private Transform brickWallPrefab = null;
-
-    [SerializeField]
-    private Transform mossyWallPrefab = null;
-
-    [SerializeField]
-    private Transform torchWallPrefab = null;
-
-    [SerializeField]
-    private Transform sideWallPrefab = null;
+    private Transform wallPrefab = null;
 
     [SerializeField]
     private Transform floorPrefab = null;
 
     [SerializeField]
-    private Transform exit1LeftRightClosed = null;
-
-    //[SerializeField]
-    //private Transform exit1LeftRightOpen = null;
+    private Transform firstExitPrefab = null;
 
     [SerializeField]
-    private Transform exit1TopBottomClosed = null;
-
-    //[SerializeField]
-    //private Transform exit1TopBottomOpen = null;
+    private Transform secondExitPrefab = null;
 
     [SerializeField]
-    private Transform exit2LeftRightClosed = null;
-
-    //[SerializeField]
-    //private Transform exit2LeftRightOpen = null;
+    private Transform thirdExitPrefab = null;
 
     [SerializeField]
-    private Transform exit2TopBottomClosed = null;
+    private Transform fourthExitPrefab = null;
 
-    //[SerializeField]
-    //private Transform exit2TopBottomOpen = null;
-
-    [SerializeField]
-    private Transform exit3LeftRightClosed = null;
-
-    //[SerializeField]
-    //private Transform exit3LeftRightOpen = null;
-
-    [SerializeField]
-    private Transform exit3TopBottomClosed = null;
-
-    //[SerializeField]
-    //private Transform exit3TopBottomOpen = null;
-
-    [SerializeField]
-    private Transform exit4LeftRightClosed = null;
-
-    //[SerializeField]
-    //private Transform exit4LeftRightOpen = null;
-
-    [SerializeField]
-    private Transform exit4TopBottomClosed = null;
-
-    //[SerializeField]
-    //private Transform exit4TopBottomOpen = null;
-
-    private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
-    private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
-    public float cellSize = 8f;                                    // Size of the maze cell
+    private string mazeDataJson;                              // Json string version of the maze (used to send the maze to the client)
+    private List<Transform> oldWalls = new List<Transform>(); // List of wall locations last rendered
+    private Transform oldMazeFloor;                           // Last maze floor location rendered
 
     // Called when the host starts a game
     public override void OnStartServer()
@@ -106,19 +60,39 @@ public class RenderMaze : NetworkBehaviour
     // Cleans the left over objects from the last game
     public void CleanMap()
     {
-        oldComponents.ForEach(wall => GameObject.Destroy(wall.gameObject));
-        oldComponents = new();
+        oldWalls.ForEach(wall => GameObject.Destroy(wall.gameObject));
+        oldWalls = new();
+        
+        if(oldMazeFloor != null)
+        {
+            GameObject.Destroy(oldMazeFloor.gameObject);
+            oldMazeFloor = null;
+        }
     }
 
     // Render the complete maze within the scene
     public void Render(WallStatus[,] mazeData)
     {
-        WallStatus currentCell  = new WallStatus();    // Current maze cell being rendered
-        Vector2 scenePosition   = new Vector2();       // x,y position in the scene
-        Transform exitPrefab    = null;                // Exit prefab being rendered
-        System.Random randomNum = new System.Random(); // Random number generator
-        Transform topWallPrefab;                       // Object prefab for selected top wall
-        int currentExit         = 1;                   // Next exit prefab to render
+        WallStatus currentCell = new WallStatus(); // Current maze cell being rendered
+        Vector2 scenePosition  = new Vector2();    // x,y position in the scene
+        Transform exitPrefab   = null;             // Exit prefab being rendered
+        var mazeFloor          = Instantiate(floorPrefab, transform);
+                                                   // Maze floor prefab
+        int currentExit        = 1;                // Next exit prefab to render
+
+        // Render the maze floor
+        mazeFloor.localScale = new Vector2(cellSize * (mazeWidth), cellSize * (mazeHeight));
+        oldMazeFloor = mazeFloor;
+
+        // Adujust the maze floor position to accomodate even numbered dimensions
+        if(mazeHeight % 2 == 0)
+        {
+            mazeFloor.position += new Vector3(0, -cellSize / 2, 0);
+        }
+        if(mazeWidth % 2 == 0)
+        {
+            mazeFloor.position += new Vector3(-cellSize / 2, 0, 0);
+        }
 
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
@@ -126,88 +100,58 @@ public class RenderMaze : NetworkBehaviour
                 currentCell = mazeData[i,j];
                 scenePosition = new Vector2(cellSize * (-mazeWidth / 2 + i), cellSize * (-mazeHeight / 2 + j));
 
-                // Render the cell floor
-                var cellFloor        = Instantiate(floorPrefab, transform);
-                cellFloor.localScale = new Vector2(cellSize, cellSize);
-                cellFloor.position   = scenePosition;
-                cellFloor.name       = "mcf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
-                oldComponents.Add(cellFloor);
+                // Select the next exit prefab to render
+                switch (currentExit)
+                {
+                    case 1:
+                        exitPrefab = firstExitPrefab;
+                        break;
+                    case 2:
+                        exitPrefab = secondExitPrefab;
+                        break;
+                    case 3:
+                        exitPrefab = thirdExitPrefab;
+                        break;
+                    case 4:
+                        exitPrefab = fourthExitPrefab;
+                        break;
+                }
 
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && j == mazeHeight-1){
-                        switch (currentExit)
-                        {
-                            case 1:
-                                exitPrefab = exit1TopBottomClosed;
-                                break;
-                            case 2:
-                                exitPrefab = exit2TopBottomClosed;
-                                break;
-                            case 3:
-                                exitPrefab = exit3TopBottomClosed;
-                                break;
-                            case 4:
-                                exitPrefab = exit4TopBottomClosed;
-                                break;
-                        }
                         var topExit        = Instantiate(exitPrefab, transform) as Transform;
-                        topExit.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
-                        topExit.localScale = new Vector2(topExit.localScale.x * cellSize, topExit.localScale.y * cellSize);
+                        topExit.position   = scenePosition + new Vector2(0, cellSize / 2);
+                        topExit.localScale = new Vector2(cellSize, topExit.localScale.y);
                         currentExit++;
-                        oldComponents.Add(topExit);
+                        oldWalls.Add(topExit);
                     }
                     else{
-                        if(i % 3 == 0){
-                            topWallPrefab = torchWallPrefab;
-                        }
-                        else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
-                            topWallPrefab = mossyWallPrefab;
-                        }
-                        else{
-                            topWallPrefab = brickWallPrefab;
-                        }
-                        var topBrickWall = Instantiate(topWallPrefab, transform) as Transform;
-                        topBrickWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
-                        topBrickWall.localScale = new Vector2(topBrickWall.localScale.x * cellSize, topBrickWall.localScale.y * cellSize);
-                        topBrickWall.name = "Wall_TB";
-                        oldComponents.Add(topBrickWall);
+                        var topWall        = Instantiate(wallPrefab, transform) as Transform;
+                        topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
+                        topWall.localScale = new Vector2(cellSize, topWall.localScale.y);
+                        topWall.name       = "Wall_TB"; 
+                        oldWalls.Add(topWall);
                     }
                 }
 
                 // Render the left wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.LEFT)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && i == 0){
-                        switch (currentExit)
-                        {
-                            case 1:
-                                exitPrefab = exit1LeftRightClosed;
-                                break;
-                            case 2:
-                                exitPrefab = exit2LeftRightClosed;
-                                break;
-                            case 3:
-                                exitPrefab = exit3LeftRightClosed;
-                                break;
-                            case 4:
-                                exitPrefab = exit4LeftRightClosed;
-                                break;
-                        }
                         var leftExit         = Instantiate(exitPrefab, transform) as Transform;
                         leftExit.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftExit.localScale  = new Vector2(leftExit.localScale.x * cellSize, leftExit.localScale.y * cellSize);
+                        leftExit.localScale  = new Vector2(cellSize, leftExit.localScale.y);
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
                         currentExit++;
-                        oldComponents.Add(leftExit);
+                        oldWalls.Add(leftExit);
                     }
                     else{
-                        // Spawn the left wall
-                        var leftWall         = Instantiate(sideWallPrefab, transform) as Transform;
+                        var leftWall         = Instantiate(wallPrefab, transform) as Transform;
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftWall.localScale  = new Vector2(leftWall.localScale.y * cellSize, leftWall.localScale.y * cellSize);
+                        leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
                         leftWall.name        = "Wall_LR"; 
-                        oldComponents.Add(leftWall);
+                        oldWalls.Add(leftWall);
                     }
                 }
 
@@ -216,33 +160,18 @@ public class RenderMaze : NetworkBehaviour
                     if (currentCell.HasFlag(WallStatus.BOTTOM))
                     {
                         if(currentCell.HasFlag(WallStatus.EXIT)){
-                            switch (currentExit)
-                            {
-                                case 1:
-                                    exitPrefab = exit1TopBottomClosed;
-                                    break;
-                                case 2:
-                                    exitPrefab = exit2TopBottomClosed;
-                                    break;
-                                case 3:
-                                    exitPrefab = exit3TopBottomClosed;
-                                    break;
-                                case 4:
-                                    exitPrefab = exit4TopBottomClosed;
-                                    break;
-                            }
                             var bottomExit        = Instantiate(exitPrefab, transform) as Transform;
-                            bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
-                            bottomExit.localScale = new Vector2(bottomExit.localScale.x * cellSize, bottomExit.localScale.y * cellSize);
+                            bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2);
+                            bottomExit.localScale = new Vector2(cellSize, bottomExit.localScale.y);
                             currentExit++;
-                            oldComponents.Add(bottomExit);
+                            oldWalls.Add(bottomExit);
                         }
                         else{
-                            var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
-                            bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
-                            bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
-                            bottomBrickWall.name       = "Wall_TB"; 
-                            oldComponents.Add(bottomBrickWall);
+                            var bottomWall        = Instantiate(wallPrefab, transform) as Transform;
+                            bottomWall.position   = scenePosition + new Vector2(0, -cellSize / 2);
+                            bottomWall.localScale = new Vector2(cellSize, bottomWall.localScale.y);
+                            bottomWall.name       = "Wall_TB"; 
+                            oldWalls.Add(bottomWall);
                         }
                     }
                 }
@@ -252,36 +181,20 @@ public class RenderMaze : NetworkBehaviour
                     if (currentCell.HasFlag(WallStatus.RIGHT))
                     {
                         if(currentCell.HasFlag(WallStatus.EXIT)){
-                            switch (currentExit)
-                            {
-                                case 1:
-                                    exitPrefab = exit1LeftRightClosed;
-                                    break;
-                                case 2:
-                                    exitPrefab = exit2LeftRightClosed;
-                                    break;
-                                case 3:
-                                    exitPrefab = exit3LeftRightClosed;
-                                    break;
-                                case 4:
-                                    exitPrefab = exit4LeftRightClosed;
-                                    break;
-                            }
                             var rightExit         = Instantiate(exitPrefab, transform) as Transform;
                             rightExit.position    = scenePosition + new Vector2(+cellSize / 2, 0);
-                            rightExit.localScale  = new Vector2(rightExit.localScale.x * cellSize, rightExit.localScale.y * cellSize);
+                            rightExit.localScale  = new Vector2(cellSize, rightExit.localScale.y);
                             rightExit.eulerAngles = new Vector3(0, 180, 90);
                             currentExit++;
-                            oldComponents.Add(rightExit);
+                            oldWalls.Add(rightExit);
                         }
                         else{
-                            // Spawn the right wall
-                            var rightWall         = Instantiate(sideWallPrefab, transform) as Transform;
+                            var rightWall         = Instantiate(wallPrefab, transform) as Transform;
                             rightWall.position    = scenePosition + new Vector2(+cellSize / 2, 0);
-                            rightWall.localScale  = new Vector2(rightWall.localScale.x * cellSize, rightWall.localScale.y * cellSize);
+                            rightWall.localScale  = new Vector2(cellSize, rightWall.localScale.y);
                             rightWall.eulerAngles = new Vector3(0, 180, 90);
                             rightWall.name        = "Wall_LR"; 
-                            oldComponents.Add(rightWall);
+                            oldWalls.Add(rightWall);
                         }
                     }
                 }
