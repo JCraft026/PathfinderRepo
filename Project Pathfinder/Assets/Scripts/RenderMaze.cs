@@ -241,7 +241,7 @@ public class RenderMaze : NetworkBehaviour
                             var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
                             bottomBrickWall.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomBrickWall.localScale = new Vector2(bottomBrickWall.localScale.x * cellSize, bottomBrickWall.localScale.y * cellSize);
-                            bottomWall.name            = "Wall_TB"; 
+                            bottomBrickWall.name       = "Wall_TB"; 
                             oldComponents.Add(bottomBrickWall);
                         }
                     }
