@@ -17,9 +17,6 @@ public class RenderMaze : NetworkBehaviour
     public int mazeHeight = 10;
 
     [SerializeField]
-    public float cellSize = 1f;
-
-    [SerializeField]
     [Range(1, 20)]
     public int mossyWallSpawnChance = 10;
 
@@ -41,53 +38,54 @@ public class RenderMaze : NetworkBehaviour
     [SerializeField]
     private Transform exit1LeftRightClosed = null;
 
-    [SerializeField]
-    private Transform exit1LeftRightOpen = null;
+    //[SerializeField]
+    //private Transform exit1LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit1TopBottomClosed = null;
 
-    [SerializeField]
-    private Transform exit1TopBottomOpen = null;
+    //[SerializeField]
+    //private Transform exit1TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit2LeftRightClosed = null;
 
-    [SerializeField]
-    private Transform exit2LeftRightOpen = null;
+    //[SerializeField]
+    //private Transform exit2LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit2TopBottomClosed = null;
 
-    [SerializeField]
-    private Transform exit2TopBottomOpen = null;
+    //[SerializeField]
+    //private Transform exit2TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit3LeftRightClosed = null;
 
-    [SerializeField]
-    private Transform exit3LeftRightOpen = null;
+    //[SerializeField]
+    //private Transform exit3LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit3TopBottomClosed = null;
 
-    [SerializeField]
-    private Transform exit3TopBottomOpen = null;
+    //[SerializeField]
+    //private Transform exit3TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit4LeftRightClosed = null;
 
-    [SerializeField]
-    private Transform exit4LeftRightOpen = null;
+    //[SerializeField]
+    //private Transform exit4LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit4TopBottomClosed = null;
 
-    [SerializeField]
-    private Transform exit4TopBottomOpen = null;
+    //[SerializeField]
+    //private Transform exit4TopBottomOpen = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
+    public float cellSize = 8f;                                    // Size of the maze cell
 
     // Called when the host starts a game
     public override void OnStartServer()
