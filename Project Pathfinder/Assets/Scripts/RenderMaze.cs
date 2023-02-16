@@ -42,10 +42,8 @@ public class RenderMaze : NetworkBehaviour
     private Transform oldMazeFloor;                           // Last maze floor location rendered
 
     // Called when the host starts a game
-    public override void OnStartServer()
+    public void CreateMaze()
     {
-        base.OnStartServer();
-
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
         mazeDataJson = JsonConvert.SerializeObject(mazeData);

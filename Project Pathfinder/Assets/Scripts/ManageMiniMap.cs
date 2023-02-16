@@ -29,8 +29,10 @@ public class ManageMiniMap : MonoBehaviour
     private Transform engineerIcon; // Engineer icon game object
     private Transform trapperIcon;  // Trapper icon game object
 
+    public bool componentsInitialized = false; // Reflects character icon initialization
+
     // Start is called before the first frame update
-    void Start(){
+    public void InitializeMinimapComponents(){
         float cellSize = Utilities.GetMapCellSize(); // Minimap cell size
 
         // If the user is playing as the guard master, initialize guard mini map icons
@@ -39,19 +41,19 @@ public class ManageMiniMap : MonoBehaviour
             chaserIcon = Instantiate(chaserIconPrefab, transform);
             chaserIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             chaserIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            chaserIcon.name = "ChaserIcon";
+            chaserIcon.name = "ChaIcon";
 
             // Initialize engineer minimap icon
             engineerIcon = Instantiate(engineerIconPrefab, transform);
             engineerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             engineerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            engineerIcon.name = "EngineerIcon";
+            engineerIcon.name = "EngIcon";
 
             // Initialize trapper minimap icon
             trapperIcon = Instantiate(trapperIconPrefab, transform);
             trapperIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             trapperIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            trapperIcon.name = "TrapperIcon";
+            trapperIcon.name = "TraIcon";
         }
 
         // If the user is playing as the runner, intitialize the runner's mini map icon
@@ -59,7 +61,7 @@ public class ManageMiniMap : MonoBehaviour
             runnerIcon = Instantiate(runnerIconPrefab, transform);
             runnerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2) * 1.2f, (cellSize/2) * 1.2f);
-            runnerIcon.name = "RunnerIcon";
+            runnerIcon.name = "RunIcon";
         }
     }
 
@@ -69,54 +71,65 @@ public class ManageMiniMap : MonoBehaviour
                cellRoofName;                  // GameObject name of the minimap cell roof cooresponding to the runner's position
         bool   runnerIconInitialized = false; // Reflects whether the positon of the runner's minimap icon has been initialized
 
-        // If the player is playing as the guard master, update the guard icons' locations
-        if(CustomNetworkManager.isRunner == false){
-            // Update the Chaser Icon's location on the minimap
-            newChaserCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.CHASER);
-            if((chaserCellLocation[0] != newChaserCellLocation[0]) || (chaserCellLocation[1] != newChaserCellLocation[1])){
-                if(CellLocationIsValid(newChaserCellLocation)){
-                    mapCellName = "cf(" + newChaserCellLocation[0] + "," + newChaserCellLocation[1] + ")";
-                    chaserIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
-                    chaserCellLocation[0] = newChaserCellLocation[0];
-                    chaserCellLocation[1] = newChaserCellLocation[1];
+        if(CustomNetworkManager.playerRoleSet == true){
+
+            // Initialize minimap components
+            if(componentsInitialized == false){
+                InitializeMinimapComponents();
+                componentsInitialized = true;
+            }
+
+            // If the player is playing as the guard master, update the guard icons' locations
+            if(CustomNetworkManager.isRunner == false){
+                //Debug.Log("isRunner is false");
+                // Update the Chaser Icon's location on the minimap
+                newChaserCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.CHASER);
+                if((chaserCellLocation[0] != newChaserCellLocation[0]) || (chaserCellLocation[1] != newChaserCellLocation[1])){
+                    if(CellLocationIsValid(newChaserCellLocation)){
+                        mapCellName = "cf(" + newChaserCellLocation[0] + "," + newChaserCellLocation[1] + ")";
+                        chaserIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
+                        chaserCellLocation[0] = newChaserCellLocation[0];
+                        chaserCellLocation[1] = newChaserCellLocation[1];
+                    }
+                }
+
+                // Update the Engineer Icon's location on the minimap
+                newEngineerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
+                if((engineerCellLocation[0] != newEngineerCellLocation[0]) || (engineerCellLocation[1] != newEngineerCellLocation[1])){
+                    if(CellLocationIsValid(newEngineerCellLocation)){
+                        mapCellName = "cf(" + newEngineerCellLocation[0] + "," + newEngineerCellLocation[1] + ")";
+                        engineerIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
+                        engineerCellLocation[0] = newEngineerCellLocation[0];
+                        engineerCellLocation[1] = newEngineerCellLocation[1];
+                    }
+                }
+
+                // Update the Trapper Icon's location on the minimap
+                newTrapperCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER);
+                if((trapperCellLocation[0] != newTrapperCellLocation[0]) || (trapperCellLocation[1] != newTrapperCellLocation[1])){
+                    if(CellLocationIsValid(newTrapperCellLocation)){
+                        mapCellName = "cf(" + newTrapperCellLocation[0] + "," + newTrapperCellLocation[1] + ")";
+                        trapperIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
+                        trapperCellLocation[0] = newTrapperCellLocation[0];
+                        trapperCellLocation[1] = newTrapperCellLocation[1];
+                    }
                 }
             }
 
-            // Update the Engineer Icon's location on the minimap
-            newEngineerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
-            if((engineerCellLocation[0] != newEngineerCellLocation[0]) || (engineerCellLocation[1] != newEngineerCellLocation[1])){
-                if(CellLocationIsValid(newEngineerCellLocation)){
-                    mapCellName = "cf(" + newEngineerCellLocation[0] + "," + newEngineerCellLocation[1] + ")";
-                    engineerIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
-                    engineerCellLocation[0] = newEngineerCellLocation[0];
-                    engineerCellLocation[1] = newEngineerCellLocation[1];
-                }
-            }
-
-            // Update the Trapper Icon's location on the minimap
-            newTrapperCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER);
-            if((trapperCellLocation[0] != newTrapperCellLocation[0]) || (trapperCellLocation[1] != newTrapperCellLocation[1])){
-                if(CellLocationIsValid(newTrapperCellLocation)){
-                    mapCellName = "cf(" + newTrapperCellLocation[0] + "," + newTrapperCellLocation[1] + ")";
-                    trapperIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
-                    trapperCellLocation[0] = newTrapperCellLocation[0];
-                    trapperCellLocation[1] = newTrapperCellLocation[1];
-                }
-            }
-        }
-
-        // If the player is playing as the runner, update the runner icon location
-        else{
-            newRunnerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
-            if(((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])) || runnerIconInitialized == false){
-                if(CellLocationIsValid(newRunnerCellLocation)){
-                    mapCellName  = "cf(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
-                    cellRoofName = "cr(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
-                    runnerIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
-                    Destroy(GameObject.Find(cellRoofName));
-                    runnerCellLocation[0] = newRunnerCellLocation[0];
-                    runnerCellLocation[1] = newRunnerCellLocation[1];
-                    runnerIconInitialized = true;
+            // If the player is playing as the runner, update the runner icon location
+            else{
+                //Debug.Log("isRunner is true");
+                newRunnerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
+                if(((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])) || runnerIconInitialized == false){
+                    if(CellLocationIsValid(newRunnerCellLocation)){
+                        mapCellName  = "cf(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
+                        cellRoofName = "cr(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
+                        runnerIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
+                        Destroy(GameObject.Find(cellRoofName));
+                        runnerCellLocation[0] = newRunnerCellLocation[0];
+                        runnerCellLocation[1] = newRunnerCellLocation[1];
+                        runnerIconInitialized = true;
+                    }
                 }
             }
         }

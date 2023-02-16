@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 20050345958379504}
+  - component: {fileID: -2476050136562171917}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -66,7 +67,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2696247814498831812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20, y: -30, z: 0}
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -185,6 +186,7 @@ MonoBehaviour:
   facingDirection: 0
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
+  PauseCanvas: {fileID: 0}
 --- !u!70 &2696247814498831835
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -309,6 +311,24 @@ MonoBehaviour:
   syncInterval: 0.1
   cameraHolder: {fileID: 1420758059646308807}
   offset: {x: 0, y: 0, z: 0}
+  guardId: 0
+  activeGuardId: 0
+  nextActiveGuardId: 0
+--- !u!114 &-2476050136562171917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf421335e1ffe5e48890c5c1e6adbaaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  PauseCanvas: {fileID: 0}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0
