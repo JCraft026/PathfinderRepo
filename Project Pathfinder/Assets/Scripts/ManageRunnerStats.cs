@@ -50,6 +50,5 @@ public class ManageRunnerStats : MonoBehaviour
     // Process runner damage
     public void TakeDamage(int damage){
         health -= damage;
-        Debug.Log(health);
     }
 }
