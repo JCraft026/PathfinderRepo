@@ -42,13 +42,15 @@ public class LobbyDataEntry : MonoBehaviour
             Debug.Log("Players In Game: " + discoveryResponse.playersInGame);
         }
 
-        bool isCopy =
+        bool isNotCopy = 
         (discoveredServers.Values.AsEnumerable<ServerResponse>()
-            .Select(x => x.EndPoint == serverResponse.EndPoint)
+            .Select(x => x.serverId == serverResponse.serverId)
             .Count() == 0);
-        if(isCopy)
+        if(isNotCopy)
         {
-            discoveredServers[serverResponse.serverId] = serverResponse;
+            //discoveredServers[serverResponse.serverId] = serverResponse; // Removed for testing
+
+            discoveredServers.Add(serverResponse.serverId, serverResponse);
 
             GameObject newBox = Instantiate(serverEntryPrefab);
             GameObject newServerName = newBox.transform.GetChild(1).gameObject;
