@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4283335265043179727}
   m_Layer: 0
-  m_Name: CameraHolder
+  m_Name: CameraHolder(R)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,6 +52,8 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 769638881372669460}
+  - component: {fileID: 7644494353048612690}
+  - component: {fileID: -1660078735167207271}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -68,7 +70,7 @@ Transform:
   m_GameObject: {fileID: 2696247814498831812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.10000001, y: 0.10000001, z: 0.1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4283335265043179727}
@@ -115,7 +117,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1483606082, guid: f21ca55ebeb257745b2fca78397d4c36, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -200,9 +202,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: 1.5}
-  m_Size: {x: 15, y: 17}
-  m_Direction: 0
+  m_Offset: {x: -0.0000001529461, y: -6.283006}
+  m_Size: {x: 17.69984, y: 4.869824}
+  m_Direction: 1
 --- !u!114 &-6749338964606658377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +439,7 @@ GameObject:
   - component: {fileID: 2031520285469273067}
   - component: {fileID: 6483379201103285668}
   - component: {fileID: 3152010446997641030}
+  - component: {fileID: 6175346077589153566}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -527,3 +530,15 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 39624bc568ebb1843a6e130c0971ef25
   hasSpawned: 0
+--- !u!114 &6175346077589153566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8806066953676061027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392e943e6ad53864090bfba51758fa6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

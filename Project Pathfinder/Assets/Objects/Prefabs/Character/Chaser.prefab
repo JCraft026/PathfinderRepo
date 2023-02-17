@@ -233,6 +233,8 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 264948650263406450}
+  - component: {fileID: 6500829456246432804}
+  - component: {fileID: 2207163010969311400}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -296,7 +298,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1726905955, guid: 8b9aa50c0c79e334fab6257864273b91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -381,9 +383,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: 1.5}
-  m_Size: {x: 15, y: 17}
-  m_Direction: 0
+  m_Offset: {x: -0.50000125, y: -6.440349}
+  m_Size: {x: 17.000008, y: 2.428048}
+  m_Direction: 1
 --- !u!114 &-6749338964606658377
 MonoBehaviour:
   m_ObjectHideFlags: 0

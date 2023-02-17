@@ -167,7 +167,7 @@ public class GenerateMaze : MonoBehaviour
         CellPosition[] ExitLocations = new CellPosition[4]; // Maze cell position of each maze exit location
 
         // Calculate maze exit locations using a corner as a reference point
-        switch (randomNum.Next(1,4))
+        switch (randomNum.Next(1,5))
         {
             case GenerateMazeConstants.BOTTOM_LEFT_CORNER:
                 ExitLocations[0]._x = exitSpacingHorizontal;
