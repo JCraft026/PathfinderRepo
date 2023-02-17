@@ -12,6 +12,7 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
+    public GameObject flashlight; // Theis character's flashlight object (if they have one)
     public float moveSpeed = 5f,  // Speed at which the character needs to move
                  facingDirection; // Direction the character should face after movement
     Vector2 movementInput;        // Character's current input direction             
@@ -29,8 +30,16 @@ public class MoveCharacter : NetworkBehaviour
             // Get current input data
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
-        
-
+            
+            
+            if ((flashlight != null) && !((movementInput.x == 0) && (movementInput.y == 0)))
+            {
+                if (movementInput.x == 0)
+                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, 90f * (movementInput.y+1));
+                else
+                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, movementInput.x * 45f * (movementInput.y+2));
+            }
+            
             // Set character idle facing direction
             if(movementInput.x == 0 && movementInput.y == -1){
                 facingDirection = MoveCharacterConstants.FORWARD;
@@ -44,7 +53,7 @@ public class MoveCharacter : NetworkBehaviour
             else if(movementInput.x == 1 && movementInput.y == 0){
                 facingDirection = MoveCharacterConstants.RIGHT;
             }
-
+            
             // Communicate movement values with the animator controller
             animator.SetFloat("Horizontal Movement", movementInput.x);
             animator.SetFloat("Vertical Movement", movementInput.y);
