@@ -44,7 +44,7 @@ public class Inventory
             Item itemInInventory = null;
             foreach (Item inventoryItem in itemList){
                 if(inventoryItem.itemType == item.itemType){
-                    inventoryItem.amount -= item.amount;
+                    inventoryItem.amount -= 1;
                     itemInInventory = inventoryItem;
                 }
             }
@@ -66,5 +66,16 @@ public class Inventory
     // Returns the list contained in the inventory
     public List<Item> GetItemList(){
         return itemList;
+    }
+
+    public bool anItemCanStack(Item item){
+        bool listIsStackable = false;
+        foreach(Item inventoryItem in GetItemList()){
+            if (inventoryItem.isStackable()){
+                if(inventoryItem.itemType == item.itemType)
+                    listIsStackable = true;
+            }
+        }
+        return listIsStackable;
     }
 }

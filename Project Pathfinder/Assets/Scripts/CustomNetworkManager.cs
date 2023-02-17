@@ -13,6 +13,8 @@ public class CustomNetworkManager : NetworkManager
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
     public static bool isRunner            = false;               // User playing as Runner status
 
+    private ItemWorld itemWorld;                                  //
+
     [SerializeField]
     RenderMaze mazeRenderer;
 
@@ -48,6 +50,12 @@ public class CustomNetworkManager : NetworkManager
         catch
         {
             Debug.Log("Exception caught in OnServerConnect!");
+        }
+        try{
+            itemWorld.spawnItemWorld(new Vector2(0,-5), Item.getRandomItem());
+        }
+        catch(Exception e){
+            Debug.LogError(e.InnerException);
         }
     }
 

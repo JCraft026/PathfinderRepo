@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 using Mirror;
 
 static class MoveCharacterConstants{
@@ -22,7 +23,8 @@ public class MoveCharacter : NetworkBehaviour
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
 
     private UI_Inventory uiInventory;     // Imports the UI_Inventory to access what is the player
-    public static MoveCharacter Instance; // Makes an instance of this class to access attribtues
+    public static MoveCharacter Instance; // Makes an instance of this class to access 
+    Regex runnerExpression = new Regex("Runner"); // Match "Runner"
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -77,10 +79,22 @@ public class MoveCharacter : NetworkBehaviour
     public void greenScreen(){
         Debug.Log("GREEN");
         animator.SetBool("isGreen", true);
+        if(!runnerExpression.IsMatch(gameObject.name)){
+            if(runnerExpression.IsMatch(gameObject.name)){
+                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
+                runnerRenderer.color = new Color32(255,255,225,20);
+            }
+        }
     }
 
     public void notGreenScreen(){
         animator.SetBool("isGreen", false);
+        if(!runnerExpression.IsMatch(gameObject.name)){
+            if(runnerExpression.IsMatch(gameObject.name)){
+                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
+                runnerRenderer.color = new Color32(255,255,225,255);
+            }
+        }
         Debug.Log("NO GREEN");
     }
 }

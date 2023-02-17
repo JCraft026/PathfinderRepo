@@ -6,12 +6,22 @@ using Mirror;
 
 public class ItemWorldSpawner : NetworkBehaviour
 {
+
+    private ItemWorld itemWorld; //
+
     public Item item; // Item this object is assigned to
 
     // On start, spawn all the objects with this script in it
-    private void Start(){
-        ItemWorld.SpawnItemWorld(transform.position, item);
-        Destroy(gameObject);
+    public override void OnStartAuthority()
+    {
+        Debug.LogError("THIS SHANT RUN");
+        itemWorld.spawnItemWorld(transform.position, item);
+        NetworkedDestroy(gameObject);
     }
 
+    [Command]
+    public void NetworkedDestroy(GameObject gameObject){
+        NetworkServer.Destroy(gameObject);
+        Destroy(gameObject);
+    }
 }

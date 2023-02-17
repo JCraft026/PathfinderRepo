@@ -8,6 +8,7 @@ public class ManageInventory : NetworkBehaviour
 {
     private UI_Inventory uiInventory;             // Imports the UI_Inventory's members and functions
     private Inventory inventory;                  // Imports the inventory's members and functions
+    private ItemWorld itemWorld;                  // 
     private Item selectedItem;                    // The item currently selected
     private List<Item> itemList;                  // The local list of inventory items
     private int slotNumber = 0;                   // The slot number the player is choosing
@@ -39,6 +40,7 @@ public class ManageInventory : NetworkBehaviour
 
     // Runs when colliding with an item
     private void OnTriggerEnter2D(Collider2D collider){
+        Debug.Log("We collided");
         ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
         // If touching an item
         if(itemWorld != null){
@@ -50,7 +52,7 @@ public class ManageInventory : NetworkBehaviour
             else{
                 // Checks for the ability to hold more items
                 if(inventory.GetItemList().Count < 8 ||
-                    itemWorld.GetItem().isStackable()){
+                    inventory.anItemCanStack(itemWorld.GetItem())){
                     inventory.AddItem(itemWorld.GetItem());
                     itemWorld.DestroySelf();
                     // Controls if the item you pick up is selected (ready to be used) or not
@@ -255,8 +257,8 @@ public class ManageInventory : NetworkBehaviour
     // Drop's the selected item behind the runner
     void OnDropItem(){
         if (selectedItem != null){
-            Item duplicateItem = new Item {itemType = selectedItem.itemType, amount = selectedItem.amount};
-            ItemWorld.DropItem(MoveCharacter.Instance.rigidBody.position, duplicateItem);
+            Item duplicateItem = new Item {itemType = selectedItem.itemType, amount = 1};
+            itemWorld.DropItem(MoveCharacter.Instance.rigidBody.position, duplicateItem);
             inventory.RemoveItem(selectedItem);
             selectedItem = null;
             itemList = inventory.GetItemList();

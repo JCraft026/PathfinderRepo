@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class RenderSmokeScreen : MonoBehaviour
+public class RenderSmokeScreen : NetworkBehaviour
 {
     public static RenderSmokeScreen Instance;          // Makes an instance of this class to access attribtues
 
@@ -12,12 +13,16 @@ public class RenderSmokeScreen : MonoBehaviour
     }
 
     // Update is called once per frame
+    [Command]
     public void useSmoke(){
-        Transform tranform = Instantiate(ItemAssets.Instance.SmokeScreen,
+        GameObject gameObject = Instantiate(ItemAssets.Instance.SmokeScreen,
            MoveCharacter.Instance.rigidBody.position, Quaternion.identity);
+        NetworkServer.Spawn(gameObject);
     }
 
     void Awake(){
-        Destroy(gameObject, 10.0f);
+        if(gameObject != null){
+            Destroy(gameObject, 10.0f);
+        }
     }
 }

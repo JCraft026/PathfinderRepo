@@ -78,4 +78,28 @@ public class Item
             case ItemType.Keys_3: return true;
         }
     }
+
+    public static Item getRandomItem(){
+        Item item = new Item();
+        switch(UnityEngine.Random.Range(0,3))
+        {
+            default:
+                Debug.Log("Default lol");
+                break;
+            case 0:
+                item.itemType = ItemType.Sledge;
+                Debug.Log(item.itemType);
+                break;
+            case 1:
+                item.itemType = ItemType.Coffee;
+                Debug.Log(item.itemType);
+                break;
+            case 2:
+                item.itemType = ItemType.GreenScreenSuit;
+                Debug.Log(item.itemType);
+                break;
+
+        }
+        return item;
+    }
 }

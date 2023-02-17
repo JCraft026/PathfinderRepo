@@ -10,25 +10,34 @@ public class ItemWorld : NetworkBehaviour{
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component
     private TextMeshPro textMeshPro;       // Holds the text that shows the number of stacked items
 
+    //public ItemWorld Instance;
+
     // Called when the itemWorld object is instantiated
     private void Awake(){
+        //Instance = this;
         spriteRenderer = GetComponent<SpriteRenderer>();
         textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
     }
 
     // Spawns an item at the in scene location
-    public static ItemWorld SpawnItemWorld(Vector2 position, Item item){
-        Transform transform =
-            Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
-        ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
+    public void spawnItemWorld(Vector2 position, Item item){
+        Debug.Log("AM I working?");
+        networkedSpawnItemWorld(position, item);   
+    }
+
+    // Spawns an item at the in scene location
+    [Command]
+    public void networkedSpawnItemWorld(Vector2 position, Item item){
+        Debug.Log("Please am I here?");
+        GameObject gameObject = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
+        ItemWorld itemWorld = gameObject.GetComponent<ItemWorld>();
         itemWorld.SetItem(item);
-        return itemWorld;
+        NetworkServer.Spawn(gameObject);
     }
 
     // Drop's an item behind where the player is facing 
-    public static ItemWorld DropItem(Vector2 dropPosition, Item item){
-        Vector2 dropDirection = new Vector2(); // A positive/negative x/y direction based on
-                                               // which direction the player is facing
+    public void DropItem(Vector2 dropPosition, Item item){
+        Vector2 dropDirection = new Vector2(); // A positive/negative x/y direction based on which direction the player is facing
 
         switch(MoveCharacter.Instance.facingDirection){
             case 1:
@@ -44,8 +53,7 @@ public class ItemWorld : NetworkBehaviour{
                 dropDirection = new Vector2(-2f, 0);
                 break;
         }
-        ItemWorld itemWorld = SpawnItemWorld(dropPosition + dropDirection, item);
-        return itemWorld;
+        networkedSpawnItemWorld(dropPosition + dropDirection, item);
     }
 
     // Assigns the right sprite and amount number to an item

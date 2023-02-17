@@ -10,8 +10,8 @@ public class ItemAssets : MonoBehaviour
         Instance = this;
     }
 
-    public Transform pfItemWorld,     // Transform of prefab item in the scene
-                     SmokeScreen;     // Prefab smoke screen to instantiate
+    public GameObject pfItemWorld,    // Transform of prefab item in the scene
+                      SmokeScreen;    // Prefab smoke screen to instantiate
     public Sprite    sledgeSprite,    // Sledge Hammer sprite
                      smokeBombSprite, // Smoke Bomb Sprite
                      coffeeSprite,    // Common Grounds Coffee Sprite
