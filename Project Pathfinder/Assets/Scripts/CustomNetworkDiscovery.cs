@@ -30,7 +30,7 @@ public class DiscoveryResponse : NetworkMessage
     public string serverName;    // Name of the server set by the host
     public string teamAvailable; // The team (runner/guards) available for the client to play as
     public int playersInGame;    // Number of players in the game
-    public bool isHostRunner;
+    public bool isHostRunner;    // Used to determine which team the client will join as in the server browser
 }
 
 // Used to contain an event for OnServerFound
@@ -41,8 +41,8 @@ public class CustomServerFoundUnityEvent : UnityEvent<ServerResponse, DiscoveryR
 public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, DiscoveryResponse>
 {
     [Tooltip("Invoked when a server is found")]
-    public CustomNetworkManagerDAO networkManagerDao;
-    public CustomServerFoundUnityEvent OnServerFound = new();
+    public CustomNetworkManagerDAO networkManagerDao;         // Allows us to easily communicate with the network manager and its components
+    public CustomServerFoundUnityEvent OnServerFound = new(); // Contains a delegate function to run when a server is found (see LobbyDataEntry class for more information)
     #region Server
 
     /// <summary>
@@ -120,13 +120,12 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <param name="endpoint">Address of the server that replied</param>
     protected override void ProcessResponse(DiscoveryResponse response, IPEndPoint endpoint)
     {
-        /* To get these to display on the front-end of the server browser we can override assing OnServerFound(ServerResponse)
+        /* To get these to display on the front-end of the server browser we can override OnServerFound(ServerResponse)
            to a delagate function used to create a lobby entry with the information from the response.
            If you have any questions about this strategy let me know (-Caleb) */
         OnServerFound.Invoke(new ServerResponse(){
             EndPoint = endpoint,
             serverId = RandomLong(),
-            //uri = builder.Uri
             uri = new("kcp://"+endpoint.Address.ToString()/*+endpoint.Port.ToString()*/)
         }, response);
     }

@@ -60,6 +60,7 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     #endregion Getters for the CustomNetworkManager
 
     #region ServerBrowserBackend communication
+
     // Commands the ServerBrowserBackend to start hosting a game
     public void ServerBrowserStartHosting(bool hostIsRunner)
     {
@@ -100,5 +101,6 @@ public class CustomNetworkManagerDAO : MonoBehaviour
         }
         return FoundServersCache;
     }
+    
     #endregion ServerBrowserBackend communication
 }
