@@ -164,8 +164,8 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 20050345958379504}
-  - component: {fileID: 8316583361220689483}
-  - component: {fileID: 6933765418304830315}
+  - component: {fileID: 3931722354195069381}
+  - component: {fileID: 6301061394774261126}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -428,6 +428,33 @@ MonoBehaviour:
   guardId: 0
   activeGuardId: 0
   nextActiveGuardId: 0
+--- !u!114 &3931722354195069381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef8598a780d63442a9281244f399cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6301061394774261126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af9b1911e0bf7446b5627d3741e85a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  animator: {fileID: 2696247814498831813}
 --- !u!1 &4943094917430907264
 GameObject:
   m_ObjectHideFlags: 0

@@ -233,8 +233,8 @@ GameObject:
   - component: {fileID: 7285060209222719626}
   - component: {fileID: 6696561907742982402}
   - component: {fileID: 264948650263406450}
-  - component: {fileID: 6500829456246432804}
-  - component: {fileID: 2207163010969311400}
+  - component: {fileID: 6098593022231831745}
+  - component: {fileID: 7253153118209873688}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -497,6 +497,33 @@ MonoBehaviour:
   guardId: 0
   activeGuardId: 0
   nextActiveGuardId: 0
+--- !u!114 &6098593022231831745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ef8598a780d63442a9281244f399cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7253153118209873688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af9b1911e0bf7446b5627d3741e85a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  animator: {fileID: 2696247814498831813}
 --- !u!1 &5795736046306364667
 GameObject:
   m_ObjectHideFlags: 0

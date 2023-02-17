@@ -78,16 +78,16 @@ public class HandleLayers : MonoBehaviour
         for (int index = 0; index <= 3; index++)
         {
             if(characterPositions[index] == runner.transform.position.y){
-                runnerElevationRank  = index + 4;
+                runnerElevationRank  = index + 5;
             }
             else if(characterPositions[index] == chaser.transform.position.y){
-                chaserElevationRank   = index + 4;
+                chaserElevationRank   = index + 5;
             }
             else if(characterPositions[index] == engineer.transform.position.y){
-                engineerElevationRank = index + 4;
+                engineerElevationRank = index + 5;
             }
             else if(characterPositions[index] == trapper.transform.position.y){
-                trapperElevationRank  = index + 4;
+                trapperElevationRank  = index + 5;
             }
         }
     }
