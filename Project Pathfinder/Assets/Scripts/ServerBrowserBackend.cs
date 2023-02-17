@@ -112,6 +112,7 @@ public class ServerBrowserBackend : MonoBehaviour
         // Wipe out the servers we found last time, search for new ones
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
+        Debug.Log("LookForOtherServers");
 
         Debug.Log("Found " + discoveredServers.Count + " Servers");
         foreach(var x in discoveredServers)
