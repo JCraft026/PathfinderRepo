@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  flashlight: {fileID: 0}
   moveSpeed: 5
   facingDirection: 0
   rigidBody: {fileID: 2696247814498831833}
@@ -218,7 +219,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 39624bc568ebb1843a6e130c0971ef25
+  m_AssetId: 98a15171d764f284fae389a963666ec2
   hasSpawned: 0
 --- !u!114 &5198763830773318775
 MonoBehaviour:
@@ -355,6 +356,7 @@ GameObject:
   - component: {fileID: 6483379201103285668}
   - component: {fileID: 3152010446997641030}
   - component: {fileID: 6175346077589153566}
+  - component: {fileID: 9147103416766716294}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -443,7 +445,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 39624bc568ebb1843a6e130c0971ef25
+  m_AssetId: 98a15171d764f284fae389a963666ec2
   hasSpawned: 0
 --- !u!114 &6175346077589153566
 MonoBehaviour:
@@ -457,3 +459,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392e943e6ad53864090bfba51758fa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9147103416766716294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8806066953676061027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
