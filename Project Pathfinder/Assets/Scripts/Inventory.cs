@@ -60,6 +60,7 @@ public class Inventory
 
     // Use the selected item
     public void UseItem(Item item){
+        Debug.Log("using item: " + item.itemType.ToString());
         useItemAction(item);
     }
 

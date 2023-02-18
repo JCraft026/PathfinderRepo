@@ -4,8 +4,11 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 
+/*
+    *This script manages items that are on the ground (-Caleb)
+*/
 public class ItemWorld : NetworkBehaviour{
-    
+    [SyncVar]
     private Item item;                     // The item to be referenced
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component
     private TextMeshPro textMeshPro;       // Holds the text that shows the number of stacked items
@@ -16,7 +19,19 @@ public class ItemWorld : NetworkBehaviour{
     private void Awake(){
         //Instance = this;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
+        try
+        {
+            textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
+        }
+        catch
+        {
+            Debug.LogWarning("Failed to get textMeshPro in self, getting from gObject's child");
+            textMeshPro = gameObject.GetComponentInChildren<TextMeshPro>();
+        }
+        if(textMeshPro == null)
+        {
+            Debug.LogError("Item textMeshPro is null");
+        }
     }
 
     // Spawns an item at the in scene location
@@ -36,7 +51,7 @@ public class ItemWorld : NetworkBehaviour{
     }
 
     // Drop's an item behind where the player is facing 
-    public void DropItem(Vector2 dropPosition, Item item){
+    public static void DropItem(Vector2 dropPosition, Item item){
         Vector2 dropDirection = new Vector2(); // A positive/negative x/y direction based on which direction the player is facing
 
         switch(MoveCharacter.Instance.facingDirection){
@@ -53,12 +68,17 @@ public class ItemWorld : NetworkBehaviour{
                 dropDirection = new Vector2(-2f, 0);
                 break;
         }
-        networkedSpawnItemWorld(dropPosition + dropDirection, item);
+        ItemWorldSpawner.SpawnItemWorld(dropPosition + dropDirection, item);
+        //networkedSpawnItemWorld(dropPosition + dropDirection, item);
     }
 
     // Assigns the right sprite and amount number to an item
     public void SetItem(Item item){
         this.item = item;
+        if(item == null)
+        {
+            Debug.Log("Item is null in SetItem");
+        }
         spriteRenderer.sprite = item.GetSprite();
         if (item.amount > 1){
             textMeshPro.SetText(item.amount.ToString());
@@ -66,6 +86,7 @@ public class ItemWorld : NetworkBehaviour{
         else{
             textMeshPro.SetText("");
         }
+        Debug.Log("item set");
     }
 
     // Returns an item

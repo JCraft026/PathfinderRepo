@@ -41,10 +41,23 @@ public class ManageInventory : NetworkBehaviour
     // Runs when colliding with an item
     private void OnTriggerEnter2D(Collider2D collider){
         Debug.Log("We collided");
-        ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
+        if(collider == null)
+        {
+            Debug.LogError("Collider is null");
+        }
+        if(collider.gameObject == null)
+        {
+            Debug.LogError("itemWorld.gameObject == null");
+        }
+        ItemWorld itemWorld = collider.gameObject.GetComponent<ItemWorld>();
+        
         // If touching an item
         if(itemWorld != null){
             // Checks to see if the item is a key
+            if(itemWorld.GetItem() == null)
+            {
+                Debug.LogError("itemWorld.GetItem() == null");
+            }
             if(itemWorld.GetItem().isKey()){
                 itemWorld.DestroySelf();
                 uiInventory.SetKey(itemWorld.GetItem());
@@ -258,7 +271,27 @@ public class ManageInventory : NetworkBehaviour
     void OnDropItem(){
         if (selectedItem != null){
             Item duplicateItem = new Item {itemType = selectedItem.itemType, amount = 1};
-            itemWorld.DropItem(MoveCharacter.Instance.rigidBody.position, duplicateItem);
+            if(itemWorld == null)
+            {
+                Debug.LogError("itemWorld is null");
+            }
+            if(MoveCharacter.Instance == null)
+            {
+                Debug.LogError("MoveCharacter.Instance == null");
+            }
+            else if(MoveCharacter.Instance.rigidBody == null)
+            {
+                Debug.LogError("MoveCharacter.Instance.rigidBody.position == null");
+            }
+            else if(MoveCharacter.Instance.rigidBody.position == null)
+            {
+                Debug.LogError("MoveCharacter.Instance.rigidBody.position == null");
+            }
+            if(duplicateItem == null)
+            {
+                Debug.LogError("duplicateItem is null");
+            }
+            ItemWorld.DropItem(MoveCharacter.Instance.rigidBody.position, duplicateItem);
             inventory.RemoveItem(selectedItem);
             selectedItem = null;
             itemList = inventory.GetItemList();

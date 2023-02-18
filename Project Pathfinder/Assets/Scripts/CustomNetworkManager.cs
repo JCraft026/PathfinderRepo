@@ -13,7 +13,7 @@ public class CustomNetworkManager : NetworkManager
     public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
     public static bool isRunner            = false;               // User playing as Runner status
 
-    private ItemWorld itemWorld;                                  //
+    public ItemWorld itemWorld;                                  //
 
     [SerializeField]
     RenderMaze mazeRenderer;
@@ -52,10 +52,15 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Exception caught in OnServerConnect!");
         }
         try{
-            itemWorld.spawnItemWorld(new Vector2(0,-5), Item.getRandomItem());
+            //itemWorld.spawnItemWorld(new Vector2(0,-5), Item.getRandomItem());
+            Item generatedItem = Item.getRandomItem();
+            Debug.Log("Generated an item");
+            ItemWorldSpawner.SpawnItemWorld(new Vector2(0, -5), generatedItem);
         }
         catch(Exception e){
-            Debug.LogError(e.InnerException);
+            Debug.LogError("failed to spawn item world in the network manager");
+            Debug.LogError(e.Message);
+            Debug.Log(e.Source);
         }
     }
 
