@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Mirror;
 
-public class UI_Inventory : MonoBehaviour
+public class Player_UI : NetworkBehaviour
 {
+    public GameObject     player;
     private Inventory     inventory;         // Reference to the inventory's members and functions
     private Transform     itemSlotContainer, // Area where the UI inventory lies
                           itemSlotTemplate,  // Template for each item slot that instantiates
@@ -22,7 +24,8 @@ public class UI_Inventory : MonoBehaviour
 
     // Run when the UI activates
     private void Awake(){
-        // Find all important transforms for later instantiation or reference 
+        // Find all important transforms for later instantiation or reference
+        Debug.Log(gameObject);
         itemSlotContainer = transform.Find("ItemSlotContainer");
         itemSlotTemplate  = itemSlotContainer.Find("ItemSlotTemplate");
         keySlotContainer  = transform.Find("KeyContainer");

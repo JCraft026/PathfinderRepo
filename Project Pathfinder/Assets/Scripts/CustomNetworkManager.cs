@@ -54,8 +54,9 @@ public class CustomNetworkManager : NetworkManager
         try{
             //itemWorld.spawnItemWorld(new Vector2(0,-5), Item.getRandomItem());
             Item generatedItem = Item.getRandomItem();
+            generatedItem.amount = 1;
             Debug.Log("Generated an item");
-            ItemWorldSpawner.SpawnItemWorld(new Vector2(0, -5), generatedItem);
+            ItemWorldSpawner.SpawnItemWorld(new Vector2(0, -2), generatedItem);
         }
         catch(Exception e){
             Debug.LogError("failed to spawn item world in the network manager");
