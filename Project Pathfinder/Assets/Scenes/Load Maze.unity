@@ -1580,7 +1580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: hostIsRunner
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: mazeRenderer

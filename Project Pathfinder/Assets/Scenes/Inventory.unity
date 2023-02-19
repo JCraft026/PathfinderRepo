@@ -1950,8 +1950,9 @@ GameObject:
   - component: {fileID: 1254632271}
   - component: {fileID: 1254632272}
   - component: {fileID: 1254632273}
+  - component: {fileID: 1254632274}
   m_Layer: 5
-  m_Name: UI_Inventory
+  m_Name: Player_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1999,6 +2000,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5122ea6eecea044b8c2d7911d5df215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  player: {fileID: 0}
+--- !u!114 &1254632274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254632270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 4040925909
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &1349607888
 GameObject:
   m_ObjectHideFlags: 0
