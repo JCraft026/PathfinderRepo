@@ -100,6 +100,12 @@ public class Item
                 break;
 
         }
+        if(item.isStackable()){
+            item.amount = UnityEngine.Random.Range(1,9);
+        }
+        else{
+            item.amount = 1;
+        }
         return item;
     }
 }

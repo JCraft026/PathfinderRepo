@@ -5,10 +5,11 @@ using UnityEngine;
 using System;
 
 static class GenerateMazeConstants{
-    public const int BOTTOM_LEFT_CORNER  = 1; // Bottom left corner of the maze
-    public const int BOTTOM_RIGHT_CORNER = 2; // Bottom right corner of the maze
-    public const int TOP_LEFT_CORNER     = 3; // Top left corner of the maze
-    public const int TOP_RIGHT_CORNER    = 4; // Top right corner of the maze
+    public const int BOTTOM_LEFT_CORNER  = 1;  // Bottom left corner of the maze
+    public const int BOTTOM_RIGHT_CORNER = 2;  // Bottom right corner of the maze
+    public const int TOP_LEFT_CORNER     = 3;  // Top left corner of the maze
+    public const int TOP_RIGHT_CORNER    = 4;  // Top right corner of the maze
+    public const int CHANCE_OF_CRACKED   = 13; // Controls frequency of cracked walls
 }
 
 // X and Y grid positions of each maze cell
@@ -26,12 +27,14 @@ public struct CellNeighbor{
 // Status bits reflecting the presence of each wall within a maze cell
 [Flags]
 public enum WallStatus{
-    TOP     = 1,   // (0000 0001) Top wall bit
-    LEFT    = 2,   // (0000 0010) Left wall bit
-    BOTTOM  = 4,   // (0000 0100) Bottom wall bit
-    RIGHT   = 8,   // (0000 1000) Right wall bit
-    EXIT    = 64,  // (0100 0000) Maze exit bit
-    VISITED = 128, // (1000 0000) Cell visited status bit
+    TOP     = 1,       // (0000 0001) Top wall bit
+    LEFT    = 2,       // (0000 0010) Left wall bit
+    BOTTOM  = 4,       // (0000 0100) Bottom wall bit
+    RIGHT   = 8,       // (0000 1000) Right wall bit
+    TOP_CRACKED = 16,  // (0001 0000) Top Cracked wall bit
+    LEFT_CRACKED = 32, // (0010 0000) Left Cracked wall bit
+    EXIT    = 64,      // (0100 0000) Maze exit bit
+    VISITED = 128,     // (1000 0000) Cell visited status bit
 }
 
 public class GenerateMaze : MonoBehaviour
@@ -102,6 +105,22 @@ public class GenerateMaze : MonoBehaviour
                 // Set the neighbor cell as the new current cell
                 mazeData[neighborCell._x, neighborCell._y] |= WallStatus.VISITED;
                 positionStack.Push(neighborCell);
+            }
+        }
+
+        // Loop through all the cells to give them a chance to be cracked like Justin from Fortnite
+        for(int j = 0; j < mazeHeight - 1; j++){
+            for(int i = 0; i < mazeWidth - 1; i++){
+                if(mazeData[i,j].HasFlag(WallStatus.TOP)){
+                    if(UnityEngine.Random.Range(0, GenerateMazeConstants.CHANCE_OF_CRACKED) == 0){
+                        mazeData[i,j] |= WallStatus.TOP_CRACKED;
+                    }
+                }
+                else if(mazeData[i,j].HasFlag(WallStatus.LEFT)){
+                    if(UnityEngine.Random.Range(0, GenerateMazeConstants.CHANCE_OF_CRACKED) == 0){
+                        mazeData[i,j] |= WallStatus.LEFT_CRACKED;
+                    }
+                }
             }
         }
         return mazeData;
