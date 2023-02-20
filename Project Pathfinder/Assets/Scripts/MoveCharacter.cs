@@ -31,13 +31,13 @@ public class MoveCharacter : NetworkBehaviour
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
             
-            
+            // Flashlight rotation
             if ((flashlight != null) && !((movementInput.x == 0) && (movementInput.y == 0)))
             {
                 if (movementInput.x == 0)
-                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, 90f * (movementInput.y+1));
+                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, 180f + 90f * (movementInput.y+1));
                 else
-                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, movementInput.x * 45f * (movementInput.y+2));
+                    flashlight.transform.eulerAngles = new Vector3(0f, 0f, 180f + movementInput.x * 45f * (movementInput.y+2));
             }
             
             // Set character idle facing direction

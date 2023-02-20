@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7461741171441980718}
   - component: {fileID: 2567084731125170164}
   - component: {fileID: 8894411996884736482}
+  - component: {fileID: 5571856269469175185}
   m_Layer: 0
   m_Name: Exit 4 Top Bottom Door (Open)
   m_TagString: Untagged
@@ -55,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4ec259e0742cbaf43878b6bc2d87e0a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,3 +138,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5571856269469175185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305573878682505494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.13999999, y: -0.04, z: 0}
+  - {x: -0.13999999, y: 0.04, z: 0}
+  - {x: 0.13999999, y: 0.04, z: 0}
+  - {x: 0.13999999, y: -0.04, z: 0}
+  m_ShapePathHash: 0
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -107482

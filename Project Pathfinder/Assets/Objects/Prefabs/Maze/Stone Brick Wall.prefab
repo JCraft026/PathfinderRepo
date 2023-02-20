@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -3186512940323406780}
   - component: {fileID: 8692589880442981796}
   - component: {fileID: 8254044066047794190}
+  - component: {fileID: -4429934223338909619}
   m_Layer: 0
   m_Name: Stone Brick Wall
   m_TagString: Untagged
@@ -56,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e468a7bceaffa6d4e8b37e5a58e72c3b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,3 +181,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4429934223338909619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505745279242397786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.13999999, y: -0.04, z: 0}
+  - {x: -0.13999999, y: -0.039, z: 0}
+  - {x: 0.13999999, y: -0.039, z: 0}
+  - {x: 0.13999999, y: -0.04, z: 0}
+  m_ShapePathHash: -1807017379
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 45324
