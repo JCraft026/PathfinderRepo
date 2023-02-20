@@ -24,32 +24,15 @@ public class ItemWorldSpawner : NetworkBehaviour
 
     public static void SpawnItemWorld(Vector2 pos, Item item)
     {
-        if(NetworkServer.active)
-        {
-            GameObject gameObject = Instantiate(ItemAssets.Instance.pfItemWorld, pos, Quaternion.identity);
-            ItemWorld groundItem = gameObject.GetComponent<ItemWorld>();
-            groundItem.SetItem(item);
-            NetworkServer.Spawn(gameObject);
-        }
-        else
-        {
-           
-            //CmdSpawnItemWorld(pos, item);
-        }
+        GameObject gameObject = Instantiate(ItemAssets.Instance.pfItemWorld, pos, Quaternion.identity);
+        ItemWorld groundItem = gameObject.GetComponent<ItemWorld>();
+        groundItem.SetItem(item);
+        NetworkServer.Spawn(gameObject);
     }
 
     [Command]
     public void NetworkedDestroy(GameObject gameObject){
         NetworkServer.Destroy(gameObject);
         Destroy(gameObject);
-    }
-
-    [Command]
-    public void CmdSpawnItemWorld(Vector2 pos, Item item)
-    {
-        GameObject gameObject = Instantiate(ItemAssets.Instance.pfItemWorld, pos, Quaternion.identity);
-        ItemWorld groundItem = gameObject.GetComponent<ItemWorld>();
-        groundItem.SetItem(item);
-        NetworkServer.Spawn(gameObject);
     }
 }

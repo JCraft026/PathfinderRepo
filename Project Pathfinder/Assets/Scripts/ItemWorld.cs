@@ -37,7 +37,7 @@ public class ItemWorld : NetworkBehaviour{
     // Spawns an item at the in scene location
     public void spawnItemWorld(Vector2 position, Item item){
         Debug.Log("AM I working?");
-        ItemWorldSpawner.SpawnItemWorld(position, item);   
+        networkedSpawnItemWorld(position, item);   
     }
 
     // Spawns an item at the in scene location

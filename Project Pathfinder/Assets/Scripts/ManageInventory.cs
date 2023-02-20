@@ -16,49 +16,27 @@ public class ManageInventory : NetworkBehaviour
 
     // Called on awake
     private void Awake(){
-        Debug.Log("Creating Inventory");
         inventoryControls = new InventoryControls();
-        CreateInventory();
-        //inventory = new Inventory(UseItem);
-        //uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
-        //uiInventory.SetInventory(inventory);
     }
 
     // Ensures the input controller works correctly
     private void OnEnable(){
-        if(inventoryControls == null)
-        {
-            Debug.LogError("inventory controls is null");
-        }
         inventoryControls.Enable();
     }
     
     // Ensures the input controller works correctly
     private void OnDisable(){
-        if(inventoryControls == null)
-        {
-            Debug.LogError("inventory controls is null");
-        }
         inventoryControls.Disable();
     }
 
-    public void CreateInventory()
-    {
-        Debug.Log("Creating Inventory");
-        //inventoryControls = new InventoryControls();
-        inventory = new Inventory(UseItem);
-        uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
-        uiInventory.SetInventory(inventory);
-    }
-
     // Runs on Start
-    /*public override void OnStartAuthority()
+    public override void OnStartAuthority()
     {
         base.OnStartAuthority();
         inventory = new Inventory(UseItem);
         uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
         uiInventory.SetInventory(inventory);
-    }*/
+    }
 
     // Runs when colliding with an item
     private void OnTriggerEnter2D(Collider2D collider){
@@ -74,7 +52,7 @@ public class ManageInventory : NetworkBehaviour
         ItemWorld itemWorld = collider.gameObject.GetComponent<ItemWorld>();
         
         // If touching an item
-        if(itemWorld != null && isLocalPlayer){
+        if(itemWorld != null){
             // Checks to see if the item is a key
             if(itemWorld.GetItem() == null)
             {
@@ -85,23 +63,6 @@ public class ManageInventory : NetworkBehaviour
                 uiInventory.SetKey(itemWorld.GetItem());
             }
             else{
-                // Error checks
-                if(inventory == null)
-                {
-                    Debug.LogError("Inventory is null");
-                }
-                else if(inventory.GetItemList() == null)
-                {
-                    Debug.LogError("Inventory item list is null");
-                }
-                if(itemWorld == null)
-                {
-                    Debug.LogError("Itemworld is null");
-                }
-                else if(itemWorld.GetItem() == null)
-                {
-                    Debug.Log("itemWorld.GetItem() returning null");
-                }
                 // Checks for the ability to hold more items
                 if(inventory.GetItemList().Count < 8 ||
                     inventory.anItemCanStack(itemWorld.GetItem())){

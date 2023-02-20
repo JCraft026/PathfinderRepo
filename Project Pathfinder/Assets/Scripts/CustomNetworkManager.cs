@@ -126,9 +126,8 @@ public class CustomNetworkManager : NetworkManager
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
                     break;
             }
+
             Destroy(oldPlayer);
-            var invCanvas = GameObject.Find("Inventory Canvas");
-            invCanvas.SetActive(false);
 
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
