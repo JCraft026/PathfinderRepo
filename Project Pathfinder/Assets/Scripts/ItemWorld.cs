@@ -7,7 +7,8 @@ using Mirror;
 /*
     *This script manages items that are on the ground (-Caleb)
 */
-public class ItemWorld : NetworkBehaviour{
+public class ItemWorld : NetworkBehaviour
+{
     [SyncVar]
     private Item item;                     // The item to be referenced
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component

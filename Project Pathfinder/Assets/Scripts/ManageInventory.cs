@@ -6,13 +6,13 @@ using Mirror;
 
 public class ManageInventory : NetworkBehaviour
 {
-    private UI_Inventory uiInventory;             // Imports the UI_Inventory's members and functions
-    private Inventory inventory;                  // Imports the inventory's members and functions
-    private ItemWorld itemWorld;                  // 
-    private Item selectedItem;                    // The item currently selected
-    private List<Item> itemList;                  // The local list of inventory items
-    private int slotNumber = 0;                   // The slot number the player is choosing
-    public InventoryControls inventoryControls;   // Imports the inventory controller
+    private Player_UI playerUi;                 // Imports the Player UI's members and functions
+    private Inventory inventory;                // Imports the inventory's members and functions
+    private ItemWorld itemWorld;                // Imports the Item World Script's members and functions
+    private Item selectedItem;                  // The item currently selected
+    private List<Item> itemList;                // The local list of inventory items
+    private int slotNumber = 0;                 // The slot number the player is choosing
+    public InventoryControls inventoryControls; // Imports the inventory controller
 
     // Called on awake
     private void Awake(){
@@ -34,8 +34,8 @@ public class ManageInventory : NetworkBehaviour
     {
         base.OnStartAuthority();
         inventory = new Inventory(UseItem);
-        uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
-        uiInventory.SetInventory(inventory);
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+        playerUi.SetInventory(inventory);
     }
 
     // Runs when colliding with an item
@@ -60,7 +60,7 @@ public class ManageInventory : NetworkBehaviour
             }
             if(itemWorld.GetItem().isKey()){
                 itemWorld.DestroySelf();
-                uiInventory.SetKey(itemWorld.GetItem());
+                playerUi.SetKey(itemWorld.GetItem());
             }
             else{
                 // Checks for the ability to hold more items
@@ -70,9 +70,9 @@ public class ManageInventory : NetworkBehaviour
                     itemWorld.DestroySelf();
                     // Controls if the item you pick up is selected (ready to be used) or not
                     if(inventory.GetItemList().Count == 1){
+                        slotNumber = 0;
                         selectedItem = itemWorld.GetItem();
                         selectedItem.selected = true;
-                        slotNumber = 0;
                     }
                     // If the item you just dropped is picked up, it will be selected again
                     else if(slotNumber + 1 == inventory.GetItemList().Count){
@@ -80,7 +80,7 @@ public class ManageInventory : NetworkBehaviour
                         selectedItem = itemWorld.GetItem();
                         selectedItem.selected = true;
                     }
-                    uiInventory.RefreshInventoryItems();
+                    playerUi.RefreshInventoryItems();
                 }
                 else{
                     Debug.Log("Your inventory is full");
@@ -99,7 +99,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 0;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the second item slot (Keypad2)
@@ -112,7 +112,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 1;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the third item slot (Keypad3)
@@ -125,7 +125,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 2;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the fourth item slot (Keypad4)
@@ -138,7 +138,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 3;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the fifth item slot (Keypad5)
@@ -151,7 +151,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 4;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the sixth item slot (Keypad6)
@@ -164,7 +164,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 5;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the seventh item slot (Keypad7)
@@ -177,7 +177,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 6;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Select the eighth item slot (Keypad8)
@@ -190,7 +190,7 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 7;
             unselectSlots(slotNumber);
         }
-        uiInventory.RefreshInventoryItems();
+        playerUi.RefreshInventoryItems();
     }
 
     // Does an action based of of which item is passed
@@ -246,18 +246,17 @@ public class ManageInventory : NetworkBehaviour
             // Check if there are enough items to be used
             if(selectedItem.amount > 0){
                 inventory.UseItem(selectedItem);
-                // 
+                // If there are no items in a stackable item after use, remove the item
                 if(selectedItem.amount <= 0){
                     inventory.RemoveItem(selectedItem);
                     selectedItem = null;
-
                     itemList = inventory.GetItemList();
                     if(itemList.Count > 0){
                         if(slotNumber + 1 <= itemList.Count){
                             selectedItem = itemList[slotNumber];
                             selectedItem.selected = true;
                         }
-                        uiInventory.RefreshInventoryItems();
+                        playerUi.RefreshInventoryItems();
                     }
                 }
             }
@@ -271,10 +270,10 @@ public class ManageInventory : NetworkBehaviour
     void OnDropItem(){
         if (selectedItem != null){
             Item duplicateItem = new Item {itemType = selectedItem.itemType, amount = 1};
-            if(itemWorld == null)
-            {
-                Debug.LogError("itemWorld is null");
-            }
+            // if(itemWorld == null)
+            // {
+            //     Debug.LogError("itemWorld is null");
+            // }
             if(MoveCharacter.Instance == null)
             {
                 Debug.LogError("MoveCharacter.Instance == null");
@@ -300,7 +299,7 @@ public class ManageInventory : NetworkBehaviour
                     selectedItem = itemList[slotNumber];
                     selectedItem.selected = true;
                 }
-                uiInventory.RefreshInventoryItems();
+                playerUi.RefreshInventoryItems();
             }
         }
         else{

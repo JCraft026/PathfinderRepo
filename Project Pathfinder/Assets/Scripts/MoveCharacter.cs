@@ -22,15 +22,15 @@ public class MoveCharacter : NetworkBehaviour
     private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
 
-    private UI_Inventory uiInventory;     // Imports the UI_Inventory to access what is the player
+    private Player_UI playerUi;     // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance; // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
         Instance = this;
-        uiInventory = GameObject.Find("UI_Inventory").GetComponent<UI_Inventory>();
-        uiInventory.SetPlayer(this);
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+        playerUi.SetPlayer(this);
     }
 
     // Update is called once per frame
