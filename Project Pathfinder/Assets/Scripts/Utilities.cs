@@ -26,7 +26,7 @@ public class Utilities : MonoBehaviour
         switch (characterCode)
         {
             case ManageActiveCharactersConstants.RUNNER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner(Clone)")).transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position; // Changed from Runner(Clone) to Runner
                 characterObjectPosition.y -= .5f;
                 break;
             case ManageActiveCharactersConstants.CHASER:
