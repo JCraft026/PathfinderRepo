@@ -72,6 +72,7 @@ public class ManageActiveCharacters : NetworkBehaviour
                 cameraHolder.SetActive(true);
                 SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
             }
+
             activeGuardId = nextActiveGuardId;
         }
         cameraHolder.transform.position = transform.position + offset;

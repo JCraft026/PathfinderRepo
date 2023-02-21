@@ -39,19 +39,19 @@ public class ManageMiniMap : MonoBehaviour
             chaserIcon = Instantiate(chaserIconPrefab, transform);
             chaserIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             chaserIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            chaserIcon.name = "ChaserIcon";
+            chaserIcon.name = "ChaIcon";
 
             // Initialize engineer minimap icon
             engineerIcon = Instantiate(engineerIconPrefab, transform);
             engineerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             engineerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            engineerIcon.name = "EngineerIcon";
+            engineerIcon.name = "EngIcon";
 
             // Initialize trapper minimap icon
             trapperIcon = Instantiate(trapperIconPrefab, transform);
             trapperIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             trapperIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
-            trapperIcon.name = "TrapperIcon";
+            trapperIcon.name = "TraIcon";
         }
 
         // If the user is playing as the runner, intitialize the runner's mini map icon
@@ -59,7 +59,7 @@ public class ManageMiniMap : MonoBehaviour
             runnerIcon = Instantiate(runnerIconPrefab, transform);
             runnerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2) * 1.2f, (cellSize/2) * 1.2f);
-            runnerIcon.name = "RunnerIcon";
+            runnerIcon.name = "RunIcon";
         }
     }
 
