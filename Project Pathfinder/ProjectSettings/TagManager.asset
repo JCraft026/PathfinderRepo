@@ -46,3 +46,9 @@ TagManager:
   - name: Minimap
     uniqueID: 514436269
     locked: 0
+  - name: ConnectMenu
+    uniqueID: 3145345975
+    locked: 0
+  - name: HostMenu
+    uniqueID: 391656563
+    locked: 0

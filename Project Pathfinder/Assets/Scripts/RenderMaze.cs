@@ -88,10 +88,8 @@ public class RenderMaze : NetworkBehaviour
     public float cellSize = 8f;                                    // Size of the maze cell
 
     // Called when the host starts a game
-    public override void OnStartServer()
+    public void CreateMaze()
     {
-        base.OnStartServer();
-
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
         mazeDataJson = JsonConvert.SerializeObject(mazeData);

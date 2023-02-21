@@ -69,7 +69,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2696247814498831812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: -30, z: 0}
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -189,6 +189,7 @@ MonoBehaviour:
   facingDirection: 0
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
+  PauseCanvas: {fileID: 0}
 --- !u!70 &2696247814498831835
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
