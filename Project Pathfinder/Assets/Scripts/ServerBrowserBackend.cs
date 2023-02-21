@@ -41,12 +41,18 @@ public class ServerBrowserBackend : MonoBehaviour
         // Start the loading process
         Debug.Log("Loading Scene #... " + LOAD_MAZE_SCENE_INDEX);
         AsyncOperation loading = SceneManager.LoadSceneAsync(LOAD_MAZE_SCENE_INDEX); 
-        loading.allowSceneActivation = true;
+        loading.allowSceneActivation = false;
 
         // Wait for the scene to be loaded
         while(!loading.isDone)
         {
             Debug.Log("Scene Loading Progress: " + loading.progress);
+
+            // Check if the scene is done loading
+            if(loading.progress >= .9f)
+            {
+                loading.allowSceneActivation = true;
+            }
             yield return null;
         }
 
@@ -80,7 +86,7 @@ public class ServerBrowserBackend : MonoBehaviour
                                 .GetRootGameObjects()
                                 .Select(x => 
                                     {
-                                        Debug.Log(x.name);
+                                        Debug.Log("GetMazeRenderer Searching in: " + x.name);
                                         if(x.name.Contains("MazeRenderer")) 
                                             return x;
                                         else 
@@ -93,7 +99,7 @@ public class ServerBrowserBackend : MonoBehaviour
         }
         
         // Isolate the RenderMaze script inside of the maze renderer to use in the network manager (the network manager and maze renderer both have references to the same RenderMaze script/object)
-        var mazeRendererScript = mazeRendererObject.GetComponent(Type.GetType("RenderMaze")) as RenderMaze;
+        var mazeRendererScript = mazeRendererObject.GetComponent<RenderMaze>();
         if(mazeRendererScript == null)
         {
             Debug.LogError("MAZE RENDERER SCRIPT COULD NOT BE FOUND");
