@@ -128,6 +128,9 @@ public class CustomNetworkManager : NetworkManager
             }
 
             Destroy(oldPlayer);
+            
+            GameObject.Find("Inventory Canvas").SetActive(false);
+
 
             Debug.Log("Replaced conID: " + conn.connectionId);
         }

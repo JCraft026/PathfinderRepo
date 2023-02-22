@@ -28,9 +28,13 @@ public class MoveCharacter : NetworkBehaviour
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
-        Instance = this;
-        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
-        playerUi.SetPlayer(this);
+        if(runnerExpression.IsMatch(gameObject.name))
+        {
+            Debug.Log("runnerExpression matched, initializing inventory UI");
+            Instance = this;
+            playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+            playerUi.SetPlayer(this);
+        }
     }
 
     // Update is called once per frame
