@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 2939840884276580472}
   - component: {fileID: 2939840884276580479}
   - component: {fileID: 2939840884276580478}
-  - component: {fileID: 551824395}
-  - component: {fileID: 551824407}
   m_Layer: 0
   m_Name: CustomNetworkManager
   m_TagString: Untagged
@@ -68,12 +66,7 @@ MonoBehaviour:
   - {fileID: 6006486788257761396, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
   - {fileID: 4736767510328132004, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
   - {fileID: 2254325141038199550, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
-  - {fileID: 2696247814498831812, guid: 9d206aeb7efe9f849ba303f863e3da6f, type: 3}
-  - {fileID: 2696247814498831812, guid: 11ebfc62d79ca324c82741c480c55152, type: 3}
-  - {fileID: 2696247814498831812, guid: ae169e1e410561543a9b25a81d024f99, type: 3}
-  - {fileID: 7984240100632830128, guid: 785687d7e57f52c43928f308db69d337, type: 3}
   mazeRenderer: {fileID: 0}
-  hostIsRunner: 0
 --- !u!114 &2939840884276580479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +74,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2939840884276580475}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
@@ -117,47 +110,3 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
---- !u!114 &551824395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939840884276580475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93672fe4021b9c74189c7c94b3fa920d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secretHandshake: 4928243800823951474
-  serverBroadcastListenPort: 47777
-  enableActiveDiscovery: 1
-  ActiveDiscoveryInterval: 3
-  OnServerFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 551824407}
-        m_TargetAssemblyTypeName: Mirror.Discovery.CustomDiscoveryHUD, Scripts
-        m_MethodName: OnDiscoveredServer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
---- !u!114 &551824407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939840884276580475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf13f780fe455ab4c929f7212da764e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkDiscovery: {fileID: 551824395}

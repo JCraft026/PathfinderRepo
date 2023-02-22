@@ -5,74 +5,25 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
 using System;
-using UnityEngine.SceneManagement;
 
-/*
-    *This class is responsible for all general networking that is not specifically covered by any other class
-*/
 public class CustomNetworkManager : NetworkManager
 {
-    #region Global Variables
     // Global Variables
-    public static System.Random randomNum  = new System.Random();
-                                            // Random number generator
-    public static int initialActiveGuardId = randomNum.Next(1,3);
-                                            // Guard ID of the initial active guard
-    public static bool playerRoleSet       = false;
-                                            // Status of player role being assigned
-    public static bool isRunner            = false;               
-                                            // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
-    public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
+    public static System.Random randomNum  = new System.Random(); // Random number generator
+    public static int initialActiveGuardId = randomNum.Next(1,3); // Guard ID of the initial active guard
+    public static bool isRunner            = false;               // User playing as Runner status
 
     [SerializeField]
-    public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
+    RenderMaze mazeRenderer;
 
     [SerializeField]
-    public RenderMaze mazeRenderer;         // Enables us to render the maze
+    GameObject hostPlayerCharacter;
+    
+    [SerializeField]
+    GameObject clientPlayerCharacter;
 
     [SerializeField]
-    public bool hostIsRunner;               // Used to determine if the host is the runner or not
-
-    public bool IsHostRunner() {return hostIsRunner;}
-                                            // Required for CustomNetworkDiscovery to advertise which team the client will join as
-    #endregion
-
-    #region Client Only Code
-
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-
-        // Set who the runner is
-        if(hostIsRunner && isHost)
-        {
-            Debug.Log("isRunner=true");
-            isRunner = true; 
-        }
-        else if(!hostIsRunner && isHost)
-        {
-            Debug.Log("isRunner=false");
-            isRunner = false;
-        }
-        else if(hostIsRunner && !isHost)
-        {
-            Debug.Log("isRunner=false");
-            isRunner = false; 
-        }
-        else if(!hostIsRunner && !isHost)
-        {
-            Debug.Log("isRunner=true");
-            isRunner = true;
-        }
-
-        // Find the maze renderer and create the maze (if we are the host)
-        if(NetworkServer.connections.Count == 1){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
-        }
-
-        // Reflect that the runner/guard master status has been set
-        playerRoleSet = true;
-    }
+    bool hostIsRunner;
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
     public override void OnClientConnect()
@@ -80,6 +31,34 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientConnect();
         NetworkClient.RegisterHandler<MazeMessage>(ReceiveMazeData);
         NetworkClient.RegisterHandler<AnimationMessage>(NetworkAnimationHandler);
+        
+        if(!hostIsRunner){
+            isRunner = true;
+        }
+    }
+
+    // Runs on the server when a client connects
+    // Sends the maze to the client from the server
+    // Also registers the animation handlers for each player
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        base.OnServerConnect(conn);
+        try
+        {
+            MazeMessage mazeMessage;
+            mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
+
+            if(mazeMessage.jsonMaze != null)
+                conn.Send(mazeMessage);
+            else
+            {
+                Debug.Log("mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
+            }
+        }
+        catch
+        {
+            Debug.Log("Exception caught in OnServerConnect!");
+        }
     }
 
     //Called when the client receives the json text of the maze
@@ -94,15 +73,6 @@ public class CustomNetworkManager : NetworkManager
                     throw(new Exception("mazeText.jsonMaze == null, no data sent!"));
                 else
                 {
-                    // The mazeRenderer will probably be null for the incoming client so we'll need to locate it when we join a server
-                    if(mazeRenderer == null)
-                    {
-                        mazeRenderer = backend.GetMazeRenderer();
-                        if(mazeRenderer == null)
-                            throw(new Exception("mazeRenderer is still null"));
-                    }
-
-                    // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
                     mazeRenderer.CleanMap();
                     mazeRenderer.Render(newMaze);
@@ -110,70 +80,17 @@ public class CustomNetworkManager : NetworkManager
             }
             catch(Exception e)
             {
-                Debug.LogError("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
+                Debug.Log("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
             }
         }
     }
 
-    // Shuts down the client and the host
-    public override void OnClientDisconnect()
-    {
-        base.OnClientDisconnect();
-        StopHost();
-        Debug.Log("OnClientDisconnect");
-        mazeRenderer = null; // reset the maze renderer
-    }
-
-    #endregion
-
-    #region Server Only Code
-    // Fires when the client disconnects, forces the host to end the game.
-    // Change the offline scene to change the scene the host is transferred to
-    public override void OnServerDisconnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerDisconnect(conn);
-        StopHost();
-        this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
-        SceneManager.LoadScene(offlineScene);
-        Debug.Log("OnServerDisconnect");
-        mazeRenderer = null; // Reset the maze renderer
-    }
-
-    // Runs on the server when a client connects
-    // Sends the maze to the client from the server
-    // Also registers the animation handlers for each player
-    public override void OnServerConnect(NetworkConnectionToClient conn)
-    {
-        base.OnServerConnect(conn);
-        try
-        {
-            if(mazeRenderer == null)
-                Debug.LogError("The error below is because the maze renderer is null");
-            MazeMessage mazeMessage;
-            
-            mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
-
-            if(mazeMessage.jsonMaze != null)
-                conn.Send(mazeMessage);
-            else
-            {
-                Debug.Log("mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
-            }
-        }
-        catch(Exception e)
-        {
-            Debug.Log("Exception caught in OnServerConnect!");
-            Debug.LogError(e);
-        }
-    }
-    
-    // Responsible for initial set up of clients (ie. Getting players on the right teams, spawning their characters, etc.)
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
         Debug.Log("OnServerConnect");
 
-        // Determine who is on what team
+        // If the host is the runner set the client to the guards, if the client is the runner set the host to the guards
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
             (!hostIsRunner && NetworkServer.connections.Count == 1))
         {
@@ -183,12 +100,12 @@ public class CustomNetworkManager : NetworkManager
             GameObject engineer = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Engineer")));
             GameObject trapper = Instantiate(spawnPrefabs.FirstOrDefault(prefab => prefab.name.Contains("Trapper")));
             
-            // Set guard spawn locations
-            SetGuardSpawnLocations();
-
             NetworkServer.Spawn(chaser);
             NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
+
+            // Set guard spawn locations
+            SetGuardSpawnLocations();
 
             // Select a random guard to initialize control
             switch (initialActiveGuardId)
@@ -212,16 +129,11 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
     }
-    #endregion
 
-    #region Game Events And Misc. Handlers
-    // Changes the active guard for the guard master
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
-        Debug.Log("currentActiveGuard = " + currentActiveGuard);
         GameObject newGuardObject;                                 // Result of the guard query
-        Debug.Log("switch nextActiveGuardId = " + nextActiveGuardId.ToString());
 
         // Get the next guard's game object and update the active guard identification number
         switch (nextActiveGuardId)
@@ -237,7 +149,6 @@ public class CustomNetworkManager : NetworkManager
                 break;
             default:
                 newGuardObject = null;
-                Debug.LogError("newGuardObject is null");
                 break;
         }
 
@@ -250,6 +161,27 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.LogWarning("Could not find a new guard to switch to!");
         }
+    }
+
+    public void NetworkAnimationHandler(AnimationMessage animationState)
+    {
+        //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
+        
+    }
+
+    //Message structure used to send the maze to the client
+    public struct MazeMessage : NetworkMessage
+    {
+        public string jsonMaze;
+    }
+
+    //Message structure used to send animation states between clients
+    public struct AnimationMessage : NetworkMessage
+    {
+        public int characterType;
+        public Vector2 movementInput;
+        public float characterFacingDirection;
+        public int connId;
     }
 
     // Position each guard object at a determined spawn location
@@ -378,31 +310,4 @@ public class CustomNetworkManager : NetworkManager
             }
         }
     }
-   
-    // Originally was supposed to handle animations but it needs to be empty for some reason
-    public void NetworkAnimationHandler(AnimationMessage animationState)
-    {
-        //This empty function is required for the networked animations to run... I don't know why and I'm scared to ask!
-    }
-    #endregion
-
-    #region Message Structures
-    //Message structure used to send the maze to the client
-    public struct MazeMessage : NetworkMessage
-    {
-        public string jsonMaze;
-    }
-
-    //Message structure used to send animation states between clients
-    public struct AnimationMessage : NetworkMessage
-    {
-        public int characterType;
-        public Vector2 movementInput;
-        public float characterFacingDirection;
-        public int connId;
-        public bool attack;
-        public bool hurt;
-        public float impactDirection;
-    }
-    #endregion
 }
