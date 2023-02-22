@@ -6,9 +6,10 @@ using Mirror;
 
 public class Attack : NetworkBehaviour
 {
-    public Animator animator;   // Character's animator manager
-    Vector3 runnerPosition,     // Scene position of the runner
-            guardPosition;      // Scene position of the attacking guard master
+    public Animator animator;         // Character's animator manager
+    Vector3 runnerPosition,           // Scene position of the runner
+            guardPosition;            // Scene position of the attacking guard master
+    public bool damageTaken = false;  // Status of runner taking damage durring current attack
 
     // Update is called once per frame
     void Update()
@@ -22,7 +23,7 @@ public class Attack : NetworkBehaviour
             // Trigger guard master attack animation
             animator.SetBool("Attack", true);
             animator.SetBool("Attack Triggered", true);
-
+            
             // If the runner is within attack range, process guard master attack
             if(Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
                 var cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
@@ -66,13 +67,22 @@ public class Attack : NetworkBehaviour
                 }
 
                 // Subtract HP from the runner
-                runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+                if(damageTaken == false){
+                    runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+                    damageTaken = true;
+                }
+                
             }
 
             // Disable attack triggered status if the player is the runner to reset attack processing
             if(CustomNetworkManager.isRunner){
                 animator.SetBool("Attack Triggered", false);
             }
+        }
+        
+        // Reset damageTaken
+        else{
+            damageTaken = false;
         }
     }
 }
