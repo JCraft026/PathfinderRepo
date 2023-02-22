@@ -1031,6 +1031,41 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &878878716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 878878717}
+  - component: {fileID: 878878720}
+  - component: {fileID: 878878719}
+  - component: {fileID: 878878718}
+  m_Layer: 5
+  m_Name: ExitGameButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &878878717
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878878716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2108037309}
+  m_Father: {fileID: 20218726}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &896519182
@@ -1363,6 +1398,7 @@ GameObject:
   - component: {fileID: 1496269330}
   - component: {fileID: 1496269329}
   - component: {fileID: 1496269331}
+  - component: {fileID: 1496269332}
   m_Layer: 0
   m_Name: MazeRenderer
   m_TagString: Untagged
@@ -1390,10 +1426,15 @@ MonoBehaviour:
   wallPrefab: {fileID: 1542926893595753881, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
   crackedWallPrefab: {fileID: 1542926893595753881, guid: ecfa0232f1c3d7a428e4066378e921a4, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
-  firstExitPrefab: {fileID: 7109518832347748834, guid: 3cf69df64dd82da43aab55b4de7badbb, type: 3}
-  secondExitPrefab: {fileID: 3303829268976498387, guid: 78c1691bd2848c446b8e768bfc96c708, type: 3}
-  thirdExitPrefab: {fileID: 4557286763423858435, guid: acb3fcda71bd8e04ba19f9de2ece7c09, type: 3}
-  fourthExitPrefab: {fileID: 7046484268077272153, guid: 42a5e9acfd97a6a459f203f052f81d6b, type: 3}
+  exit1LeftRightClosed: {fileID: 6965621078266617755, guid: 155bac5e55afd9f43a2153a6590aed6c, type: 3}
+  exit1TopBottomClosed: {fileID: 5218289819359317342, guid: fce56476fc026de439470bad6b2acec2, type: 3}
+  exit2LeftRightClosed: {fileID: 2259281566429291191, guid: 0fe85f2bc8979904c8f0441587f431dd, type: 3}
+  exit2TopBottomClosed: {fileID: 3543452175595729748, guid: 9b3a5589b7201f14893a5a557933bde8, type: 3}
+  exit3LeftRightClosed: {fileID: 4294748905625167207, guid: 4c33b90176c656b479a0960b4f4cefbe, type: 3}
+  exit3TopBottomClosed: {fileID: 3788224658161008814, guid: 421030c249f24594e8ed5b0737ac5fec, type: 3}
+  exit4LeftRightClosed: {fileID: 667724499965224618, guid: ee3bf820be39153488105954a12096d3, type: 3}
+  exit4TopBottomClosed: {fileID: 8592968201638968297, guid: 392b96dac211e2b428eba1a865c83b79, type: 3}
+  cellSize: 8
 --- !u!4 &1496269330
 Transform:
   m_ObjectHideFlags: 0
