@@ -3,13 +3,18 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Text.RegularExpressions;
 
 public class Attack : NetworkBehaviour
 {
-    public Animator animator;         // Character's animator manager
-    Vector3 runnerPosition,           // Scene position of the runner
-            guardPosition;            // Scene position of the attacking guard master
-    public bool damageTaken = false;  // Status of runner taking damage durring current attack
+    public Animator animator;                                // Character's animator manager
+    Vector3 runnerPosition,                                  // Scene position of the runner
+            guardPosition;                                   // Scene position of the attacking guard master
+    public bool damageTaken = false;                         // Status of runner taking damage durring current attack
+    public Regex chaserExpression = new Regex("Chaser");     // Match "Chaser"
+    public Regex engineerExpression = new Regex("Engineer"); // Match "Engineer"
+    public Regex trapperExpression = new Regex("Trapper");   // Match "Trapper"
+    public CameraShake cameraShake;                          // Holds the camera shaker script
 
     // Update is called once per frame
     void Update()
@@ -26,41 +31,47 @@ public class Attack : NetworkBehaviour
             
             // If the runner is within attack range, process guard master attack
             if(Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
-                var cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
-                                                                            // Camera Shaker attached to the runner's camera
+                // Assign camera shaker to the appropriate camera
+                if(CustomNetworkManager.isRunner){
+                    cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
+                }
+                else{
+                    if(chaserExpression.IsMatch(gameObject.name)){
+                        cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(C)")).transform.GetChild(0).GetComponent<CameraShake>();
+                    }
+                    else if(engineerExpression.IsMatch(gameObject.name)){
+                        cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(E)")).transform.GetChild(0).GetComponent<CameraShake>();
+                    }
+                    else if(trapperExpression.IsMatch(gameObject.name)){
+                        cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(T)")).transform.GetChild(0).GetComponent<CameraShake>();                        
+                    }
+                }
+                
 
                 // Process attack impact and effects based on the approaprate guard master facing direction
                 switch (animator.GetFloat("Facing Direction"))
                 {
                     case MoveCharacterConstants.FORWARD:
                         if((guardPosition.y-runnerPosition.y) > 0f){
-                            if(CustomNetworkManager.isRunner == true){
-                                StartCoroutine(cameraShake.Shake(.15f, .7f));
-                            }
+                            StartCoroutine(cameraShake.Shake(.15f, .7f));
                             HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.FORWARD);
                         }
                         break;
                     case MoveCharacterConstants.LEFT:
                         if((guardPosition.x - runnerPosition.x) > 0f){
-                            if(CustomNetworkManager.isRunner == true){
-                                StartCoroutine(cameraShake.Shake(.15f, .7f));
-                            }
+                            StartCoroutine(cameraShake.Shake(.15f, .7f));
                             HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.LEFT);
                         }
                         break;
                     case MoveCharacterConstants.BACKWARD:
                         if((runnerPosition.y-guardPosition.y) > 0f){
-                            if(CustomNetworkManager.isRunner == true){
-                                StartCoroutine(cameraShake.Shake(.15f, .7f));
-                            }
+                            StartCoroutine(cameraShake.Shake(.15f, .7f));
                             HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.BACKWARD);
                         }
                         break;
                     case MoveCharacterConstants.RIGHT:
                         if((runnerPosition.x-guardPosition.x) > 0f){
-                            if(CustomNetworkManager.isRunner == true){
-                                StartCoroutine(cameraShake.Shake(.15f, .7f));
-                            }
+                            StartCoroutine(cameraShake.Shake(.15f, .7f));
                             HandleEvents.ProcessAttackImpact((int)MoveCharacterConstants.RIGHT);
                         }
                         break;    
