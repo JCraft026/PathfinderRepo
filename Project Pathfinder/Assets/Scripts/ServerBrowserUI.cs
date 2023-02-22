@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Mirror.Discovery;
 using UnityEngine;
 
 public class ServerBrowserUI : MonoBehaviour
