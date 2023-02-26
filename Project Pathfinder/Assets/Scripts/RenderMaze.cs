@@ -315,6 +315,9 @@ public class RenderMaze : NetworkBehaviour
 
         // Render the minimap in the canvas
         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler")).GetComponent<RenderMiniMap>().Render(mazeData);
+    
+        // Enable shadows
+        //GameObject.Find("MazeRenderer").GetComponent<CompositeShadowCaster2D>().enabled = true;
     }
 
     // Used by the network manager to get the maze json string
