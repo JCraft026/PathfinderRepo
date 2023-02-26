@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using System.Linq;
 
 public class ManageEnterTunnelCollision : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class ManageEnterTunnelCollision : MonoBehaviour
         Regex runnerExpression = new Regex("Runner");
         
         if(runnerExpression.IsMatch(collision.gameObject.name)){
-            Debug.Log("Runner Enter Tunnel");
+            var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+            var controlRoom = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("crcf"));
+            runner.transform.position = controlRoom.transform.position - new Vector3(0,1,0);
         }
     }
 }
