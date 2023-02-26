@@ -86,6 +86,9 @@ public class RenderMaze : NetworkBehaviour
     [SerializeField]
     private Transform tunnelEntrance = null;
 
+    [SerializeField]
+    private Transform controlRoom = null;
+
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
@@ -137,6 +140,20 @@ public class RenderMaze : NetworkBehaviour
                 cellFloor.name       = "mcf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
                 oldComponents.Add(cellFloor);
 
+                // Render the Control Room Entrance
+                if(j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
+                    if(currentCell.HasFlag(WallStatus.TOP)){
+                        var controlRoomEntrance        = Instantiate(tunnelEntrance, transform) as Transform;
+                        controlRoomEntrance.position   = scenePosition + new Vector2(0, cellSize / 1.68f);
+                        controlRoomEntrance.localScale = new Vector2(cellSize * 2, cellSize * 2);
+                        controlRoomEntrance.name       = "Tunnel_Entrance"; 
+                        oldComponents.Add(controlRoomEntrance);
+                    }
+                    else{
+                        tunnelEntranceHeightIndex++;
+                    }
+                }
+
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && j == mazeHeight-1){
@@ -162,7 +179,7 @@ public class RenderMaze : NetworkBehaviour
                         oldComponents.Add(topExit);
                     }
                     else{
-                        if(i % 3 == 0){
+                        if(i % 3 == 0 && (j != tunnelEntranceHeightIndex ||  i != tunnelEntranceWidthIndex)){
                             topWallPrefab = torchWallPrefab;
                         }
                         else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
@@ -287,20 +304,6 @@ public class RenderMaze : NetworkBehaviour
                             rightWall.name        = "Wall_LR"; 
                             oldComponents.Add(rightWall);
                         }
-                    }
-                }
-
-                // Render the Control Room Entrance
-                if(j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
-                    if(currentCell.HasFlag(WallStatus.TOP)){
-                        var controlRoomEntrance        = Instantiate(tunnelEntrance, transform) as Transform;
-                        controlRoomEntrance.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
-                        controlRoomEntrance.localScale = new Vector2(cellSize * 2, cellSize * 2);
-                        controlRoomEntrance.name       = "Tunnel_Entrance"; 
-                        oldComponents.Add(controlRoomEntrance);
-                    }
-                    else{
-                        tunnelEntranceHeightIndex++;
                     }
                 }
             }
