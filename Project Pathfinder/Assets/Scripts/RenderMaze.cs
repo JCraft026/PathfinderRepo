@@ -83,6 +83,9 @@ public class RenderMaze : NetworkBehaviour
     //[SerializeField]
     //private Transform exit4TopBottomOpen = null;
 
+    [SerializeField]
+    private Transform tunnelEntrance = null;
+
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
@@ -111,12 +114,15 @@ public class RenderMaze : NetworkBehaviour
     // Render the complete maze within the scene
     public void Render(WallStatus[,] mazeData)
     {
-        WallStatus currentCell  = new WallStatus();    // Current maze cell being rendered
-        Vector2 scenePosition   = new Vector2();       // x,y position in the scene
-        Transform exitPrefab    = null;                // Exit prefab being rendered
-        System.Random randomNum = new System.Random(); // Random number generator
-        Transform topWallPrefab;                       // Object prefab for selected top wall
-        int currentExit         = 1;                   // Next exit prefab to render
+        WallStatus currentCell    = new WallStatus();    // Current maze cell being rendered
+        Vector2 scenePosition     = new Vector2();       // x,y position in the scene
+        Transform exitPrefab      = null;                // Exit prefab being rendered
+        System.Random randomNum   = new System.Random(); // Random number generator
+        Transform topWallPrefab;                         // Object prefab for selected top wall
+        int currentExit           = 1,                   // Next exit prefab to render
+        tunnelEntranceHeightIndex = (mazeHeight/2),      // j index for the cell where the tunnel entrance will spawn
+        tunnelEntranceWidthIndex  = (mazeWidth/2);       // i index for the cell where the tunnel entrance will spawn
+
 
         // Render the cell walls of every maze cell
         for (int j = 0; j < mazeHeight; j++){
@@ -281,6 +287,20 @@ public class RenderMaze : NetworkBehaviour
                             rightWall.name        = "Wall_LR"; 
                             oldComponents.Add(rightWall);
                         }
+                    }
+                }
+
+                // Render the Control Room Entrance
+                if(j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
+                    if(currentCell.HasFlag(WallStatus.TOP)){
+                        var controlRoomEntrance        = Instantiate(tunnelEntrance, transform) as Transform;
+                        controlRoomEntrance.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        controlRoomEntrance.localScale = new Vector2(cellSize * 2, cellSize * 2);
+                        controlRoomEntrance.name       = "Tunnel_Entrance"; 
+                        oldComponents.Add(controlRoomEntrance);
+                    }
+                    else{
+                        tunnelEntranceHeightIndex++;
                     }
                 }
             }

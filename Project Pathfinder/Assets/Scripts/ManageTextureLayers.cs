@@ -6,9 +6,10 @@ using System.Text.RegularExpressions;
 
 public class ManageTextureLayers : MonoBehaviour
 {
-    public Regex wallExpression  = new Regex("Wall");  // Match "Wall"
-    public Regex exitExpression  = new Regex("Exit");  // Match "Exit"
-    public Regex torchExpression = new Regex("Torch"); // Match "Torch"
+    public Regex wallExpression  = new Regex("Wall");   // Match "Wall"
+    public Regex exitExpression  = new Regex("Exit");   // Match "Exit"
+    public Regex torchExpression = new Regex("Torch");  // Match "Torch"
+    public Regex tunnelExpression = new Regex("Tunnel"); // Match "Tunnel"
 
     // Update is called once per frame
     void Update()
@@ -17,6 +18,9 @@ public class ManageTextureLayers : MonoBehaviour
         if((gameObject.transform.position.y - 1.12f) - HandleLayers.activeCharacterLocation.y < 0){
             if(gameObject.tag == "Torch"){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            }
+            else if(tunnelExpression.IsMatch(gameObject.name)){
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
             }
             else if(wallExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
@@ -29,6 +33,9 @@ public class ManageTextureLayers : MonoBehaviour
         else{
             if(gameObject.tag == "Torch"){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }
+            else if(tunnelExpression.IsMatch(gameObject.name)){
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
             }
             else if(wallExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;

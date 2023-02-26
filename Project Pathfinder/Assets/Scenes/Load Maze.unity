@@ -1728,6 +1728,7 @@ MonoBehaviour:
   exit3TopBottomClosed: {fileID: 3788224658161008814, guid: 421030c249f24594e8ed5b0737ac5fec, type: 3}
   exit4LeftRightClosed: {fileID: 667724499965224618, guid: ee3bf820be39153488105954a12096d3, type: 3}
   exit4TopBottomClosed: {fileID: 8592968201638968297, guid: 392b96dac211e2b428eba1a865c83b79, type: 3}
+  tunnelEntrance: {fileID: 194969566752646214, guid: 0ac2a180e6f20374b9a535b0a1951e83, type: 3}
   cellSize: 8
 --- !u!4 &1496269330
 Transform:
