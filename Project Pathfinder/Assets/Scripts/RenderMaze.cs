@@ -87,7 +87,7 @@ public class RenderMaze : NetworkBehaviour
     private Transform tunnelEntrance = null;
 
     [SerializeField]
-    private Transform controlRoom = null;
+    private Transform controlRoomPrefab = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
@@ -126,8 +126,12 @@ public class RenderMaze : NetworkBehaviour
         tunnelEntranceHeightIndex = (mazeHeight/2),      // j index for the cell where the tunnel entrance will spawn
         tunnelEntranceWidthIndex  = (mazeWidth/2);       // i index for the cell where the tunnel entrance will spawn
 
+        // Render the maze control room
+        var controlRoom = Instantiate(controlRoomPrefab, transform);
+        controlRoom.position = new Vector2(cellSize * mazeWidth, cellSize * mazeHeight);
+        controlRoom.name = "Control Room";
 
-        // Render the cell walls of every maze cell
+        // Render the components of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
                 currentCell = mazeData[i,j];

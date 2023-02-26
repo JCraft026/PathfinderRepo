@@ -1729,6 +1729,7 @@ MonoBehaviour:
   exit4LeftRightClosed: {fileID: 667724499965224618, guid: ee3bf820be39153488105954a12096d3, type: 3}
   exit4TopBottomClosed: {fileID: 8592968201638968297, guid: 392b96dac211e2b428eba1a865c83b79, type: 3}
   tunnelEntrance: {fileID: 194969566752646214, guid: 0ac2a180e6f20374b9a535b0a1951e83, type: 3}
+  controlRoom: {fileID: 8773800362882945052, guid: 89f724a5f5b4c8c428e31c646dc98686, type: 3}
   cellSize: 8
 --- !u!4 &1496269330
 Transform:
