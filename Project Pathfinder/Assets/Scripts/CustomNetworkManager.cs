@@ -27,8 +27,6 @@ public class CustomNetworkManager : NetworkManager
     public ItemWorld itemWorld;                                  //
 
     [SerializeField]
-    RenderMaze mazeRenderer;
-    [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
 
     [SerializeField]

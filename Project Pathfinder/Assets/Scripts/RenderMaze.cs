@@ -160,9 +160,10 @@ public class RenderMaze : NetworkBehaviour
                     }
                     else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1){
                         var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
-                        topWall.position   = scenePosition + new Vector2(0, cellSize / 2);
-                        topWall.localScale = new Vector2(cellSize, topWall.localScale.y);
-                        oldWalls.Add(topWall);
+                        topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
+                        topWall.name       = "Wall_TB"; 
+                        oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
                     }
                     else{
                         if(i % 3 == 0){
@@ -212,7 +213,7 @@ public class RenderMaze : NetworkBehaviour
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
-                        oldWalls.Add(leftWall);
+                        oldComponents.Add(leftWall);
                     }
                     else{
                         // Spawn the left wall

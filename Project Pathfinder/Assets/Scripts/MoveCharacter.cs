@@ -40,8 +40,9 @@ public class MoveCharacter : NetworkBehaviour
             playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
             playerUi.SetPlayer(this);
         }
+    }
     // Initialize the exit game menu variable
-    private void Awake()
+    void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
     }
