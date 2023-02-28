@@ -173,15 +173,15 @@ Transform:
   - {fileID: 8519312858379983831}
   - {fileID: 3812573467445054130}
   - {fileID: 1030975679127428428}
-  - {fileID: 512736123700318008}
   - {fileID: 1384248132493425157}
   - {fileID: 3414636237794264442}
+  - {fileID: 512736123700318008}
   - {fileID: 4515541362651702846}
-  - {fileID: 2374369822421083003}
-  - {fileID: 9030821813429809519}
   - {fileID: 2018782606832766045}
-  - {fileID: 4973753784614030051}
   - {fileID: 203531160497862267}
+  - {fileID: 9030821813429809519}
+  - {fileID: 4973753784614030051}
+  - {fileID: 2374369822421083003}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,7 +194,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 106115438455087858, guid: 6c4253ed8509dc7478d2f89890b3e8ba, type: 3}
       propertyPath: m_Name
-      value: Red Keyhole
+      value: Keyhole4(Locked)
       objectReference: {fileID: 0}
     - target: {fileID: 1360937055639121622, guid: 6c4253ed8509dc7478d2f89890b3e8ba, type: 3}
       propertyPath: m_SortingOrder
@@ -297,6 +297,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14936bbc8dc98f44a21e2a0571e88ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstExitName: Exit1
+  secondExitName: Exit2
+  thirdExitName: Exit3
+  fourthExitName: Exit4
+  firstKeyholeName: Keyhole1
+  secondKeyholeName: Keyhole2
+  thirdKeyholeName: Keyhole3
+  fourthKeyholeName: Keyhole4
+  lockID: 0
+  lockUnlocked: 0
 --- !u!4 &4515541362651702846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3497751163894631268, guid: 6c4253ed8509dc7478d2f89890b3e8ba, type: 3}
@@ -311,7 +321,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 194969566752646214, guid: 287975a86d5dca047a9f8ae13d8db2ca, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 194969566752646214, guid: 287975a86d5dca047a9f8ae13d8db2ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -319,7 +329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 194969566752646214, guid: 287975a86d5dca047a9f8ae13d8db2ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.081
+      value: -3.27
       objectReference: {fileID: 0}
     - target: {fileID: 194969566752646214, guid: 287975a86d5dca047a9f8ae13d8db2ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -390,7 +400,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4337251301242848511, guid: 06219ea997fe1f34e8da2825384c19dc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4337251301242848511, guid: 06219ea997fe1f34e8da2825384c19dc, type: 3}
       propertyPath: m_LocalScale.x
@@ -442,7 +452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7387639499695112780, guid: 06219ea997fe1f34e8da2825384c19dc, type: 3}
       propertyPath: m_Name
-      value: Blue Keyhole
+      value: Keyhole3(Locked)
       objectReference: {fileID: 0}
     - target: {fileID: 9162682241775515128, guid: 06219ea997fe1f34e8da2825384c19dc, type: 3}
       propertyPath: m_SortingOrder
@@ -498,6 +508,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14936bbc8dc98f44a21e2a0571e88ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstExitName: Exit1
+  secondExitName: Exit2
+  thirdExitName: Exit3
+  fourthExitName: Exit4
+  firstKeyholeName: Keyhole1
+  secondKeyholeName: Keyhole2
+  thirdKeyholeName: Keyhole3
+  fourthKeyholeName: Keyhole4
+  lockID: 0
+  lockUnlocked: 0
 --- !u!1001 &4499488136934105937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -507,7 +527,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2482974928208113420, guid: 478d840000299ba4388ca0d619c68c73, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2482974928208113420, guid: 478d840000299ba4388ca0d619c68c73, type: 3}
       propertyPath: m_LocalScale.x
@@ -563,7 +583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7800537742792854860, guid: 478d840000299ba4388ca0d619c68c73, type: 3}
       propertyPath: m_Name
-      value: Green Keyhole (Unlocked)
+      value: Keyhole1(Unlocked)
       objectReference: {fileID: 0}
     - target: {fileID: 7800537742792854860, guid: 478d840000299ba4388ca0d619c68c73, type: 3}
       propertyPath: m_IsActive
@@ -620,7 +640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4429934223338909619, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
       propertyPath: m_InstanceId
-      value: -215590
+      value: -201948
       objectReference: {fileID: 0}
     - target: {fileID: -3702555221104463119, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
       propertyPath: m_AssetId
@@ -644,7 +664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 817046200794294661, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.668606
+      value: -2.868606
       objectReference: {fileID: 0}
     - target: {fileID: 817046200794294661, guid: 888bf715debee0e4fade9fd1fce2948d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -758,7 +778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4873966954907859473, guid: 6fc823f0f1f71d3429db4c34e0a79bf8, type: 3}
       propertyPath: m_Name
-      value: Red Keyhole (Unlocked)
+      value: Keyhole4(Unlocked)
       objectReference: {fileID: 0}
     - target: {fileID: 4873966954907859473, guid: 6fc823f0f1f71d3429db4c34e0a79bf8, type: 3}
       propertyPath: m_IsActive
@@ -811,7 +831,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3104442258342779769, guid: 5659db2e3f9fbc948a501ae753534866, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3104442258342779769, guid: 5659db2e3f9fbc948a501ae753534866, type: 3}
       propertyPath: m_LocalScale.x
@@ -867,7 +887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7161738143655145966, guid: 5659db2e3f9fbc948a501ae753534866, type: 3}
       propertyPath: m_Name
-      value: Blue Keyhole (Unlocked)
+      value: Keyhole3(Unlocked)
       objectReference: {fileID: 0}
     - target: {fileID: 7161738143655145966, guid: 5659db2e3f9fbc948a501ae753534866, type: 3}
       propertyPath: m_IsActive
@@ -920,7 +940,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 322143043077099658, guid: 3db4dabd04018ab459d66221cd6acf9e, type: 3}
       propertyPath: m_Name
-      value: Green Keyhole
+      value: Keyhole1(Locked)
       objectReference: {fileID: 0}
     - target: {fileID: 2494510294525062716, guid: 3db4dabd04018ab459d66221cd6acf9e, type: 3}
       propertyPath: m_SortingOrder
@@ -928,7 +948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5505407899838096245, guid: 3db4dabd04018ab459d66221cd6acf9e, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5505407899838096245, guid: 3db4dabd04018ab459d66221cd6acf9e, type: 3}
       propertyPath: m_LocalScale.x
@@ -1028,6 +1048,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14936bbc8dc98f44a21e2a0571e88ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstExitName: Exit1
+  secondExitName: Exit2
+  thirdExitName: Exit3
+  fourthExitName: Exit4
+  firstKeyholeName: Keyhole1
+  secondKeyholeName: Keyhole2
+  thirdKeyholeName: Keyhole3
+  fourthKeyholeName: Keyhole4
+  lockID: 0
+  lockUnlocked: 0
 --- !u!1001 &6963363323144783817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1049,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2689722342477916023, guid: 11795baa64d12e94494b8ce0c9714977, type: 3}
       propertyPath: m_InstanceId
-      value: -215604
+      value: -201966
       objectReference: {fileID: 0}
     - target: {fileID: 7992786418637363845, guid: 11795baa64d12e94494b8ce0c9714977, type: 3}
       propertyPath: m_RootOrder
@@ -1123,7 +1153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8719051080446698129, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_InstanceId
-      value: -215616
+      value: -201978
       objectReference: {fileID: 0}
     - target: {fileID: -5826513009145547851, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_AssetId
@@ -1201,11 +1231,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2302178364100963463, guid: b611f46bf7d5d114b84828fe70bbc3a8, type: 3}
       propertyPath: m_Name
-      value: Yellow Keyhole
+      value: Keyhole2(Locked)
       objectReference: {fileID: 0}
     - target: {fileID: 5189851616568799653, guid: b611f46bf7d5d114b84828fe70bbc3a8, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5189851616568799653, guid: b611f46bf7d5d114b84828fe70bbc3a8, type: 3}
       propertyPath: m_LocalScale.x
@@ -1309,6 +1339,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14936bbc8dc98f44a21e2a0571e88ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstExitName: Exit1
+  secondExitName: Exit2
+  thirdExitName: Exit3
+  fourthExitName: Exit4
+  firstKeyholeName: Keyhole1
+  secondKeyholeName: Keyhole2
+  thirdKeyholeName: Keyhole3
+  fourthKeyholeName: Keyhole4
+  lockID: 0
+  lockUnlocked: 0
 --- !u!1001 &8029443285300013554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1322,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4235838269198368279, guid: 38bb7bda4735db947b58e6927f85d9e9, type: 3}
       propertyPath: m_Name
-      value: Yellow Keyhole (Unlocked)
+      value: Keyhole2(Unlocked)
       objectReference: {fileID: 0}
     - target: {fileID: 4235838269198368279, guid: 38bb7bda4735db947b58e6927f85d9e9, type: 3}
       propertyPath: m_IsActive
@@ -1330,7 +1370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7907554188073197449, guid: 38bb7bda4735db947b58e6927f85d9e9, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7907554188073197449, guid: 38bb7bda4735db947b58e6927f85d9e9, type: 3}
       propertyPath: m_LocalScale.x
@@ -1431,7 +1471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8719051080446698129, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_InstanceId
-      value: -215630
+      value: -201994
       objectReference: {fileID: 0}
     - target: {fileID: -5826513009145547851, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_AssetId
