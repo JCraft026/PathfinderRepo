@@ -9,7 +9,7 @@ public class ManagePopups : MonoBehaviour
     public TMP_Text popupText; // Text to display on the popup
 
     // Display a popup at the top of the canvas
-    public IEnumerator DisplayPopup(string text, int time){
+    public IEnumerator DisplayPopup(string text, float time){
         popupText.text = text;
         yield return new WaitForSecondsRealtime(time);
         popupText.text = "woop";

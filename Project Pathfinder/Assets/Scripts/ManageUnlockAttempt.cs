@@ -43,7 +43,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstExitName+"(Open)")).SetActive(true);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstExitName+"(Close)")).SetActive(false);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstKeyholeName+"(Unlocked)")).SetActive(true);
-                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("First Exit Opened", 5));
+                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("First Exit Opened", 5f));
                         lockUnlocked = true;
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstKeyholeName+"(Locked)")).SetActive(false);
                         break;
@@ -51,7 +51,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondExitName+"(Open)")).SetActive(true);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondExitName+"(Close)")).SetActive(false);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondKeyholeName+"(Unlocked)")).SetActive(true);
-                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Second Exit Opened", 5));
+                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Second Exit Opened", 5f));
                         lockUnlocked = true;
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondKeyholeName+"(Locked)")).SetActive(false);
                         break;
@@ -59,7 +59,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdExitName+"(Open)")).SetActive(true);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdExitName+"(Close)")).SetActive(false);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdKeyholeName+"(Unlocked)")).SetActive(true);
-                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Third Exit Opened", 5));
+                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Third Exit Opened", 5f));
                         lockUnlocked = true;
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdKeyholeName+"(Locked)")).SetActive(false);
                         break;
@@ -67,7 +67,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(fourthExitName+"(Open)")).SetActive(true);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(fourthExitName+"(Close)")).SetActive(false);
                         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(fourthKeyholeName+"(Unlocked)")).SetActive(true);
-                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Fourth Exit Opened", 5));
+                        StartCoroutine(GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().DisplayPopup("Fourth Exit Opened", 5f));
                         lockUnlocked = true;
                         break;
                 }
