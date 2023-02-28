@@ -37,18 +37,15 @@ public class ItemWorld : NetworkBehaviour
 
     // Spawns an item at the in scene location
     public void spawnItemWorld(Vector2 position, Item item){
-        Debug.Log("AM I working?");
+        Debug.Log("Spawning itemworld...");
         networkedSpawnItemWorld(position, item);   
     }
 
     // Spawns an item at the in scene location
-    [Command]
+    [Command(requiresAuthority = false)]
     public void networkedSpawnItemWorld(Vector2 position, Item item){
-        Debug.Log("Please am I here?");
-        GameObject gameObject = Instantiate(ItemAssets.Instance.pfItemWorld, position, Quaternion.identity);
-        ItemWorld itemWorld = gameObject.GetComponent<ItemWorld>();
-        itemWorld.SetItem(item);
-        NetworkServer.Spawn(gameObject);
+         GameObject.Find("ItemAssets")
+            .GetComponent<CommandManager>().networkedSpawnItemWorld(position, item);
     }
 
     // Drop's an item behind where the player is facing 
@@ -69,7 +66,12 @@ public class ItemWorld : NetworkBehaviour
                 dropDirection = new Vector2(-2f, 0);
                 break;
         }
-        ItemWorldSpawner.SpawnItemWorld(dropPosition + dropDirection, item);
+        
+        GameObject.Find("ItemAssets")
+            .GetComponent<CommandManager>()
+            .networkedSpawnItemWorld(dropPosition + dropDirection, item);
+
+        //ItemWorldSpawner.SpawnItemWorld(dropPosition + dropDirection, item);
         //networkedSpawnItemWorld(dropPosition + dropDirection, item);
     }
 
@@ -78,7 +80,7 @@ public class ItemWorld : NetworkBehaviour
         this.item = item;
         if(item == null)
         {
-            Debug.Log("Item is null in SetItem");
+            Debug.LogError("Item is null in SetItem");
         }
         spriteRenderer.sprite = item.GetSprite();
         if (item.amount > 1){

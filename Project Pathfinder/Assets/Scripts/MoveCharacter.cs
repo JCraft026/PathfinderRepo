@@ -33,9 +33,9 @@ public class MoveCharacter : NetworkBehaviour
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
-        if(runnerExpression.IsMatch(gameObject.name))
+        if(CustomNetworkManager.isRunner)
         {
-            Debug.Log("runnerExpression matched, initializing inventory UI");
+            Debug.Log("Initializing runner inventory UI");
             Instance = this;
             playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
             playerUi.SetPlayer(this);

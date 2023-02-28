@@ -33,57 +33,65 @@ public class ManageInventory : NetworkBehaviour
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
-        inventory = new Inventory(UseItem);
-        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
-        playerUi.SetInventory(inventory);
+
+        // Set up the inventory for the runner
+        if(CustomNetworkManager.isRunner)
+        {
+            inventory = new Inventory(UseItem);
+            playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+            playerUi.SetInventory(inventory);
+        }
     }
 
     // Runs when colliding with an item
     private void OnTriggerEnter2D(Collider2D collider){
-        Debug.Log("We collided");
-        if(collider == null)
+        if(isLocalPlayer)
         {
-            Debug.LogError("Collider is null");
-        }
-        if(collider.gameObject == null)
-        {
-            Debug.LogError("itemWorld.gameObject == null");
-        }
-        ItemWorld itemWorld = collider.gameObject.GetComponent<ItemWorld>();
-        
-        // If touching an item
-        if(itemWorld != null){
-            // Checks to see if the item is a key
-            if(itemWorld.GetItem() == null)
+            Debug.Log("We collided");
+            if(collider == null)
             {
-                Debug.LogError("itemWorld.GetItem() == null");
+                Debug.LogError("Collider is null");
             }
-            if(itemWorld.GetItem().isKey()){
-                itemWorld.DestroySelf();
-                playerUi.SetKey(itemWorld.GetItem());
+            if(collider.gameObject == null)
+            {
+                Debug.LogError("itemWorld.gameObject == null");
             }
-            else{
-                // Checks for the ability to hold more items
-                if(inventory.GetItemList().Count < 8 ||
-                    inventory.anItemCanStack(itemWorld.GetItem())){
-                    inventory.AddItem(itemWorld.GetItem());
+            ItemWorld itemWorld = collider.gameObject.GetComponent<ItemWorld>();
+
+            // If touching an item
+            if(itemWorld != null){
+                // Checks to see if the item is a key
+                if(itemWorld.GetItem() == null)
+                {
+                    Debug.LogError("itemWorld.GetItem() == null");
+                }
+                if(itemWorld.GetItem().isKey()){
                     itemWorld.DestroySelf();
-                    // Controls if the item you pick up is selected (ready to be used) or not
-                    if(inventory.GetItemList().Count == 1){
-                        slotNumber = 0;
-                        selectedItem = itemWorld.GetItem();
-                        selectedItem.selected = true;
-                    }
-                    // If the item you just dropped is picked up, it will be selected again
-                    else if(slotNumber + 1 == inventory.GetItemList().Count){
-                        slotNumber = inventory.GetItemList().Count - 1;
-                        selectedItem = itemWorld.GetItem();
-                        selectedItem.selected = true;
-                    }
-                    playerUi.RefreshInventoryItems();
+                    playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
-                    Debug.Log("Your inventory is full");
+                    // Checks for the ability to hold more items
+                    if(inventory.GetItemList().Count < 8 ||
+                        inventory.anItemCanStack(itemWorld.GetItem())){
+                        inventory.AddItem(itemWorld.GetItem());
+                        itemWorld.DestroySelf();
+                        // Controls if the item you pick up is selected (ready to be used) or not
+                        if(inventory.GetItemList().Count == 1){
+                            slotNumber = 0;
+                            selectedItem = itemWorld.GetItem();
+                            selectedItem.selected = true;
+                        }
+                        // If the item you just dropped is picked up, it will be selected again
+                        else if(slotNumber + 1 == inventory.GetItemList().Count){
+                            slotNumber = inventory.GetItemList().Count - 1;
+                            selectedItem = itemWorld.GetItem();
+                            selectedItem.selected = true;
+                        }
+                        playerUi.RefreshInventoryItems();
+                    }
+                    else{
+                        Debug.Log("Your inventory is full");
+                    }
                 }
             }
         }

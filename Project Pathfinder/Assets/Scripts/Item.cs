@@ -84,7 +84,7 @@ public class Item
         switch(UnityEngine.Random.Range(0,3))
         {
             default:
-                Debug.Log("Default lol");
+                Debug.LogWarning("RNG generated unsupported item type");
                 break;
             case 0:
                 item.itemType = ItemType.Sledge;
