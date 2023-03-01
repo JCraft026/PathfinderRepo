@@ -42,7 +42,6 @@ public class ItemWorld : NetworkBehaviour
     }
 
     // Spawns an item at the in scene location
-    [Command(requiresAuthority = false)]
     public void networkedSpawnItemWorld(Vector2 position, Item item){
          GameObject.Find("ItemAssets")
             .GetComponent<CommandManager>().networkedSpawnItemWorld(position, item);

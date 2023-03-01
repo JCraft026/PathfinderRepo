@@ -36,6 +36,9 @@ public class RenderMaze : NetworkBehaviour
     private Transform crackedWallPrefab = null;
 
     [SerializeField]
+    private Transform leftCrackedWallPrefab = null;
+
+    [SerializeField]
     private Transform floorPrefab = null;
 
     [SerializeField]
@@ -209,9 +212,9 @@ public class RenderMaze : NetworkBehaviour
                         oldComponents.Add(leftExit);
                     }
                     else if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
-                        var leftWall         = Instantiate(crackedWallPrefab, transform) as Transform;
+                        var leftWall         = Instantiate(leftCrackedWallPrefab, transform) as Transform;
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftWall.localScale  = new Vector2(cellSize, leftWall.localScale.y);
+                        leftWall.localScale  = new Vector2((leftWall.localScale.x * cellSize) / 2, (leftWall.localScale.y * cellSize) / 2); //DEBUG: This will mess up if we change the textures
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
                         oldComponents.Add(leftWall);
                     }

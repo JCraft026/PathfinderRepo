@@ -3252,6 +3252,7 @@ MonoBehaviour:
   torchWallPrefab: {fileID: 7992786418637363845, guid: 11795baa64d12e94494b8ce0c9714977, type: 3}
   sideWallPrefab: {fileID: 1542926893595753881, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
   crackedWallPrefab: {fileID: 8389835171913117403, guid: 3602fcb76a751224896d95b26f61ec86, type: 3}
+  leftCrackedWallPrefab: {fileID: 254715336327098375, guid: a65c364884eb9064d9ebddd2f057f618, type: 3}
   floorPrefab: {fileID: 3791855236588211117, guid: f7a580a598f27b041811c8ad8616ca2e, type: 3}
   exit1LeftRightClosed: {fileID: 6965621078266617755, guid: 155bac5e55afd9f43a2153a6590aed6c, type: 3}
   exit1TopBottomClosed: {fileID: 5218289819359317342, guid: fce56476fc026de439470bad6b2acec2, type: 3}

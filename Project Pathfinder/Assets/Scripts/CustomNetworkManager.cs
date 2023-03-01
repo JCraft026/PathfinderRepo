@@ -167,17 +167,7 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Exception caught in OnServerConnect!");
             Debug.LogError(e);
         }
-        try{
-            //itemWorld.spawnItemWorld(new Vector2(0,-5), Item.getRandomItem());
-            Item generatedItem = Item.getRandomItem();
-            Debug.Log("Generated an item");
-            ItemWorldSpawner.SpawnItemWorld(new Vector2(0, -2), generatedItem);
-        }
-        catch(Exception e){
-            Debug.LogError("failed to spawn item world in the network manager");
-            Debug.LogError(e.Message);
-            Debug.Log(e.Source);
-        }
+        
     }
     
     // Responsible for initial set up of clients (ie. Getting players on the right teams, spawning their characters, etc.)
@@ -226,6 +216,22 @@ public class CustomNetworkManager : NetworkManager
 
 
             Debug.Log("Replaced conID: " + conn.connectionId);
+        }
+
+        //Spawn a test item
+        try
+        {
+            Item generatedItem = Item.getRandomItem();
+            Debug.Log("Generated an item");
+            GameObject.Find("ItemAssets")
+                .GetComponent<CommandManager>()
+                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);
+        }
+        catch(Exception e)
+        {
+            Debug.LogError("failed to spawn item world in the network manager");
+            Debug.LogError(e.Message);
+            Debug.Log(e.Source);
         }
     }
     #endregion
