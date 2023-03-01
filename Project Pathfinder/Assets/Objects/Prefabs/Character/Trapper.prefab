@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4468955601331421127}
   - component: {fileID: 6497765807274902111}
   - component: {fileID: -3073245883810749708}
+  - component: {fileID: -3258888305810603322}
   m_Layer: 0
   m_Name: Trapper
   m_TagString: Untagged
@@ -346,6 +347,7 @@ MonoBehaviour:
   syncInterval: 0.1
   animator: {fileID: 2696247814498831813}
   damageTaken: 0
+  cameraShake: {fileID: 0}
 --- !u!114 &-3073245883810749708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +363,21 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   PauseCanvas: {fileID: 0}
+--- !u!114 &-3258888305810603322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c43a62d0112124f8dc2f39477e9b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  animator: {fileID: 0}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0
