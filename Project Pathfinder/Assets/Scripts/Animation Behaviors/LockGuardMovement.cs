@@ -16,7 +16,7 @@ public class LockGuardMovement : StateMachineBehaviour
         MoveCharacter.canMove = true;
         animator.SetBool("Attack", false);
         animator.SetBool("Attack Triggered", false);
-        animator.SetBool("Dashing", false);
+        //animator.SetBool("Dashing", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

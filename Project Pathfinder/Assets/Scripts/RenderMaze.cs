@@ -84,6 +84,7 @@ public class RenderMaze : NetworkBehaviour
     //private Transform exit4TopBottomOpen = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
+    private WallStatus[,] mazeData;
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
 

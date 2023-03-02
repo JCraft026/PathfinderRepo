@@ -189,6 +189,7 @@ MonoBehaviour:
   flashlight: {fileID: 0}
   moveSpeed: 4
   facingDirection: 0
+  movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
   PauseCanvas: {fileID: 0}
@@ -377,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  animator: {fileID: 0}
+  barricade: {fileID: 7776396092578743102, guid: 85f3a3cf44a724349a8476b4b7b91848, type: 3}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0
