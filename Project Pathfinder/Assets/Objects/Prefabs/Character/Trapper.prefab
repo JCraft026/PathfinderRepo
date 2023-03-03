@@ -378,7 +378,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  barricade: {fileID: 7776396092578743102, guid: a8095f73e82beea4aac2b4f0cd63a639, type: 3}
+  barricadeHorizontal: {fileID: 7776396092578743102, guid: a8095f73e82beea4aac2b4f0cd63a639, type: 3}
+  barricadeVertical: {fileID: 7776396092578743102, guid: 62f422b8ec2593d47a6ba90748b16e37, type: 3}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0
