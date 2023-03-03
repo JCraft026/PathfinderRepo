@@ -69,7 +69,10 @@ public class CustomNetworkManager : NetworkManager
 
         // Find the maze renderer and create the maze (if we are the host)
         if(NetworkServer.connections.Count == 1){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
+            Resources.FindObjectsOfTypeAll<GameObject>()
+                .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
+                .GetComponent<RenderMaze>()
+                .CreateMaze();
         }
 
         // Reflect that the runner/guard master status has been set
@@ -167,7 +170,6 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Exception caught in OnServerConnect!");
             Debug.LogError(e);
         }
-        
     }
     
     // Responsible for initial set up of clients (ie. Getting players on the right teams, spawning their characters, etc.)
@@ -233,6 +235,9 @@ public class CustomNetworkManager : NetworkManager
             Debug.LogError(e.Message);
             Debug.Log(e.Source);
         }
+
+        // Make the player wait to move until a client joins the game
+        StartCoroutine(HostWaitForPlayer(conn));
     }
     #endregion
 
@@ -399,6 +404,49 @@ public class CustomNetworkManager : NetworkManager
                     break;
             }
         }
+    }
+
+    //Ensure the host cannot play the game while there are no clients connected
+    IEnumerator HostWaitForPlayer(NetworkConnectionToClient host)
+    {
+        GameObject hostObject = host.identity.gameObject;
+
+        // Disable movement for the player
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = false;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = false;
+            engineer.GetComponent<MoveCharacter>().enabled = false;
+            trapper.GetComponent<MoveCharacter>().enabled = false;
+        }
+
+        // Wait for a client to join
+        while(NetworkServer.connections.Count <= 1)
+        {
+            Debug.Log("waitng for new player");
+            yield return null;
+        }
+        
+        // Enable player movement
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = true;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = true;
+            engineer.GetComponent<MoveCharacter>().enabled = true;
+            trapper.GetComponent<MoveCharacter>().enabled = true;
+        }
+
+        yield return null;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason

@@ -27,7 +27,6 @@ public class ServerBrowserBackend : MonoBehaviour
     {
         discoveredServers.Clear(); // We might as well wipe out the old servers that we won't need anymore once we start hosting
         CustomNetworkManager.isHost = true; // Set the network manager to run in host mode
-        SceneManager.LoadScene("Waiting For Player");
 
         // This needs to run within a coroutine as it is a thread safe version of "async" for unity
         StartCoroutine(LoadMazeSceneAsync(true));
