@@ -8,14 +8,15 @@ using System.Linq;
 
 public class TrapperAbility : NetworkBehaviour
 {
-
     public GameObject barricade; //
-
     private int[] trapperLocation; //
     private WallStatus[,] mazeData; //
     private WallStatus currentCell;
 
     private MoveCharacter trapperMoveCharacter; //
+    private Vector3 placementDirection;
+    private Vector3 barricadeLocation;
+    private Vector3 placementOrientation;
 
     void Start(){
         trapperMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -38,6 +39,8 @@ public class TrapperAbility : NetworkBehaviour
             // Find the trapper's current cell (add 6 to each coordinate to match the orignal 2D array)
             currentCell = mazeData[trapperLocation[0] + 6, trapperLocation[1] + 6];
             Debug.Log(currentCell);
+
+            barricadeLocation = trapperMoveCharacter.transform.position;
             
             // See if there is already a wall where the Trapper is facing
             switch(trapperMoveCharacter.facingDirection){
@@ -49,6 +52,8 @@ public class TrapperAbility : NetworkBehaviour
                         Debug.Log("Cell already has a bottom wall");
                     }
                     else{
+                        placementDirection = new Vector2(0, -2.5f);
+                        placementOrientation = new Vector3(0,0,0);
                         PlaceBarricade();
                     }
                     break;
@@ -57,6 +62,8 @@ public class TrapperAbility : NetworkBehaviour
                         Debug.Log("Cell already has a left wall");
                     }
                     else{
+                        placementDirection = new Vector2(-2.5f, 0f);
+                        placementOrientation = new Vector3(0,0,90);
                         PlaceBarricade();
                     }
                     break;
@@ -65,6 +72,8 @@ public class TrapperAbility : NetworkBehaviour
                         Debug.Log("Cell already has a top wall");
                     } 
                     else{
+                        placementDirection = new Vector2(0f, 2.5f);
+                        placementOrientation = new Vector3(0,0,0);
                         PlaceBarricade();
                     }  
                     break;
@@ -73,6 +82,8 @@ public class TrapperAbility : NetworkBehaviour
                         Debug.Log("Cell already has a right wall");
                     }
                     else{
+                        placementDirection = new Vector2(2.5f, 0f);
+                        placementOrientation = new Vector3(0,0,90);
                         PlaceBarricade();
                     }
                     break;
@@ -80,12 +91,13 @@ public class TrapperAbility : NetworkBehaviour
         }
     }
 
+    [Command]
     public void PlaceBarricade(){
+        Debug.Log(trapperMoveCharacter.transform.position);
         Debug.Log("Tried to place a wall");
-        Vector2 scenePosition             = new Vector2(8.0f * (-13.0f / 2 + trapperLocation[0]), 8.0f * (-13.0f / 2 + trapperLocation[1]));
-        var topBrickWall                  = Instantiate(barricade, gameObject.transform) as GameObject;
-        topBrickWall.transform.position   = scenePosition + new Vector2(0, 8.0f / 1.55f);
-        topBrickWall.transform.localScale = new Vector2(topBrickWall.transform.localScale.x * 8.0f, topBrickWall.transform.localScale.y * 8.0f);
+        GameObject tempBarricade;
+        tempBarricade = Instantiate(barricade, trapperMoveCharacter.transform.position + placementDirection, Quaternion.Euler(placementOrientation));
+        NetworkServer.Spawn(tempBarricade);
         return;
     }
 }
