@@ -26,7 +26,17 @@ public class ManageMinimapClicks : MonoBehaviour
     }
 
     void OnMouseOver(){
-        spriteRenderer.color = Color.yellow;
+        var activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
+
+        if(activeGuardId == ManageActiveCharactersConstants.CHASER){
+            spriteRenderer.color = Color.green;
+        }
+        else if(activeGuardId == ManageActiveCharactersConstants.ENGINEER){
+            spriteRenderer.color = Color.yellow;
+        }
+        else{
+            spriteRenderer.color = Color.blue;
+        }        
     }
 
     void OnMouseExit(){
