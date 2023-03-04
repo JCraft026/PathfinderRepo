@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -346,7 +346,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Engineer Descend_9: 1333136273
+      Engineer Descend_3: -2128053849
       Engineer Descend_10: 408933933
       Engineer Descend_2: -1944287366
       Engineer Descend_1: -1961768685
@@ -356,7 +356,7 @@ TextureImporter:
       Engineer Descend_7: -1039566012
       Engineer Descend_0: 735501692
       Engineer Descend_5: -211609549
-      Engineer Descend_3: -2128053849
+      Engineer Descend_9: 1333136273
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

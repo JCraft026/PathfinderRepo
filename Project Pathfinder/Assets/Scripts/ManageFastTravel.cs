@@ -36,10 +36,12 @@ public class ManageFastTravel : MonoBehaviour
         guard.GetComponent<Animator>().SetBool("Fast Travel Started", true);
     }
 
+    // Start coroutine to wait through fast travel idle time
     public void InitiateFastTravelIdle(int guardId){
         StartCoroutine(WaitThroughIdle(guardId));
     }
 
+    // Display and wait through fast travel idle time
     IEnumerator WaitThroughIdle(int guardId)
     {
         GameObject guard; // Guard game object cooresponding to guardId

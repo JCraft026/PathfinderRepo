@@ -7,6 +7,7 @@ public class ProcessFastTravelStart : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Freeze guard movement
         MoveCharacter.canMove = false;
     }
 
@@ -19,7 +20,10 @@ public class ProcessFastTravelStart : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Transport guard to waiting area
         animator.gameObject.transform.position = new Vector3(-9000, -9000);
+
+        // Initiate idle waiting with timer
         GameObject.Find("EventHandler").GetComponent<ManageFastTravel>().InitiateFastTravelIdle(animator.gameObject.GetComponent<ManageActiveCharacters>().guardId);
     }
 
