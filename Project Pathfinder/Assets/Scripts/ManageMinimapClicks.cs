@@ -17,9 +17,20 @@ public class ManageMinimapClicks : MonoBehaviour
     // Initiate guard fast travel if the minimap floor parent object is clicked
     void OnMouseDown()
     {
-        if(!CustomNetworkManager.isRunner)
+        int activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
+        GameObject guard = null;
+        if(activeGuardId == ManageActiveCharactersConstants.CHASER){
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+        }
+        else if(activeGuardId == ManageActiveCharactersConstants.ENGINEER){
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+        }
+        else{
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+        }
+
+        if(!CustomNetworkManager.isRunner && !guard.GetComponent<Animator>().GetBool("Fast Travel Started"))
         {
-            var activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
             var mazeCell = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("mcf" + gameObject.name.Substring(2)));
             ManageFastTravel.FastTravel(activeGuardId, mazeCell.transform.position);
         }

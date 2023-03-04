@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57b29786fb6374d46856088d8ec2b689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1101 &-811565596851556525
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -427,7 +428,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Fast TravelY
+  - m_Name: Fast Travel Y
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0

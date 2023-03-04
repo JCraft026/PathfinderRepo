@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProcessFastTravelStart : StateMachineBehaviour
+public class ProcessFastTravelEnd : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        MoveCharacter.canMove = false;
+        animator.gameObject.transform.position = new Vector3(animator.GetFloat("Fast Travel X"), animator.GetFloat("Fast Travel Y"), 0);    
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -19,8 +19,11 @@ public class ProcessFastTravelStart : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.transform.position = new Vector3(-9000, -9000);
-        GameObject.Find("EventHandler").GetComponent<ManageFastTravel>().InitiateFastTravelIdle(animator.gameObject.GetComponent<ManageActiveCharacters>().guardId);
+        animator.SetBool("Fast Travel Started", false);
+        animator.SetBool("Fast Travel Finished", false);
+        animator.SetFloat("Fast Travel X", 0.0f);
+        animator.SetFloat("Fast Travel Y", 0.0f);
+        MoveCharacter.canMove = true;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -31,6 +31,31 @@ public class ManageFastTravel : MonoBehaviour
             guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
         }
 
-        guard.transform.position = destination;
+        guard.GetComponent<Animator>().SetFloat("Fast Travel X", destination.x);
+        guard.GetComponent<Animator>().SetFloat("Fast Travel Y", destination.y);
+        guard.GetComponent<Animator>().SetBool("Fast Travel Started", true);
+    }
+
+    public void InitiateFastTravelIdle(int guardId){
+        StartCoroutine(WaitThroughIdle(guardId));
+    }
+
+    IEnumerator WaitThroughIdle(int guardId)
+    {
+        GameObject guard; // Guard game object cooresponding to guardId
+
+        yield return new WaitForSeconds(5);
+
+        if(guardId == ManageActiveCharactersConstants.CHASER){
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+        }
+        else if(guardId == ManageActiveCharactersConstants.ENGINEER){
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+        }
+        else{
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+        }
+
+        guard.GetComponent<Animator>().SetBool("Fast Travel Finished", true);
     }
 }
