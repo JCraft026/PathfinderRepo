@@ -25,7 +25,6 @@ public class Player_UI : NetworkBehaviour
     // Run when the UI activates
     private void Awake(){
         // Find all important transforms for later instantiation or reference
-        Debug.Log(gameObject);
         itemSlotContainer = transform.Find("ItemSlotContainer");
         itemSlotTemplate  = itemSlotContainer.Find("ItemSlotTemplate");
         keySlotContainer  = transform.Find("KeyContainer");
@@ -33,6 +32,17 @@ public class Player_UI : NetworkBehaviour
         keySlot1          = keySlotContainer.Find("keySlot1");
         keySlot2          = keySlotContainer.Find("keySlot2");
         keySlot3          = keySlotContainer.Find("keySlot3");
+    }
+
+    public override void OnStartClient(){
+        if(CustomNetworkManager.isRunner == false){
+            Debug.LogWarning("I AM NOT THE RUNNER");
+            itemSlotContainer.gameObject.SetActive(false);
+            keySlotContainer.gameObject.SetActive(false);
+        }
+        if(CustomNetworkManager.isRunner == true){
+            Debug.LogWarning("I AM THE RUNNER");
+        }
     }
 
     // Set the UI player's rigidbody to the MoveCharacter rigidbody
