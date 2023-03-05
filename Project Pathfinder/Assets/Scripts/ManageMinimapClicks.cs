@@ -47,15 +47,18 @@ public class ManageMinimapClicks : MonoBehaviour
                 // Guard ID of the current active guard
 
         // Change minimap cell color based on the current active guard
-        if(activeGuardId == ManageActiveCharactersConstants.CHASER){
-            spriteRenderer.color = Color.green;
+        if(!CustomNetworkManager.isRunner){
+            if(activeGuardId == ManageActiveCharactersConstants.CHASER){
+                spriteRenderer.color = Color.green;
+            }
+            else if(activeGuardId == ManageActiveCharactersConstants.ENGINEER){
+                spriteRenderer.color = Color.yellow;
+            }
+            else{
+                spriteRenderer.color = Color.blue;
+            }  
         }
-        else if(activeGuardId == ManageActiveCharactersConstants.ENGINEER){
-            spriteRenderer.color = Color.yellow;
-        }
-        else{
-            spriteRenderer.color = Color.blue;
-        }        
+              
     }
 
     // Revert minimap cell color

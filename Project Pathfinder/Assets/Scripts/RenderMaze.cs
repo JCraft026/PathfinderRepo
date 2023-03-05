@@ -87,6 +87,15 @@ public class RenderMaze : NetworkBehaviour
     private Transform tunnelEntrance = null;
 
     [SerializeField]
+    private Transform chaserFastTravelIdle = null;
+
+    [SerializeField]
+    private Transform engineerFastTravelIdle = null;
+
+    [SerializeField]
+    private Transform trapperFastTravelIdle = null;
+
+    [SerializeField]
     private Transform controlRoomPrefab = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
@@ -132,6 +141,18 @@ public class RenderMaze : NetworkBehaviour
         var controlRoom = Instantiate(controlRoomPrefab, transform);
         controlRoom.position = new Vector2(cellSize * mazeWidth, cellSize * mazeHeight);
         controlRoom.name = "Control Room";
+
+        // Render the Fast Travel Idle zones
+        var chaserTravelIdle = Instantiate(chaserFastTravelIdle, transform);
+        chaserTravelIdle.position = new Vector2(cellSize * -mazeWidth, cellSize * mazeHeight);
+        chaserTravelIdle.name = "TravelIdleC";
+        var engineerTravelIdle = Instantiate(engineerFastTravelIdle, transform);
+        engineerTravelIdle.position = new Vector2(cellSize * -mazeWidth, 0);
+        engineerTravelIdle.name = "TravelIdleE";
+        var trapperTravelIdle = Instantiate(trapperFastTravelIdle, transform);
+        trapperTravelIdle.position = new Vector2(cellSize * -mazeWidth, cellSize * -mazeHeight);
+        trapperTravelIdle.name = "TravelIdleT";
+
 
         // Render the components of every maze cell
         for (int j = 0; j < mazeHeight; j++){

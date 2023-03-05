@@ -2020,7 +2020,10 @@ MonoBehaviour:
   exit4LeftRightOpen: {fileID: 6992651255925291826, guid: cc83434dbd7f15042b6378525c50c2e3, type: 3}
   exit4TopBottomClosed: {fileID: 8592968201638968297, guid: 392b96dac211e2b428eba1a865c83b79, type: 3}
   exit4TopBottomOpen: {fileID: 5758463466077660680, guid: 1337dcf8b7289d94c907796b540515bb, type: 3}
-  tunnelEntrance: {fileID: 194969566752646214, guid: 0ac2a180e6f20374b9a535b0a1951e83, type: 3}
+  tunnelEntrance: {fileID: 194969566752646214, guid: 287975a86d5dca047a9f8ae13d8db2ca, type: 3}
+  chaserFastTravelIdle: {fileID: 3975175404738312537, guid: aa39181e17985144ebcd286bf479ae89, type: 3}
+  engineerFastTravelIdle: {fileID: 806826598333523813, guid: a822e173d8a37d743a1afd77e65226e2, type: 3}
+  trapperFastTravelIdle: {fileID: 2386410524843203287, guid: 8229b2a86451dbd4cb57c86c88d1ff76, type: 3}
   controlRoomPrefab: {fileID: 8773800362882945052, guid: 89f724a5f5b4c8c428e31c646dc98686, type: 3}
   cellSize: 8
 --- !u!4 &1496269330

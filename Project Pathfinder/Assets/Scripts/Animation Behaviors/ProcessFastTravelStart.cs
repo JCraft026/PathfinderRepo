@@ -20,8 +20,19 @@ public class ProcessFastTravelStart : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        var guardId = animator.gameObject.GetComponent<ManageActiveCharacters>().guardId;
+            // Guard ID of the parent guard object
+
         // Transport guard to waiting area
-        animator.gameObject.transform.position = new Vector3(-9000, -9000);
+        if(guardId == ManageActiveCharactersConstants.CHASER){
+            animator.gameObject.transform.position = GameObject.Find("TravelIdleC").transform.position;
+        }
+        else if(guardId == ManageActiveCharactersConstants.ENGINEER){
+            animator.gameObject.transform.position = GameObject.Find("TravelIdleE").transform.position;
+        }
+        else{
+            animator.gameObject.transform.position = GameObject.Find("TravelIdleT").transform.position;
+        }
 
         // Initiate idle waiting with timer
         GameObject.Find("EventHandler").GetComponent<ManageFastTravel>().InitiateFastTravelIdle(animator.gameObject.GetComponent<ManageActiveCharacters>().guardId);
