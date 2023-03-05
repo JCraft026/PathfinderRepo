@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class ManageFastTravel : MonoBehaviour
 {
+    bool chaserTimerActive   = false; // Status of running chaser transport timer
+    bool engineerTimerActive = false; // Status of running engineer transport timer
+    bool trapperTimerActive  = false; // Status of running trapper transport timer
+    float chaserTimeLeft     = 5.5f;    // Seconds remaining on chaser timer
+    float engineerTimeLeft   = 5.5f;    // Seconds remaining on engineer timer
+    float trapperTimeLeft    = 5.5f;    // Seconds remaing on trapper timer
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +22,44 @@ public class ManageFastTravel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Manage active chaser transport timer
+        if(chaserTimerActive){
+            if(chaserTimeLeft > 0){
+                GameObject.Find("Chaser Transport Timer").GetComponent<TextMeshPro>().text = ((int)chaserTimeLeft).ToString();
+                chaserTimeLeft -= Time.deltaTime;
+            }
+            else{
+                chaserTimeLeft    = 5.5f;
+                chaserTimerActive = false;
+                GameObject.Find("Chaser Transport Timer").GetComponent<TextMeshPro>().text = ((int)chaserTimeLeft).ToString();
+            }
+        }
+
+        // Manage active engineer transport timer
+        if(engineerTimerActive){
+            if(engineerTimeLeft > 0){
+                GameObject.Find("Engineer Transport Timer").GetComponent<TextMeshPro>().text = ((int)engineerTimeLeft).ToString();
+                engineerTimeLeft -= Time.deltaTime;
+            }
+            else{
+                engineerTimeLeft    = 5.5f;
+                engineerTimerActive = false;
+                GameObject.Find("Engineer Transport Timer").GetComponent<TextMeshPro>().text = ((int)engineerTimeLeft).ToString();
+            }
+        }
+
+        // Manage active trapper transport timer
+        if(trapperTimerActive){
+            if(trapperTimeLeft > 0){
+                GameObject.Find("Trapper Transport Timer").GetComponent<TextMeshPro>().text = ((int)trapperTimeLeft).ToString();
+                trapperTimeLeft -= Time.deltaTime;
+            }
+            else{
+                trapperTimeLeft    = 5.5f;
+                trapperTimerActive = false;
+                GameObject.Find("Trapper Transport Timer").GetComponent<TextMeshPro>().text = ((int)trapperTimeLeft).ToString();
+            }
+        }
     }
 
     // Fast travel a guard to its destination cell
@@ -45,6 +90,16 @@ public class ManageFastTravel : MonoBehaviour
     IEnumerator WaitThroughIdle(int guardId)
     {
         GameObject guard; // Guard game object cooresponding to guardId
+
+        if(guardId == ManageActiveCharactersConstants.CHASER){
+            chaserTimerActive = true;
+        }
+        else if(guardId == ManageActiveCharactersConstants.ENGINEER){
+            engineerTimerActive = true;
+        }
+        else{
+            trapperTimerActive = true;
+        }
 
         yield return new WaitForSeconds(5);
 
