@@ -8,7 +8,7 @@ public class ProcessFastTravelStart : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Freeze guard movement
-        MoveCharacter.canMove = false;
+        animator.gameObject.GetComponent<MoveCharacter>().canMove = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

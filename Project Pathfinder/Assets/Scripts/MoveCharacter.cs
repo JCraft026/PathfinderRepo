@@ -18,7 +18,7 @@ public class MoveCharacter : NetworkBehaviour
     Vector2 movementInput;        // Character's current input direction             
     public Rigidbody2D rigidBody; // Character's RigidBody
     public Animator animator;     // Character's animator manager
-    public static bool canMove = true;   
+    public bool canMove = true;   
                                   // Character movement lock status
     public GameObject PauseCanvas; 
                                   // Exit game menu

@@ -60,6 +60,9 @@ public class ManageMinimapClicks : MonoBehaviour
             else{
                 spriteRenderer.color = Color.blue;
             }  
+
+            // Display Fast Travel Steam Cost
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("FastTravelSteamCost")).SetActive(true);
         }
               
     }
@@ -67,5 +70,6 @@ public class ManageMinimapClicks : MonoBehaviour
     // Revert minimap cell color
     void OnMouseExit(){
         spriteRenderer.color = Color.white;
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("FastTravelSteamCost")).SetActive(false);
     }
 }

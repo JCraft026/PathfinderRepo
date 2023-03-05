@@ -27,7 +27,7 @@ public class ProcessFastTravelEnd : StateMachineBehaviour
         animator.SetFloat("Fast Travel Y", 0.0f);
 
         // Restore guard movement
-        MoveCharacter.canMove = true;
+        animator.gameObject.GetComponent<MoveCharacter>().canMove = true;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

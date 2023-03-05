@@ -94,7 +94,7 @@ public class ManageUnlockAttempt : MonoBehaviour
         }
 
         // Process opening exits on guard master side
-        else{
+        else if(GameObject.Find(runner.name) != null){
             if(runner.GetComponent<Animator>().GetBool("Green Exit Opened") && greenExitOpened == false){
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstExitName+"(Open)")).SetActive(true);
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstExitName+"(Close)")).SetActive(false);
