@@ -81,7 +81,8 @@ public class ItemWorld : NetworkBehaviour
         {
             Debug.LogError("Item is null in SetItem");
         }
-        spriteRenderer.sprite = item.GetSprite();
+        //spriteRenderer.sprite = item.GetSprite();
+        spriteRenderer.sprite = ItemAssets.Instance.ChestClosed;
         if (item.amount > 1){
             textMeshPro.SetText(item.amount.ToString());
         }
@@ -96,8 +97,10 @@ public class ItemWorld : NetworkBehaviour
         return item;
     }
 
-    // Deestroy's the object this script is in
-    public void DestroySelf(){
-        Destroy(gameObject);
+    // Change to the open chest sprite and disable picking the item up anymore
+    public void OpenChest(){
+        spriteRenderer.sprite = ItemAssets.Instance.ChestOpened;
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        //Destroy(gameObject);
     }
 }

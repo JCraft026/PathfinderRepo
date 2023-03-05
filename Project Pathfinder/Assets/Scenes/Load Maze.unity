@@ -2370,6 +2370,8 @@ MonoBehaviour:
   Keys1Sprite: {fileID: 1983926103, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}
   Keys2Sprite: {fileID: -625650372, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}
   Keys3Sprite: {fileID: 736485243, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}
+  ChestClosed: {fileID: 933104955, guid: 807bef9af4b4935488fd746b66c09c35, type: 3}
+  ChestOpened: {fileID: -1704585242, guid: 807bef9af4b4935488fd746b66c09c35, type: 3}
 --- !u!4 &1250542113
 Transform:
   m_ObjectHideFlags: 0

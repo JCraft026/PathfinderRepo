@@ -66,7 +66,7 @@ public class ManageInventory : NetworkBehaviour
                     Debug.LogError("itemWorld.GetItem() == null");
                 }
                 if(itemWorld.GetItem().isKey()){
-                    itemWorld.DestroySelf();
+                    itemWorld.OpenChest();
                     playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
@@ -74,7 +74,7 @@ public class ManageInventory : NetworkBehaviour
                     if(inventory.GetItemList().Count < 8 ||
                         inventory.anItemCanStack(itemWorld.GetItem())){
                         inventory.AddItem(itemWorld.GetItem());
-                        itemWorld.DestroySelf();
+                        itemWorld.OpenChest();
                         // Controls if the item you pick up is selected (ready to be used) or not
                         if(inventory.GetItemList().Count == 1){
                             slotNumber = 0;
@@ -276,7 +276,10 @@ public class ManageInventory : NetworkBehaviour
 
     // Drop's the selected item behind the runner
     void OnDropItem(){
-        if (selectedItem != null){
+        bool droppingIsEnabled = false; // Allows us to disable dropping items with the implemenation of chests
+                                        // This is a temporary fix since I don't know if we want dropping in game now.
+
+        if (selectedItem != null && droppingIsEnabled){
             Item duplicateItem = new Item {itemType = selectedItem.itemType, amount = 1};
             // if(itemWorld == null)
             // {
@@ -312,6 +315,10 @@ public class ManageInventory : NetworkBehaviour
         }
         else{
             Debug.Log("No item lol");
+            if(!droppingIsEnabled)
+            {
+                Debug.LogWarning("Dropping items is disabled");
+            }
         }
     }
 

@@ -406,6 +406,7 @@ public class CustomNetworkManager : NetworkManager
     //Ensure the host cannot play the game while there are no clients connected
     IEnumerator HostWaitForPlayer(NetworkConnectionToClient host)
     {
+        Debug.Log("Stopping player movement until a client joins...");
         GameObject hostObject = host.identity.gameObject;
 
         // Disable movement for the player
@@ -425,7 +426,6 @@ public class CustomNetworkManager : NetworkManager
         // Wait for a client to join
         while(NetworkServer.connections.Count <= 1)
         {
-            Debug.Log("waitng for new player");
             yield return null;
         }
         
@@ -443,6 +443,7 @@ public class CustomNetworkManager : NetworkManager
             trapper.GetComponent<MoveCharacter>().enabled = true;
         }
 
+        Debug.Log("Player movment is now re-enabled");
         yield return null;
     }
    

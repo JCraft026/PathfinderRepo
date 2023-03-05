@@ -20,5 +20,7 @@ public class ItemAssets : MonoBehaviour
                      Keys0Sprite,     // Red key sprite
                      Keys1Sprite,     // Blue key sprite
                      Keys2Sprite,     // Green key sprite
-                     Keys3Sprite;     // Yellow key sprite
+                     Keys3Sprite,     // Yellow key sprite
+                     ChestClosed,     // Closed chest sprite
+                     ChestOpened;     // Opened chest sprited
 }
