@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -347,7 +347,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       ChestOpen_5: -1704585242
-      ChestOpen_8: -305537157
+      ChestOpen_4: -1610680431
       ChestOpen_10: 1165527730
       ChestOpen_0: 933104955
       ChestOpen_7: 1538391840
@@ -356,7 +356,7 @@ TextureImporter:
       ChestOpen_9: -1061386046
       ChestOpen_3: -2003870920
       ChestOpen_6: 402723022
-      ChestOpen_4: -1610680431
+      ChestOpen_8: -305537157
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

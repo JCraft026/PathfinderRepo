@@ -85,12 +85,6 @@ public class ItemWorld : NetworkBehaviour
         }
         //spriteRenderer.sprite = item.GetSprite();
         spriteRenderer.sprite = ItemAssets.Instance.ChestClosed;
-        if (item.amount > 1){
-            textMeshPro.SetText(item.amount.ToString());
-        }
-        else{
-            textMeshPro.SetText("");
-        }
         Debug.Log("item set");
     }
 

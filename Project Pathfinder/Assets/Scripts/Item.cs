@@ -81,7 +81,7 @@ public class Item
 
     public static Item getRandomItem(){
         Item item = new Item();
-        switch(UnityEngine.Random.Range(0,3))
+        switch(UnityEngine.Random.Range(0,4))
         {
             default:
                 Debug.LogWarning("RNG generated unsupported item type");
@@ -96,6 +96,10 @@ public class Item
                 break;
             case 2:
                 item.itemType = ItemType.GreenScreenSuit;
+                Debug.Log(item.itemType);
+                break;
+            case 3:
+                item.itemType = ItemType.SmokeBomb;
                 Debug.Log(item.itemType);
                 break;
 
