@@ -14,7 +14,6 @@ public class ItemWorld : NetworkBehaviour
     [SyncVar]
     private Item item;                     // The item to be referenced
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component
-    private TextMeshPro textMeshPro;       // Holds the text that shows the number of stacked items
 
     //public ItemWorld Instance;
 
@@ -22,19 +21,6 @@ public class ItemWorld : NetworkBehaviour
     private void Awake(){
         //Instance = this;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        try
-        {
-            textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
-        }
-        catch
-        {
-            Debug.LogWarning("Failed to get textMeshPro in self, getting from gObject's child");
-            textMeshPro = gameObject.GetComponentInChildren<TextMeshPro>();
-        }
-        if(textMeshPro == null)
-        {
-            Debug.LogError("Item textMeshPro is null");
-        }
     }
 
     // Spawns an item at the in scene location
