@@ -105,7 +105,7 @@ public class ItemWorld : NetworkBehaviour
     {
         // All of the walls that our chests can spawn against
         List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
-                                        .Where<GameObject>(x => x.name.Contains("Wall_TB")).ToList();
+                                        .Where<GameObject>(x => x.name.Contains("Wall_TB") || x.name.Contains("Wall_LR")).ToList();
 
         // Shuffle the indexes of the walls for extra randomness
         topWalls = ShuffleList<GameObject>(topWalls);
@@ -130,13 +130,19 @@ public class ItemWorld : NetworkBehaviour
             {
                 throw(new Exception("Null wallIndex in SpawnChests() (wallIndex = " + wallIndex + ")"));
             }
+            
+            Vector2 chestPos; // Rough/initial position of the chest based on the wall position
 
-            Vector2 chestPos = new Vector2(topWalls[wallIndex].transform.position.x, topWalls[wallIndex].transform.position.y - 5); 
-                // Rough/initial position of the chest based on the wall position
+            //Adjust the initial spawn point for a chest depending on which wall type it is spawning on
+            if(topWalls[wallIndex].name.Contains("Wall_TB"))
+                chestPos = new Vector2(topWalls[wallIndex].transform.position.x, topWalls[wallIndex].transform.position.y - 5);
+            else
+                chestPos = new Vector2(topWalls[wallIndex].transform.position.x - 5, topWalls[wallIndex].transform.position.y);
 
             // If the chest is spawned outside the boundaries of the map move it back into the map
-            while(chestPos.y >= 50 || chestPos.y <= -50)
+            while(chestPos.y >= 50 || chestPos.y <= -50 || chestPos.x >= 52 || chestPos.x <= -52)
             {
+                // Adjust y position
                 if(chestPos.y > 50)
                 {
                     chestPos.y -= 1;
@@ -144,6 +150,16 @@ public class ItemWorld : NetworkBehaviour
                 else if(chestPos.y <= -50)
                 {
                     chestPos.y += 1;
+                }
+
+                // Adjust x position
+                if(chestPos.x >= 52)
+                {
+                    chestPos.x -= 1;
+                }
+                else if(chestPos.x <= -52)
+                {
+                    chestPos.x += 1;
                 }
             }
 
