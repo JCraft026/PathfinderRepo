@@ -187,8 +187,8 @@ public class CustomNetworkManager : NetworkManager
             SetGuardSpawnLocations();
 
             NetworkServer.Spawn(chaser);
-            NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
+            NetworkServer.Spawn(trapper);
 
             // Select a random guard to initialize control
             switch (initialActiveGuardId)
@@ -196,14 +196,20 @@ public class CustomNetworkManager : NetworkManager
                 case ManageActiveCharactersConstants.CHASER:
                     NetworkServer.ReplacePlayerForConnection(conn, chaser);
                     initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
+                    chaser.GetComponent<SpriteRenderer>().material
+                       = chaser.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     NetworkServer.ReplacePlayerForConnection(conn, engineer);
                     initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
+                    engineer.GetComponent<SpriteRenderer>().material
+                       = engineer.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     NetworkServer.ReplacePlayerForConnection(conn, trapper);
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
+                    trapper.GetComponent<SpriteRenderer>().material
+                       = trapper.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
             }
 
