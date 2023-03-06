@@ -218,20 +218,13 @@ public class CustomNetworkManager : NetworkManager
         }
 
         //Spawn a test item
-        try
-        {
-            Item generatedItem = Item.getRandomItem();
+            /*Item generatedItem = Item.getRandomItem();
             Debug.Log("Generated an item");
             GameObject.Find("ItemAssets")
                 .GetComponent<CommandManager>()
-                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);
-        }
-        catch(Exception e)
-        {
-            Debug.LogError("failed to spawn item world in the network manager");
-            Debug.LogError(e.Message);
-            Debug.Log(e.Source);
-        }
+                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);*/
+        if(NetworkServer.connections.Count > 1)
+            ItemWorld.SpawnChests(50);
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));
