@@ -1787,9 +1787,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7466179a018000446af60d8d3a31c258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steamGenerator: {fileID: 2305507762785227996, guid: 093a4cf5b9ff7f94ba45134ab16159e9, type: 3}
-  steamGeneratorP: {fileID: 0}
+  syncMode: 0
+  syncInterval: 0.1
   spawnCount: 3
+  steamGenerator: {fileID: 2979776861215351217, guid: 0ade5c3fb4d89f44597935f3fdfc8cb2, type: 3}
 --- !u!1 &1558575841
 GameObject:
   m_ObjectHideFlags: 0

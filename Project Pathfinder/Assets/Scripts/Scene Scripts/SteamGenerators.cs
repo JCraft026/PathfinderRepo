@@ -33,13 +33,9 @@ public class SteamGenerators : NetworkBehaviour
                     generatorPos.y += generatorPos.y - 56;
             }
 
-            if(true)
-            {
-                
                 var gObject = Instantiate(steamGenerator, generatorPos, Quaternion.identity);
                 NetworkedSpawnGenerator(gObject);
                 topWalls.Remove(topWalls[wallIndex]);
-            }
         }
     }
     [Command(requiresAuthority = false)]
