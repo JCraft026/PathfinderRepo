@@ -14,20 +14,20 @@ static class ManageUnlockAttemptConstants{
 
 public class ManageUnlockAttempt : MonoBehaviour
 {
-    public string firstExitName  = "Exit1";
-    public string secondExitName = "Exit2";
-    public string thirdExitName  = "Exit3";
-    public string fourthExitName = "Exit4";
-    public string firstKeyholeName  = "Keyhole1";
-    public string secondKeyholeName = "Keyhole2";
-    public string thirdKeyholeName  = "Keyhole3";
-    public string fourthKeyholeName = "Keyhole4";
-    public int lockID;                                      // ID of the current lock
-    public bool lockUnlocked         = false;               // Status of lock being unlocked
-    public bool greenExitOpened      = false;               // Status of green exit being opened on guard master side
-    public bool yellowExitOpened      = false;              // Status of yellow exit being opened on guard master side
-    public bool blueExitOpened      = false;                // Status of blue exit being opened on guard master side
-    public bool redExitOpened      = false;                 // Status of red exit being opened on guard master side
+    public string firstExitName      = "Exit1";
+    public string secondExitName     = "Exit2";
+    public string thirdExitName      = "Exit3";
+    public string fourthExitName     = "Exit4";
+    public string firstKeyholeName   = "Keyhole1";
+    public string secondKeyholeName  = "Keyhole2";
+    public string thirdKeyholeName   = "Keyhole3";
+    public string fourthKeyholeName  = "Keyhole4";
+    public int lockID;                             // ID of the current lock
+    public bool lockUnlocked         = false;      // Status of lock being unlocked
+    public bool greenExitOpened      = false;      // Status of green exit being opened on guard master side
+    public bool yellowExitOpened     = false;      // Status of yellow exit being opened on guard master side
+    public bool blueExitOpened       = false;      // Status of blue exit being opened on guard master side
+    public bool redExitOpened        = false;      // Status of red exit being opened on guard master side
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +41,49 @@ public class ManageUnlockAttempt : MonoBehaviour
         var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
             // Runner game object
 
+        // Show unlock instruction above lock if the runner is close
+        if(CustomNetworkManager.isRunner){
+            if(gameObject.transform.position.y - runner.transform.position.y > 0.0f && gameObject.transform.position.y - runner.transform.position.y < 1.5f && runner.transform.position.x - gameObject.transform.position.x > -0.75f && runner.transform.position.x - gameObject.transform.position.x < 0.75f && lockUnlocked == false){
+                switch (lockID)
+                {
+                    case ManageUnlockAttemptConstants.GREEN: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction1")).SetActive(true);
+                        break;
+                    case ManageUnlockAttemptConstants.YELLOW: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction2")).SetActive(true);
+                        break;
+                    case ManageUnlockAttemptConstants.BLUE:
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction3")).SetActive(true);
+                        break;
+                    case ManageUnlockAttemptConstants.RED: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction4")).SetActive(true);
+                        break;
+                }
+            }
+            else{
+                switch (lockID)
+                {
+                    case ManageUnlockAttemptConstants.GREEN: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction1")).SetActive(false);
+                        break;
+                    case ManageUnlockAttemptConstants.YELLOW: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction2")).SetActive(false);
+                        break;
+                    case ManageUnlockAttemptConstants.BLUE:
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction3")).SetActive(false);
+                        break;
+                    case ManageUnlockAttemptConstants.RED: 
+                        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("UnlockInstruction4")).SetActive(false);
+                        break;
+                }
+            }
+        }
+
         // Process opening exits on the runner side
         if(CustomNetworkManager.isRunner && runner.GetComponent<Animator>().GetBool("Unlock Attempted")){
             
             // If the runner is standing in front of the parent object keyhole, open the cooresponding exit and display the appropriate popup message
-            if(gameObject.transform.position.y - runner.transform.position.y > 0.0f && gameObject.transform.position.y - runner.transform.position.y < 3.0f && runner.transform.position.x - gameObject.transform.position.x > -1.0f && runner.transform.position.x - gameObject.transform.position.x < 1.0f && lockUnlocked == false){
+            if(gameObject.transform.position.y - runner.transform.position.y > 0.0f && gameObject.transform.position.y - runner.transform.position.y < 1.5f && runner.transform.position.x - gameObject.transform.position.x > -0.75f && runner.transform.position.x - gameObject.transform.position.x < 0.75f && lockUnlocked == false){
                 switch (lockID)
                 {
                     case ManageUnlockAttemptConstants.GREEN: 
