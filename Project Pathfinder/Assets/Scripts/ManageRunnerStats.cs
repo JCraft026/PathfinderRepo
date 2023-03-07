@@ -44,6 +44,7 @@ public class ManageRunnerStats : MonoBehaviour
             if(CustomNetworkManager.isRunner){
                 heart1.SetActive(false);
             }
+            HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
             HandleEvents.currentEvent = HandleEventsConstants.GUARDMASTER_WINS;
         }
 
