@@ -1691,6 +1691,7 @@ GameObject:
   - component: {fileID: 1496269329}
   - component: {fileID: 1496269331}
   - component: {fileID: 1496269332}
+  - component: {fileID: 1496269333}
   m_Layer: 0
   m_Name: MazeRenderer
   m_TagString: Untagged
@@ -1774,6 +1775,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShadowGroup: 0
+--- !u!114 &1496269333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496269328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7466179a018000446af60d8d3a31c258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steamGenerator: {fileID: 2305507762785227996, guid: 093a4cf5b9ff7f94ba45134ab16159e9, type: 3}
+  steamGeneratorP: {fileID: 0}
+  spawnCount: 3
 --- !u!1 &1558575841
 GameObject:
   m_ObjectHideFlags: 0
