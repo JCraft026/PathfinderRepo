@@ -12,19 +12,16 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
-    public GameObject flashlight; // Theis character's flashlight object (if they have one)
-    public float moveSpeed = 5f,  // Speed at which the character needs to move
-                 facingDirection; // Direction the character should face after movement
-    Vector2 movementInput;        // Character's current input direction             
-    public Rigidbody2D rigidBody; // Character's RigidBody
-    public Animator animator;     // Character's animator manager
-    public bool canMove = true;   
-                                  // Character movement lock status
-    public GameObject PauseCanvas; 
-                                  // Exit game menu
-
-    private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
-    private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
+    public GameObject flashlight;       // The character's flashlight object (if they have one)
+    public float moveSpeed = 5f,        // Speed at which the character needs to move
+                 facingDirection;       // Direction the character should face after movement
+    Vector2 movementInput;              // Character's current input direction             
+    public Rigidbody2D rigidBody;       // Character's RigidBody
+    public Animator animator;           // Character's animator manager
+    public bool canMove = true;         // Character movement lock status
+    public GameObject PauseCanvas;      // Exit game menu
+    private Vector2 lastMovementInput;  // Unused as of now remove later (-Caleb)
+    private float? lastFacingDirection; // Unused as of now remove later (-Caleb)
 
     // Initialize the exit game menu variable
     private void Awake()
@@ -34,6 +31,21 @@ public class MoveCharacter : NetworkBehaviour
 
     // Update is called once per frame
     void Update(){
+
+        // Disable movement on inactive guards
+        if(!CustomNetworkManager.isRunner){
+            if(gameObject.GetComponent<ManageActiveCharacters>().guardId != gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
+                canMove = false;
+                animator.SetFloat("Movement Speed", 0.0f);
+                rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+            else{
+                canMove = true;
+                rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+        }
+
+        // Process character movement
         if(isLocalPlayer && canMove)
         {
             // Get current input data
