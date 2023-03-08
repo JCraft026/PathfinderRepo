@@ -205,7 +205,7 @@ public class ManageInventory : NetworkBehaviour
     public void UseItem(Item item){ 
     switch (item.itemType){
         default:
-            Debug.Log("This item don't do much, eh?");
+            Debug.LogWarning("No item equipped");
             break;
         // Sledge Hammer Action
         case Item.ItemType.Sledge:
@@ -220,7 +220,7 @@ public class ManageInventory : NetworkBehaviour
         // Common Grounds Coffee Action
         case Item.ItemType.Coffee:
             if(CoffeeController.Instance.coffeeIsOver){
-                Debug.Log("Hey that was tasty :)");
+                Debug.Log("Coffee used");
                 inventory.RemoveItem(item);
                 MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
                 CoffeeController coffeeController = gameObject.GetComponent<CoffeeController>();
@@ -233,7 +233,7 @@ public class ManageInventory : NetworkBehaviour
             break;
         case Item.ItemType.GreenScreenSuit:
             if(GreenScreenController.Instance.greenScreenIsOver){
-                Debug.Log("Yay suit");
+                Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
                 runnerScript.greenScreen(); 

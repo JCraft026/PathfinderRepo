@@ -8,14 +8,20 @@ using System;
 public class RenderSmokeScreen : NetworkBehaviour
 {
     public static RenderSmokeScreen Instance; // Makes an instance of this class to access attribtuess
+    private static int smokeScreensSpawned = 0; // Number of smoke screens that have been spawned throughout the game (obviously 0 based)
+    public int smokeScreenNum;
     MoveCharacter runnerScript {get {return Resources.FindObjectsOfTypeAll<GameObject>()
                                             .FirstOrDefault(gObject => gObject
                                                 .name.Contains("Runner"))
                                             .GetComponent<MoveCharacter>();}}
     // Called on Start
     void Start(){
-        Instance = this;
-
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        smokeScreenNum = smokeScreensSpawned;
+        smokeScreensSpawned += 1;
         //runnerScript = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).GetComponent<MoveCharacter>();    
         }
     // Update is called once per frame
@@ -23,6 +29,8 @@ public class RenderSmokeScreen : NetworkBehaviour
     public void useSmoke(){
         GameObject gObject = Instantiate(ItemAssets.Instance.SmokeScreen,
            runnerScript.rigidBody.position, Quaternion.identity);
+           gObject.name = gObject.name + smokeScreensSpawned.ToString();
+           
         NetworkServer.Spawn(gObject);
         StartSmokeFade(this.gameObject);
     }
@@ -52,13 +60,23 @@ public class RenderSmokeScreen : NetworkBehaviour
         }
         Debug.Log(smoke.name + " should be destroyed");
         //NetworkServer.Destroy(smoke);
-        NetworkServer.Destroy(Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Smoke")));
-    }
 
-    // Destroys the smoke on the client side (We shouldn't have to use this but I have it just in case)
-    [ClientRpc]
-    public void DestroySmoke(GameObject smoke)
-    {
-        NetworkServer.Destroy(Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Smoke")));
+        // Destroy the earliest smoke screen
+        List<GameObject> smokeScreens = GameObject.FindObjectsOfType<GameObject>().Where<GameObject>(x => x.name.Contains("Smoke") && x.GetComponent<RenderSmokeScreen>().smokeScreenNum != 0).ToList();
+
+        //Cringey bubble sort to figure out which smoke screen is the oldest
+        for(int behind = 0; behind < smokeScreens.Count - 1; behind++)
+        {
+            for(int forward = behind; forward < smokeScreens.Count; forward++)
+            {
+                if(smokeScreens[behind].GetComponent<RenderSmokeScreen>().smokeScreenNum > smokeScreens[forward].GetComponent<RenderSmokeScreen>().smokeScreenNum)
+                {
+                    GameObject tempSmoke = smokeScreens[behind];
+                    smokeScreens[behind] = smokeScreens[forward];
+                    smokeScreens[forward] = tempSmoke;
+                }
+            }
+        }
+        NetworkServer.Destroy(smokeScreens[0]);
     }
 }
