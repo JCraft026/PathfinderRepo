@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class CommandManager : NetworkBehaviour
 {
@@ -20,5 +21,31 @@ public class CommandManager : NetworkBehaviour
     public void rpc_ClientSetItemSprite(ItemWorld itemWorld, Item item)
     {
         itemWorld.SetItem(item);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void cmd_MakeRunnerInvisible()
+    {
+        rpc_MakeRunnerInvisible(); // Tell the clients to make the runner invisible if they are not the runner
+    }
+
+    [ClientRpc]
+    public void rpc_MakeRunnerInvisible()
+    {
+        var custNetMan = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
+
+        if(!CustomNetworkManager.isRunner)
+        {
+           GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
+
+            runner.GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(MakeRunnerVisible(runner));
+        }
+    }
+
+    IEnumerator MakeRunnerVisible(GameObject runner)
+    {
+        yield return new WaitForSeconds(5);
+        runner.GetComponent<SpriteRenderer>().enabled = true;
     }
 }

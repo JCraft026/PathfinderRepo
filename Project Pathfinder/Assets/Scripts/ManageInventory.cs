@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using Mirror;
+using System.Linq;
 
 public class ManageInventory : NetworkBehaviour
 {
@@ -70,6 +71,14 @@ public class ManageInventory : NetworkBehaviour
                     playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
+                    if(itemWorld.GetItem().itemType == Item.ItemType.Sledge)
+                    {
+                        if(inventory.GetItemList()
+                            .Any(x => x.itemType == Item.ItemType.Sledge))
+                        {
+                            itemWorld.SetItem(Item.getRandomItem(false));
+                        }
+                    }
                     // Checks for the ability to hold more items
                     if(inventory.GetItemList().Count < 8 ||
                         inventory.anItemCanStack(itemWorld.GetItem())){

@@ -79,7 +79,7 @@ public class Item
         }
     }
 
-    public static Item getRandomItem(){
+    public static Item getRandomItem(bool canBeSledge=true){
         Item item = new Item();
         switch(UnityEngine.Random.Range(0,4))
         {
@@ -87,8 +87,16 @@ public class Item
                 Debug.LogWarning("RNG generated unsupported item type");
                 break;
             case 0:
-                item.itemType = ItemType.Sledge;
-                Debug.Log(item.itemType);
+                if(canBeSledge)
+                {
+                    item.itemType = ItemType.Sledge;
+                    Debug.Log(item.itemType);
+                }
+                else
+                {
+                    item = getRandomItem(false); // recursively generate a different random item that is not a sledge
+                    Debug.Log("Found a sledge, generated a " + item.itemType + " instead");
+                }
                 break;
             case 1:
                 item.itemType = ItemType.Coffee;
