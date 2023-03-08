@@ -6,15 +6,17 @@ using Mirror;
 
 public class SteamGenerators : NetworkBehaviour
 {
-    public int spawnCount = 3;
+    public static int spawnCount = 3;
     public GameObject steamGenerator;
+    public bool isBroken = false;
+    public static int generatedSteam = 0; // Steam currently available to the guardmaster. 
 
     private void Start()
     {
-        spawnGenerators();
+        StartCoroutine(GenerateSteam());
     }
 
-    void spawnGenerators()
+    public void SpawnGenerators()
     {
         List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
             .Where<GameObject>(x => x.name.Contains("Wall_TB")).ToList();
@@ -38,6 +40,34 @@ public class SteamGenerators : NetworkBehaviour
                 topWalls.Remove(topWalls[wallIndex]);
         }
     }
+
+    // Asyncronously generates 1 steam point every second (as long as the generator is not broken)
+    IEnumerator GenerateSteam()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(1);
+            if(isBroken == false && generatedSteam < 100)
+            {
+                generatedSteam += 1;
+            }
+            else if(generatedSteam > 100)
+            {
+                generatedSteam = 100;
+            }
+        }
+    }
+
+    public bool GeneratorBreak()
+    {
+        if(isBroken == false)
+        {
+            isBroken = true;
+            // Implement sprite change
+        }
+        return isBroken;
+    }
+
     [Command(requiresAuthority = false)]
     public void NetworkedSpawnGenerator(GameObject generator)
     {
