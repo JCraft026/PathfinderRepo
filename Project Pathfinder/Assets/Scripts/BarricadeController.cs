@@ -6,7 +6,7 @@ using System.Linq;
 
 public class BarricadeController : NetworkBehaviour
 {
-    TrapperAbility trapperAbility;
+    EngineerAbility engineerAbility;
      GameObject trapper,
                 engineer,
                 chaser,
@@ -21,7 +21,7 @@ public class BarricadeController : NetworkBehaviour
         chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
         runner   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
         
-        trapperAbility = trapper.GetComponent<TrapperAbility>();
+        engineerAbility = engineer.GetComponent<EngineerAbility>();
     }
 
     // Update is called once per frame
@@ -30,21 +30,21 @@ public class BarricadeController : NetworkBehaviour
         if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.0){
             Debug.Log("Trapper close to wall");
             if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                trapperAbility.decreseBarricadeCount();
+                engineerAbility.decreseBarricadeCount();
                 destroyBarricade();
             }
         }
         if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.0){
             Debug.Log("The engineer is here");
             if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                trapperAbility.decreseBarricadeCount();
+                engineerAbility.decreseBarricadeCount();
                 destroyBarricade();
             }
         }
         if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.0){
             Debug.Log("Chaser is close to wall");
             if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                trapperAbility.decreseBarricadeCount();
+                engineerAbility.decreseBarricadeCount();
                 destroyBarricade();
             }
         }
@@ -53,7 +53,7 @@ public class BarricadeController : NetworkBehaviour
             if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
                 hitCount += 1;
                 if(hitCount >= 3){
-                    trapperAbility.decreseBarricadeCount();
+                    engineerAbility.decreseBarricadeCount();
                     destroyBarricade();
                     hitCount = 0;
                 }
