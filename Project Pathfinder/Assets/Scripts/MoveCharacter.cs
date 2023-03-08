@@ -20,6 +20,7 @@ public class MoveCharacter : NetworkBehaviour
     public Animator animator;           // Character's animator manager
     public bool canMove = true;         // Character movement lock status
     public GameObject PauseCanvas;      // Exit game menu
+    public bool isRestricted = true;    // Status of parent guard objects movement restricted
     private Vector2 lastMovementInput;  // Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; // Unused as of now remove later (-Caleb)
 
@@ -36,11 +37,15 @@ public class MoveCharacter : NetworkBehaviour
         if(!CustomNetworkManager.isRunner){
             if(gameObject.GetComponent<ManageActiveCharacters>().guardId != gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
                 canMove = false;
+                isRestricted = true;
                 animator.SetFloat("Movement Speed", 0.0f);
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             }
             else{
-                canMove = true;
+                if(isRestricted == true){
+                    canMove = true;
+                    isRestricted = false;
+                }
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
         }

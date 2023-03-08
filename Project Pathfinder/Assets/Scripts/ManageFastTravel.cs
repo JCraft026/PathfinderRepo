@@ -79,6 +79,8 @@ public class ManageFastTravel : MonoBehaviour
         guard.GetComponent<Animator>().SetFloat("Fast Travel X", destination.x);
         guard.GetComponent<Animator>().SetFloat("Fast Travel Y", destination.y);
         guard.GetComponent<Animator>().SetBool("Fast Travel Started", true);
+        guard.GetComponent<MoveCharacter>().facingDirection = MoveCharacterConstants.FORWARD;
+        guard.GetComponent<MoveCharacter>().flashlight.transform.eulerAngles = new Vector3(0f, 0f, 180f);
     }
 
     // Start coroutine to wait through fast travel idle time
