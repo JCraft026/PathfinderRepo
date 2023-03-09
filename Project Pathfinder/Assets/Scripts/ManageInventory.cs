@@ -247,7 +247,6 @@ public class ManageInventory : NetworkBehaviour
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
                 runnerScript.greenScreen(); 
                 greenScreenController.setCooldown(5);
-                ItemAssets.Instance.GetComponent<CommandManager>().cmd_MakeRunnerInvisible();
                 inventory.RemoveItem(item);
             }
             else{

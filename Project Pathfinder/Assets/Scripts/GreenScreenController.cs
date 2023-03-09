@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Mirror;
 using UnityEngine;
 
-public class GreenScreenController : NetworkBehaviour
+public class GreenScreenController : MonoBehaviour
 {
     private float timeStamp;                      // The time PAST the current time that needs to be reached 
     public bool greenScreenIsOver = true;                    // Whether or not the coffee cooldown is over  

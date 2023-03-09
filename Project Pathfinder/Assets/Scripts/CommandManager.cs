@@ -23,7 +23,7 @@ public class CommandManager : NetworkBehaviour
         itemWorld.SetItem(item);
     }
 
-        [Command(requiresAuthority = false)]
+    [Command(requiresAuthority = false)]
     public void cmd_MakeRunnerInvisible()
     {
         rpc_MakeRunnerInvisible(); // Tell the clients to make the runner invisible if they are not the runner
@@ -36,17 +36,16 @@ public class CommandManager : NetworkBehaviour
 
         if(!CustomNetworkManager.isRunner)
         {
-            GameObject runner = GameObject.FindObjectsOfType<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
-            Debug.Log("Disabling runner sprite on client");
+           GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
+
             runner.GetComponent<SpriteRenderer>().enabled = false;
-            StartCoroutine(MakeRunnerVisible());
+            StartCoroutine(MakeRunnerVisible(runner));
         }
     }
 
-    IEnumerator MakeRunnerVisible()
+    IEnumerator MakeRunnerVisible(GameObject runner)
     {
         yield return new WaitForSeconds(5);
-        GameObject runner = GameObject.FindObjectsOfType<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
         runner.GetComponent<SpriteRenderer>().enabled = true;
     }
 }
