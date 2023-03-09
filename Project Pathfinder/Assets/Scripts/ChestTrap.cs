@@ -23,11 +23,17 @@ public class ChestTrap : NetworkBehaviour
     {
         if(Utilities.GetDistanceBetweenObjects(transform.position, runner.transform.position) < 1.2f){
             triggerTrap();
+            destroyChestTrap();
         }
     }
 
     void triggerTrap(){
         trapperAbility.trapCount -= 1;
         runnerScript.moveSpeed = 2.5f;
+    }
+
+    [Command(requiresAuthority = false)]
+    public void destroyChestTrap(){
+        NetworkServer.Destroy(gameObject);
     }
 }
