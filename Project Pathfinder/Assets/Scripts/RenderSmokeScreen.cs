@@ -59,7 +59,6 @@ public class RenderSmokeScreen : NetworkBehaviour
             yield return null;
         }
         Debug.Log(smoke.name + " should be destroyed");
-        //NetworkServer.Destroy(smoke);
 
         // Destroy the earliest smoke screen
         List<GameObject> smokeScreens = GameObject.FindObjectsOfType<GameObject>().Where<GameObject>(x => x.name.Contains("Smoke") && x.GetComponent<RenderSmokeScreen>().smokeScreenNum != 0).ToList();
