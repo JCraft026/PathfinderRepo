@@ -245,7 +245,8 @@ public class ManageInventory : NetworkBehaviour
                 Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
-                runnerScript.greenScreen(); 
+                runnerScript.greenScreen();
+                ItemAssets.Instance.GetComponent<CommandManager>().cmd_MakeRunnerInvisible();
                 greenScreenController.setCooldown(5);
                 inventory.RemoveItem(item);
             }

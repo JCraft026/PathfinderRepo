@@ -32,20 +32,19 @@ public class CommandManager : NetworkBehaviour
     [ClientRpc]
     public void rpc_MakeRunnerInvisible()
     {
-        var custNetMan = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
-
         if(!CustomNetworkManager.isRunner)
         {
            GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
 
             runner.GetComponent<SpriteRenderer>().enabled = false;
-            StartCoroutine(MakeRunnerVisible(runner));
+            StartCoroutine(MakeRunnerVisible());
         }
     }
 
-    IEnumerator MakeRunnerVisible(GameObject runner)
+    IEnumerator MakeRunnerVisible()
     {
         yield return new WaitForSeconds(5);
+        GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
         runner.GetComponent<SpriteRenderer>().enabled = true;
     }
 }
