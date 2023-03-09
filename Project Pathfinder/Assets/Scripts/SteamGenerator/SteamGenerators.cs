@@ -16,7 +16,6 @@ public class SteamGenerators : NetworkBehaviour
     private void Start()
     {
         StartCoroutine(GenerateSteam());
-        SpawnGenerators();
     }
 
     public void SpawnGenerators()
@@ -57,7 +56,7 @@ public class SteamGenerators : NetworkBehaviour
             else if(generatedSteam > 100)
             {
                 generatedSteam = 100;
-                animator.animation = newAnimation;
+                //animator.animation = newAnimation;
             }
         }
     }
