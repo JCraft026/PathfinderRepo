@@ -190,3 +190,5 @@ MonoBehaviour:
   syncInterval: 0.1
   steamGenerator: {fileID: 2979776861215351217}
   isBroken: 0
+  animator: {fileID: 0}
+  newAnimation: {fileID: 0}

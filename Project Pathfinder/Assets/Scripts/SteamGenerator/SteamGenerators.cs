@@ -10,10 +10,13 @@ public class SteamGenerators : NetworkBehaviour
     public GameObject steamGenerator;
     public bool isBroken = false;
     public static int generatedSteam = 0; // Steam currently available to the guardmaster. 
+    public Animator animator;
+    public Animation newAnimation;
 
     private void Start()
     {
         StartCoroutine(GenerateSteam());
+        SpawnGenerators();
     }
 
     public void SpawnGenerators()
@@ -54,6 +57,7 @@ public class SteamGenerators : NetworkBehaviour
             else if(generatedSteam > 100)
             {
                 generatedSteam = 100;
+                animator.animation = newAnimation;
             }
         }
     }
