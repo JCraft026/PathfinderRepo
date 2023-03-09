@@ -633,6 +633,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Red Arrow
       objectReference: {fileID: 0}
+    - target: {fileID: 5213159191377609550, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6778620989272953091, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -651,7 +655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6778620989272953091, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6778620989272953091, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_LocalPosition.z

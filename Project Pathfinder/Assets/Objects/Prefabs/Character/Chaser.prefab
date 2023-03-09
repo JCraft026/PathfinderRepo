@@ -802,6 +802,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green Arrow
       objectReference: {fileID: 0}
+    - target: {fileID: 346457237262091689, guid: b8ff148feb6300f4a996edd0bd472c5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ff148feb6300f4a996edd0bd472c5e, type: 3}
 --- !u!4 &5711617766834902542 stripped

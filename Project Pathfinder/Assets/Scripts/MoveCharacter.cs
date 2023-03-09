@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Linq;
+using Newtonsoft.Json;
 
 static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
@@ -25,11 +27,31 @@ public class MoveCharacter : NetworkBehaviour
 
     private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
+    private GameObject runnerArrow;     // Runner arrow game object
+    private GameObject chaserArrow;     // Chaser arrow game object
+    private GameObject engineerArrow;   // Engineer arrow game object
+    private GameObject trapperArrow;    // Trapper arrow game object
+    private WallStatus[,] mazeData = new WallStatus[13, 13];
+                                        // Maze data
+    private int[] characterCellLocation = new int[2];
+                                        // Cell location of the current character
 
     // Initialize the exit game menu variable
     private void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
+    }
+
+    void Start(){
+        // Assign arrow game objects
+        runnerArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
+        chaserArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
+        engineerArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
+        trapperArrow  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
+
+        // Process maze data
+        string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
+        mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
     }
 
     // Update is called once per frame
@@ -75,6 +97,12 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Vertical Movement", movementInput.y);
             animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
             animator.SetFloat("Facing Direction", facingDirection);
+        }
+        if(isLocalPlayer){
+            // Update the cell location of the current character
+            
+            // Manage character arrow display
+
         }
     }
 
