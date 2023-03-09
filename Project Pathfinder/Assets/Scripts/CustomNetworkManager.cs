@@ -24,6 +24,8 @@ public class CustomNetworkManager : NetworkManager
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
     public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
 
+    public ItemWorld itemWorld;                                  //
+
     [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
 
@@ -67,7 +69,10 @@ public class CustomNetworkManager : NetworkManager
 
         // Find the maze renderer and create the maze (if we are the host)
         if(NetworkServer.connections.Count == 1){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
+            Resources.FindObjectsOfTypeAll<GameObject>()
+                .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
+                .GetComponent<RenderMaze>()
+                .CreateMaze();
         }
 
         // Reflect that the runner/guard master status has been set
@@ -211,6 +216,18 @@ public class CustomNetworkManager : NetworkManager
 
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
+
+        //Spawn a test item
+            /*Item generatedItem = Item.getRandomItem();
+            Debug.Log("Generated an item");
+            GameObject.Find("ItemAssets")
+                .GetComponent<CommandManager>()
+                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);*/
+        if(NetworkServer.connections.Count > 1)
+            ItemWorld.SpawnChests(50);
+
+        // Make the player wait to move until a client joins the game
+        StartCoroutine(HostWaitForPlayer(conn));
     }
     #endregion
 
@@ -377,6 +394,50 @@ public class CustomNetworkManager : NetworkManager
                     break;
             }
         }
+    }
+
+    //Ensure the host cannot play the game while there are no clients connected
+    IEnumerator HostWaitForPlayer(NetworkConnectionToClient host)
+    {
+        Debug.Log("Stopping player movement until a client joins...");
+        GameObject hostObject = host.identity.gameObject;
+
+        // Disable movement for the player
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = false;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = false;
+            engineer.GetComponent<MoveCharacter>().enabled = false;
+            trapper.GetComponent<MoveCharacter>().enabled = false;
+        }
+
+        // Wait for a client to join
+        while(NetworkServer.connections.Count <= 1)
+        {
+            yield return null;
+        }
+        
+        // Enable player movement
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = true;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = true;
+            engineer.GetComponent<MoveCharacter>().enabled = true;
+            trapper.GetComponent<MoveCharacter>().enabled = true;
+        }
+
+        Debug.Log("Player movment is now re-enabled");
+        yield return null;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason

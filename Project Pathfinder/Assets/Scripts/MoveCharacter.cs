@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 using Mirror;
 
 static class MoveCharacterConstants{
@@ -26,8 +27,22 @@ public class MoveCharacter : NetworkBehaviour
     private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
     private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
 
+    private Player_UI playerUi;     // Imports the Player's UI to access what is the player
+    public static MoveCharacter Instance; // Makes an instance of this class to access 
+    Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    
+    public override void OnStartAuthority(){
+        base.OnStartAuthority();
+        if(CustomNetworkManager.isRunner)
+        {
+            Debug.Log("Initializing runner inventory UI");
+            Instance = this;
+            playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+            playerUi.SetPlayer(this);
+        }
+    }
     // Initialize the exit game menu variable
-    private void Awake()
+    void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
     }
@@ -89,5 +104,31 @@ public class MoveCharacter : NetworkBehaviour
             // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
             rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    public Vector2 getPosition(){
+        return rigidBody.position;
+    }
+
+    public void greenScreen(){
+        Debug.Log("GREEN");
+        animator.SetBool("isGreen", true);
+        if(!runnerExpression.IsMatch(gameObject.name)){
+            if(runnerExpression.IsMatch(gameObject.name)){
+                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
+                runnerRenderer.color = new Color32(255,255,225,20);
+            }
+        }
+    }
+
+    public void notGreenScreen(){
+        animator.SetBool("isGreen", false);
+        if(!runnerExpression.IsMatch(gameObject.name)){
+            if(runnerExpression.IsMatch(gameObject.name)){
+                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
+                runnerRenderer.color = new Color32(255,255,225,255);
+            }
+        }
+        Debug.Log("NO GREEN");
     }
 }

@@ -28,7 +28,6 @@ public class PauseGame : NetworkBehaviour
     // Open (or close) the exit game menu
     public void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape) && isLocalPlayer)
         {
             Debug.Log(this.gameObject.name + " reacted to escape key");
@@ -43,6 +42,25 @@ public class PauseGame : NetworkBehaviour
             }
 
         }
+    }
+
+    public void ManagePauseCanvas()
+    {
+        Debug.Log("Click detected");
+        //if (isLocalPlayer)
+        //{
+            //Debug.Log("isLocalPlayer");
+            if(PauseCanvas.gameObject.activeSelf == false)
+            {
+                Debug.Log("Opening pause canvas from pause button");
+                OpenPauseCanvas();
+            }
+            else
+            {
+                Debug.Log("Closing pause canvas from pause button");
+                ClosePauseCanvas();
+            }
+        //}
     }
 
     // Locate the exit game menu

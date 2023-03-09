@@ -33,6 +33,12 @@ public class RenderMaze : NetworkBehaviour
     private Transform sideWallPrefab = null;
 
     [SerializeField]
+    private Transform crackedWallPrefab = null;
+
+    [SerializeField]
+    private Transform leftCrackedWallPrefab = null;
+
+    [SerializeField]
     private Transform floorPrefab = null;
 
     [SerializeField]
@@ -155,6 +161,13 @@ public class RenderMaze : NetworkBehaviour
                         currentExit++;
                         oldComponents.Add(topExit);
                     }
+                    else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1){
+                        var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
+                        topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
+                        topWall.name       = "Wall_TB"; 
+                        oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
+                    }
                     else{
                         if(i % 3 == 0){
                             topWallPrefab = torchWallPrefab;
@@ -197,6 +210,13 @@ public class RenderMaze : NetworkBehaviour
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
                         currentExit++;
                         oldComponents.Add(leftExit);
+                    }
+                    else if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
+                        var leftWall         = Instantiate(leftCrackedWallPrefab, transform) as Transform;
+                        leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
+                        leftWall.localScale  = new Vector2((leftWall.localScale.x * cellSize) / 2, (leftWall.localScale.y * cellSize) / 2); //DEBUG: This will mess up if we change the textures
+                        leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        oldComponents.Add(leftWall);
                     }
                     else{
                         // Spawn the left wall
@@ -294,5 +314,10 @@ public class RenderMaze : NetworkBehaviour
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
+    }
+
+    // Used by ManageCrackedWalls to adjust the detection size for wall breaking
+    public float GetCellSize(){
+        return cellSize;
     }
 }
