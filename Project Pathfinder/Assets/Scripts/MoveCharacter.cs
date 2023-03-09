@@ -14,27 +14,24 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
-    public GameObject flashlight; // Theis character's flashlight object (if they have one)
-    public float moveSpeed = 5f,  // Speed at which the character needs to move
-                 facingDirection; // Direction the character should face after movement
-    Vector2 movementInput;        // Character's current input direction             
-    public Rigidbody2D rigidBody; // Character's RigidBody
-    public Animator animator;     // Character's animator manager
-    public static bool canMove = true;   
-                                  // Character movement lock status
-    public GameObject PauseCanvas; 
-                                  // Exit game menu
-
-    private Vector2 lastMovementInput;  //Unused as of now remove later (-Caleb)
-    private float? lastFacingDirection; //Unused as of now remove later (-Caleb)
-    private GameObject runnerArrow;     // Runner arrow game object
-    private GameObject chaserArrow;     // Chaser arrow game object
-    private GameObject engineerArrow;   // Engineer arrow game object
-    private GameObject trapperArrow;    // Trapper arrow game object
-    private WallStatus[,] mazeData = new WallStatus[13, 13];
-                                        // Maze data
-    private int[] characterCellLocation = new int[2];
-                                        // Cell location of the current character
+    public GameObject flashlight;                            // Character's flashlight object (if they have one)
+    public float moveSpeed = 5f;                             // Speed at which the character needs to move
+    public float facingDirection;                            // Direction the character should face after movement
+    Vector2 movementInput;                                   // Character's current input direction             
+    public Rigidbody2D rigidBody;                            // Character's RigidBody
+    public Animator animator;                                // Character's animator manager
+    public static bool canMove = true;                       // Character movement lock status
+    public GameObject PauseCanvas;                           // Exit game menu
+    private Vector2 lastMovementInput;                       // Unused as of now remove later (-Caleb)
+    private float? lastFacingDirection;                      // Unused as of now remove later (-Caleb)
+    private GameObject characterArrow;                       // Arrow of the current active character
+    private float mazeWidth = 13;                            // Width of the maze
+    private float mazeHeight = 13;                           // Height of the maze
+    private WallStatus[,] mazeData = new WallStatus[13, 13]; // Maze data
+    private WallStatus currentCell;                          // Wall status of the cell the parent character object is in
+    private float currentCellY;                              // Y position of the current cell
+    private int[] characterCellLocation = new int[2];        // Cell location of the current character
+    private int activeCharacterCode;                         // Code identifying the current active character
 
     // Initialize the exit game menu variable
     private void Awake()
@@ -43,15 +40,28 @@ public class MoveCharacter : NetworkBehaviour
     }
 
     void Start(){
-        // Assign arrow game objects
-        runnerArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
-        chaserArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
-        engineerArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
-        trapperArrow  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
 
         // Process maze data
         string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
         mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+
+        // Assign active character code and character arrow
+        if(Utilities.runnerRegex.IsMatch(gameObject.name)){
+            activeCharacterCode = ManageActiveCharactersConstants.RUNNER;
+            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
+        }
+        else if(Utilities.chaserRegex.IsMatch(gameObject.name)){
+            activeCharacterCode = ManageActiveCharactersConstants.CHASER;
+            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
+        }
+        else if(Utilities.engineerRegex.IsMatch(gameObject.name)){
+            activeCharacterCode = ManageActiveCharactersConstants.ENGINEER;
+            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
+        }
+        else if(Utilities.trapperRegex.IsMatch(gameObject.name)){
+            activeCharacterCode = ManageActiveCharactersConstants.TRAPPER;
+            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
+        }
     }
 
     // Update is called once per frame
@@ -62,7 +72,7 @@ public class MoveCharacter : NetworkBehaviour
             movementInput.x = Input.GetAxisRaw("Horizontal"); // Returns 0 if idle, 1 if right, -1 if left
             movementInput.y = Input.GetAxisRaw("Vertical");   // Returns 0 if idle, 1 if up, -1 if down
             
-            // Flashlight rotation
+            // Manage flashlight rotation
             if ((flashlight != null) && !((movementInput.x == 0) && (movementInput.y == 0)))
             {
                 if (movementInput.x == 0)
@@ -99,10 +109,36 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Facing Direction", facingDirection);
         }
         if(isLocalPlayer){
-            // Update the cell location of the current character
-            
-            // Manage character arrow display
+            // Get cell location of parent character object
+            switch (activeCharacterCode)
+            {
+                case ManageActiveCharactersConstants.RUNNER:
+                    characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
+                    break;
+                case ManageActiveCharactersConstants.CHASER:
+                    characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.CHASER);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER);
+                    break;
+            }
+            Debug.Log((characterCellLocation[0] + (int)(mazeWidth/2)) + ", " + (characterCellLocation[1] + (int)(mazeHeight/2)));
+            currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
+            currentCellY = Utilities.GetMazeCellCoordinate(characterCellLocation[0], characterCellLocation[1]).y;
 
+            // Manage character arrow display
+            if(currentCell.HasFlag(WallStatus.BOTTOM) && (currentCellY - gameObject.transform.position.y) > 2.0f){
+                characterArrow.SetActive(true);
+            }
+            else{
+                characterArrow.SetActive(false);
+            }
+            Debug.Log("Current Cell: " + characterCellLocation[0] + characterCellLocation[1]);
+            Debug.Log(gameObject.name + "CurrentCellY: " + currentCellY);
+            Debug.Log(gameObject.name + ": " + gameObject.transform.position.y);
         }
     }
 

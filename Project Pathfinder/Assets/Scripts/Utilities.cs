@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Text.RegularExpressions;
 
 public class Utilities : MonoBehaviour
 {
+    // Regular Expressions
+    public static Regex chaserRegex   = new Regex("Chaser");   // Match "Chaser"
+    public static Regex engineerRegex = new Regex("Engineer"); // Match "Engineer"
+    public static Regex trapperRegex  = new Regex("Trapper");  // Match "Trapper"
+    public static Regex runnerRegex   = new Regex("Runner");   // Match "Runner"
+
     // Get the scene coordinates corresponding to the given maze cell grid positon
     public static Vector2 GetMazeCellCoordinate(int cellColumn, int cellRow){
-        Vector2 mazeCoordinate = new Vector2(GetCellSize() * (-GetMazeWidth() / 2 + cellColumn + .5f), GetCellSize() * (-GetMazeHeight() / 2 + cellRow + .5f));
+        Vector2 mazeCoordinate = new Vector2(GetCellSize() * cellColumn, GetCellSize() * cellRow);
 
         return mazeCoordinate;
     }
