@@ -629,13 +629,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2696247814498831815}
     m_Modifications:
+    - target: {fileID: 769051954032271557, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5213159191377609550, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_Name
       value: Red Arrow
       objectReference: {fileID: 0}
     - target: {fileID: 5213159191377609550, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6778620989272953091, guid: 5225e7e37ac78124f90c2b8615d8efff, type: 3}
       propertyPath: m_RootOrder

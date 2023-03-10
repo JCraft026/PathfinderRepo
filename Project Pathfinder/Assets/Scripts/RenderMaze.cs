@@ -295,4 +295,9 @@ public class RenderMaze : NetworkBehaviour
     {
         return mazeDataJson;
     }
+
+    // Set the MazeDataJson for the client
+    public void SetMazeDataJson(string jsonText){
+        mazeDataJson = jsonText;
+    }
 }

@@ -794,13 +794,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3920977177225075250, guid: 41539ffa6644c2f408ea59b28732bf87, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6686068996597671365, guid: 41539ffa6644c2f408ea59b28732bf87, type: 3}
       propertyPath: m_Name
       value: Gold Arrow
       objectReference: {fileID: 0}
     - target: {fileID: 6686068996597671365, guid: 41539ffa6644c2f408ea59b28732bf87, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41539ffa6644c2f408ea59b28732bf87, type: 3}

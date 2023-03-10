@@ -38,6 +38,7 @@ public class MoveCharacter : NetworkBehaviour
     private void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
+        
     }
 
     void Start(){
@@ -50,6 +51,7 @@ public class MoveCharacter : NetworkBehaviour
         if(Utilities.runnerRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.RUNNER;
             characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
+            Debug.Log("Woop");
         }
         else if(Utilities.chaserRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.CHASER;
@@ -109,6 +111,7 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
             animator.SetFloat("Facing Direction", facingDirection);
         }
+        
         if(Math.Abs(gameObject.transform.position.x) < (int)(mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (int)(mazeHeight/2) * Utilities.GetCellSize()){
             // Get cell location of parent character object
             switch (activeCharacterCode)
@@ -131,10 +134,10 @@ public class MoveCharacter : NetworkBehaviour
 
             // Manage character arrow display
             if(currentCell.HasFlag(WallStatus.BOTTOM) && (currentCellY - gameObject.transform.position.y) > 2.3f){
-                characterArrow.SetActive(true);
+                characterArrow.GetComponent<SpriteRenderer>().enabled = true;
             }
             else{
-                characterArrow.SetActive(false);
+                characterArrow.GetComponent<SpriteRenderer>().enabled = false;
             }
             Debug.Log(currentCellY - gameObject.transform.position.y);
         }
