@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using Newtonsoft.Json;
+using System;
 
 static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
@@ -108,7 +109,7 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Movement Speed", movementInput.sqrMagnitude); // Set the speed to the squared length of the movementInput vector
             animator.SetFloat("Facing Direction", facingDirection);
         }
-        if(isLocalPlayer){
+        if(Math.Abs(gameObject.transform.position.x) < (int)(mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (int)(mazeHeight/2) * Utilities.GetCellSize()){
             // Get cell location of parent character object
             switch (activeCharacterCode)
             {
@@ -125,20 +126,17 @@ public class MoveCharacter : NetworkBehaviour
                     characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER);
                     break;
             }
-            Debug.Log((characterCellLocation[0] + (int)(mazeWidth/2)) + ", " + (characterCellLocation[1] + (int)(mazeHeight/2)));
             currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
-            currentCellY = Utilities.GetMazeCellCoordinate(characterCellLocation[0], characterCellLocation[1]).y;
+            currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
 
             // Manage character arrow display
-            if(currentCell.HasFlag(WallStatus.BOTTOM) && (currentCellY - gameObject.transform.position.y) > 2.0f){
+            if(currentCell.HasFlag(WallStatus.BOTTOM) && (currentCellY - gameObject.transform.position.y) > 2.3f){
                 characterArrow.SetActive(true);
             }
             else{
                 characterArrow.SetActive(false);
             }
-            Debug.Log("Current Cell: " + characterCellLocation[0] + characterCellLocation[1]);
-            Debug.Log(gameObject.name + "CurrentCellY: " + currentCellY);
-            Debug.Log(gameObject.name + ": " + gameObject.transform.position.y);
+            Debug.Log(currentCellY - gameObject.transform.position.y);
         }
     }
 

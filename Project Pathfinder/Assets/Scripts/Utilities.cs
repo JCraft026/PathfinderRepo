@@ -15,7 +15,7 @@ public class Utilities : MonoBehaviour
 
     // Get the scene coordinates corresponding to the given maze cell grid positon
     public static Vector2 GetMazeCellCoordinate(int cellColumn, int cellRow){
-        Vector2 mazeCoordinate = new Vector2(GetCellSize() * cellColumn, GetCellSize() * cellRow);
+        Vector2 mazeCoordinate = new Vector2(GetCellSize() * (-GetMazeWidth() / 2 + cellColumn + .5f), GetCellSize() * (-GetMazeHeight() / 2 + cellRow + .5f));
 
         return mazeCoordinate;
     }
