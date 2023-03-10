@@ -13,7 +13,6 @@ public class TrapperAbility : NetworkBehaviour
     private int[] trapperLocation;
     private MoveCharacter trapperMoveCharacter; 
     private Vector3 trapLocation;
-    public int trapCount = 0;
 
     void Start(){
         trapperMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -23,10 +22,10 @@ public class TrapperAbility : NetworkBehaviour
     void Update()
     {
         // When trapper presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && trapCount < 2){
+        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             placeChestTrap();
         }
-        else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && trapCount >= 2){
+        else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             Debug.Log("Maximum amount of traps placed (2)");    
         }
     }
@@ -36,7 +35,6 @@ public class TrapperAbility : NetworkBehaviour
         Debug.Log("Tried to place a ChestTrap");
         tempChestTrap = Instantiate(chestTrap, trapperMoveCharacter.transform.position, Quaternion.identity);
         NetworkServer.Spawn(tempChestTrap);
-        trapCount += 1;
         return;
     }
 }
