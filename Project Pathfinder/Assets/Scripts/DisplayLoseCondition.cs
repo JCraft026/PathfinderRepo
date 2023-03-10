@@ -15,6 +15,9 @@ public class DisplayLoseCondition : MonoBehaviour
             case HandleEventsConstants.RUNNER_CAPTURED:
                 GameObject.Find("Lose Condition").GetComponent<TextMeshPro>().text = "You were captured by the guard master";
                 break;
+            case HandleEventsConstants.TIMER_ZERO:
+                GameObject.Find("Lose Condition").GetComponent<TextMeshPro>().text = "You ran out of time";
+                break;
                 
             // Display the Lose status messages for the guard master
             case HandleEventsConstants.RUNNER_ESCAPED:

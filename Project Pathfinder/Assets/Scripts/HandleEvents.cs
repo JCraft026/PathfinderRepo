@@ -10,6 +10,7 @@ static class HandleEventsConstants{
     public const int GUARDMASTER_WINS = 2; // Guard Master win event
     public const int RUNNER_CAPTURED  = 3; // Runner was captured
     public const int RUNNER_ESCAPED   = 4; // Runner escaped the maze
+    public const int TIMER_ZERO       = 5; // Timer has run down to zero
 }
 
 public class HandleEvents : MonoBehaviour
