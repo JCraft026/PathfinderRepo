@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ManageGoMenuClick : MonoBehaviour
 {
@@ -15,5 +16,13 @@ public class ManageGoMenuClick : MonoBehaviour
     {
         // Trigger exit game event
         gameObject.GetComponent<PauseGame>().ExitGame(0);
+    }
+
+    void OnMouseOver(){
+        GameObject.Find("Main Menu Button Text").GetComponent<TextMeshPro>().color = new Color(0, 5, 0);
+    }
+
+    void OnMouseExit(){
+        GameObject.Find("Main Menu Button Text").GetComponent<TextMeshPro>().color = Color.black;
     }
 }

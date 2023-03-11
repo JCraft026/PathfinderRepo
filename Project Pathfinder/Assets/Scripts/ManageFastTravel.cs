@@ -13,12 +13,6 @@ public class ManageFastTravel : MonoBehaviour
     float engineerTimeLeft   = 10.5f;    // Seconds remaining on engineer timer
     float trapperTimeLeft    = 10.5f;    // Seconds remaing on trapper timer
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
