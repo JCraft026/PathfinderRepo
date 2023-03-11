@@ -112,12 +112,35 @@ public class Item
                 break;
 
         }
-        if(item.isStackable()){
+        item.amount = 1;
+        /*if(item.isStackable()){
             item.amount = UnityEngine.Random.Range(1,9);
         }
         else{
             item.amount = 1;
-        }
+        }*/
         return item;
+    }
+
+    public static Item GetKey(int keyNum)
+    {
+        Item key = new Item();
+        switch(keyNum)
+        {
+            case 0:
+                key.itemType = Item.ItemType.Keys_0;
+            break;
+            case 1:
+                key.itemType = Item.ItemType.Keys_1;
+            break;
+            case 2:
+                key.itemType = Item.ItemType.Keys_2;
+            break;
+            case 3:
+                key.itemType = Item.ItemType.Keys_3;
+            break;
+        }
+        key.amount = 1;
+        return key;
     }
 }
