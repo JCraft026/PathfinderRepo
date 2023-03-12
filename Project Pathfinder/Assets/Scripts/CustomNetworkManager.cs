@@ -124,6 +124,7 @@ public class CustomNetworkManager : NetworkManager
                     // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
                     mazeRenderer.CleanMap();
+                    mazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
                     mazeRenderer.Render(newMaze);
                 }
             }
