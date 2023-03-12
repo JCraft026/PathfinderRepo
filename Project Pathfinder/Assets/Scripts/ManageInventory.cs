@@ -117,6 +117,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the second item slot (Keypad2)
@@ -130,6 +131,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the third item slot (Keypad3)
@@ -143,6 +145,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the fourth item slot (Keypad4)
@@ -156,6 +159,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the fifth item slot (Keypad5)
@@ -169,6 +173,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the sixth item slot (Keypad6)
@@ -182,6 +187,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the seventh item slot (Keypad7)
@@ -195,6 +201,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Select the eighth item slot (Keypad8)
@@ -208,6 +215,7 @@ public class ManageInventory : NetworkBehaviour
             unselectSlots(slotNumber);
         }
         playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Does an action based of of which item is passed

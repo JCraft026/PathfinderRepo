@@ -8,19 +8,23 @@ using Mirror;
 public class Player_UI : NetworkBehaviour
 {
     public GameObject     player;
-    private Inventory     inventory;         // Reference to the inventory's members and functions
-    private Transform     itemSlotContainer, // Area where the UI inventory lies
-                          itemSlotTemplate,  // Template for each item slot that instantiates
-                          keySlotContainer,  // Area where the Key UI lies
-                          keySlot0,          // Slot holding the first key
-                          keySlot1,          // Slot holding the second key
-                          keySlot2,          // Slot holding the third key
-                          keySlot3;          // Slot holding the fourth key
-    private MoveCharacter rigidBody;         // The player's rigidbody coordinates
-    private bool          hasKey0 = false,   // Boolean variable describing whether key 0 is present
-                          hasKey1 = false,   // Boolean variable describing whether key 1 is present
-                          hasKey2 = false,   // Boolean variable describing whether key 2 is present
-                          hasKey3 = false;   // Boolean variable describing whether key 3 is present
+    private Inventory     inventory;           // Reference to the inventory's members and functions
+    private Transform     itemSlotContainer,   // Area where the UI inventory lies
+                          itemSlotTemplate,    // Template for each item slot that instantiates
+                          keySlotContainer,    // Area where the Key UI lies
+                          keySlot0,            // Slot holding the first key
+                          keySlot1,            // Slot holding the second key
+                          keySlot2,            // Slot holding the third key
+                          keySlot3;            // Slot holding the fourth key
+    private MoveCharacter rigidBody;           // The player's rigidbody coordinates
+    private bool          hasKey0 = false,     // Boolean variable describing whether key 0 is present
+                          hasKey1 = false,     // Boolean variable describing whether key 1 is present
+                          hasKey2 = false,     // Boolean variable describing whether key 2 is present
+                          hasKey3 = false;     // Boolean variable describing whether key 3 is present
+    public Item.ItemType selectedItem = Item.ItemType.None; 
+                                               // Item just selected
+    public Item.ItemType activeSelectedItem = Item.ItemType.None; 
+                                               // Current active item
 
     // Run when the UI activates
     private void Awake(){
@@ -124,6 +128,7 @@ public class Player_UI : NetworkBehaviour
         int   slotX            = 0;     // UI inventory item slot x position
         int   slotY            = 0;     // UI inventory item slot y position 
         float itemSlotCellSize = 55.0f; // Size of each item slot cell
+        int currentSlotNumber = 0;      // Number of the current slot in the list
         
         //  
         foreach (Item item in inventory.GetItemList()){
@@ -131,17 +136,56 @@ public class Player_UI : NetworkBehaviour
                 Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
 
+            switch (item.itemType)
+            {
+                case Item.ItemType.Sledge:
+                    itemSlotRectTransform.gameObject.name = "Sledge Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "Sledge Popup";
+                    itemSlotRectTransform.Find("Sledge Popup").Find("itemDescription").gameObject.name = "Sledge Description";
+                    itemSlotRectTransform.Find("Sledge Popup").Find("Sledge Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Sledgehammer</size></color>\nhas the power to destroy cracked walls and steam generators\n\nhas unlimited uses\n\n[e] use</align>";
+                    break;
+                case Item.ItemType.Coffee:
+                    itemSlotRectTransform.gameObject.name = "Coffee Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "Coffee Popup";
+                    itemSlotRectTransform.Find("Coffee Popup").Find("itemDescription").gameObject.name = "Coffee Description";
+                    itemSlotRectTransform.Find("Coffee Popup").Find("Coffee Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=11>common grounds coffee</size></color>\ntemproarily doubles running speed\n\n<color=red>Duration: </color>10 sec\n\n[e] use</align>";
+                    break;
+                case Item.ItemType.SmokeBomb:
+                    itemSlotRectTransform.gameObject.name = "Smoke Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "Smoke Popup";
+                    itemSlotRectTransform.Find("Smoke Popup").Find("itemDescription").gameObject.name = "Smoke Description";
+                    itemSlotRectTransform.Find("Smoke Popup").Find("Smoke Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Smoke bomb</size></color>\ncreates a temproary smoke screen across the surrounding area\n\n<color=red>Duration: </color>10 sec\n\n[e] use</align>";
+                    break;
+                case Item.ItemType.GreenScreenSuit:
+                    itemSlotRectTransform.gameObject.name = "Green Screen Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "Green Screen Popup";
+                    itemSlotRectTransform.Find("Green Screen Popup").Find("itemDescription").gameObject.name = "Green Screen Description";
+                    itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily invisible to maze guards\n\n<color=red>Duration: </color>5 sec\n\n[e] use</align>";
+                    break;
+            }
+
             itemSlotRectTransform.anchoredPosition =
                 new Vector2(slotX * itemSlotCellSize, slotY * itemSlotCellSize);
             
+            // Display the slot number
+            currentSlotNumber++;
+            itemSlotRectTransform.Find("SlotNumber").GetComponent<TextMeshProUGUI>().text = "[" + currentSlotNumber + "]";
+
             // Put the correct sprite in the inventory
             Image image = itemSlotRectTransform.Find("Icon").GetComponent<Image>();
             image.sprite = item.GetSprite();
 
-            // Display which item slot is selected
+            // Display which item slot is selected and display its popup
             Image selection = itemSlotRectTransform.Find("SelectedBorder").GetComponent<Image>();
             if (item.isSelected()){
                 selection.color = new Color32(255,255,225,255);
+                // If the current selected item was selected before refresh, do not display popup
+                if(selectedItem == item.itemType){
+                    itemSlotRectTransform.gameObject.GetComponent<ManageItemPopup>().alreadyDisplayed = true;
+                }
+                itemSlotRectTransform.gameObject.GetComponent<ManageItemPopup>().itemIsSelected = true;
+                selectedItem = item.itemType;
+                activeSelectedItem = item.itemType;
             }
             else{
                 selection.color = new Color32(255,255,225,0);

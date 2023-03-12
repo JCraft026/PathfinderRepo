@@ -165,7 +165,7 @@ public class RenderMaze : NetworkBehaviour
                         var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
-                        topWall.name       = "Wall_TB"; 
+                        topWall.name       = "Wall_TB cracked"; 
                         oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
                     }
                     else{
@@ -214,8 +214,9 @@ public class RenderMaze : NetworkBehaviour
                     else if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
                         var leftWall         = Instantiate(leftCrackedWallPrefab, transform) as Transform;
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
-                        leftWall.localScale  = new Vector2((leftWall.localScale.x * cellSize) / 2, (leftWall.localScale.y * cellSize) / 2); //DEBUG: This will mess up if we change the textures
+                        leftWall.localScale  = new Vector2(2, 2);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        leftWall.name        = "Wall_LR cracked"; 
                         oldComponents.Add(leftWall);
                     }
                     else{

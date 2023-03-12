@@ -15,7 +15,8 @@ public class Item
         Keys_0,    // Red Key
         Keys_1,    // Blue Key
         Keys_2,    // Green Key
-        Keys_3     // Yellow Key
+        Keys_3,    // Yellow Key
+        None       // Empty item type
     }
     public ItemType itemType; // Holds the enum type of the item
     public int amount;        // The amount of each item
@@ -112,12 +113,10 @@ public class Item
                 break;
 
         }
-        if(item.isStackable()){
-            item.amount = UnityEngine.Random.Range(1,9);
-        }
-        else{
-            item.amount = 1;
-        }
+
+        // Limit items per chest to 1
+        item.amount = 1;
+        
         return item;
     }
 }
