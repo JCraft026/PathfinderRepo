@@ -69,8 +69,15 @@ public class ItemWorld : NetworkBehaviour
         {
             Debug.LogError("Item is null in SetItem");
         }
-        //spriteRenderer.sprite = item.GetSprite();
-        spriteRenderer.sprite = ItemAssets.Instance.ChestClosed;
+        if(item.itemType == Item.ItemType.Keys_0
+            || item.itemType == Item.ItemType.Keys_1
+            || item.itemType == Item.ItemType.Keys_2
+            || item.itemType == Item.ItemType.Keys_3)
+            {
+                spriteRenderer.sprite = item.GetSprite();
+            }
+        else
+            spriteRenderer.sprite = ItemAssets.Instance.ChestClosed;
         Debug.Log("item set");
     }
 
@@ -84,6 +91,13 @@ public class ItemWorld : NetworkBehaviour
         spriteRenderer.sprite = ItemAssets.Instance.ChestOpened;
         gameObject.GetComponent<Collider2D>().enabled = false;
         //Destroy(gameObject);
+    }
+
+    // Quick way to give the illusion that the key was picked up and is now gone
+    public void PickUpKey()
+    {
+        spriteRenderer.enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
     }
 
     // Spawn a bunch of chests around the map
@@ -167,6 +181,78 @@ public class ItemWorld : NetworkBehaviour
             chestsSpawned += 1;
             topWalls.Remove(topWalls[wallIndex]);   // Keep one wall from having multiple chests spawned at it
             topWalls = ShuffleList<GameObject>(topWalls);
+        }
+    }
+
+    public static void SpawnKeys()
+    {
+        var cmdManager =  GameObject.Find("ItemAssets")
+                            .GetComponent<CommandManager>();
+
+        
+        // All of the walls that our chests can spawn against
+        List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
+                                        .Where<GameObject>(x => x.name.Contains("Wall_TB") || x.name.Contains("Wall_LR")).ToList();
+
+        // Shuffle the indexes of the walls for extra randomness
+        topWalls = ShuffleList<GameObject>(topWalls);
+
+        // If our list is null ensure we get a clear error for why client disconnected
+        if(topWalls == null)
+        {
+            throw(new Exception("topWalls list is null in SpawnChests()"));
+        }
+
+        for(int iters = 0; iters < 4; iters++)
+        {
+            int wallIndex = UnityEngine.Random.Range(0, topWalls.Count); // Random index for the walls
+
+             Vector2 keyPos; // Rough/initial position of the chest based on the wall position
+
+                //Adjust the initial spawn point for a chest depending on which wall type it is spawning on
+                if(topWalls[wallIndex].name.Contains("Wall_TB"))
+                    keyPos = new Vector2(topWalls[wallIndex].transform.position.x, topWalls[wallIndex].transform.position.y - 5);
+                else
+                    keyPos = new Vector2(topWalls[wallIndex].transform.position.x - 5, topWalls[wallIndex].transform.position.y);
+
+                // If the chest is spawned outside the boundaries of the map move it back into the map
+                while(keyPos.y >= 50 || keyPos.y <= -50 || keyPos.x >= 52 || keyPos.x <= -52)
+                {
+                    // Adjust y position
+                    if(keyPos.y > 50)
+                    {
+                        keyPos.y -= 1;
+                    }
+                    else if(keyPos.y <= -50)
+                    {
+                        keyPos.y += 1;
+                    }
+
+                    // Adjust x position
+                    if(keyPos.x >= 52)
+                    {
+                        keyPos.x -= 1;
+                    }
+                    else if(keyPos.x <= -52)
+                    {
+                        keyPos.x += 1;
+                    }
+                }
+
+                // Clear the wall sprite
+                if(keyPos.y > 0)
+                {
+                    keyPos.y -= 5;
+                }
+
+                else
+                {
+                    keyPos.y += 5;
+                }
+
+
+            cmdManager.networkedSpawnItemWorld(keyPos, Item.GetKey(iters));
+            topWalls.RemoveAt(wallIndex);
         }
     }
 

@@ -224,7 +224,10 @@ public class CustomNetworkManager : NetworkManager
                 .GetComponent<CommandManager>()
                 .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);*/
         if(NetworkServer.connections.Count > 1)
+        {
             ItemWorld.SpawnChests(50);
+            ItemWorld.SpawnKeys();
+        }
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

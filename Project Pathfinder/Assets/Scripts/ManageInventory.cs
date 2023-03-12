@@ -67,7 +67,7 @@ public class ManageInventory : NetworkBehaviour
                     Debug.LogError("itemWorld.GetItem() == null");
                 }
                 if(itemWorld.GetItem().isKey()){
-                    itemWorld.OpenChest();
+                    itemWorld.PickUpKey();
                     playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
@@ -83,7 +83,6 @@ public class ManageInventory : NetworkBehaviour
                     if(inventory.GetItemList().Count < 8 ||
                         inventory.anItemCanStack(itemWorld.GetItem())){
                         inventory.AddItem(itemWorld.GetItem());
-                        itemWorld.OpenChest();
                         // Controls if the item you pick up is selected (ready to be used) or not
                         if(inventory.GetItemList().Count == 1){
                             slotNumber = 0;
