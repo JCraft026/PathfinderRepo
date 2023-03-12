@@ -15,24 +15,28 @@ public class ManageMinimapClicks : MonoBehaviour
 
         // Assign the sprite renderer
         spriteRenderer = GetComponent<SpriteRenderer>();
+        if(spriteRenderer == null)
+        {
+            Debug.LogError("ManageMiniMapClicks: sprite renderer null in start");
+        }
     }
 
     // Initiate guard fast travel if the minimap floor parent object is clicked
     void OnMouseDown()
     {
         if(!CustomNetworkManager.isRunner){
-            int activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
+            int activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>().activeGuardId;
                                     // Guard ID of the current active guard
             GameObject guard  = null; // Active guard object
 
             if(activeGuardId == ManageActiveCharactersConstants.CHASER){
-                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
             }
             else if(activeGuardId == ManageActiveCharactersConstants.ENGINEER){
-                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
             }
             else{
-                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
             }
 
             // Initiate guard fast travel if the current guard isnt already fast traveling
@@ -48,7 +52,7 @@ public class ManageMinimapClicks : MonoBehaviour
     void OnMouseOver(){
         // Change minimap cell color based on the current active guard
         if(!CustomNetworkManager.isRunner){
-            var activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
+            var activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>().activeGuardId;
                     // Guard ID of the current active guard
 
             if(activeGuardId == ManageActiveCharactersConstants.CHASER){

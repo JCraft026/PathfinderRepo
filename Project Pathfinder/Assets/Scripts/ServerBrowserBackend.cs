@@ -55,6 +55,7 @@ public class ServerBrowserBackend : MonoBehaviour
             }
             yield return null;
         }
+        Debug.Log("Scene done loading (progress): " + loading.progress);
 
         // Isolate the network manager
         var networkManagerObject = (networkDiscovery.gameObject
@@ -62,21 +63,23 @@ public class ServerBrowserBackend : MonoBehaviour
                                                     as CustomNetworkManager);
         if(networkManagerObject == null)
         {
-            Debug.LogError("NETWORK MANAGER IS NULL");
+            Debug.LogError("ServerBrowserBackend: NETWORK MANAGER IS NULL");
         }
         Debug.Log("Active Scene: " + SceneManager.GetActiveScene().name);
 
         // Set the networkManager's maze renderer
+        networkManagerObject.mazeRenderer = null; //Used to ensure that the mazeRenderer from an old session is not still being referenced
         while(networkManagerObject.mazeRenderer == null)
         {
-            networkManagerObject.mazeRenderer = GetMazeRenderer();
-            if(networkManagerObject.mazeRenderer == null)
-            {
-                yield return null;
+            yield return null;
+            try{
+                networkManagerObject.mazeRenderer = GetMazeRenderer();
+            }
+            catch{
+                Debug.LogWarning("ServerBrowserBackend: Failed to get MazeRenderer - attempting again next frame");
             }
         }
         
-
         // Start the server if we are a host
         if(isHost)
         {
@@ -89,41 +92,66 @@ public class ServerBrowserBackend : MonoBehaviour
     //Grab the mazeRenderer script from the gameplay scene (LoadMaze)
     public RenderMaze GetMazeRenderer()
     {
+        Debug.Log("ServerBrowserBackend: Searching for renderer in scene: " + SceneManager.GetActiveScene().name);
         try
         {
             // Isolate the maze renderer object in the maze scene
-            var mazeRendererObject = SceneManager.GetActiveScene()
-                                    .GetRootGameObjects()
-                                    .Select(x => 
-                                        {
-                                            Debug.Log("GetMazeRenderer Searching in: " + x.name);
-                                            if(x.name.Contains("MazeRenderer")) 
-                                                return x;
-                                            else 
-                                                return null;
-                                        })
-                                    .FirstOrDefault(x => x != null);
-            if(mazeRendererObject == null)
-            {
-                Debug.LogError("MAZE RENDERER GAMEOBJECT IS NULL");
-
-            }
-
+            GameObject mazeRendererObject = null;
+            mazeRendererObject = SceneManager.GetActiveScene()
+                                     .GetRootGameObjects()
+                                     .Select(x => 
+                                         {
+                                             Debug.Log("GetMazeRenderer Searching in: " + x.name);
+                                             if(x.name.Contains("MazeRenderer")) 
+                                                 return x;
+                                             else 
+                                                 return null;
+                                         })
+                                     .FirstOrDefault(x => x != null);
+             if(mazeRendererObject == null)
+             {
+                 Debug.LogError("ServerBrowserBackend: MAZE RENDERER GAMEOBJECT IS NULL");
+             }
+        
             // Isolate the RenderMaze script inside of the maze renderer to use in the network manager (the network manager and maze renderer both have references to the same RenderMaze script/object)
             var mazeRendererScript = mazeRendererObject.GetComponent<RenderMaze>();
             if(mazeRendererScript == null)
             {
-                Debug.LogError("MAZE RENDERER SCRIPT COULD NOT BE FOUND");
+                Debug.LogError("ServerBrowserBackend: MAZE RENDERER SCRIPT COULD NOT BE FOUND");
             }
 
             // Set the networkManager's maze renderer
             return mazeRendererScript;
         }
-        catch
+        catch(Exception e)
         {
-            Debug.Log("Failed to find maze renderer");
+            Debug.Log("ServerBrowserBackend: Failed to find maze renderer");
+            Debug.LogWarning("ServerBrowserBackend: Failed to find maze renderer with exception: " + e);
             return null;
         }
+    }
+
+    public IEnumerator GetMazeRendererAsync()
+    {
+        var CusNetMan = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
+
+        while(!SceneManager.GetActiveScene().name.Contains("Maze"))
+        {
+            yield return null;
+            Debug.Log("Still in lobby scene...");
+        }
+        CusNetMan.mazeRenderer = SceneManager.GetActiveScene()
+                                     .GetRootGameObjects()
+                                     .Select(x => 
+                                         {
+                                             Debug.Log("GetMazeRenderer Searching in: " + x.name);
+                                             if(x.name.Contains("MazeRenderer")) 
+                                                 return x;
+                                             else 
+                                                 return null;
+                                         })
+                                     .FirstOrDefault(x => x != null).GetComponent<RenderMaze>();
+        CusNetMan.OnMazeRendererAsyncComplete();
     }
     #endregion Scene Management
 

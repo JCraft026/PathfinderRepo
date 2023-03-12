@@ -61,13 +61,13 @@ public class ManageFastTravel : MonoBehaviour
         GameObject guard; // Guard game object cooresponding to guardId
 
         if(guardId == ManageActiveCharactersConstants.CHASER){
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
         }
         else if(guardId == ManageActiveCharactersConstants.ENGINEER){
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
         }
         else{
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
         }
 
         guard.GetComponent<Animator>().SetFloat("Fast Travel X", destination.x);
@@ -100,13 +100,13 @@ public class ManageFastTravel : MonoBehaviour
         yield return new WaitForSeconds(10);
 
         if(guardId == ManageActiveCharactersConstants.CHASER){
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
         }
         else if(guardId == ManageActiveCharactersConstants.ENGINEER){
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
         }
         else{
-            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+            guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
         }
 
         guard.GetComponent<Animator>().SetBool("Fast Travel Finished", true);

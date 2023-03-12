@@ -30,20 +30,20 @@ public class HandleLayers : MonoBehaviour
             activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position;
             activeCharacterLocation.y -= 0.5f;
         }
-        else if(Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")) != null){
-            activeGuardID = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<ManageActiveCharacters>().activeGuardId;
+        else if(Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")) != null){
+            activeGuardID = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>().activeGuardId;
             switch (activeGuardID)
             {
                 case ManageActiveCharactersConstants.CHASER:
-                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).transform.position;
+                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).transform.position;
                     activeCharacterLocation.y -= 0.84f;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
-                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer")).transform.position;
+                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).transform.position;
                     activeCharacterLocation.y -= 0.91f;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
-                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper")).transform.position;
+                    activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).transform.position;
                     activeCharacterLocation.y -= 0.76f;
                     break;
             }
