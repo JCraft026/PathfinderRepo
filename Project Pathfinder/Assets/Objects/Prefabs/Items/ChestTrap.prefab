@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3581547867862062465}
   - component: {fileID: 756672983957120378}
   - component: {fileID: 5135388988350834406}
+  - component: {fileID: 3966222195492152396}
   m_Layer: 0
   m_Name: ChestTrap
   m_TagString: Untagged
@@ -117,3 +118,23 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 2d5d7b215517bd348a7d405ec98679b5
   hasSpawned: 0
+--- !u!95 &3966222195492152396
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3941776402826085718}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 53af053b62891a04593b2fa823b9a1df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -35,7 +35,7 @@ public class EngineerAbility : NetworkBehaviour
             
             // Get the mazeData as Json text
             string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
-            
+
             // Convert Json text to maze coordinates
             mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
 
