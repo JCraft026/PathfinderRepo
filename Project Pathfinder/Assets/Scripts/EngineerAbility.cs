@@ -68,7 +68,7 @@ public class EngineerAbility : NetworkBehaviour
                         placementDirection   = new Vector2(0, -2.5f);
                         placementOrientation = new Vector3(0,0,0);
                         barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
-                        scaler               = 6.9f;
+                        scaler               = 9f;
                         PlaceBarricade(1, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
@@ -82,7 +82,7 @@ public class EngineerAbility : NetworkBehaviour
                         placementDirection   = new Vector2(-2.5f, 0f);
                         placementOrientation = new Vector3(0,0,90);
                         barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
-                        scaler               = 7.65f;
+                        scaler               = 10.65f;
                         PlaceBarricade(0, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
@@ -96,7 +96,7 @@ public class EngineerAbility : NetworkBehaviour
                         placementDirection   = new Vector2(0f, 2.5f);
                         placementOrientation = new Vector3(0,0,0);
                         barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
-                        scaler               = 6.9f;
+                        scaler               = 9f;
                        PlaceBarricade(1, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
@@ -110,7 +110,7 @@ public class EngineerAbility : NetworkBehaviour
                         placementDirection   = new Vector2(2.5f, 0f);
                         placementOrientation = new Vector3(0,0,90);
                         barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
-                        scaler               = 7.65f;
+                        scaler               = 10.65f;
                         PlaceBarricade(0, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
