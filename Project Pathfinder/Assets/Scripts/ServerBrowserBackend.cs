@@ -19,6 +19,7 @@ public class ServerBrowserBackend : MonoBehaviour
     public CustomNetworkDiscovery networkDiscovery; // Allows the server browser to detect open games and connect to them
     private const int LOAD_MAZE_SCENE_INDEX = 5;    // Build index for the LoadMaze scene, this is subject to change in the future
     public string serverName;                       // The name the server will use when advertising its self to potential clients
+    
     #endregion
 
     #region Hosting
@@ -115,6 +116,7 @@ public class ServerBrowserBackend : MonoBehaviour
     // Search for other servers and return them as a dictionary
     public Dictionary<long, ServerResponse> LookForOtherServers()
     {
+
         // Wipe out the servers we found last time, search for new ones
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
