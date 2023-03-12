@@ -7,31 +7,34 @@ using TMPro;
 
 public class BarricadeController : NetworkBehaviour
 {
-    EngineerAbility engineerAbility;
-     GameObject trapper,
-                engineer,
-                chaser,
-                runner;
-    int hitCount = 0;
-    bool trapperTooltip = false,
-         engineerTooltip = false,
-         chaserTooltip = false,
-         runnerTooltip = false;   //
+    EngineerAbility engineerAbility; // Instance of the engineer ability script
+     GameObject trapper,             // Gameobject instance of the trapper
+                engineer,            // Gameobject instance of the engineer
+                chaser,              // Gameobject instance of the chaser
+                runner;              // Gameobject instance of the runner
+    int hitCount = 0;                // Total number of hits on barricades attacked by a runner
+    bool trapperTooltip = false,     // Whether the tooltip to destroy the barricade is active for the trapper
+         engineerTooltip = false,    // Whether the tooltip to destroy the barricade is active for the engineer
+         chaserTooltip = false,      // Whether the tooltip to destroy the barricade is active for the chaser
+         runnerTooltip = false;      // Whether the tooltip to destroy the barricade is active for the runner
     
     // Start is called before the first frame update
     void Awake()
     {
+        // Get all player instances
         trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
         engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
         chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
         runner   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
         
+        // Get the EngineerAbility script
         engineerAbility = engineer.GetComponent<EngineerAbility>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Tool tip for trapper
         if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.5){
             enableTooltip();
             trapperTooltip = true;
@@ -44,6 +47,7 @@ public class BarricadeController : NetworkBehaviour
             disableTooltip();
             trapperTooltip = false;
         }
+        // Tool tip for engineer
         if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.5){
             enableTooltip();
             engineerTooltip = true;
@@ -56,6 +60,7 @@ public class BarricadeController : NetworkBehaviour
             disableTooltip();
             engineerTooltip = false;
         }
+        // Tool tip for chaser
         if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.5){
             enableTooltip();
             chaserTooltip = true;
@@ -68,6 +73,7 @@ public class BarricadeController : NetworkBehaviour
             disableTooltip();
             chaserTooltip = false;
         }
+        // Tool tip for runner
         if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5){
             enableTooltip();
             runnerTooltip = true;
@@ -86,18 +92,19 @@ public class BarricadeController : NetworkBehaviour
         }
     }
 
+    // Destroys both host and client barricade
     [Command(requiresAuthority = false)]
     public void destroyBarricade(){
         NetworkServer.Destroy(gameObject);
     }
 
+    // Enable the barricade tooltip
     void enableTooltip(){
         transform.GetChild(0).gameObject.SetActive(true);
-        Debug.Log("enabled tooltip");
     }
 
+    // Disable the barriacde tooltip
     void disableTooltip(){
         transform.GetChild(0).gameObject.SetActive(false);
-        Debug.Log("disabled tooltip");
     }
 }

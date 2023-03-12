@@ -9,29 +9,26 @@ using UnityEngine.SceneManagement;
 
 public class EngineerAbility : NetworkBehaviour
 {
-    public GameObject barricadeHorizontal; //
-    public GameObject barricadeVertical; //
-    private int[] engineerLocation; //
-    // private WallStatus[,] mazeData; //
-    private WallStatus currentCell;
-
-    private MoveCharacter engineerMoveCharacter; //
-    private Vector3 placementDirection;
-    private Vector3 barricadeLocation;
-    private Vector3 placementOrientation;
-    private float   scaler = 6.9f;
-    public int barricadeCount = 0; //
-    CustomNetworkManager customNetworkManager;
+    public GameObject barricadeHorizontal;       // Horizontal barricade
+    public GameObject barricadeVertical;         // Vertical barricade
+    private int[] engineerLocation;              // 2D array location (-6 - 6)
+    private WallStatus currentCell;              // Contains data about the current cell the engineer is in
+    private MoveCharacter engineerMoveCharacter; // Engineer's MoveCharacter script
+    private Vector3 placementDirection;          // The direction the engineer should place down its barricade
+    private Vector3 barricadeLocation;           // The in scene location the barricade should be placed
+    private Vector3 placementOrientation;        // The rotation the barricade needs based on facing direction
+    private float   scaler = 6.9f;               // The default scaler to scale the barricades to the right size
+    public int barricadeCount = 0;               // Keeps track of the max number of barricades
+    CustomNetworkManager customNetworkManager;   // CustomNetworkManager script instance
 
     void Start(){
+        // Get engineer's MoveCharacter script
         engineerMoveCharacter = gameObject.GetComponent<MoveCharacter>();
 
         // Get the mazeData as Json text
         string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
 
-        // Convert Json text to maze coordinates
-        // List<GameObject> walls = Resources.FindObjectsOfTypeAll<GameObject>()
-        //     .Where<GameObject>(x => x.name.Contains("Wall") || x.name.Contains("Exit ")).ToList();
+        // Get parsed maze data from CustomNetworkManager
         customNetworkManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
         if(customNetworkManager.parsedMazeJson == null){
             Debug.LogError("Parsed Maze Data is null");
@@ -46,7 +43,7 @@ public class EngineerAbility : NetworkBehaviour
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             
-            //tEST FOR NULLNESS
+            // Test for null maze Data
             if(customNetworkManager.parsedMazeJson == null){
                 Debug.LogError("Parsed Maze Data is null");
             }
@@ -121,24 +118,26 @@ public class EngineerAbility : NetworkBehaviour
                     break;
             }
         }
+        // When engineer presses "[q]" but he already has max barricades placed
         else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount >= 3){
-            Debug.Log("You're at the max number of walls (3)");
+            Debug.Log("You're at the max number of barricades (3)");
         }
     }
 
+    // Breaks down vectors to floats to instantiate and spawn the barricades
     [Command]
     public void PlaceBarricade(int axis, float placementDirectionX, float placementDirectionY,
                                float placementOrientationX, float placementOrientationY, float placementOrientationZ,
                                float barricadeLocationX, float barricadeLocationY, float scaler){
-        Debug.Log("Tried to place a wall");
-        Debug.Log("PlaceBarricade: (Placement direction, barricade location) (" + placementDirectionX + ", " + placementDirectionY + ") (" + barricadeLocationX + ", " + barricadeLocationY + ")");
         GameObject tempBarricade;
+        // If horizontal barricade needed
         if(axis == 1){
             tempBarricade = Instantiate(barricadeHorizontal, new Vector3(barricadeLocationX, barricadeLocationY, 0) + 
                new Vector3(placementDirectionX, placementDirectionY, 0), 
                Quaternion.Euler(new Vector3(placementOrientationX, placementOrientationY, placementOrientationZ)));
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
+        // If vertical barricade needed
         else{
             tempBarricade = Instantiate(barricadeVertical, new Vector3(barricadeLocationX, barricadeLocationY, 0) + 
                new Vector3(placementDirectionX, placementDirectionY, 0), 
@@ -150,6 +149,7 @@ public class EngineerAbility : NetworkBehaviour
         return;
     }
 
+    // Decreases the number of barricades 
     public void decreseBarricadeCount(){
         barricadeCount -= 1;
     }

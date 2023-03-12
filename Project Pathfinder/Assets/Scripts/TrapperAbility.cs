@@ -8,11 +8,9 @@ using System.Linq;
 
 public class TrapperAbility : NetworkBehaviour
 {
-    public GameObject chestTrap;
-    public GameObject tempChestTrap;
-    private int[] trapperLocation;
-    private MoveCharacter trapperMoveCharacter; 
-    private Vector3 trapLocation;
+    public GameObject chestTrap;                // Actual chest trap object
+    public GameObject tempChestTrap;            // Temporary chest trap object to instantiate
+    private MoveCharacter trapperMoveCharacter; // Trapper's MoveCharacter Script
 
     void Start(){
         trapperMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -25,14 +23,11 @@ public class TrapperAbility : NetworkBehaviour
         if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             placeChestTrap();
         }
-        else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
-            Debug.Log("Maximum amount of traps placed (2)");    
-        }
     }
 
+    // Instantiates and spawns the chest trap
     [Command]
     public void placeChestTrap(){
-        Debug.Log("Tried to place a ChestTrap");
         tempChestTrap = Instantiate(chestTrap, trapperMoveCharacter.transform.position, Quaternion.identity);
         NetworkServer.Spawn(tempChestTrap);
         return;

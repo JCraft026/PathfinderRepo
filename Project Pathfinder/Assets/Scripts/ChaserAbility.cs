@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 public class ChaserAbility : NetworkBehaviour
 {
 
-    MoveCharacter chaserMoveCharacter;
-    ChaserDash chaserDash; 
-    public Animator animator;     // Character's animator manager
+    MoveCharacter chaserMoveCharacter; // Chaser's MoveCharacter script
+    ChaserDash chaserDash;             // ChaserDash instance
+    public Animator animator;          // Chaser's animator controller
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -19,7 +19,9 @@ public class ChaserAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // When the chaser presses "[q]"
         if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+            // If the chaser wasn't already attacking
             if(animator.GetBool("Attack") == false){
                 chaserDash.startDash();
             }

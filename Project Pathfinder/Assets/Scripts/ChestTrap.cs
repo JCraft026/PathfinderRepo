@@ -6,15 +6,14 @@ using System.Linq;
 
 public class ChestTrap : NetworkBehaviour
 {
-    GameObject runner;
+    GameObject runner;            // Runner's gameobject
+    MoveCharacter runnerScript;   // Runner's MoveCharacter script
+    SlowTrapped slowTrapped;      // Instance of SlowTrapped script 
+    private bool trapped = false; // Whether the player has been trapped or not
+    Animator chestAnimator;       // The Chest's animator controller
 
-    MoveCharacter runnerScript;
-    SlowTrapped slowTrapped;
-    private bool trapped = false;
-    Animator chestAnimator;
-
+    // Called when the object is instantiated
     void Awake(){
-        Debug.Log("I'M AWAKERN");
         runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
         runnerScript = runner.GetComponent<MoveCharacter>();
         slowTrapped = runner.GetComponent<SlowTrapped>();
@@ -24,16 +23,18 @@ public class ChestTrap : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If the runner comes into contact with the chest
         if(Utilities.GetDistanceBetweenObjects(transform.position, runner.transform.position) < 1.2f){
+            // If the trap hasn't been set off yet (used to ensure it only happens once per trap)
             if(trapped == false){
                 slowTrapped.trapped();
-                // I did this in the animator event destroyChestTrap();
                 trapped = true;
                 chestAnimator.SetBool("Exploding", true);
             }
         }
     }
 
+    // Destroy all networked instances of this object
     [Command(requiresAuthority = false)]
     public void destroyChestTrap(){
         NetworkServer.Destroy(gameObject);
