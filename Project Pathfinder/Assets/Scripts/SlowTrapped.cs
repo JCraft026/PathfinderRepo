@@ -23,9 +23,6 @@ public class SlowTrapped : MonoBehaviour
             runnerScript.moveSpeed = 5.0f;
             this.enabled = false;
         }
-        else{
-            Debug.Log("running!");
-        }
     }
 
     public void trapped(){

@@ -93,6 +93,7 @@ public class RenderMaze : NetworkBehaviour
     {
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
+        CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson = mazeData;
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
 
         // Clean up left over walls and such from the last game

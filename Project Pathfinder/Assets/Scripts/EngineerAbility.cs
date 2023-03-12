@@ -5,13 +5,14 @@ using Newtonsoft.Json;
 using Mirror;
 using System.Text.RegularExpressions;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class EngineerAbility : NetworkBehaviour
 {
     public GameObject barricadeHorizontal; //
     public GameObject barricadeVertical; //
     private int[] engineerLocation; //
-    private WallStatus[,] mazeData; //
+    // private WallStatus[,] mazeData; //
     private WallStatus currentCell;
 
     private MoveCharacter engineerMoveCharacter; //
@@ -20,9 +21,21 @@ public class EngineerAbility : NetworkBehaviour
     private Vector3 placementOrientation;
     private float   scaler = 6.9f;
     public int barricadeCount = 0; //
+    CustomNetworkManager customNetworkManager;
 
     void Start(){
         engineerMoveCharacter = gameObject.GetComponent<MoveCharacter>();
+
+        // Get the mazeData as Json text
+        string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
+
+        // Convert Json text to maze coordinates
+        // List<GameObject> walls = Resources.FindObjectsOfTypeAll<GameObject>()
+        //     .Where<GameObject>(x => x.name.Contains("Wall") || x.name.Contains("Exit ")).ToList();
+        customNetworkManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
+        if(customNetworkManager.parsedMazeJson == null){
+            Debug.LogError("Parsed Maze Data is null");
+        }
     }
 
     // Update is called once per frame
@@ -33,14 +46,13 @@ public class EngineerAbility : NetworkBehaviour
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             
-            // Get the mazeData as Json text
-            string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
-
-            // Convert Json text to maze coordinates
-            mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+            //tEST FOR NULLNESS
+            if(customNetworkManager.parsedMazeJson == null){
+                Debug.LogError("Parsed Maze Data is null");
+            }
 
             // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
-            currentCell = mazeData[engineerLocation[0] + 6, engineerLocation[1] + 6];
+            currentCell = customNetworkManager.parsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
             Debug.Log(currentCell);
 
             // Assign the barricade location to the engineer as default
@@ -60,7 +72,9 @@ public class EngineerAbility : NetworkBehaviour
                         placementOrientation = new Vector3(0,0,0);
                         barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
                         scaler               = 6.9f;
-                        PlaceBarricade(1); // Flag of 1 to spawn Horizontal version
+                        PlaceBarricade(1, placementDirection.x, placementDirection.y,
+                               placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                               barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
                     }
                     break;
                 case 2f:
@@ -72,7 +86,9 @@ public class EngineerAbility : NetworkBehaviour
                         placementOrientation = new Vector3(0,0,90);
                         barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
                         scaler               = 7.65f;
-                        PlaceBarricade(0); // Flag of 0 to spawn Vertical version
+                        PlaceBarricade(0, placementDirection.x, placementDirection.y,
+                               placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                               barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
                     }
                     break;
                 case 3f:
@@ -84,7 +100,9 @@ public class EngineerAbility : NetworkBehaviour
                         placementOrientation = new Vector3(0,0,0);
                         barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
                         scaler               = 6.9f;
-                        PlaceBarricade(1); // Flag of 1 to spawn Horizontal version
+                       PlaceBarricade(1, placementDirection.x, placementDirection.y,
+                               placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                               barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
                     }  
                     break;
                 case 4f:
@@ -96,7 +114,9 @@ public class EngineerAbility : NetworkBehaviour
                         placementOrientation = new Vector3(0,0,90);
                         barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
                         scaler               = 7.65f;
-                        PlaceBarricade(0); // Flag of 0 to spawn Vertical version
+                        PlaceBarricade(0, placementDirection.x, placementDirection.y,
+                               placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                               barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
                     }
                     break;
             }
@@ -107,15 +127,22 @@ public class EngineerAbility : NetworkBehaviour
     }
 
     [Command]
-    public void PlaceBarricade(int axis){
+    public void PlaceBarricade(int axis, float placementDirectionX, float placementDirectionY,
+                               float placementOrientationX, float placementOrientationY, float placementOrientationZ,
+                               float barricadeLocationX, float barricadeLocationY, float scaler){
         Debug.Log("Tried to place a wall");
+        Debug.Log("PlaceBarricade: (Placement direction, barricade location) (" + placementDirectionX + ", " + placementDirectionY + ") (" + barricadeLocationX + ", " + barricadeLocationY + ")");
         GameObject tempBarricade;
         if(axis == 1){
-            tempBarricade = Instantiate(barricadeHorizontal, barricadeLocation + placementDirection, Quaternion.Euler(placementOrientation));
+            tempBarricade = Instantiate(barricadeHorizontal, new Vector3(barricadeLocationX, barricadeLocationY, 0) + 
+               new Vector3(placementDirectionX, placementDirectionY, 0), 
+               Quaternion.Euler(new Vector3(placementOrientationX, placementOrientationY, placementOrientationZ)));
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
         else{
-            tempBarricade = Instantiate(barricadeVertical, barricadeLocation + placementDirection, Quaternion.Euler(placementOrientation));
+            tempBarricade = Instantiate(barricadeVertical, new Vector3(barricadeLocationX, barricadeLocationY, 0) + 
+               new Vector3(placementDirectionX, placementDirectionY, 0), 
+               Quaternion.Euler(new Vector3(placementOrientationX, placementOrientationY, placementOrientationZ)));
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
         NetworkServer.Spawn(tempBarricade);
