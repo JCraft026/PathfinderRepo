@@ -12,6 +12,13 @@ public class Utilities : MonoBehaviour
     public static Regex engineerRegex = new Regex("Engineer"); // Match "Engineer"
     public static Regex trapperRegex  = new Regex("Trapper");  // Match "Trapper"
     public static Regex runnerRegex   = new Regex("Runner");   // Match "Runner"
+    
+    public static GameObject chaser;
+    public static GameObject engineer;
+    public static GameObject trapper;
+    public static GameObject runner;
+    public static GameObject mazeRenderer;
+    public static GameObject miniMapHandler;
 
     // Get the scene coordinates corresponding to the given maze cell grid positon
     public static Vector2 GetMazeCellCoordinate(int cellColumn, int cellRow){
@@ -33,19 +40,19 @@ public class Utilities : MonoBehaviour
         switch (characterCode)
         {
             case ManageActiveCharactersConstants.RUNNER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position; // Changed from Runner(Clone) to Runner
+                characterObjectPosition = GetRunner().transform.position;
                 characterObjectPosition.y -= .5f;
                 break;
             case ManageActiveCharactersConstants.CHASER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).transform.position;
+                characterObjectPosition = GetChaser().transform.position;
                 characterObjectPosition.y -= .84f;
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).transform.position;
+                characterObjectPosition = GetEngineer().transform.position;
                 characterObjectPosition.y -= .91f;
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).transform.position;
+                characterObjectPosition = GetTrapper().transform.position;
                 characterObjectPosition.y -= .76f;
                 break;
             default:
@@ -58,32 +65,70 @@ public class Utilities : MonoBehaviour
 
         return cellLocation;
     }
-
+    
+    //=========================================================================
+    // Get Derived Value Functions
+    //=========================================================================
+    
     // Get the Cell Size from the Maze Renderer
     public static float GetCellSize(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return mazeRenderer.GetComponent<RenderMaze>().cellSize;
+        return GetMazeRenderer().GetComponent<RenderMaze>().cellSize;
     }
 
     // Get the Maze Width from the Maze Renderer
     public static float GetMazeWidth(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return (float)mazeRenderer.GetComponent<RenderMaze>().mazeWidth;
+        return (float) GetMazeRenderer().GetComponent<RenderMaze>().mazeWidth;
     }
-
+    
     // Get the Maze Height from the Maze Renderer
     public static float GetMazeHeight(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return (float)mazeRenderer.GetComponent<RenderMaze>().mazeHeight;
+        return (float) GetMazeRenderer().GetComponent<RenderMaze>().mazeHeight;
     }
-
+    
     // Get the Mini Map Cell Size
     public static float GetMapCellSize(){
-        GameObject miniMapHandler = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler"));
-
-        return miniMapHandler.GetComponent<RenderMiniMap>().cellSize;
+        return GetMiniMapHandler().GetComponent<RenderMiniMap>().cellSize;
     }
+    
+    //=========================================================================
+    // Get Object Functions
+    //=========================================================================
+    
+    public static GameObject GetMazeRenderer() {
+        if (mazeRenderer == null)
+            mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
+        return mazeRenderer;
+    }
+    
+    public static GameObject GetMiniMapHandler() {
+        if (miniMapHandler == null)
+            miniMapHandler = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler"));
+        return miniMapHandler;
+    }
+    
+    public static GameObject GetRunner() {
+        if (runner == null)
+            runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")); // Changed from Runner(Clone) to Runner
+        return runner;
+    }
+    
+    public static GameObject GetChaser() {
+        if (chaser == null)
+            chaser = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
+        return chaser;
+    }
+    
+    public static GameObject GetEngineer() {
+        if (engineer == null)
+            engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
+        return engineer;
+    }
+    
+    public static GameObject GetTrapper() {
+        if (trapper == null)
+            trapper = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
+        return trapper;
+    }
+    
+    
 }
