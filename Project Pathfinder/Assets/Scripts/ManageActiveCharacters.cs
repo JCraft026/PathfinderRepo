@@ -16,8 +16,6 @@ static class ManageActiveCharactersConstants{
 public class ManageActiveCharacters : NetworkBehaviour
 {
     public GameObject cameraHolder;               // Parent object camera
-    public Material activeMaterial;               // Sprite material for active character (ignores shadows)
-    public Material inactiveMaterial;             // Sprite material for inactive character
     public Vector3 offset;                        // Camera position offset
     public int guardId;                           // Parent object's guard ID
     public int activeGuardId;                     // Guard ID of the current active guard
@@ -118,27 +116,24 @@ public class ManageActiveCharacters : NetworkBehaviour
         switch (nextActiveGuardId)
         {
             case ManageActiveCharactersConstants.CHASER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
                 break;
             default:
                 newGuardObject = null;
                 Debug.LogError("newGuardObject is null");
                 break;
         }
-        
+
         // Switch guard control from the old guards object to the next guard's object
         if(newGuardObject != null)
         {
-            newGuardObject.GetComponent<SpriteRenderer>().material = activeMaterial;
-            gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
-            newGuardObject.GetComponent<NetworkIdentity>().AssignClientAuthority(conn.connectionToClient);
-            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject, true);
+            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject);
         }
         else
         {

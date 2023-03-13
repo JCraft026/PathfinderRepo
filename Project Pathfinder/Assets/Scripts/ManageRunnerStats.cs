@@ -9,7 +9,6 @@ public class ManageRunnerStats : MonoBehaviour
     public GameObject heart1; // First HP heart
     public GameObject heart2; // Second HP heart
     public GameObject heart3; // Third HP heart
-    public Animator animator; // Character's animator manager
 
     // Start is called before the first frame update
     void Start()
@@ -44,13 +43,7 @@ public class ManageRunnerStats : MonoBehaviour
             if(CustomNetworkManager.isRunner){
                 heart1.SetActive(false);
             }
-            HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
             HandleEvents.currentEvent = HandleEventsConstants.GUARDMASTER_WINS;
-        }
-
-        // Trigger unlock exit attempt
-        if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner){
-            animator.SetBool("Unlock Attempted", true);
         }
     }
 

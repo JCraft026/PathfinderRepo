@@ -5,7 +5,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using System.Net;
-using System;
 
 /*
     *This class acts as a frontend for the server browser's list of servers
@@ -22,7 +21,7 @@ public class LobbyDataEntry : MonoBehaviour
                                                             // List of server browser entries being displayed
     public static event UnityAction<ServerResponse, DiscoveryResponse> OnNewServer;
                                                             // Delegate that runs when a server is found (to the NetworkDiscovery) in this class' Start() function
-    readonly Dictionary<IPEndPoint, DateTime> serverUpdatedTimes = new Dictionary<IPEndPoint, DateTime>();
+
     public void Start() {
         OnNewServer = CreateNewLobbyEntry; // Assign the delegate function for finding new servers
 
@@ -69,40 +68,13 @@ public class LobbyDataEntry : MonoBehaviour
 
             // Set the onClick for the join button (makes it so that when we click the join button we join the server)
             newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager, discoveryResponse.isHostRunner));
-            
+
             // Set server info displays
             teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable;
             numOfPlayers.GetComponent<TMP_Text>().text = "Players: " + discoveryResponse.playersInGame.ToString() + "/2";
-            //TODO: Put a timer on the server boxes life (6ish seconds)
-            serverUpdatedTimes.Add(serverResponse.EndPoint, DateTime.Now);
-            StartCoroutine(CheckServerLifeSpan(newBox, serverResponse.EndPoint));
 
             // Make the new server box a child of the scrollview object
             newBox.transform.SetParent(this.gameObject.transform);
         }
-
-        //TODO: Reset the timer on the servers lifespan if we catch its active discovery packet again
-        else
-        {
-            serverUpdatedTimes[serverResponse.EndPoint] = DateTime.Now;
-        }
-    }
-
-    public void DeleteOldEntry(GameObject lobbyEntry)
-    {
-        Destroy(lobbyEntry);
-    }
-
-    IEnumerator CheckServerLifeSpan(GameObject box, IPEndPoint serverIp)
-    {
-        
-        while((DateTime.Now - serverUpdatedTimes[serverIp]).Ticks < 60000000)   //60000000 is the number of ticks in 6 seconds
-        {
-            //Debug.Log("Checking server box");
-            yield return null;
-        }
-        serverUpdatedTimes.Remove(serverIp);
-        discoveredServers.Remove(serverIp);
-        Destroy(box);
     }
 }

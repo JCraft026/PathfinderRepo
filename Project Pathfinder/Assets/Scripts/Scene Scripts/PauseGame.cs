@@ -10,34 +10,30 @@ using UnityEngine.SceneManagement;
 public class PauseGame : NetworkBehaviour
 {
     public GameObject PauseCanvas;  // Exit menu game object
-    public bool pauseCanvasIsEnabled = true;
 
     // Start the game with the exit game menu invisble
     public void Start()
     {
-        if(pauseCanvasIsEnabled)
-            PauseCanvas.SetActive(false);
+        PauseCanvas.SetActive(false);
     }
 
     // Initialize the exit menu
     public void Awake()
     {
         //PauseCanvas = GameObject.Find("PauseCanvas");
-        if(pauseCanvasIsEnabled)
-        {
-            PauseCanvas = FindPauseCanvas();
-            PauseCanvas.SetActive(true);
-        }
+        PauseCanvas = FindPauseCanvas();
+        PauseCanvas.SetActive(true);
     }
 
     // Open (or close) the exit game menu
     public void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape) && isLocalPlayer)
         {
             Debug.Log(this.gameObject.name + " reacted to escape key");
             //PauseCanvas.gameObject.SetActive(!PauseCanvas.gameObject.activeSelf);
-            if(PauseCanvas.gameObject.activeSelf == false && pauseCanvasIsEnabled)
+            if(PauseCanvas.gameObject.activeSelf == false)
             {
                 OpenPauseCanvas();
             }
@@ -47,25 +43,6 @@ public class PauseGame : NetworkBehaviour
             }
 
         }
-    }
-
-    public void ManagePauseCanvas()
-    {
-        Debug.Log("Click detected");
-        //if (isLocalPlayer)
-        //{
-            //Debug.Log("isLocalPlayer");
-            if(PauseCanvas.gameObject.activeSelf == false)
-            {
-                Debug.Log("Opening pause canvas from pause button");
-                OpenPauseCanvas();
-            }
-            else
-            {
-                Debug.Log("Closing pause canvas from pause button");
-                ClosePauseCanvas();
-            }
-        //}
     }
 
     // Locate the exit game menu
@@ -85,21 +62,15 @@ public class PauseGame : NetworkBehaviour
     // Open the exit game menu
     public void OpenPauseCanvas()
     {
-        if(pauseCanvasIsEnabled)
-        {
-            Debug.Log("Open Exit Menu");
-            PauseCanvas.SetActive(true);
-        }
+        Debug.Log("Open Exit Menu");
+        PauseCanvas.SetActive(true);
     }
 
     // Close the exit game menu
     public void ClosePauseCanvas()
     {
-        if(pauseCanvasIsEnabled)
-        {
-            Debug.Log("Close Exit Menu");
-            PauseCanvas.SetActive(false);
-        }
+        Debug.Log("Close Exit Menu");
+        PauseCanvas.SetActive(false);
     }
 
     // Executed when the exit game button is pressed.
