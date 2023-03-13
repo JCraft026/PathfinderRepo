@@ -33,55 +33,76 @@ public class RenderMaze : NetworkBehaviour
     private Transform sideWallPrefab = null;
 
     [SerializeField]
+    private Transform crackedWallPrefab = null;
+
+    [SerializeField]
+    private Transform leftCrackedWallPrefab = null;
+
+    [SerializeField]
     private Transform floorPrefab = null;
 
     [SerializeField]
     private Transform exit1LeftRightClosed = null;
 
-    //[SerializeField]
-    //private Transform exit1LeftRightOpen = null;
+    [SerializeField]
+    private Transform exit1LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit1TopBottomClosed = null;
 
-    //[SerializeField]
-    //private Transform exit1TopBottomOpen = null;
+    [SerializeField]
+    private Transform exit1TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit2LeftRightClosed = null;
 
-    //[SerializeField]
-    //private Transform exit2LeftRightOpen = null;
+    [SerializeField]
+    private Transform exit2LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit2TopBottomClosed = null;
 
-    //[SerializeField]
-    //private Transform exit2TopBottomOpen = null;
+    [SerializeField]
+    private Transform exit2TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit3LeftRightClosed = null;
 
-    //[SerializeField]
-    //private Transform exit3LeftRightOpen = null;
+    [SerializeField]
+    private Transform exit3LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit3TopBottomClosed = null;
 
-    //[SerializeField]
-    //private Transform exit3TopBottomOpen = null;
+    [SerializeField]
+    private Transform exit3TopBottomOpen = null;
 
     [SerializeField]
     private Transform exit4LeftRightClosed = null;
 
-    //[SerializeField]
-    //private Transform exit4LeftRightOpen = null;
+    [SerializeField]
+    private Transform exit4LeftRightOpen = null;
 
     [SerializeField]
     private Transform exit4TopBottomClosed = null;
 
-    //[SerializeField]
-    //private Transform exit4TopBottomOpen = null;
+    [SerializeField]
+    private Transform exit4TopBottomOpen = null;
+
+    [SerializeField]
+    private Transform tunnelEntrance = null;
+
+    [SerializeField]
+    private Transform chaserFastTravelIdle = null;
+
+    [SerializeField]
+    private Transform engineerFastTravelIdle = null;
+
+    [SerializeField]
+    private Transform trapperFastTravelIdle = null;
+
+    [SerializeField]
+    private Transform controlRoomPrefab = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private WallStatus[,] mazeData;
@@ -113,14 +134,35 @@ public class RenderMaze : NetworkBehaviour
     // Render the complete maze within the scene
     public void Render(WallStatus[,] mazeData)
     {
-        WallStatus currentCell  = new WallStatus();    // Current maze cell being rendered
-        Vector2 scenePosition   = new Vector2();       // x,y position in the scene
-        Transform exitPrefab    = null;                // Exit prefab being rendered
-        System.Random randomNum = new System.Random(); // Random number generator
-        Transform topWallPrefab;                       // Object prefab for selected top wall
-        int currentExit         = 1;                   // Next exit prefab to render
+        WallStatus currentCell    = new WallStatus();    // Current maze cell being rendered
+        Vector2 scenePosition     = new Vector2();       // x,y position in the scene
+        Transform exitPrefab      = null;                // Exit prefab being rendered
+        Transform openExitPrefab  = null;                // Opened exit prefab being rendered
+        System.Random randomNum   = new System.Random(); // Random number generator
+        Transform topWallPrefab;                         // Object prefab for selected top wall
+        int currentExit           = 1,                   // Next exit prefab to render
+        tunnelEntranceHeightIndex = (mazeHeight/2),      // j index for the cell where the tunnel entrance will spawn
+        tunnelEntranceWidthIndex  = (mazeWidth/2);       // i index for the cell where the tunnel entrance will spawn
+        string exitName           = null;                // Name of the exit object being rendered
 
-        // Render the cell walls of every maze cell
+        // Render the maze control room
+        var controlRoom = Instantiate(controlRoomPrefab, transform);
+        controlRoom.position = new Vector2(cellSize * mazeWidth, cellSize * mazeHeight);
+        controlRoom.name = "Control Room";
+
+        // Render the Fast Travel Idle zones
+        var chaserTravelIdle = Instantiate(chaserFastTravelIdle, transform);
+        chaserTravelIdle.position = new Vector2(cellSize * -mazeWidth, cellSize * mazeHeight);
+        chaserTravelIdle.name = "TravelIdleC";
+        var engineerTravelIdle = Instantiate(engineerFastTravelIdle, transform);
+        engineerTravelIdle.position = new Vector2(cellSize * -mazeWidth, 0);
+        engineerTravelIdle.name = "TravelIdleE";
+        var trapperTravelIdle = Instantiate(trapperFastTravelIdle, transform);
+        trapperTravelIdle.position = new Vector2(cellSize * -mazeWidth, cellSize * -mazeHeight);
+        trapperTravelIdle.name = "TravelIdleT";
+
+
+        // Render the components of every maze cell
         for (int j = 0; j < mazeHeight; j++){
             for (int i = 0; i < mazeWidth; i++){
                 currentCell = mazeData[i,j];
@@ -133,32 +175,67 @@ public class RenderMaze : NetworkBehaviour
                 cellFloor.name       = "mcf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
                 oldComponents.Add(cellFloor);
 
+                // Render the Control Room Entrance
+                if(j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
+                    if(currentCell.HasFlag(WallStatus.TOP)){
+                        var controlRoomEntrance        = Instantiate(tunnelEntrance, transform) as Transform;
+                        controlRoomEntrance.position   = scenePosition + new Vector2(0, cellSize / 1.68f);
+                        controlRoomEntrance.localScale = new Vector2(cellSize * 2, cellSize * 2);
+                        controlRoomEntrance.name       = "Tunnel_Entrance"; 
+                        oldComponents.Add(controlRoomEntrance);
+                    }
+                    else{
+                        tunnelEntranceHeightIndex++;
+                    }
+                }
+
                 // Render the top wall of a maze cell
                 if(currentCell.HasFlag(WallStatus.TOP)){
                     if(currentCell.HasFlag(WallStatus.EXIT) && j == mazeHeight-1){
                         switch (currentExit)
                         {
                             case 1:
-                                exitPrefab = exit1TopBottomClosed;
+                                exitPrefab     = exit1TopBottomClosed;
+                                openExitPrefab = exit1TopBottomOpen;
+                                exitName       = "Exit1";
                                 break;
                             case 2:
-                                exitPrefab = exit2TopBottomClosed;
+                                exitPrefab     = exit2TopBottomClosed;
+                                openExitPrefab = exit2TopBottomOpen;
+                                exitName       = "Exit2";
                                 break;
                             case 3:
-                                exitPrefab = exit3TopBottomClosed;
+                                exitPrefab     = exit3TopBottomClosed;
+                                openExitPrefab = exit3TopBottomOpen;
+                                exitName       = "Exit3";
                                 break;
                             case 4:
-                                exitPrefab = exit4TopBottomClosed;
+                                exitPrefab     = exit4TopBottomClosed;
+                                openExitPrefab = exit4TopBottomOpen;
+                                exitName       = "Exit4";
                                 break;
                         }
                         var topExit        = Instantiate(exitPrefab, transform) as Transform;
                         topExit.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topExit.localScale = new Vector2(topExit.localScale.x * cellSize, topExit.localScale.y * cellSize);
+                        topExit.name       = exitName + "(Close)";
                         currentExit++;
                         oldComponents.Add(topExit);
+                        var topExitOpen        = Instantiate(openExitPrefab, transform) as Transform;
+                        topExitOpen.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        topExitOpen.localScale = new Vector2(topExitOpen.localScale.x * cellSize, topExitOpen.localScale.y * cellSize);
+                        topExitOpen.name       = exitName + "(Open)";
+                        oldComponents.Add(topExitOpen);
+                    }
+                    else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1){
+                        var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
+                        topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
+                        topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
+                        topWall.name       = "Wall_TB cracked"; 
+                        oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
                     }
                     else{
-                        if(i % 3 == 0){
+                        if(i % 3 == 0 && (j != tunnelEntranceHeightIndex ||  i != tunnelEntranceWidthIndex)){
                             topWallPrefab = torchWallPrefab;
                         }
                         else if(randomNum.Next(1, mossyWallSpawnChance) == 1){
@@ -181,24 +258,47 @@ public class RenderMaze : NetworkBehaviour
                         switch (currentExit)
                         {
                             case 1:
-                                exitPrefab = exit1LeftRightClosed;
+                                exitPrefab     = exit1LeftRightClosed;
+                                openExitPrefab = exit1LeftRightOpen;
+                                exitName       = "Exit1";
                                 break;
                             case 2:
-                                exitPrefab = exit2LeftRightClosed;
+                                exitPrefab     = exit2LeftRightClosed;
+                                openExitPrefab = exit2LeftRightOpen;
+                                exitName       = "Exit2";
                                 break;
                             case 3:
-                                exitPrefab = exit3LeftRightClosed;
+                                exitPrefab     = exit3LeftRightClosed;
+                                openExitPrefab = exit3LeftRightOpen;
+                                exitName       = "Exit3";
                                 break;
                             case 4:
-                                exitPrefab = exit4LeftRightClosed;
+                                exitPrefab     = exit4LeftRightClosed;
+                                openExitPrefab = exit4LeftRightOpen;
+                                exitName       = "Exit4";
                                 break;
                         }
                         var leftExit         = Instantiate(exitPrefab, transform) as Transform;
                         leftExit.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftExit.localScale  = new Vector2(leftExit.localScale.x * cellSize, leftExit.localScale.y * cellSize);
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
+                        leftExit.name        = exitName + "(Close)";
                         currentExit++;
                         oldComponents.Add(leftExit);
+                        var leftExitOpen         = Instantiate(openExitPrefab, transform) as Transform;
+                        leftExitOpen.position    = scenePosition + new Vector2(-cellSize / 2, 0);
+                        leftExitOpen.localScale  = new Vector2(leftExitOpen.localScale.x * cellSize, leftExitOpen.localScale.y * cellSize);
+                        leftExitOpen.eulerAngles = new Vector3(0, 180, 90);
+                        leftExitOpen.name        = exitName + "(Open)";
+                        oldComponents.Add(leftExitOpen);
+                    }
+                    else if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
+                        var leftWall         = Instantiate(leftCrackedWallPrefab, transform) as Transform;
+                        leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
+                        leftWall.localScale  = new Vector2(2, 2);
+                        leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        leftWall.name        = "Wall_LR cracked"; 
+                        oldComponents.Add(leftWall);
                     }
                     else{
                         // Spawn the left wall
@@ -219,23 +319,37 @@ public class RenderMaze : NetworkBehaviour
                             switch (currentExit)
                             {
                                 case 1:
-                                    exitPrefab = exit1TopBottomClosed;
+                                    exitPrefab     = exit1TopBottomClosed;
+                                    openExitPrefab = exit1TopBottomOpen;
+                                    exitName       = "Exit1";
                                     break;
                                 case 2:
-                                    exitPrefab = exit2TopBottomClosed;
+                                    exitPrefab     = exit2TopBottomClosed;
+                                    openExitPrefab = exit2TopBottomOpen;
+                                    exitName       = "Exit2";
                                     break;
                                 case 3:
-                                    exitPrefab = exit3TopBottomClosed;
+                                    exitPrefab     = exit3TopBottomClosed;
+                                    openExitPrefab = exit3TopBottomOpen;
+                                    exitName       = "Exit3";
                                     break;
                                 case 4:
-                                    exitPrefab = exit4TopBottomClosed;
+                                    exitPrefab     = exit4TopBottomClosed;
+                                    openExitPrefab = exit4TopBottomOpen;
+                                    exitName       = "Exit4";
                                     break;
                             }
                             var bottomExit        = Instantiate(exitPrefab, transform) as Transform;
                             bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomExit.localScale = new Vector2(bottomExit.localScale.x * cellSize, bottomExit.localScale.y * cellSize);
+                            bottomExit.name       = exitName + "(Close)";
                             currentExit++;
                             oldComponents.Add(bottomExit);
+                            var bottomExitOpen        = Instantiate(openExitPrefab, transform) as Transform;
+                            bottomExitOpen.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
+                            bottomExitOpen.localScale = new Vector2(bottomExitOpen.localScale.x * cellSize, bottomExitOpen.localScale.y * cellSize);
+                            bottomExitOpen.name       = exitName + "(Open)";
+                            oldComponents.Add(bottomExitOpen);
                         }
                         else{
                             var bottomBrickWall        = Instantiate(brickWallPrefab, transform) as Transform;
@@ -255,24 +369,39 @@ public class RenderMaze : NetworkBehaviour
                             switch (currentExit)
                             {
                                 case 1:
-                                    exitPrefab = exit1LeftRightClosed;
+                                    exitPrefab     = exit1LeftRightClosed;
+                                    openExitPrefab = exit1LeftRightOpen;
+                                    exitName       = "Exit1";
                                     break;
                                 case 2:
-                                    exitPrefab = exit2LeftRightClosed;
+                                    exitPrefab     = exit2LeftRightClosed;
+                                    openExitPrefab = exit2LeftRightOpen;
+                                    exitName       = "Exit2";
                                     break;
                                 case 3:
-                                    exitPrefab = exit3LeftRightClosed;
+                                    exitPrefab     = exit3LeftRightClosed;
+                                    openExitPrefab = exit3LeftRightOpen;
+                                    exitName       = "Exit3";
                                     break;
                                 case 4:
-                                    exitPrefab = exit4LeftRightClosed;
+                                    exitPrefab     = exit4LeftRightClosed;
+                                    openExitPrefab = exit4LeftRightOpen;
+                                    exitName       = "Exit4";
                                     break;
                             }
                             var rightExit         = Instantiate(exitPrefab, transform) as Transform;
                             rightExit.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                             rightExit.localScale  = new Vector2(rightExit.localScale.x * cellSize, rightExit.localScale.y * cellSize);
                             rightExit.eulerAngles = new Vector3(0, 180, 90);
+                            rightExit.name        = exitName + "(Close)";
                             currentExit++;
                             oldComponents.Add(rightExit);
+                            var rightExitOpen         = Instantiate(openExitPrefab, transform) as Transform;
+                            rightExitOpen.position    = scenePosition + new Vector2(+cellSize / 2, 0);
+                            rightExitOpen.localScale  = new Vector2(rightExitOpen.localScale.x * cellSize, rightExitOpen.localScale.y * cellSize);
+                            rightExitOpen.eulerAngles = new Vector3(0, 180, 90);
+                            rightExitOpen.name        = exitName + "(Open)";
+                            oldComponents.Add(rightExitOpen);
                         }
                         else{
                             // Spawn the right wall
@@ -290,11 +419,24 @@ public class RenderMaze : NetworkBehaviour
 
         // Render the minimap in the canvas
         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler")).GetComponent<RenderMiniMap>().Render(mazeData);
+    
+        // Enable shadows
+        //GameObject.Find("MazeRenderer").GetComponent<CompositeShadowCaster2D>().enabled = true;
     }
 
     // Used by the network manager to get the maze json string
     public string GiveMazeDataToNetworkManager()
     {
         return mazeDataJson;
+    }
+
+    // Used by ManageCrackedWalls to adjust the detection size for wall breaking
+    public float GetCellSize(){
+        return cellSize;
+    }
+
+    // Set the MazeDataJson for the client
+    public void SetMazeDataJson(string jsonText){
+        mazeDataJson = jsonText;
     }
 }
