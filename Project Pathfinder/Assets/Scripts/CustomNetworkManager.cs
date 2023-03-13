@@ -48,8 +48,6 @@ public class CustomNetworkManager : NetworkManager
     [SerializeField]
     public bool hostIsRunner;               // Used to determine if the host is the runner or not
 
-    public WallStatus[,] parsedMazeJson;
-
     public bool IsHostRunner() {return hostIsRunner;}
                                             // Required for CustomNetworkDiscovery to advertise which team the client will join as
     #endregion
@@ -130,7 +128,6 @@ public class CustomNetworkManager : NetworkManager
 
                     // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
-                    parsedMazeJson = newMaze;
                     mazeRenderer.CleanMap();
                     mazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
                     mazeRenderer.Render(newMaze);

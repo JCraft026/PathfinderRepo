@@ -105,7 +105,6 @@ public class RenderMaze : NetworkBehaviour
     private Transform controlRoomPrefab = null;
 
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
-    private WallStatus[,] mazeData;
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
 
@@ -114,7 +113,6 @@ public class RenderMaze : NetworkBehaviour
     {
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
-        CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson = mazeData;
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
 
         // Clean up left over walls and such from the last game
