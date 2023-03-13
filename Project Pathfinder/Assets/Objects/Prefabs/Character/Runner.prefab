@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 5099998143142732537}
   - {fileID: 4750443291699458132}
-  m_Father: {fileID: 2696247814498831815}
+  m_Father: {fileID: 7573356595300248258}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2696247814498831812
@@ -41,7 +41,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2696247814498831815}
+  - component: {fileID: 7573356595300248258}
   - component: {fileID: 2696247814498831814}
   - component: {fileID: 2696247814498831813}
   - component: {fileID: 2696247814498831833}
@@ -66,8 +66,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2696247814498831815
-Transform:
+--- !u!224 &7573356595300248258
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -76,13 +76,18 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4283335265043179727}
   - {fileID: 6471011637873237562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 32, y: 32}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2696247814498831814
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -193,6 +198,7 @@ MonoBehaviour:
   flashlight: {fileID: 0}
   moveSpeed: 5
   facingDirection: 0
+  movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
   PauseCanvas: {fileID: 0}

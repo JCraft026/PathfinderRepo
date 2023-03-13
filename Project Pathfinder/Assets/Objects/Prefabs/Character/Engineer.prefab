@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 3931722354195069381}
   - component: {fileID: 6301061394774261126}
   - component: {fileID: -597221310296035519}
+  - component: {fileID: 8479786877132149721}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -190,6 +191,7 @@ MonoBehaviour:
   flashlight: {fileID: 4426914521127218765}
   moveSpeed: 4
   facingDirection: 0
+  movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
   PauseCanvas: {fileID: 0}
@@ -366,6 +368,23 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   PauseCanvas: {fileID: 0}
+--- !u!114 &8479786877132149721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fab0cba6d0cb1b84fbc9aae403cb4083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  barricadeHorizontal: {fileID: 7776396092578743102, guid: a8095f73e82beea4aac2b4f0cd63a639, type: 3}
+  barricadeVertical: {fileID: 7776396092578743102, guid: 62f422b8ec2593d47a6ba90748b16e37, type: 3}
+  barricadeCount: 0
 --- !u!1 &4426914521127218765
 GameObject:
   m_ObjectHideFlags: 0

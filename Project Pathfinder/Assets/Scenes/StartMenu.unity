@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 308214979}
     - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: serverBroadcastListenPort
-      value: 5051
+      value: 47777
       objectReference: {fileID: 0}
     - target: {fileID: 551824395, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.size
@@ -296,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580478, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: Port
-      value: 5100
+      value: 7777
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
