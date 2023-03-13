@@ -118,13 +118,13 @@ public class ManageActiveCharacters : NetworkBehaviour
         switch (nextActiveGuardId)
         {
             case ManageActiveCharactersConstants.CHASER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
                 break;
             default:
                 newGuardObject = null;
@@ -137,7 +137,8 @@ public class ManageActiveCharacters : NetworkBehaviour
         {
             newGuardObject.GetComponent<SpriteRenderer>().material = activeMaterial;
             gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
-            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject);
+            newGuardObject.GetComponent<NetworkIdentity>().AssignClientAuthority(conn.connectionToClient);
+            NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject, true);
         }
         else
         {

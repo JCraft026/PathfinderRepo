@@ -8,12 +8,12 @@ public class LockGuardMovement : StateMachineBehaviour
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
-        MoveCharacter.canMove = false;
+        animator.gameObject.GetComponent<MoveCharacter>().canMove = false;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex){
-        MoveCharacter.canMove = true;
+        animator.gameObject.GetComponent<MoveCharacter>().canMove = true;
         animator.SetBool("Attack", false);
         animator.SetBool("Attack Triggered", false);
     }
