@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 6976342257127737373}
   - component: {fileID: 772082509311845710}
   - component: {fileID: 4624075767168692450}
+  - component: {fileID: 5865091273394797179}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -193,9 +194,12 @@ MonoBehaviour:
   flashlight: {fileID: 0}
   moveSpeed: 5
   facingDirection: 0
+  movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
+  canMove: 1
   PauseCanvas: {fileID: 0}
+  isRestricted: 1
 --- !u!70 &2696247814498831835
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -369,6 +373,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   PauseCanvas: {fileID: 0}
+  pauseCanvasIsEnabled: 1
 --- !u!114 &8936649274440453078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,6 +444,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &5865091273394797179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33a67bb6680d064ca206e40e36a0938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4258768188753888029
 GameObject:
   m_ObjectHideFlags: 0
