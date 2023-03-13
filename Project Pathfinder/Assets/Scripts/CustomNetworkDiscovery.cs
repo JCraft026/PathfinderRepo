@@ -27,10 +27,10 @@ public class DiscoveryResponse : NetworkMessage
 {
     // Add properties for whatever information you want the server to return to
     // clients for them to display or consume for establishing a connection.
-    public string serverName;       // Name of the server set by the host
-    public string teamAvailable;    // The team (runner/guards) available for the client to play as
-    public int playersInGame;       // Number of players in the game
-    public bool isHostRunner;       // Used to determine which team the client will join as in the server browser
+    public string serverName;    // Name of the server set by the host
+    public string teamAvailable; // The team (runner/guards) available for the client to play as
+    public int playersInGame;    // Number of players in the game
+    public bool isHostRunner;    // Used to determine which team the client will join as in the server browser
 }
 
 // Used to contain an event for OnServerFound
@@ -91,12 +91,6 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         }
 
         return response;
-    }
-
-    // Tell all potential clients to remove this server from their list of joinable games
-    public void CustomStopDiscovery()
-    {
-        StopDiscovery();
     }
 
     #endregion

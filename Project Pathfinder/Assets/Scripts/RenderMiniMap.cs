@@ -28,22 +28,16 @@ public class RenderMiniMap : MonoBehaviour
 
     [SerializeField]
     private Transform fourthExitPrefab = null;
-    
-    [SerializeField]
-    private Transform tunnelEntranceIcon = null;
 
     // Render the complete minimap within the scene canvas
     public void Render(WallStatus[,] mazeData)
     {
-        WallStatus currentCell    = new WallStatus();          // Current minimap cell being rendered
-        Vector2 scenePosition     = new Vector2();             // x,y position in the scene
-        Transform exitPrefab      = null;                      // Exit prefab being rendered
-        float mazeWidth           = Utilities.GetMazeWidth(),  // Cell width of the maze
-              mazeHeight          = Utilities.GetMazeHeight(); // Cell height of the maze
-        int currentExit           = 1,                         // Next exit prefab to render
-        tunnelEntranceHeightIndex = (int)(mazeHeight/2),            // j index for the cell where the tunnel entrance will spawn
-        tunnelEntranceWidthIndex  = (int)(mazeWidth/2);             // i index for the cell where the tunnel entrance will spawn
-        
+        WallStatus currentCell = new WallStatus();          // Current minimap cell being rendered
+        Vector2 scenePosition  = new Vector2();             // x,y position in the scene
+        Transform exitPrefab   = null;                      // Exit prefab being rendered
+        int currentExit        = 1;                         // Next exit prefab to render
+        float mazeWidth        = Utilities.GetMazeWidth(),  // Cell width of the maze
+              mazeHeight       = Utilities.GetMazeHeight(); // Cell height of the maze
 
         // Render the cell walls/floors of every minimap cell
         for (int j = 0; j < mazeHeight; j++){
@@ -74,20 +68,6 @@ public class RenderMiniMap : MonoBehaviour
                 cellFloor.GetComponent<RectTransform>().localScale    = new Vector2(cellSize, cellSize);
                 cellFloor.GetComponent<RectTransform>().localPosition = scenePosition;
                 cellFloor.name = "cf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
-
-                // Render the Control Room Entrance
-                if(CustomNetworkManager.isRunner && j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
-                    if(currentCell.HasFlag(WallStatus.TOP)){
-                        var tunnelEntrance = Instantiate(tunnelEntranceIcon, transform);
-                        tunnelEntrance.transform.SetParent(GameObject.Find("Minimap").transform, false);
-                        tunnelEntrance.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 5, cellSize * 5);
-                        tunnelEntrance.GetComponent<RectTransform>().localPosition = scenePosition;
-                        tunnelEntrance.name = "mmTunnelEntrance";
-                    }
-                    else{
-                        tunnelEntranceHeightIndex++;
-                    }
-                }
 
                 // If the player is the runner, render the minimap cell roof
                 if(CustomNetworkManager.isRunner == true){

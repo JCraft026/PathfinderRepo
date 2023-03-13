@@ -8,15 +8,11 @@ static class HandleEventsConstants{
     public const int NONE             = 0; // No event active
     public const int RUNNER_WINS      = 1; // Runner win event
     public const int GUARDMASTER_WINS = 2; // Guard Master win event
-    public const int RUNNER_CAPTURED  = 3; // Runner was captured
-    public const int RUNNER_ESCAPED   = 4; // Runner escaped the maze
-    public const int TIMER_ZERO       = 5; // Timer has run down to zero
 }
 
 public class HandleEvents : MonoBehaviour
 {
     public static int currentEvent = 0;            // Current game event to be handled
-    public static int endGameEvent = 0;            // Reason the game was ended
 
     // Update is called once per frame
     void Update()

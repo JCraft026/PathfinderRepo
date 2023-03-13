@@ -10,7 +10,6 @@ public class ManageExitCollision : MonoBehaviour
         Regex runnerExpression = new Regex("Runner");
         
         if(runnerExpression.IsMatch(collision.gameObject.name)){
-            HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_ESCAPED;
             HandleEvents.currentEvent = HandleEventsConstants.RUNNER_WINS;
         }
     }
