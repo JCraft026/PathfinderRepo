@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 786277952714085039}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -0.46, y: 4.38, z: 0}
+  m_LocalPosition: {x: 0.1, y: -5.9, z: 0}
   m_LocalScale: {x: 7.692307, y: 7.692307, z: 7.692307}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -98,7 +98,7 @@ MonoBehaviour:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 0
-  m_PointLightOuterAngle: 75
+  m_PointLightOuterAngle: 90
   m_PointLightInnerRadius: 4
   m_PointLightOuterRadius: 16
   m_ShapeLightParametricSides: 5
@@ -427,6 +427,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   cameraHolder: {fileID: 1420758059646308807}
+  activeMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  inactiveMaterial: {fileID: 2100000, guid: 6086487f740807a4599e4290220de838, type: 2}
   offset: {x: 0, y: 0, z: 0}
   guardId: 0
   activeGuardId: 0

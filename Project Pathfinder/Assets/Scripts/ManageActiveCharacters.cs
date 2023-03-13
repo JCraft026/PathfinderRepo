@@ -16,6 +16,8 @@ static class ManageActiveCharactersConstants{
 public class ManageActiveCharacters : NetworkBehaviour
 {
     public GameObject cameraHolder;               // Parent object camera
+    public Material activeMaterial;               // Sprite material for active character (ignores shadows)
+    public Material inactiveMaterial;             // Sprite material for inactive character
     public Vector3 offset;                        // Camera position offset
     public int guardId;                           // Parent object's guard ID
     public int activeGuardId;                     // Guard ID of the current active guard
@@ -129,10 +131,12 @@ public class ManageActiveCharacters : NetworkBehaviour
                 Debug.LogError("newGuardObject is null");
                 break;
         }
-
+        
         // Switch guard control from the old guards object to the next guard's object
         if(newGuardObject != null)
         {
+            newGuardObject.GetComponent<SpriteRenderer>().material = activeMaterial;
+            gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
             newGuardObject.GetComponent<NetworkIdentity>().AssignClientAuthority(conn.connectionToClient);
             NetworkServer.ReplacePlayerForConnection(conn.connectionToClient, newGuardObject, true);
         }
