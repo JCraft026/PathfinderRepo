@@ -17,7 +17,7 @@ public class Player_UI : NetworkBehaviour
                           keySlot2,            // Slot holding the third key
                           keySlot3;            // Slot holding the fourth key
     private MoveCharacter rigidBody;           // The player's rigidbody coordinates
-    private bool          hasKey0 = false,     // Boolean variable describing whether key 0 is present
+    public bool           hasKey0 = false,     // Boolean variable describing whether key 0 is present
                           hasKey1 = false,     // Boolean variable describing whether key 1 is present
                           hasKey2 = false,     // Boolean variable describing whether key 2 is present
                           hasKey3 = false;     // Boolean variable describing whether key 3 is present
