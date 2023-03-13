@@ -16,17 +16,17 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
-    public GameObject flashlight;                            // This character's flashlight object (if they have one)
-    public float moveSpeed = 5f,                             // Speed at which the character needs to move
-                 facingDirection;                            // Direction the character should face after movement
-    public Vector2 movementInput;                            // Character's current input direction             
+    public GameObject flashlight;                            // Character's flashlight object (if they have one)
+    public float moveSpeed = 5f;                             // Speed at which the character needs to move
+    public float facingDirection;                            // Direction the character should face after movement
+    Vector2 movementInput;                                   // Character's current input direction             
     public Rigidbody2D rigidBody;                            // Character's RigidBody
     public Animator animator;                                // Character's animator manager
-    public static bool canMove = true;   
-                                                             // Character movement lock status
-    public GameObject PauseCanvas; 
-                                                             // Exit game menu
+    public bool canMove = true;                       // Character movement lock status
+    public GameObject PauseCanvas;                           // Exit game menu
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
+    private Vector2 lastMovementInput;                       // Unused as of now remove later (-Caleb)
+    private float? lastFacingDirection;                      // Unused as of now remove later (-Caleb)
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
     private float mazeHeight = 13;                           // Height of the maze
