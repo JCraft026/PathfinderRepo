@@ -16,7 +16,7 @@ public class DisplayWinCondition : MonoBehaviour
                 GameObject.Find("Win Condition").GetComponent<TextMeshPro>().text = "You captured the runner!";
                 break;
             case HandleEventsConstants.TIMER_ZERO:
-                GameObject.Find("Lose Condition").GetComponent<TextMeshPro>().text = "The runner ran out of time!";
+                GameObject.Find("Win Condition").GetComponent<TextMeshPro>().text = "The runner ran out of time!";
                 break;
                 
             // Display the Win status messages for the runner

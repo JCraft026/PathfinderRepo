@@ -225,7 +225,7 @@ public class RenderMaze : NetworkBehaviour
                         topExitOpen.name       = exitName + "(Open)";
                         oldComponents.Add(topExitOpen);
                     }
-                    else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1){
+                    else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1 && j != tunnelEntranceHeightIndex && i != tunnelEntranceWidthIndex){
                         var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);

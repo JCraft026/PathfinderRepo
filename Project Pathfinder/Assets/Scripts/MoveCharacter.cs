@@ -67,7 +67,6 @@ public class MoveCharacter : NetworkBehaviour
         if(Utilities.runnerRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.RUNNER;
             characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
-            Debug.Log("Woop");
         }
         else if(Utilities.chaserRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.CHASER;
@@ -168,7 +167,7 @@ public class MoveCharacter : NetworkBehaviour
             currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
 
             // Manage character arrow display
-            if(currentCell.HasFlag(WallStatus.BOTTOM) && (currentCellY - gameObject.transform.position.y) > 2.3f){
+            if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
                 characterArrow.GetComponent<SpriteRenderer>().enabled = true;
             }
             else{

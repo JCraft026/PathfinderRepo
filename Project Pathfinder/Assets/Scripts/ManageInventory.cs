@@ -96,6 +96,7 @@ public class ManageInventory : NetworkBehaviour
                             selectedItem.selected = true;
                         }
                         playerUi.RefreshInventoryItems();
+                        itemWorld.OpenChest();
                     }
                     else{
                         Debug.Log("Your inventory is full");
