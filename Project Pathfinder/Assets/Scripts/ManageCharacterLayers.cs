@@ -15,6 +15,7 @@ public class ManageCharacterLayers : MonoBehaviour
     private GameObject engineerArrow;                        // Engineer arrow game object
     private GameObject trapperArrow;                         // Trapper arrow game object
 
+    /*
     void Start(){
         // Assign arrow game objects
         runnerArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
@@ -22,10 +23,17 @@ public class ManageCharacterLayers : MonoBehaviour
         engineerArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
         trapperArrow  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
     }
+    */
 
     // Update is called once per frame
     void Update()
     {
+        // Assign arrow game objects
+        runnerArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
+        chaserArrow   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
+        engineerArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
+        trapperArrow  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
+
         // Set character order in layer based on its y value rank
         if(runnerExpression.IsMatch(gameObject.name)){
             gameObject.GetComponent<SpriteRenderer>().sortingOrder    = HandleLayers.runnerElevationRank;

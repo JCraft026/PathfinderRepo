@@ -39,7 +39,10 @@ public class EngineerAbility : NetworkBehaviour
     void Update()
     {
         // When engineer presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3){
+        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){
+            // Subtract from steam
+            GenerateSteam.steam -= 25f;
+            
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             

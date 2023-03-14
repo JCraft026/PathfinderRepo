@@ -108,6 +108,13 @@ public class RenderMaze : NetworkBehaviour
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
 
+    void Start(){
+        // Enable the steam generator for guards
+        if(!CustomNetworkManager.isRunner){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator")).SetActive(true);
+        }
+    }
+
     // Called when the host starts a game
     public void CreateMaze()
     {

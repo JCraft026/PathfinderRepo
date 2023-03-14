@@ -64,24 +64,33 @@ public class MoveCharacter : NetworkBehaviour
         // Assign active character code and character arrow
         if(Utilities.runnerRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.RUNNER;
-            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
         }
         else if(Utilities.chaserRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.CHASER;
-            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
         }
         else if(Utilities.engineerRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.ENGINEER;
-            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
         }
         else if(Utilities.trapperRegex.IsMatch(gameObject.name)){
             activeCharacterCode = ManageActiveCharactersConstants.TRAPPER;
-            characterArrow      = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
         }
     }
 
     // Update is called once per frame
     void Update(){
+        // Assign active character code and character arrow
+        if(Utilities.runnerRegex.IsMatch(gameObject.name)){
+            characterArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Red Arrow"));
+        }
+        else if(Utilities.chaserRegex.IsMatch(gameObject.name)){
+            characterArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Green Arrow"));
+        }
+        else if(Utilities.engineerRegex.IsMatch(gameObject.name)){
+            characterArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Gold Arrow"));
+        }
+        else if(Utilities.trapperRegex.IsMatch(gameObject.name)){
+            characterArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
+        }
 
         // Disable movement on inactive guards
         if(!CustomNetworkManager.isRunner){
@@ -171,7 +180,6 @@ public class MoveCharacter : NetworkBehaviour
             else{
                 characterArrow.GetComponent<SpriteRenderer>().enabled = false;
             }
-            Debug.Log(currentCellY - gameObject.transform.position.y);
         }
     }
 

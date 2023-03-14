@@ -20,7 +20,10 @@ public class TrapperAbility : NetworkBehaviour
     void Update()
     {
         // When trapper presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && GenerateSteam.steam >= 25f){
+            // Subtract from steam
+            GenerateSteam.steam -= 25f;
+
             placeChestTrap();
         }
     }
