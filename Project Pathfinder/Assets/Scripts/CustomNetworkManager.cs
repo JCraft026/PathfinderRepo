@@ -177,6 +177,7 @@ public class CustomNetworkManager : NetworkManager
         SceneManager.LoadScene(offlineScene);
         Debug.Log("OnServerDisconnect");
         mazeRenderer = null; // Reset the maze renderer
+        RenderSmokeScreen.smokeScreensSpawned = 0;
     }
 
     // Runs on the server when a client connects

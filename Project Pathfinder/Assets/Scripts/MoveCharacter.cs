@@ -171,7 +171,6 @@ public class MoveCharacter : NetworkBehaviour
             else{
                 characterArrow.GetComponent<SpriteRenderer>().enabled = false;
             }
-            Debug.Log(currentCellY - gameObject.transform.position.y);
         }
     }
 
