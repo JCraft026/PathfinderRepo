@@ -25,6 +25,7 @@ public class CustomNetworkManager : NetworkManager
     public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
 
     public ItemWorld itemWorld;                                  //
+    public SpawnGenerators spawnGenerators;
 
     [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -273,6 +274,7 @@ public class CustomNetworkManager : NetworkManager
         {
             ItemWorld.SpawnChests(50);
             ItemWorld.SpawnKeys();
+            SpawnGenerators.generateGeneratorLocations(); 
         }
 
         // Make the player wait to move until a client joins the game

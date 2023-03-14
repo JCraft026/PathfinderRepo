@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Mirror;
 
 
-public class SteamGenerators : NetworkBehaviour
+public class SpawnGenerators : NetworkBehaviour
 {
     public static int spawnCount = 3;
     public GameObject steamGenerator;
@@ -14,11 +14,13 @@ public class SteamGenerators : NetworkBehaviour
     public static int generatedSteam = 0; // Steam currently available to the guardmaster. 
     public Animator animator;
     private Animator generatorAnimator;
+    public static SpawnGenerators Instance;
 
     void Start()
     {
+        Instance = this;
         // Remove steam bar if the player is the runner
-        if (CustomNetworkManager.isRunner == true)
+        /*if (CustomNetworkManager.isRunner == true)
         {
             try{
                 GameObject.FindGameObjectWithTag("SteamBar").SetActive(false);
@@ -26,12 +28,12 @@ public class SteamGenerators : NetworkBehaviour
             catch{
 
             }
-        }
+        }*/
     }
 
-    public static void SpawnGenerators()
+    public static void generateGeneratorLocations()
     {
-        // Get a list of walls to spawn near
+        /*// Get a list of walls to spawn near
         List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
             .Where<GameObject>(x => x.name.Contains("Wall_TB")).ToList();
 
@@ -54,24 +56,34 @@ public class SteamGenerators : NetworkBehaviour
             // Get the steam generator prefab from the network manager
             var generatorPrefab = CustomNetworkManagerDAO.GetNetworkManagerGameObject()
                                     .GetComponent<CustomNetworkManager>().spawnPrefabs
-                                    .Find(x => x.name.Contains("Steam Generator"));
+                                    .Find(x => x.name.Contains("Steam Generator"));*/
 
             // Spawn the steam generator
-            // FIX //GameObject.Find("ItemAssets").GetComponent<CommandManager>().NetworkedSpawnGenerator(generatorPos);
+            Debug.Log("About to network spawn generators");
+            Instance.networkedSpawnGenerator(0,0);//generatorPos.x, generatorPos.y);
 
             // Make sure we can't spawn 2 generators at the same location
-            topWalls.Remove(topWalls[wallIndex]);
-        }
+            // FIX // topWalls.Remove(topWalls[wallIndex]);
+            
+        //}
     }
 
-    public void StartGeneratingSteam()
+    [Command]
+    public void networkedSpawnGenerator(float generatorPosX, float generatorPosXY){
+        Debug.Log("TRIED TO INSTANTIATE GENERATOR");
+        GameObject tempSteamGenerator = Instantiate(steamGenerator, 
+           new Vector3(generatorPosX, generatorPosXY, 0), Quaternion.identity);
+        NetworkServer.Spawn(tempSteamGenerator);
+    }
+
+    /*public void StartGeneratingSteam()
     {
         if(CustomNetworkManager.isRunner == false)
             StartCoroutine(GenerateSteam());
-    }
+    }*/
 
     // Asyncronously generates 1 steam point every second (as long as the generator is not broken)
-    IEnumerator GenerateSteam()
+    /*IEnumerator GenerateSteam()
     {
         while(true)
         {
@@ -138,5 +150,5 @@ public class SteamGenerators : NetworkBehaviour
             generatorAnimator.SetBool("isBusted", false);
         }
         return isBroken;
-    }
+    }*/
 }
