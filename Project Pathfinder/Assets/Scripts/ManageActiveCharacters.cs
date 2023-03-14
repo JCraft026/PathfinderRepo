@@ -80,6 +80,9 @@ public class ManageActiveCharacters : NetworkBehaviour
             activeGuardId = nextActiveGuardId;
         }
         cameraHolder.transform.position = transform.position + offset;
+
+        // Enable UI Ability Icons
+        if(!CustomNetworkManager.isRunner)
     }
 
     // Assign the appropriate guard ID to the guard script owner
