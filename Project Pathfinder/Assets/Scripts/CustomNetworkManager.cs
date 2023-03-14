@@ -31,7 +31,7 @@ public class CustomNetworkManager : NetworkManager
 
     [SerializeField]
     public RenderMaze mazeRenderer;         // Enables us to render the maze
-
+    public WallStatus[,] parsedMazeJson;
     public string mazeDataJson = null;
 
     public RenderMaze GetMazeRendererSafely() 
@@ -128,6 +128,7 @@ public class CustomNetworkManager : NetworkManager
 
                     // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
+                    parsedMazeJson = newMaze;
                     mazeRenderer.CleanMap();
                     mazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
                     mazeRenderer.Render(newMaze);
