@@ -20,7 +20,7 @@ public class ChaserDash : MonoBehaviour
     // Update is called once per frame
     void Update(){
         // If the time runs out
-        if(timer >= 1.0f){
+        if(timer >= 0.5f){
             animator.SetBool("Dashing", false);
             gameObject.GetComponent<MoveCharacter>().canMove = true;
             this.enabled = false;
@@ -32,7 +32,7 @@ public class ChaserDash : MonoBehaviour
             dashDirection.Normalize();
             // Move the chaser in that direction 
             chaserRigidBody.MovePosition(chaserRigidBody.position + 
-            dashDirection * 20.0f * Time.fixedDeltaTime);
+            dashDirection * chaserMoveCharacter.moveSpeed * 6f * Time.fixedDeltaTime);
             timer += 0.01666667f;
         }   
     }

@@ -40,12 +40,8 @@ public class Player_UI : NetworkBehaviour
 
     public override void OnStartClient(){
         if(CustomNetworkManager.isRunner == false){
-            Debug.LogWarning("I AM NOT THE RUNNER");
             itemSlotContainer.gameObject.SetActive(false);
             keySlotContainer.gameObject.SetActive(false);
-        }
-        if(CustomNetworkManager.isRunner == true){
-            Debug.LogWarning("I AM THE RUNNER");
         }
     }
 
