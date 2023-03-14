@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class EngineerAbility : NetworkBehaviour
 {
+    public static bool abilityClicked = false;   // Status of the ability icon being clicked
     public GameObject barricadeHorizontal;       // Horizontal barricade
     public GameObject barricadeVertical;         // Vertical barricade
     private int[] engineerLocation;              // 2D array location (-6 - 6)
@@ -39,7 +40,7 @@ public class EngineerAbility : NetworkBehaviour
     void Update()
     {
         // When engineer presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){
+        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){
             // Subtract from steam
             GenerateSteam.steam -= 25f;
             
@@ -125,6 +126,9 @@ public class EngineerAbility : NetworkBehaviour
         else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount >= 3){
             Debug.Log("You're at the max number of barricades (3)");
         }
+
+        // Reset the ability clicked status
+        abilityClicked = false;
     }
 
     // Breaks down vectors to floats to instantiate and spawn the barricades

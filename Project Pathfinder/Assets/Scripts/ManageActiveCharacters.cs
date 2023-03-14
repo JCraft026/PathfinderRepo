@@ -82,7 +82,26 @@ public class ManageActiveCharacters : NetworkBehaviour
         cameraHolder.transform.position = transform.position + offset;
 
         // Enable UI Ability Icons
-        if(!CustomNetworkManager.isRunner)
+        if(!CustomNetworkManager.isRunner){
+            switch (activeGuardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(true);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(false);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(true);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(false);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(true);
+                    break;
+            }
+        }
     }
 
     // Assign the appropriate guard ID to the guard script owner

@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 
 public class ChaserAbility : NetworkBehaviour
 {
-
-    MoveCharacter chaserMoveCharacter; // Chaser's MoveCharacter script
-    ChaserDash chaserDash;             // ChaserDash instance
-    public Animator animator;          // Chaser's animator controller
+    public static bool abilityClicked = false; // Status of the ability icon being clicked
+    MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
+    ChaserDash chaserDash;                     // ChaserDash instance
+    public Animator animator;                  // Chaser's animator controller
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -20,7 +20,7 @@ public class ChaserAbility : NetworkBehaviour
     void Update()
     {
         // When the chaser presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
             if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 10f){
                 // Subtract from steam
@@ -30,5 +30,8 @@ public class ChaserAbility : NetworkBehaviour
                 Debug.Log("Started dash");
             }
         }
+
+        // Reset the ability clicked status
+        abilityClicked = false;
     }
 }
