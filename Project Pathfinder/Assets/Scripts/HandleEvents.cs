@@ -32,6 +32,11 @@ public class HandleEvents : MonoBehaviour
                 else{
                     SceneManager.LoadScene("Player Loses");
                 }
+                Resources.FindObjectsOfTypeAll<GameObject>()
+                        .Where<GameObject>( x => x.GetComponent<CommandManager>() != null)
+                        .First()
+                        .GetComponent<CommandManager>()
+                        .cmd_TransitionToYouWinYouLose(currentEvent, endGameEvent);
                 currentEvent = HandleEventsConstants.NONE;
                 break;
             case HandleEventsConstants.GUARDMASTER_WINS:
@@ -41,6 +46,11 @@ public class HandleEvents : MonoBehaviour
                 else{
                     SceneManager.LoadScene("Player Loses");
                 }
+                Resources.FindObjectsOfTypeAll<GameObject>()
+                        .Where<GameObject>( x => x.GetComponent<CommandManager>() != null)
+                        .First()
+                        .GetComponent<CommandManager>()
+                        .cmd_TransitionToYouWinYouLose(currentEvent, endGameEvent);
                 currentEvent = HandleEventsConstants.NONE;
                 break;
         }
