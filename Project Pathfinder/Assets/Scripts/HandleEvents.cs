@@ -54,6 +54,11 @@ public class HandleEvents : MonoBehaviour
                 currentEvent = HandleEventsConstants.NONE;
                 break;
         }
+
+        // Disable start screen for client
+        if(!CustomNetworkManager.isHost){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+        }
     }
 
     // Manipulate runner animations and hp to reflect the landed guard attack

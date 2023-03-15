@@ -15,7 +15,8 @@ public class ManageGameTimer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameTimeLeft > 0){
+        if(!CustomNetworkManager.hostIsFrozen || !CustomNetworkManager.isHost){
+            if(gameTimeLeft > 0){
                 minutes = Mathf.FloorToInt(gameTimeLeft / 60);
                 seconds = Mathf.FloorToInt(gameTimeLeft % 60);
                 gameObject.GetComponent<TextMeshProUGUI>().text = string.Format("{0:00}:{1:00}", minutes, seconds);
@@ -25,5 +26,6 @@ public class ManageGameTimer : NetworkBehaviour
                 HandleEvents.endGameEvent = HandleEventsConstants.TIMER_ZERO;
                 HandleEvents.currentEvent = HandleEventsConstants.GUARDMASTER_WINS;
             }
+        }
     }
 }

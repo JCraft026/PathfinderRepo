@@ -33,6 +33,7 @@ public class CustomNetworkManager : NetworkManager
     public RenderMaze mazeRenderer;         // Enables us to render the maze
     public WallStatus[,] parsedMazeJson;
     public string mazeDataJson = null;
+    public static bool hostIsFrozen = true; // Status of host movement being frozen
 
     public RenderMaze GetMazeRendererSafely() 
     {
@@ -443,6 +444,11 @@ public class CustomNetworkManager : NetworkManager
     {
         Debug.Log("CustomNetworkManager HostWaitForPlayer(): Stopping player movement until a client joins...");
         GameObject hostObject = host.identity.gameObject;
+        bool popupDisplayed   = false;
+
+        // Disable popup message
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
 
         // Disable movement for the player
         if(isRunner)
@@ -456,6 +462,13 @@ public class CustomNetworkManager : NetworkManager
             chaser.GetComponent<MoveCharacter>().enabled = false;
             engineer.GetComponent<MoveCharacter>().enabled = false;
             trapper.GetComponent<MoveCharacter>().enabled = false;
+        }
+        
+        // Display waiting popup for host
+        if(NetworkServer.connections.Count <= 1){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(true);
+            popupDisplayed = true;
+            Debug.Log("Popup Displayed");
         }
 
         // Wait for a client to join
@@ -479,6 +492,20 @@ public class CustomNetworkManager : NetworkManager
         }
 
         Debug.Log("CustomNetworkManager HostWaitForPlayer(): Player movment is now re-enabled");
+
+        if(popupDisplayed){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(true);
+            yield return new WaitForSeconds(2);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+            Debug.Log("Popup Removed");
+        }
+        
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+
+        hostIsFrozen = false;
+
         yield return null;
     }
    

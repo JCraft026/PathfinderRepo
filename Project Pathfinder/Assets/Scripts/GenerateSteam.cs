@@ -13,7 +13,7 @@ public class GenerateSteam : MonoBehaviour
     void Update()
     {
         // Generate steam
-        if(steam < steamLimit){
+        if((!CustomNetworkManager.hostIsFrozen || !CustomNetworkManager.isHost) && steam < steamLimit){
             displaySteam = (int)steam;
             gameObject.GetComponent<TextMeshProUGUI>().text = displaySteam.ToString();
             steam += Time.deltaTime;
