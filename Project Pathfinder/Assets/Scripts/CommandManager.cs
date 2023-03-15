@@ -47,4 +47,19 @@ public class CommandManager : NetworkBehaviour
         GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
         runner.GetComponent<SpriteRenderer>().enabled = true;
     }
+
+    // Tell the clients to update their events
+    [Command]
+    public void cmd_TransitionToYouWinYouLose(int currentEvent, int endGameEvent)
+    {
+        rpc_TransitionToYouWinYouLose(currentEvent, endGameEvent);
+    }
+
+    // Make sure that the clients event gets updated when the runner escapes or the guard dies
+    [ClientRpc]
+    public void rpc_TransitionToYouWinYouLose(int currentEvent, int endGameEvent)
+    {
+        HandleEvents.currentEvent = currentEvent;
+        HandleEvents.endGameEvent = endGameEvent;
+    }
 }

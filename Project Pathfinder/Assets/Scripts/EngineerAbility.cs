@@ -26,9 +26,6 @@ public class EngineerAbility : NetworkBehaviour
         // Get engineer's MoveCharacter script
         engineerMoveCharacter = gameObject.GetComponent<MoveCharacter>();
 
-        // Get the mazeData as Json text
-        string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
-
         // Get parsed maze data from CustomNetworkManager
         customNetworkManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
         if(customNetworkManager.parsedMazeJson == null){
