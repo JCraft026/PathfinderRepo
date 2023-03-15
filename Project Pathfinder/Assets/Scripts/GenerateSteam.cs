@@ -5,7 +5,7 @@ using TMPro;
 
 public class GenerateSteam : MonoBehaviour
 {
-    public static float steam;       // Amount of steam available for use
+    public static float steam = 0;   // Amount of steam available for use
     public int displaySteam;         // Amount of steam displayed
     private float steamLimit = 101f; // Total steam limit
     public static int generatorCount = 3;   // Starting number of Generators

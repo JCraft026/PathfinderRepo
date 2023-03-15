@@ -28,6 +28,7 @@ public class SpawnGenerators : NetworkBehaviour
 
     public static void generateGeneratorLocations()
     {
+        Debug.Log("Generating generators");
         // Get a list of walls to spawn near
         List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
             .Where<GameObject>(x => x.name.Contains("Wall_TB")).ToList();

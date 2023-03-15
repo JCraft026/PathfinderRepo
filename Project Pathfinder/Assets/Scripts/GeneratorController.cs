@@ -1,20 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GeneratorController : MonoBehaviour
 {
-    public bool isBroken = false;
     public Animator animator;
+    private GameObject player;
+
+    void Awake(){
+        GameObject player = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+    }
 
 
     void Update(){
-        if(GenerateSteam.steam >= 101){
-            GeneratorStop();
-        }
-        else if(animator.GetBool("IsBusted") == false){
+        if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 101 && animator.GetBool("IsBusted") == false){
             GeneratorStart();
         }
+        else if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam >= 101 && animator.GetBool("IsBusted") == false){
+            GeneratorStop();
+        }
+    }
+
+     public void breakGenerator(){
+        if(Utilities.GetDistanceBetweenObjects(transform.position, player.transform.position) < 1.2f){
+            GeneratorBreak();  
+        }
+    }
+
+    public void GeneratorBreak()
+    {
+        if(animator.GetBool("IsBusted") == false)
+        {
+            animator.SetBool("IsBusted", true);
+            GenerateSteam.generatorCount -= 1;
+        }
+    }
+
+    // Anne's new version
+    public void GeneratorFixed()
+    {
+        if(animator.GetBool("IsBusted") == true)
+        {
+            animator.SetBool("IsBusted", false);
+            GenerateSteam.generatorCount += 1;
+        }
+    }
+
+    public void GeneratorStart()
+    {
+        animator.SetBool("IsGenerating", true);
+    }
+
+    public void GeneratorStop()
+    {
+        animator.SetBool("IsGenerating", false);
     }
 
     /*public void StartGeneratingSteam()
@@ -71,35 +111,4 @@ public class GeneratorController : MonoBehaviour
             }
         }
     }*/
-
-    public bool GeneratorBreak()
-    {
-        if(isBroken == false)
-        {
-            isBroken = true;
-            animator.SetBool("isBusted", true);
-        }
-        return isBroken;
-    }
-
-    // Anne's new version
-    public bool GeneratorFixed()
-    {
-        if (isBroken == true)
-        {
-            isBroken = false;
-            animator.SetBool("isBusted", false);
-        }
-        return isBroken;
-    }
-
-    public void GeneratorStart()
-    {
-        animator.SetBool("IsGenerating", true);
-    }
-
-    public void GeneratorStop()
-    {
-        animator.SetBool("IsGenerating", false);
-    }
 }

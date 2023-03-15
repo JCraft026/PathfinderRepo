@@ -10,6 +10,8 @@ public class ManageInventory : NetworkBehaviour
     private Player_UI playerUi;                 // Imports the Player UI's members and functions
     private Inventory inventory;                // Imports the inventory's members and functions
     private ItemWorld itemWorld;                // Imports the Item World Script's members and functions
+    private GeneratorController generatorController; 
+                                                //
     private Item selectedItem;                  // The item currently selected
     private List<Item> itemList;                // The local list of inventory items
     private int slotNumber = 0;                 // The slot number the player is choosing
@@ -18,6 +20,7 @@ public class ManageInventory : NetworkBehaviour
     // Called on awake
     private void Awake(){
         inventoryControls = new InventoryControls();
+        generatorController = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator")).GetComponent<GeneratorController>();
     }
 
     // Ensures the input controller works correctly
@@ -228,6 +231,7 @@ public class ManageInventory : NetworkBehaviour
         case Item.ItemType.Sledge:
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
+            generatorController.breakGenerator();
             break;
         // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6175056770118232177}
   - component: {fileID: 8143676233623653492}
   - component: {fileID: -2189063370500584253}
+  - component: {fileID: -6826680997710114329}
   m_Layer: 0
   m_Name: SteamGenerator
   m_TagString: Untagged
@@ -150,3 +151,17 @@ MonoBehaviour:
   visible: 0
   m_AssetId: a9b06a5c18a00a84fa59b2df440d78dd
   hasSpawned: 0
+--- !u!114 &-6826680997710114329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8368785342619026136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78d260e7936ff1944a1a9368f3d6b04b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBroken: 0
+  animator: {fileID: 8143676233623653492}

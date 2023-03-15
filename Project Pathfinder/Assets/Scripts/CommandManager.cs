@@ -71,9 +71,9 @@ public class CommandManager : NetworkBehaviour
         }
         NetworkServer.Spawn(generator);
 
-        if(generator.GetComponent<SpawnGenerators>() == null)
+        if(generator.GetComponent<GeneratorController>() == null)
         {
-            Debug.LogError("CommandManager: NetworkedSpawnGenerator, Steam Generator Component is null");
+            Debug.LogError("CommandManager: NetworkedSpawnGenerator, GeneratorController.cs is null");
         }
         generator.GetComponent<GeneratorController>().GeneratorFixed();
     }
