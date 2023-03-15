@@ -24,7 +24,7 @@ public class ChestTrap : NetworkBehaviour
     void Update()
     {
         // If the runner comes into contact with the chest
-        if(Utilities.GetDistanceBetweenObjects(transform.position, runner.transform.position) < 1.2f){
+        if(Utilities.GetDistanceBetweenObjects(transform.position, runner.transform.position) < 1.2f && !runner.GetComponent<Animator>().GetBool("isGreen")){
             // If the trap hasn't been set off yet (used to ensure it only happens once per trap)
             if(trapped == false){
                 slowTrapped.trapped();

@@ -156,7 +156,7 @@ public class Player_UI : NetworkBehaviour
                     itemSlotRectTransform.gameObject.name = "Green Screen Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "Green Screen Popup";
                     itemSlotRectTransform.Find("Green Screen Popup").Find("itemDescription").gameObject.name = "Green Screen Description";
-                    itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily invisible to maze guards\n\n<color=red>Duration: </color>5 sec\n\n[e] use</align>";
+                    itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily undetectable to maze guards and trap chests\n\n<color=red>Duration: </color>5 sec\n\n[e] use</align>";
                     break;
             }
 
