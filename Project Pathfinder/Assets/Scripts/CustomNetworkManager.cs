@@ -514,9 +514,6 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Popup Removed");
         }
         
-        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
-        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
-
         hostIsFrozen = false;
 
         yield return null;

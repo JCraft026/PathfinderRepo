@@ -58,6 +58,7 @@ public class HandleEvents : MonoBehaviour
         // Disable start screen for client
         if(!CustomNetworkManager.isHost){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
         }
     }
 
