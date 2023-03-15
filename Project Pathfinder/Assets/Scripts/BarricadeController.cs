@@ -43,7 +43,6 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, trapper.transform.position);
                 trapperTooltip = true;
                 if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    engineerAbility.decreseBarricadeCount();
                     destroyBarricade();
                 }
             }
@@ -56,7 +55,6 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, engineer.transform.position);
                 engineerTooltip = true;
                 if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    engineerAbility.decreseBarricadeCount();
                     destroyBarricade();
                 }
             }
@@ -69,7 +67,6 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, chaser.transform.position);
                 chaserTooltip = true;
                 if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    engineerAbility.decreseBarricadeCount();
                     destroyBarricade();
                 }
             }
@@ -86,7 +83,6 @@ public class BarricadeController : NetworkBehaviour
                 if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
                     hitCount += 1;
                     if(hitCount >= 3){
-                        engineerAbility.decreseBarricadeCount();
                         destroyBarricade();
                         hitCount = 0;
                     }

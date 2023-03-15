@@ -37,6 +37,9 @@ public class EngineerAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update barricade count
+        barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
+
         // When engineer presses "[q]"
         if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
             // Get engineer cell location
@@ -157,12 +160,6 @@ public class EngineerAbility : NetworkBehaviour
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
         NetworkServer.Spawn(tempBarricade);
-        barricadeCount += 1;
         return;
-    }
-
-    // Decreases the number of barricades 
-    public void decreseBarricadeCount(){
-        barricadeCount -= 1;
     }
 }
