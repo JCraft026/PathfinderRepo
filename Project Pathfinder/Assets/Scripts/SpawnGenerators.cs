@@ -14,11 +14,9 @@ public class SpawnGenerators : NetworkBehaviour
     public static int generatedSteam = 0; // Steam currently available to the guardmaster. 
     public Animator animator;
     private Animator generatorAnimator;
-    public static SpawnGenerators Instance;
 
     void Start()
     {
-        Instance = this;
         // Remove steam bar if the player is the runner
         /*if (CustomNetworkManager.isRunner == true)
         {
@@ -60,7 +58,7 @@ public class SpawnGenerators : NetworkBehaviour
 
             // Spawn the steam generator
             Debug.Log("About to network spawn generators");
-            Instance.networkedSpawnGenerator(0,0);//generatorPos.x, generatorPos.y);
+            // USE COMMAND MANAGER //networkedSpawnGenerator(0,0);//generatorPos.x, generatorPos.y);
 
             // Make sure we can't spawn 2 generators at the same location
             // FIX // topWalls.Remove(topWalls[wallIndex]);
