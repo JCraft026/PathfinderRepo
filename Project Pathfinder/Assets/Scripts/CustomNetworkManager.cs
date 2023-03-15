@@ -163,6 +163,10 @@ public class CustomNetworkManager : NetworkManager
         StopHost();
         Debug.Log("OnClientDisconnect");
         mazeRenderer = null; // reset the maze renderer
+
+        // Reset the end game events
+        HandleEvents.currentEvent = 0;
+        HandleEvents.endGameEvent = 0;
     }
 
     #endregion
@@ -271,6 +275,15 @@ public class CustomNetworkManager : NetworkManager
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));
+    }
+
+    public override void OnStopHost()
+    {
+        base.OnStopHost();
+
+        // Reset the end game events
+        HandleEvents.endGameEvent = 0;
+        HandleEvents.currentEvent = 0;
     }
     #endregion
 
