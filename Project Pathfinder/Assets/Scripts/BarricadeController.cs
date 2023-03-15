@@ -13,6 +13,8 @@ public class BarricadeController : NetworkBehaviour
                 engineer,            // Gameobject instance of the engineer
                 chaser,              // Gameobject instance of the chaser
                 runner;              // Gameobject instance of the runner
+    public GameObject healthTop,     // Top health bar
+                      healthBottom;  // Bottom health bar
     int hitCount = 0;                // Total number of hits on barricades attacked by a runner
     bool trapperTooltip = false,     // Whether the tooltip to destroy the barricade is active for the trapper
          engineerTooltip = false,    // Whether the tooltip to destroy the barricade is active for the engineer
@@ -82,6 +84,7 @@ public class BarricadeController : NetworkBehaviour
                 runnerTooltip = true;
                 if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
                     hitCount += 1;
+                    decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
                     if(hitCount >= 3){
                         destroyBarricade();
                         hitCount = 0;
@@ -105,14 +108,23 @@ public class BarricadeController : NetworkBehaviour
     void enableTooltip(Vector3 barricadePosition, Vector3 characterPosition){
         if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
             if(barricadePosition.y < characterPosition.y){
+                if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthBottom.SetActive(true);
+                }
                 transform.GetChild(1).gameObject.SetActive(true);
             }
             else{
                 transform.GetChild(0).gameObject.SetActive(true);
+                if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthTop.SetActive(true);
+                }
             }
         }
         else{
             transform.GetChild(0).gameObject.SetActive(true);
+            if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthTop.SetActive(true);
+                }
         }
     }
 
@@ -121,9 +133,44 @@ public class BarricadeController : NetworkBehaviour
         if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
+            if(CustomNetworkManager.isRunner){
+                healthTop.SetActive(false);
+                healthBottom.SetActive(false);
+            }
         }
         else{
             transform.GetChild(0).gameObject.SetActive(false);
+            if(CustomNetworkManager.isRunner){
+                healthTop.SetActive(false);
+            }
+        }
+    }
+
+    // Decrease the health displayed on the barricade health bars
+    void decreaseBarricadeHealth(Vector3 barricadePosition, Vector3 characterPosition){
+        if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
+            var healthTopls = healthTop.transform.localScale;
+            var healthBottomls = healthBottom.transform.localScale;
+            if(hitCount >= 3){
+                healthTopls.x = 0;
+                healthBottomls.x = 0;
+            }
+            else{
+                healthTopls.x    -= 1;
+                healthBottomls.x    -= 1;
+            }
+            healthTop.transform.localScale = healthTopls;
+            healthBottom.transform.localScale = healthBottomls;
+        }
+        else{
+            var healthTopls = healthTop.transform.localScale;
+            if(hitCount >= 3){
+                healthTopls.x = 0;
+            }
+            else{
+                healthTopls.x    -= .3f;
+            }
+            healthTop.transform.localScale = healthTopls;
         }
     }
 }
