@@ -19,6 +19,7 @@ public class EngineerAbility : NetworkBehaviour
     private Vector3 barricadeLocation;           // The in scene location the barricade should be placed
     private Vector3 placementOrientation;        // The rotation the barricade needs based on facing direction
     private float   scaler = 6.9f;               // The default scaler to scale the barricades to the right size
+    [SyncVar]
     public int barricadeCount = 0;               // Keeps track of the max number of barricades
     CustomNetworkManager customNetworkManager;   // CustomNetworkManager script instance
 
@@ -40,10 +41,7 @@ public class EngineerAbility : NetworkBehaviour
     void Update()
     {
         // When engineer presses "[q]"
-        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){
-            // Subtract from steam
-            GenerateSteam.steam -= 25f;
-            
+        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             
@@ -137,6 +135,10 @@ public class EngineerAbility : NetworkBehaviour
                                float placementOrientationX, float placementOrientationY, float placementOrientationZ,
                                float barricadeLocationX, float barricadeLocationY, float scaler){
         GameObject tempBarricade;
+
+        // Subtract from steam
+        GenerateSteam.steam -= 25f;
+
         // If horizontal barricade needed
         if(axis == 1){
             tempBarricade = Instantiate(barricadeHorizontal, new Vector3(barricadeLocationX, barricadeLocationY, 0) + 

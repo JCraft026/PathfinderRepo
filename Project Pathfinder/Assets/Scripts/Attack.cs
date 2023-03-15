@@ -79,6 +79,9 @@ public class Attack : NetworkBehaviour
 
                 // Subtract HP from the runner
                 if(damageTaken == false){
+                    if(runner.GetComponent<ManageRunnerStats>().health <= 2){
+                        HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
+                    }
                     runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
                     damageTaken = true;
                 }

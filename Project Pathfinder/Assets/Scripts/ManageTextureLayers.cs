@@ -11,6 +11,7 @@ public class ManageTextureLayers : MonoBehaviour
     public Regex torchExpression       = new Regex("Torch");        // Match "Torch"
     public Regex tunnelExpression      = new Regex("Tunnel");       // Match "Tunnel"
     public Regex controlRoomExpression = new Regex("Control Room"); // Match "Control Room"
+    public Regex barricadeExpression   = new Regex("Barricade");    // Match "Barricade"
 
     // Update is called once per frame
     void Update()
@@ -23,7 +24,7 @@ public class ManageTextureLayers : MonoBehaviour
             else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
             }
-            else if(wallExpression.IsMatch(gameObject.name)){
+            else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
             }
             else if(exitExpression.IsMatch(gameObject.name)){
@@ -38,7 +39,7 @@ public class ManageTextureLayers : MonoBehaviour
             else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
             }
-            else if(wallExpression.IsMatch(gameObject.name)){
+            else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
             }
             else if(exitExpression.IsMatch(gameObject.name)){

@@ -11,6 +11,7 @@ static class HandleEventsConstants{
     public const int RUNNER_CAPTURED  = 3; // Runner was captured
     public const int RUNNER_ESCAPED   = 4; // Runner escaped the maze
     public const int TIMER_ZERO       = 5; // Timer has run down to zero
+    public const int RUNNER_TRAPPED   = 6; // Runner has been defeated by a trap chest
 }
 
 public class HandleEvents : MonoBehaviour
