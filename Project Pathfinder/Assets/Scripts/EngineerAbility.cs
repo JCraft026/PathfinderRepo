@@ -71,6 +71,8 @@ public class EngineerAbility : NetworkBehaviour
                         PlaceBarricade(1, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
+                        // Subtract from steam
+                        GenerateSteam.steam -= 25f;
                     }
                     break;
                 case 2f:
@@ -85,6 +87,8 @@ public class EngineerAbility : NetworkBehaviour
                         PlaceBarricade(0, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
+                        // Subtract from steam
+                        GenerateSteam.steam -= 25f;
                     }
                     break;
                 case 3f:
@@ -99,6 +103,8 @@ public class EngineerAbility : NetworkBehaviour
                        PlaceBarricade(1, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
+                        // Subtract from steam
+                        GenerateSteam.steam -= 25f;
                     }  
                     break;
                 case 4f:
@@ -113,6 +119,9 @@ public class EngineerAbility : NetworkBehaviour
                         PlaceBarricade(0, placementDirection.x, placementDirection.y,
                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
+                        
+                        // Subtract from steam
+                        GenerateSteam.steam -= 25f;
                     }
                     break;
             }
@@ -132,9 +141,6 @@ public class EngineerAbility : NetworkBehaviour
                                float placementOrientationX, float placementOrientationY, float placementOrientationZ,
                                float barricadeLocationX, float barricadeLocationY, float scaler){
         GameObject tempBarricade;
-
-        // Subtract from steam
-        GenerateSteam.steam -= 25f;
 
         // If horizontal barricade needed
         if(axis == 1){

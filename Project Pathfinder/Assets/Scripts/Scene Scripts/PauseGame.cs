@@ -116,7 +116,7 @@ public class PauseGame : NetworkBehaviour
             if (NetworkServer.active && NetworkClient.isConnected)
             {
                 Debug.Log("I quit and I am the host");
-                NetworkManager.singleton.StopHost();
+                netManager.StopHost();
                 netDiscovery.StopDiscovery();
             }
         }
@@ -125,7 +125,7 @@ public class PauseGame : NetworkBehaviour
         else if(NetworkClient.isConnected && !CustomNetworkManager.isHost)
         {
             Debug.Log("I quit and I am the client");
-            NetworkManager.singleton.StopClient();
+            netManager.StopClient();
             netDiscovery.StopDiscovery();
         }
 

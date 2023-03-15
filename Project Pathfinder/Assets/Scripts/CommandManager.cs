@@ -49,7 +49,7 @@ public class CommandManager : NetworkBehaviour
     }
 
     // Tell the clients to update their events
-    [Command]
+    [Command (requiresAuthority = false)]
     public void cmd_TransitionToYouWinYouLose(int currentEvent, int endGameEvent)
     {
         rpc_TransitionToYouWinYouLose(currentEvent, endGameEvent);
