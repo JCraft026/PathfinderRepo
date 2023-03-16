@@ -243,22 +243,16 @@ public class CustomNetworkManager : NetworkManager
                     chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
-                    chaser.GetComponent<SpriteRenderer>().material
-                       = chaser.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     engineer.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, engineer, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
-                    engineer.GetComponent<SpriteRenderer>().material
-                       = engineer.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     trapper.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, trapper, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
-                    trapper.GetComponent<SpriteRenderer>().material
-                       = trapper.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
             }
 

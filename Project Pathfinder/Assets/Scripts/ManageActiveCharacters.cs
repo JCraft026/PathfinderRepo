@@ -102,6 +102,22 @@ public class ManageActiveCharacters : NetworkBehaviour
                     break;
             }
         }
+
+        if(CustomNetworkManager.isRunner == false && isLocalPlayer == true)
+        {
+            if(activeGuardId == guardId)
+            {
+                gameObject.GetComponent<SpriteRenderer>().material = activeMaterial;
+            }
+            else if(gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+            {
+                gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
+            }
+        }
+        else if(isLocalPlayer == false && CustomNetworkManager.isRunner == true && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
+        }
     }
 
     // Assign the appropriate guard ID to the guard script owner
@@ -110,7 +126,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         Regex engineerExpression = new Regex("Engineer"); // Match "Engineer"
         Regex trapperExpression  = new Regex("Trapper");  // Match "Trapper"
 
-        // Assign the appropirate guard identification number to the parent object
+        // Assign the appropriate guard identification number to the parent object
         if(chaserExpression.IsMatch(gameObject.name)){
             guardId = ManageActiveCharactersConstants.CHASER;
         }
