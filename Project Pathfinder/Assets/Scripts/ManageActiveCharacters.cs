@@ -180,7 +180,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning("Could not find a new guard to switch to!");
+            Debug.LogError("Could not find a new guard to switch to!");
         }
     }
 
