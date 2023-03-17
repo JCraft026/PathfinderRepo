@@ -24,7 +24,7 @@ public class CustomNetworkManager : NetworkManager
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
     public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
 
-    public ItemWorld itemWorld;                                  //
+    public ItemWorld itemWorld;            // I don't know what this is or why it's here (-Caleb)
     public SpawnGenerators spawnGenerators;
 
     [SerializeField]
@@ -276,8 +276,8 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnKeys();
             SpawnGenerators.generateGeneratorLocations(); 
         }
-            ItemWorld.SpawnChests(50);
-            SpawnGenerators.generateGeneratorLocations(); 
+           /* ItemWorld.SpawnChests(50);
+            SpawnGenerators.generateGeneratorLocations(); */
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

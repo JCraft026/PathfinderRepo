@@ -6,10 +6,12 @@ using System.Linq;
 public class GeneratorController : MonoBehaviour
 {
     public Animator animator;
-    private GameObject player;
-
-    void Awake(){
-        GameObject player = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+    public GameObject player {
+        get
+        {
+            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+        }
+        set{}
     }
 
 
@@ -22,10 +24,16 @@ public class GeneratorController : MonoBehaviour
         }
     }
 
-     public void breakGenerator(){
-        if(Utilities.GetDistanceBetweenObjects(transform.position, player.transform.position) < 1.2f){
-            GeneratorBreak();  
+     public static void breakGenerator(){
+        Debug.Log("GeneratorController: breakGenerator called");
+        GameObject generator = GeneratorController.FindGeneratorClosestToRunner();
+
+        if(Utilities.GetDistanceBetweenObjects(generator.transform.position, generator.GetComponent<GeneratorController>().player.transform.position) < 1.2f){
+            Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
+            generator.GetComponent<GeneratorController>().GeneratorBreak();  
         }
+
+        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(generator.transform.position, generator.GetComponent<GeneratorController>().player.transform.position).ToString());
     }
 
     public void GeneratorBreak()
@@ -34,6 +42,11 @@ public class GeneratorController : MonoBehaviour
         {
             animator.SetBool("IsBusted", true);
             GenerateSteam.generatorCount -= 1;
+            Debug.Log("GeneratorController: Generator broken");
+        }
+        else
+        {
+            Debug.Log("GeneratorController: Generator already broken");
         }
     }
 
@@ -55,6 +68,28 @@ public class GeneratorController : MonoBehaviour
     public void GeneratorStop()
     {
         animator.SetBool("IsGenerating", false);
+    }
+
+    // Find the generator closest to the runner
+    private static GameObject FindGeneratorClosestToRunner()
+    {
+        GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First(x => x.name.Contains("Runner"));
+        List<GameObject> allGenerators = Resources.FindObjectsOfTypeAll<GameObject>()
+                                            .Where<GameObject>(x => 
+                                                x.GetComponent<GeneratorController>() != null)
+                                            .ToList();
+        double distance = double.MaxValue;
+        GameObject closestGenerator = allGenerators[0];
+        for(int i = 0; i < allGenerators.Count; i++)
+        {
+            double calcedDist = Utilities.GetDistanceBetweenObjects(runner.transform.position, allGenerators[i].transform.position);
+            if(calcedDist < distance)
+            {
+                distance = calcedDist;
+                closestGenerator = allGenerators[i];
+            }
+        }
+        return closestGenerator;
     }
 
     /*public void StartGeneratingSteam()

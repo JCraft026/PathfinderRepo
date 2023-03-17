@@ -21,6 +21,7 @@ public class ManageInventory : NetworkBehaviour
     private void Awake(){
         inventoryControls = new InventoryControls();
         generatorController = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator")).GetComponent<GeneratorController>();
+            // The above code will only allow for one random generator to broken.
     }
 
     // Ensures the input controller works correctly
@@ -231,7 +232,7 @@ public class ManageInventory : NetworkBehaviour
         case Item.ItemType.Sledge:
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
-            generatorController.breakGenerator();
+            GeneratorController.breakGenerator(); // This is only called on one generator object. It will not work if you try to break a generator without this specific instance of generatorController
             break;
         // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:
