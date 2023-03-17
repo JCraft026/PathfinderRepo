@@ -6,13 +6,21 @@ using System;
 
 public class Utilities : MonoBehaviour
 {
+    public static Dictionary<string, GameObject> SeekLibrary = new Dictionary<string, GameObject>();
+    
+    public static GameObject GetObject(string objectName) {
+        if (!SeekLibrary.ContainsKey(objectName) || (SeekLibrary[objectName] == null))
+            SeekLibrary.Add(objectName, Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(objectName)));
+        return SeekLibrary[objectName];
+    }
+    
     // Get the scene coordinates corresponding to the given maze cell grid positon
     public static Vector2 GetMazeCellCoordinate(int cellColumn, int cellRow){
         Vector2 mazeCoordinate = new Vector2(GetCellSize() * (-GetMazeWidth() / 2 + cellColumn + .5f), GetCellSize() * (-GetMazeHeight() / 2 + cellRow + .5f));
 
         return mazeCoordinate;
     }
-
+    
     // Get the distance between two objects
     public static double GetDistanceBetweenObjects(Vector3 firstPosition, Vector3 secondPosition){
         return Math.Sqrt(Math.Abs(Math.Pow((firstPosition.x-secondPosition.x), 2)) + Math.Abs(Math.Pow((firstPosition.y-secondPosition.y), 2)));
@@ -26,19 +34,19 @@ public class Utilities : MonoBehaviour
         switch (characterCode)
         {
             case ManageActiveCharactersConstants.RUNNER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position; // Changed from Runner(Clone) to Runner
+                characterObjectPosition = GetObject("Runner").transform.position; // Changed from Runner(Clone) to Runner
                 characterObjectPosition.y -= .5f;
                 break;
             case ManageActiveCharactersConstants.CHASER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).transform.position;
+                characterObjectPosition = GetObject("Chaser(Clone)").transform.position;
                 characterObjectPosition.y -= .84f;
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).transform.position;
+                characterObjectPosition = GetObject("Engineer(Clone)").transform.position;
                 characterObjectPosition.y -= .91f;
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).transform.position;
+                characterObjectPosition = GetObject("Trapper(Clone)").transform.position;
                 characterObjectPosition.y -= .76f;
                 break;
             default:
@@ -54,29 +62,23 @@ public class Utilities : MonoBehaviour
 
     // Get the Cell Size from the Maze Renderer
     public static float GetCellSize(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return mazeRenderer.GetComponent<RenderMaze>().cellSize;
+        return GetObject("MazeRenderer").GetComponent<RenderMaze>().cellSize;
     }
 
     // Get the Maze Width from the Maze Renderer
     public static float GetMazeWidth(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return (float)mazeRenderer.GetComponent<RenderMaze>().mazeWidth;
+        return (float) GetObject("MazeRenderer").GetComponent<RenderMaze>().mazeWidth;
     }
 
     // Get the Maze Height from the Maze Renderer
     public static float GetMazeHeight(){
-        GameObject mazeRenderer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"));
-
-        return (float)mazeRenderer.GetComponent<RenderMaze>().mazeHeight;
+        return (float) GetObject("MazeRenderer").GetComponent<RenderMaze>().mazeHeight;
     }
 
     // Get the Mini Map Cell Size
     public static float GetMapCellSize(){
-        GameObject miniMapHandler = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MiniMapHandler"));
-
-        return miniMapHandler.GetComponent<RenderMiniMap>().cellSize;
+        return GetObject("MiniMapHandler").GetComponent<RenderMiniMap>().cellSize;
     }
 }
+
+
