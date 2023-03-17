@@ -207,9 +207,9 @@ public class ItemWorld : NetworkBehaviour
         {
             int wallIndex = UnityEngine.Random.Range(0, topWalls.Count); // Random index for the walls
 
-             Vector2 keyPos; // Rough/initial position of the chest based on the wall position
+             Vector2 keyPos; // Rough/initial position of the key based on the wall position
 
-                //Adjust the initial spawn point for a chest depending on which wall type it is spawning on
+                //Adjust the initial spawn point for a key depending on which wall type it is spawning on
                 if(topWalls[wallIndex].name.Contains("Wall_TB"))
                     keyPos = new Vector2(topWalls[wallIndex].transform.position.x, topWalls[wallIndex].transform.position.y - 5);
                 else
@@ -242,12 +242,12 @@ public class ItemWorld : NetworkBehaviour
                 // Clear the wall sprite
                 if(keyPos.y > 0)
                 {
-                    keyPos.y -= 5;
+                    keyPos.y -= 25;
                 }
 
                 else
                 {
-                    keyPos.y += 5;
+                    keyPos.y += 25;
                 }
 
 
