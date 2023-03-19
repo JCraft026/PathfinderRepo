@@ -16,10 +16,10 @@ public class GeneratorController : MonoBehaviour
 
 
     void Update(){
-        if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 101 && animator.GetBool("IsBusted") == false){
+        if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 100f && animator.GetBool("IsBusted") == false){
             GeneratorStart();
         }
-        else if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam >= 101 && animator.GetBool("IsBusted") == false){
+        else if(animator.GetBool("IsGenerating") == true && GenerateSteam.steam >= 100f && animator.GetBool("IsBusted") == false){
             GeneratorStop();
         }
     }

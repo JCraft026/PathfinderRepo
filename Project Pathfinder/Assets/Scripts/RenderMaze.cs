@@ -111,7 +111,7 @@ public class RenderMaze : NetworkBehaviour
     void Start(){
         // Enable the steam generator for guards
         if(!CustomNetworkManager.isRunner){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator")).SetActive(true);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGeneratorUI")).SetActive(true);
         }
     }
 

@@ -15,7 +15,7 @@ public class GenerateSteam : MonoBehaviour
     void Update()
     {
         // Generate steam
-        /*if(steam < steamLimit){
+        if(steam < steamLimit){
             displaySteam = (int)steam;
             gameObject.GetComponent<TextMeshProUGUI>().text = displaySteam.ToString();
             switch(generatorCount){
@@ -36,6 +36,6 @@ public class GenerateSteam : MonoBehaviour
                     break;
             }
             steam += Time.deltaTime * steamMultiplier;
-        }*/
+        }
     }
 }
