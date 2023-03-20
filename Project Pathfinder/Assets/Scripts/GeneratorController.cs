@@ -6,6 +6,7 @@ using System.Linq;
 public class GeneratorController : MonoBehaviour
 {
     public Animator animator;
+    public GenerateSteam generateSteam;
     public GameObject player {
         get
         {
@@ -13,7 +14,6 @@ public class GeneratorController : MonoBehaviour
         }
         set{}
     }
-
 
     void Update(){
         if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 100f && animator.GetBool("IsBusted") == false){
@@ -28,12 +28,12 @@ public class GeneratorController : MonoBehaviour
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindGeneratorClosestToRunner();
 
-        if(Utilities.GetDistanceBetweenObjects(generator.transform.position, generator.GetComponent<GeneratorController>().player.transform.position) < 1.2f){
+        if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.2f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
             generator.GetComponent<GeneratorController>().GeneratorBreak();  
         }
 
-        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(generator.transform.position, generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 2.0f, generator.transform.position.y -2.0f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
     }
 
     public void GeneratorBreak()
@@ -41,7 +41,7 @@ public class GeneratorController : MonoBehaviour
         if(animator.GetBool("IsBusted") == false)
         {
             animator.SetBool("IsBusted", true);
-            GenerateSteam.generatorCount -= 1;
+            generateSteam.generatorCount -= 1;
             Debug.Log("GeneratorController: Generator broken");
         }
         else
@@ -56,7 +56,7 @@ public class GeneratorController : MonoBehaviour
         if(animator.GetBool("IsBusted") == true)
         {
             animator.SetBool("IsBusted", false);
-            GenerateSteam.generatorCount += 1;
+            generateSteam.generatorCount += 1;
         }
     }
 
@@ -91,59 +91,4 @@ public class GeneratorController : MonoBehaviour
         }
         return closestGenerator;
     }
-
-    /*public void StartGeneratingSteam()
-    {
-        if(CustomNetworkManager.isRunner == false)
-            StartCoroutine(GenerateSteam());
-    }*/
-
-    // Asyncronously generates 1 steam point every second (as long as the generator is not broken)
-    /*IEnumerator GenerateSteam()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1);
-            if(isBroken == false &&  < 100)
-            {
-                generatedSteam += 1;
-                animator.enabled = true;
-            }
-            else if(generatedSteam > 100)
-            {
-                generatedSteam = 100;
-                animator.enabled = false;
-            }
-
-	        if (generatedSteam == 0)
-            {
-                GameObject.Find("SteamBar0").SetActive(true);
-                GameObject.Find("SteamBar25").SetActive(false);
-            }
-            else if (generatedSteam == 25)
-            {
-                GameObject.Find("SteamBar0").SetActive(false);
-                GameObject.Find("SteamBar25").SetActive(true);
-                GameObject.Find("SteamBar50").SetActive(false);
-            }
-            else if (generatedSteam == 50)
-            {
-                GameObject.Find("SteamBar25").SetActive(false);
-                GameObject.Find("SteamBar50").SetActive(true);
-                GameObject.Find("SteamBar75").SetActive(false);
-            }
-            else if (generatedSteam == 75)
-            {
-                GameObject.Find("SteamBar50").SetActive(false);
-                GameObject.Find("SteamBar75").SetActive(true);
-                GameObject.Find("SteamBar100").SetActive(false);
-            }
-            else if (generatedSteam == 100)
-            {
-                GameObject.Find("SteamBar75").SetActive(false);
-                GameObject.Find("SteamBar100").SetActive(true);
-                // Turn off animation
-            }
-        }
-    }*/
 }

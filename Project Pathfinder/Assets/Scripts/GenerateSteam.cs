@@ -8,8 +8,8 @@ public class GenerateSteam : MonoBehaviour
     public static float steam = 0;   // Amount of steam available for use
     public int displaySteam;         // Amount of steam displayed
     private float steamLimit = 101f; // Total steam limit
-    public static int generatorCount = 3;   // Starting number of Generators
     private float steamMultiplier;   // Variable steam generation
+    public int generatorCount; // Inital number of generators
 
     // Update is called once per frame
     void Update()
