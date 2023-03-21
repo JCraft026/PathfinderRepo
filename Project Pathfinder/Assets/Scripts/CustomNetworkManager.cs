@@ -263,7 +263,7 @@ public class CustomNetworkManager : NetworkManager
 
         if(NetworkServer.connections.Count > 1)
         {
-            ItemWorld.SpawnChests(50);
+            ItemWorld.SpawnChests(25);
             ItemWorld.SpawnKeys();
         }
 

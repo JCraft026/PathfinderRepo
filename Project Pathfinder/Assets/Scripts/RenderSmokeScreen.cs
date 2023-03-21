@@ -55,7 +55,6 @@ public class RenderSmokeScreen : NetworkBehaviour
         while(result < tenSeconds)
         {
             result = DateTime.Now.Ticks - initialTime;
-            Debug.Log(result);
             yield return null;
         }
 
