@@ -10,6 +10,10 @@ static class GenerateMazeConstants{
     public const int TOP_LEFT_CORNER     = 3;  // Top left corner of the maze
     public const int TOP_RIGHT_CORNER    = 4;  // Top right corner of the maze
     public const int CHANCE_OF_CRACKED   = 13; // Controls frequency of cracked walls
+    public const int TOP                 = 1;  // Top maze cell ID
+    public const int LEFT                = 2;  // Left maze cell ID
+    public const int BOTTOM              = 3;  // Bottom maze cell ID
+    public const int RIGHT               = 4;  // Right maze cell ID
 }
 
 // X and Y grid positions of each maze cell

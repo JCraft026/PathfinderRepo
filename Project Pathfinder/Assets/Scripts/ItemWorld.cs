@@ -14,6 +14,18 @@ public class ItemWorld : NetworkBehaviour
     [SyncVar]
     private Item item;                     // The item to be referenced
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component
+    public static System.Random randomNum  = new System.Random();
+                                           // Random number generator
+
+    // Index cooresponding to a WallStatus item in a WallStatus[][] array
+    public struct MazeCellIndex{
+        public MazeCellIndex(int x, int y){
+            first  = x;
+            second = y;
+        }
+        public int first;
+        public int second;
+    }
 
     //public ItemWorld Instance;
 
@@ -103,6 +115,58 @@ public class ItemWorld : NetworkBehaviour
     // Spawn a bunch of chests around the map
     public static void SpawnChests(int numberToSpawn)
     {
+        WallStatus[,] mazeData      = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+                                                        // WallStatus data for each cell in the maze
+        MazeCellIndex cellIndexList = CreateMazeCellIndexList(mazeData.GetLength(0), mazeData.GetLength(1));
+                                                        // List of structs containing the WallStatus indexes for each of the cells
+        WallStatus currentCell      = new WallStatus(); // Wall status values for the current selected cell
+        string currentCellName;                         // GameObject name of the current cell
+        Vector3 currentCellPosition;                    // Scene position of the current cell
+        int chestsSpawned           = 0;                // Total chests spawned
+
+        // Loop spawning chests until the specified amount has spawned
+        while(chestsSpawned < numberToSpawn){
+            var randomCellIndex = randomNum.Next(0, cellIndexList.Count);
+                                                   // Random index that cooresponds to a WallStatus index of a cell
+            currentCell         = mazeData[cellIndexList[randomCellIndex].first, cellIndexList[randomCellIndex].second];
+            currentCellName     = "mcf(" + (cellIndexList[randomCellIndex].second-(int)(Utilities.GetMazeWidth()/2)) + "," + (cellIndexList[randomCellIndex].first-(int)(Utilities.GetMazeLength()/2)) + ")";
+            currentCellPosition = GameObject.Find(currentCellName).transform.position;
+            List<int> cellWalls = new List<int>(); // List of the current cells valid walls where chests can spawn against
+
+            // Fill the list of valid chest spawn walls contained within the cell
+            if(currentCell.HasFlag(WallStatus.TOP)){
+                cellWalls.Add(GenerateMazeConstants.TOP);
+            }
+            if(currentCell.HasFlag(WallStatus.LEFT)){
+                cellWalls.Add(GenerateMazeConstants.LEFT);
+            }
+            if(currentCell.HasFlag(WallStatus.RIGHT)){
+                cellWalls.Add(GenerateMazeConstants.RIGHT);
+            }
+
+            // If the current cell has at least one valid wall to spawn a chest against, spawn a chest
+            if(cellWalls.Count > 0){
+                // Select a random valid wall to spawn the chest against
+                var randomWallIndex = randomNum.Next(0, cellWalls.Count);
+
+                // Spawn the chest
+                switch (cellWalls[randomWallIndex])
+                {
+                    case GenerateMazeConstants.TOP:
+                        break;
+                    case GenerateMazeConstants.LEFT:
+                        break;
+                    case GenerateMazeConstants.RIGHT:
+                        break;
+                }
+            }
+
+            // Remove the current cell from the list of potential cells to spawn a chest at
+            cellIndexList.RemoveAt(randomCellIndex);
+        }
+
+
+        /*
         // All of the walls that our chests can spawn against
         List<GameObject> topWalls = Resources.FindObjectsOfTypeAll<GameObject>()
                                         .Where<GameObject>(x => x.name.Contains("Wall_TB") || x.name.Contains("Wall_LR")).ToList();
@@ -182,6 +246,7 @@ public class ItemWorld : NetworkBehaviour
             topWalls.Remove(topWalls[wallIndex]);   // Keep one wall from having multiple chests spawned at it
             topWalls = ShuffleList<GameObject>(topWalls);
         }
+        */
     }
 
     public static void SpawnKeys()
@@ -269,5 +334,18 @@ public class ItemWorld : NetworkBehaviour
             list[n] = value;  
         }
         return list;
+    }
+
+    // Fill a list of indexes cooresponding to items in a WallStatus[][] array
+    public List<MazeCellIndex> CreateMazeCellIndexList(int firstBoundaryLength, int secondBoundaryLength){
+        List<MazeCellIndex> cellIndexList = new MazeCellIndex();
+
+        for (int j = 0; j < firstBoundaryLength; j++){
+            for (int i = 0; i < secondBoundaryLength; i++){
+                cellIndexList.Add(new MazeCellIndex(j, i));
+            }
+        }
+
+        return cellIndexList;
     }
 }
