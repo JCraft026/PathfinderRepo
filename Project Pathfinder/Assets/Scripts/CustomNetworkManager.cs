@@ -91,6 +91,9 @@ public class CustomNetworkManager : NetworkManager
 
         // Reflect that the runner/guard master status has been set
         playerRoleSet = true;
+
+        // Stop the menu music
+        GetComponent<AudioSource>().Stop();
     }
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
@@ -167,6 +170,8 @@ public class CustomNetworkManager : NetworkManager
         // Reset the end game events
         HandleEvents.currentEvent = 0;
         HandleEvents.endGameEvent = 0;
+
+        GetComponent<AudioSource>().Play();
     }
 
     #endregion
