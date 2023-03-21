@@ -10,17 +10,28 @@ using Newtonsoft.Json;
 [Serializable]
 public class PlayerProfile
 {
-    public string   username = "Guest";
-    public string   passwordHash;
-    public int      wins = 0;
-    public int      losses = 0;
-    public string[] achievements;
+    public string username = "Guest";
+    public string passwordHash;
+    public Dictionary<string, int> stats = new Dictionary<string, int>
+    {
+        { "wins_runner", 0 },
+        { "wins_guards", 0 },
+        { "losses_runner", 0 },
+        { "losses_guards", 0 },
+        { "fake_stat", 100 }
+    };
+    public Dictionary<string, bool> adjectives = new Dictionary<string, bool>
+    {
+        { "green", true },
+        { "blue",  true },
+        { "red",   true }
+    };
 }
 
 public class RegisterProfile : MonoBehaviour
 {
     public GameObject usernameInputBox;
-    //public string profilesJSONFilePath = "./Savedata/profiles.json";
+    public string profilesJSONFilePath = "./Savedata/profiles.json";
     public string profilesDirectory = "./Savedata/";
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
     //public Regex profilesFilenameRegex = new Regex("^profile[1-5].profile$");
@@ -44,39 +55,8 @@ public class RegisterProfile : MonoBehaviour
         return;
     }
     
-    
-    
     public void registerUsername(string username)
     {
-        string result_string = "{\"username\":\"sdafhsdlhfk\",\"passwordHash\":\"\",\"wins\":2,\"losses\":6,\"achievements\":[]}";
-        
-        //JsonConvert.DeserializeObject<PlayerProfile>();
-        
-        
-        
-        PlayerProfile   testProfile   = new PlayerProfile();
-        PlayerProfile[] profilesArray = new PlayerProfile[3];
-        
-        testProfile.username = username;
-        testProfile.wins     = UnityEngine.Random.Range(1,10);
-        testProfile.losses   = UnityEngine.Random.Range(1,10);
-        
-        profilesArray[0] = testProfile;
-        
-        var result = JsonConvert.DeserializeObject<PlayerProfile[]>("[" + result_string + "," + result_string + "]");
-        
-        Debug.Log(result);
-        
-        //WriteToFile("./Savedata/profile_test.profile", JsonUtility.ToJson(profilesArray[0]));
-        //var result = ReadFileAsString("./Savedata/profile_test.profile");
-        //var result = JsonUtility.FromJson(result_string);
-        
-        //Debug.Log(result);
-        
-        
-        return;
-        
-        
         // > Test if the username is too short.
         if (username.Length <= 0) {
             Debug.Log("Username invalid: The username must have at least one character!");
@@ -96,88 +76,63 @@ public class RegisterProfile : MonoBehaviour
             return;
         }
         
-        // > Test if username is inappropriate.
+        // > Test if the profile already exists and that it isn't empty or corrupt.
+        string profilePath = GetProfileFilepath(username);
         
-        // > Read in the profiles database file.
-        PlayerProfile[] profilesDB = new PlayerProfile[MAX_PROFILE_COUNT];
-        //string[] profileFilepaths = new string[MAX_PROFILE_COUNT];
-        for (int i=0; i <= MAX_PROFILE_ID; i++) {
-            string filepath = "./Savedata/profile" + (i+1) + ".profile";
-            try
-            {
-                profilesDB[MAX_PROFILE_ID] = ReadProfileFromFile(filepath);
-            }
-            catch (FileNotFoundException error)
-            {
-                profilesDB[MAX_PROFILE_ID] = null;
-            }
-            
-            if (profilesDB[MAX_PROFILE_ID] == null) {
-                profilesDB[MAX_PROFILE_ID] = new PlayerProfile();
-                WriteToFile(filepath, JsonUtility.ToJson(profilesDB[MAX_PROFILE_ID]));
-            }
-            
-            Debug.Log("loop" + i);
+        if (System.IO.File.Exists(profilePath)
+            && ("" != ReadFileAsString(profilePath))) {
+            Debug.Log("Username invalid: The username '" + username + "' is already in use on this device!");
+            Debug.Log(ReadFileAsString(profilePath));
+            return;
         }
         
-        Debug.Log(profilesDB);
-        Debug.Log(profilesDB[0]);
-        Debug.Log(profilesDB[1]);
-        Debug.Log(profilesDB[2]);
+        // > Save the newly registered profile as a new file.
+        PlayerProfile newProfile = new PlayerProfile();
+        newProfile.username = username;
+        newProfile.passwordHash = "";
         
-        //Debug.Log(string.Join(",\n", profileFilepaths));
-        
-        
-        //List<PlayerProfile> profilesDB = JsonUtility.FromJson<List<PlayerProfile>>(ReadFileAsString(profilesJSONFilePath));
-        
-        // > Test if username is already in the database.
-        //foreach (PlayerProfile user_profile in profilesDB) {
-        //    Debug.Log(user_profile);
-        //    //if (false) {
-        //    //    Debug.Log("That username already exists on this computer!");
-        //    //    return;
-        //    //}
-        //}
-        
-        // > Insert the new profile in the database.
-        //PlayerProfile profile = new PlayerProfile();
-        //profile.username = username;
-        //profilesDB.Add(profile);
-        
-        
-        //foreach (string filepath in profileFilepaths) {
-        //    if (profilesFilenameRegex.IsMatch(filepath))
-        //        profileFilepaths.Remove(filepath);
-        //}
-        
-        //Debug.Log(string.Join(",\n", profileFilepaths));
-        
-        //Debug.Log(profile);
-        //Debug.Log(profilesDB);
-        
-        
-        return;
-        
-        
-        // > Write the updated database into the database file.
-        
+        WriteToFile(profilePath, ProfileToString(newProfile));
+        Debug.Log("The profile '" + username + "' has been saved!");
         
         return;
     }
     
-    public PlayerProfile ReadProfileFromFile(string path) {
-        string fileString = ReadFileAsString(path);
-        return JsonUtility.FromJson<PlayerProfile>(fileString);
+    // Future Function Ideas:
+    // LoadProfile(string username?)
+    // SaveProfile(PlayerProfile)
+    // AddGameToStats()
+    // Class GameStats
+    // {
+    //     host_team: 'R' or 'GM'
+    //     host_username: 'username1'
+    //     client_username: 'username2'
+    //     game_result: 'host', 'client', 'disconnect'
+    //     remaining_seconds: 296
+    //     doors_unlocked: 'R__Y'
+    //     trapped_chest_explosions: 4
+    //     cracked_walls_destroyed: 2
+    // }
+    
+    
+    
+    public string ProfileToString(PlayerProfile playerProfile) {
+        return JsonConvert.SerializeObject(playerProfile, Formatting.Indented);
     }
     
-    public void WriteToFile(string path, string saved_string)
-    {
-        if (path == null)
-            return;
-        StreamWriter writer = new StreamWriter(path, false);
-        writer.WriteLine(saved_string);
-        writer.Close();
-        return;
+    public PlayerProfile StringToProfile(string playerProfile) {
+        return JsonConvert.DeserializeObject<PlayerProfile>(playerProfile);
+    }
+    
+    public string GetProfileFilepath(PlayerProfile playerProfile) {
+        return GetProfileFilepath(playerProfile.username);
+    }
+    
+    public string GetProfileFilepath(string username) {
+        return "./Savedata/" + username + ".profile";
+    }
+    
+    public PlayerProfile ReadProfileFromFile(string filepath) {
+        return StringToProfile(ReadFileAsString(filepath));
     }
     
     public string ReadFileAsString(string path)
@@ -189,6 +144,16 @@ public class RegisterProfile : MonoBehaviour
         fileData = reader.ReadToEnd();
         reader.Close();
         return fileData;
+    }
+    
+    public void WriteToFile(string path, string saved_string)
+    {
+        if (path == null)
+            return;
+        StreamWriter writer = new StreamWriter(path, false);
+        writer.WriteLine(saved_string);
+        writer.Close();
+        return;
     }
 }
 
@@ -237,3 +202,60 @@ public class RegisterProfile : MonoBehaviour
 //}
 
 // = Directory.GetFiles(".\\Savedata");
+
+
+
+// > Read in the profiles database file.
+        /*
+        PlayerProfile[] profilesDB = new PlayerProfile[MAX_PROFILE_COUNT];
+        //string[] profileFilepaths = new string[MAX_PROFILE_COUNT];
+        for (int i=0; i <= MAX_PROFILE_ID; i++) {
+            string filepath = "./Savedata/profile" + (i+1) + ".profile";
+            try {
+                profilesDB[MAX_PROFILE_ID] = ReadProfileFromFile(filepath);
+            } catch (FileNotFoundException error) {
+                profilesDB[MAX_PROFILE_ID] = null;
+            }
+            
+            if (profilesDB[MAX_PROFILE_ID] == null) {
+                profilesDB[MAX_PROFILE_ID] = new PlayerProfile();
+                WriteToFile(filepath, JsonUtility.ToJson(profilesDB[MAX_PROFILE_ID]));
+            }
+            
+            Debug.Log("loop" + i);
+        }
+        */
+        
+        
+        
+        //PlayerProfile[] profilesDB = JsonConvert.DeserializeObject<PlayerProfile[]>(ReadFileAsString(profilesJSONFilePath));
+        
+        // > Test if username is already in the database.
+        //foreach (PlayerProfile savedPlayerProfile in profilesDB) {
+        //    Debug.Log(user_profile);
+        //    //if (false) {
+        //    //    Debug.Log("That username already exists on this computer!");
+        //    //    return;
+        //    //}
+        //}
+        
+        // > Insert the new profile in the database.
+        //PlayerProfile profile = new PlayerProfile();
+        //profile.username = username;
+        //profilesDB.Add(profile);
+        
+        
+        //foreach (string filepath in profileFilepaths) {
+        //    if (profilesFilenameRegex.IsMatch(filepath))
+        //        profileFilepaths.Remove(filepath);
+        //}
+        
+        //Debug.Log(string.Join(",\n", profileFilepaths));
+        
+        //Debug.Log(profile);
+        //Debug.Log(profilesDB);
+        
+        
+        // > Write the updated database into the database file.
+        
+        
