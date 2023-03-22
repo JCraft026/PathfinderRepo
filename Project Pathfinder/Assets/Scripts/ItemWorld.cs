@@ -90,7 +90,6 @@ public class ItemWorld : NetworkBehaviour
             }
         else
             spriteRenderer.sprite = ItemAssets.Instance.ChestClosed;
-        Debug.Log("item set");
     }
 
     // Returns an item
@@ -168,7 +167,7 @@ public class ItemWorld : NetworkBehaviour
                 }
 
                 // Spawn the chest
-                GameObject.Find("ItemAssets").GetComponent<CommandManager>().networkedSpawnItemWorld(chestPosition, Item.getRandomItem());
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().networkedSpawnItemWorld(chestPosition, Item.getChestItem(true));
                 
                 // Increment the amount of chests spawned
                 chestsSpawned += 1;

@@ -167,6 +167,12 @@ public class CustomNetworkManager : NetworkManager
         // Reset the end game events
         HandleEvents.currentEvent = 0;
         HandleEvents.endGameEvent = 0;
+
+        // Reset chest RNG variables
+        Item.greenScreenSpawnLimit  = Item.initialGSSpawnLimit;
+        Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
+        Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
+        Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
     }
 
     #endregion

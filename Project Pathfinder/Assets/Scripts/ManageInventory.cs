@@ -71,14 +71,9 @@ public class ManageInventory : NetworkBehaviour
                     playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
-                    if(itemWorld.GetItem().itemType == Item.ItemType.Sledge)
-                    {
-                        if(inventory.GetItemList()
-                            .Any(x => x.itemType == Item.ItemType.Sledge))
-                        {
-                            itemWorld.SetItem(Item.getRandomItem(false));
-                        }
-                    }
+                    // Assign the chest a random item
+                    itemWorld.SetItem(Item.getChestItem(false));
+
                     // Checks for the ability to hold more items
                     if(inventory.GetItemList().Count < 8 ||
                         inventory.anItemCanStack(itemWorld.GetItem())){
@@ -86,12 +81,6 @@ public class ManageInventory : NetworkBehaviour
                         // Controls if the item you pick up is selected (ready to be used) or not
                         if(inventory.GetItemList().Count == 1){
                             slotNumber = 0;
-                            selectedItem = itemWorld.GetItem();
-                            selectedItem.selected = true;
-                        }
-                        // If the item you just dropped is picked up, it will be selected again
-                        else if(slotNumber + 1 == inventory.GetItemList().Count){
-                            slotNumber = inventory.GetItemList().Count - 1;
                             selectedItem = itemWorld.GetItem();
                             selectedItem.selected = true;
                         }

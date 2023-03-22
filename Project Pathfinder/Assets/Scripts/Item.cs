@@ -29,11 +29,15 @@ public class Item
     public int amount;        // The amount of each item
     public bool selected;     // Whether the item is selected or not
 
-    private static int greenScreenSpawnLimit  = 5;  // Spawn in chest limit for the green screen suit
-    private static int smokeBombSpawnLimit    = 11; // Spawn in chest limit for the smoke bomb
-    private static int coffeeSpawnLimit       = 8;  // Spawn in chest limit for the common grounds coffee
-    private static int sledgehammerSpawnLimit = 1;  // Spawn in chest limit for the sledgehammer
-
+    public static int greenScreenSpawnLimit   = 5;  // Spawn in chest limit for the green screen suit
+    public static int smokeBombSpawnLimit     = 11; // Spawn in chest limit for the smoke bomb
+    public static int coffeeSpawnLimit        = 8;  // Spawn in chest limit for the common grounds coffee
+    public static int sledgehammerSpawnLimit  = 1;  // Spawn in chest limit for the sledgehammer
+    public static int sledgehammerSpawnChance = 12;  // Chance of the runner picking up the sledgehammer
+    public static int initialGSSpawnLimit     = 5;  // Initial value for green screen suit spawn limit
+    public static int initialSBSpawnLimit     = 11; // Initial value for smoke bomb spawn limit
+    public static int initialCFSpawnLimit     = 8;  // Initial value for common grounds coffee spawn limit
+    public static int initialSHSpawnLimit     = 1;  // Initial value for sledgehammer spawn limit
 
     // Returns the correct sprite that relates with the item
     public Sprite GetSprite(){
@@ -93,47 +97,67 @@ public class Item
         }
     }
 
-    // Give a random item to the user opening a chest
-    public static Item getRandomItem(bool canBeSledge=true){
+    // Give an item to the user opening a chest
+    public static Item getChestItem(bool isTemporaryItem){
         Item item                 = new Item();
         List<int> validSpawnItems = new List<int>();
 
-        // Fill list of valid item to spawn
-        if(coffeeSpawnLimit > 0){
-            validSpawnItems.Add(ItemConstants.COMMONGROUNDSCOFFEE);
-        }
-        if(greenScreenSpawnLimit > 0){
-            validSpawnItems.Add(ItemConstants.GREENSCREENSUIT);
-        }
-        if(sledgehammerSpawnLimit > 0){
-            validSpawnItems.Add(ItemConstants.SLEDGEHAMMER);
-        }
-        if(smokeBombSpawnLimit > 0){
-            validSpawnItems.Add(ItemConstants.SMOKEBOMB);
+        // Get placeholder item for initial chest spawn
+        if(isTemporaryItem){
+            item.itemType = ItemType.Sledge;
         }
 
-        // Get random valid spawn item index
-        var randomValidSpawnIndex = UnityEngine.Random.Range(0, validSpawnItems.Count);
+        // Get permanent item for opening chest
+        else{
+            // Fill list of valid item to spawn
+            if(coffeeSpawnLimit > 0){
+                for (int itemCount = 0; itemCount < coffeeSpawnLimit; itemCount++)
+                {
+                    validSpawnItems.Add(ItemConstants.COMMONGROUNDSCOFFEE);
+                }
+            }
+            if(greenScreenSpawnLimit > 0){
+                for (int itemCount = 0; itemCount < greenScreenSpawnLimit; itemCount++)
+                {
+                    validSpawnItems.Add(ItemConstants.GREENSCREENSUIT);
+                }
+            }
+            if(sledgehammerSpawnLimit > 0){
+                for (int itemCount = 0; itemCount < sledgehammerSpawnChance; itemCount++)
+                {
+                    validSpawnItems.Add(ItemConstants.SLEDGEHAMMER);
+                }
+            }
+            if(smokeBombSpawnLimit > 0){
+                for (int itemCount = 0; itemCount < smokeBombSpawnLimit; itemCount++)
+                {
+                    validSpawnItems.Add(ItemConstants.SMOKEBOMB);
+                }
+            }
 
-        // Select random item
-        switch(validSpawnItems[randomValidSpawnIndex])
-        {
-            case ItemConstants.COMMONGROUNDSCOFFEE:
-                item.itemType = ItemType.Coffee;
-                coffeeSpawnLimit--;
-                break;
-            case ItemConstants.GREENSCREENSUIT:
-                item.itemType = ItemType.GreenScreenSuit;
-                greenScreenSpawnLimit--;
-                break;
-            case ItemConstants.SLEDGEHAMMER:
-                item.itemType = ItemType.Sledge;
-                sledgehammerSpawnLimit--;
-                break;
-            case ItemConstants.SMOKEBOMB:
-                item.itemType = ItemType.SmokeBomb;
-                smokeBombSpawnLimit--;
-                break;
+            // Get random valid spawn item index
+            var randomValidSpawnIndex = UnityEngine.Random.Range(0, validSpawnItems.Count);
+
+            // Select random item
+            switch(validSpawnItems[randomValidSpawnIndex])
+            {
+                case ItemConstants.COMMONGROUNDSCOFFEE:
+                    item.itemType = ItemType.Coffee;
+                    coffeeSpawnLimit--;
+                    break;
+                case ItemConstants.GREENSCREENSUIT:
+                    item.itemType = ItemType.GreenScreenSuit;
+                    greenScreenSpawnLimit--;
+                    break;
+                case ItemConstants.SLEDGEHAMMER:
+                    item.itemType = ItemType.Sledge;
+                    sledgehammerSpawnLimit--;
+                    break;
+                case ItemConstants.SMOKEBOMB:
+                    item.itemType = ItemType.SmokeBomb;
+                    smokeBombSpawnLimit--;
+                    break;
+            }
         }
 
         // Limit items per chest to 1
