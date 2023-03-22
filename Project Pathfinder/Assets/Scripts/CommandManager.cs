@@ -21,6 +21,20 @@ public class CommandManager : NetworkBehaviour
     public void rpc_ClientSetItemSprite(ItemWorld itemWorld, Item item)
     {
         itemWorld.SetItem(item);
+
+        // Set the pickup sound for the item
+        switch(item.itemType)
+        {
+            case Item.ItemType.Keys_0:
+            case Item.ItemType.Keys_1:
+            case Item.ItemType.Keys_2:
+            case Item.ItemType.Keys_3:
+                itemWorld.audioSource.clip = itemWorld.KeyPickupSound;
+            break;
+            default:
+                itemWorld.audioSource.clip = itemWorld.ChestOpenSound;
+            break;
+        }
     }
 
     [Command(requiresAuthority = false)]
