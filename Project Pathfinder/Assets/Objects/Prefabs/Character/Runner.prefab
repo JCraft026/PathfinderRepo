@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 772082509311845710}
   - component: {fileID: 4624075767168692450}
   - component: {fileID: 5865091273394797179}
-  - component: {fileID: 8070634917238065244}
   m_Layer: 0
   m_Name: Runner
   m_TagString: Untagged
@@ -457,14 +456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33a67bb6680d064ca206e40e36a0938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!81 &8070634917238065244
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2696247814498831812}
-  m_Enabled: 1
 --- !u!1 &4258768188753888029
 GameObject:
   m_ObjectHideFlags: 0
