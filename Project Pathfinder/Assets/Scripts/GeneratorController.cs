@@ -42,7 +42,7 @@ public class GeneratorController : NetworkBehaviour
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindGeneratorClosestToRunner();
 
-        if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.2f){
+        if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.5f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
             generator.GetComponent<GeneratorController>().GeneratorBreak();  
         }

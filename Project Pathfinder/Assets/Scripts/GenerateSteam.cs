@@ -10,7 +10,7 @@ public class GenerateSteam : MonoBehaviour
     public int displaySteam;         // Amount of steam displayed
     private float steamLimit = 101f; // Total steam limit
     private float steamMultiplier;   // Variable steam generation
-    public int generatorCount = 3; // Inital number of generators
+    const int generatorCount = 3; // Inital number of generators
     private int toSubtract = 0;
 
     // Update is called once per frame
