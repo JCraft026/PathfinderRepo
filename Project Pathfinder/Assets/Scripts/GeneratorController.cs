@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Mirror;
 
-public class GeneratorController : MonoBehaviour
+public class GeneratorController : NetworkBehaviour
 {
     public Animator animator;
-    public GenerateSteam generateSteam;
+    public GameObject generator;
     public GameObject player {
         get
         {
@@ -14,13 +15,26 @@ public class GeneratorController : MonoBehaviour
         }
         set{}
     }
+    public GameObject engineer {
+        get
+        {
+            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+        }
+        set{}
+    }
 
     void Update(){
+        // Controls turning on and off steam generators when you need to generate
         if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 100f && animator.GetBool("IsBusted") == false){
             GeneratorStart();
         }
         else if(animator.GetBool("IsGenerating") == true && GenerateSteam.steam >= 100f && animator.GetBool("IsBusted") == false){
             GeneratorStop();
+        }
+
+        // Detects if the Engineer is near to fix the generator
+        if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().engineer.transform.position) < 3f){
+            Debug.Log("THE ENGINEER IS HERE");
         }
     }
 
@@ -33,7 +47,7 @@ public class GeneratorController : MonoBehaviour
             generator.GetComponent<GeneratorController>().GeneratorBreak();  
         }
 
-        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 2.0f, generator.transform.position.y -2.0f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
     }
 
     public void GeneratorBreak()
@@ -41,7 +55,6 @@ public class GeneratorController : MonoBehaviour
         if(animator.GetBool("IsBusted") == false)
         {
             animator.SetBool("IsBusted", true);
-            generateSteam.generatorCount -= 1;
             Debug.Log("GeneratorController: Generator broken");
         }
         else
@@ -56,7 +69,7 @@ public class GeneratorController : MonoBehaviour
         if(animator.GetBool("IsBusted") == true)
         {
             animator.SetBool("IsBusted", false);
-            generateSteam.generatorCount += 1;
+            Debug.Log("GeneratorController: Generator fixed");
         }
     }
 

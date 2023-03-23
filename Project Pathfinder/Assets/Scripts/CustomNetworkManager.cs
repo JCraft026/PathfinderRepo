@@ -163,6 +163,7 @@ public class CustomNetworkManager : NetworkManager
         StopHost();
         Debug.Log("OnClientDisconnect");
         mazeRenderer = null; // reset the maze renderer
+        GenerateSteam.generatorCount = 3;
     }
 
     #endregion
