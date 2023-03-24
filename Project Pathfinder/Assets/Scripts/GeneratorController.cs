@@ -27,10 +27,6 @@ public class GeneratorController : NetworkBehaviour
         set{}
     }
 
-    void Start(){
-        generator = FindClosestGenerator("Engineer(Clone)");
-    }
-
     void Update(){
         // Controls turning on and off steam generators when you need to generate
         if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 100f && animator.GetBool("IsBusted") == false){
@@ -41,8 +37,9 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(Utilities.GetDistanceBetweenObjects(new Vector2(FindClosestGenerator("Engineer(Clone)").transform.position.x + 1.25f, generator.transform.position.y -1.25f), generator.GetComponent<GeneratorController>().engineer.transform.position) < 3f){
+       if(animator.GetBool("IsBusted") && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) < 3f){
             Debug.Log("THE ENGINEER IS HERE");
+            GeneratorFixed();
         }
     }
 

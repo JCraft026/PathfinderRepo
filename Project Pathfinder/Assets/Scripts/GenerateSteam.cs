@@ -68,31 +68,31 @@ public class GenerateSteam : MonoBehaviour
                     steamBarImage.sprite = steamBar10;
                     break;
                 case int n when (n >= 20 && n < 30):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar20;
+                    steamBarImage.sprite = steamBar20;
                     break;
                 case int n when (n >= 30 && n < 40):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar30;
+                    steamBarImage.sprite = steamBar30;
                     break;
                 case int n when (n >= 40 && n < 50):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar40;
+                    steamBarImage.sprite = steamBar40;
                     break;
                 case int n when (n >= 50 && n < 60):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar50;
+                    steamBarImage.sprite = steamBar50;
                     break;
                 case int n when (n >= 60 && n < 70):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar60;
+                    steamBarImage.sprite = steamBar60;
                     break;
                 case int n when (n >= 70 && n < 80):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar70;
+                    steamBarImage.sprite = steamBar70;
                     break;
                 case int n when (n >= 80 && n < 90):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar80;
+                    steamBarImage.sprite = steamBar80;
                     break;
                 case int n when (n >= 90 && n < 100):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar90;
+                    steamBarImage.sprite = steamBar90;
                     break;
                 case 100:
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar100;
+                    steamBarImage.sprite = steamBar100;
                     break;
             }
         }
