@@ -278,8 +278,8 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnKeys();
             SpawnGenerators.generateGeneratorLocations(); 
         }
-           /* ItemWorld.SpawnChests(50);
-            SpawnGenerators.generateGeneratorLocations(); */
+        ItemWorld.SpawnChests(50);
+        SpawnGenerators.generateGeneratorLocations();
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

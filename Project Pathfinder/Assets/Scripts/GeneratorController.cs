@@ -7,7 +7,13 @@ using Mirror;
 public class GeneratorController : NetworkBehaviour
 {
     public Animator animator;
-    public GameObject generator;
+    public GameObject generator {
+        get
+        {
+            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator"));
+        }
+        set{}
+    }
     public GameObject player {
         get
         {
@@ -38,16 +44,18 @@ public class GeneratorController : NetworkBehaviour
         }
     }
 
-     public static void breakGenerator(){
+     public static bool breakGenerator(){
+        bool generatorBroken = false;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindGeneratorClosestToRunner();
 
         if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.5f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
-            generator.GetComponent<GeneratorController>().GeneratorBreak();  
+            generator.GetComponent<GeneratorController>().GeneratorBreak(); 
+            generatorBroken = true; 
         }
-
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        return generatorBroken;    
     }
 
     public void GeneratorBreak()

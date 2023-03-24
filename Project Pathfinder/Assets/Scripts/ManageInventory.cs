@@ -230,10 +230,10 @@ public class ManageInventory : NetworkBehaviour
             break;
         // Sledge Hammer Action
         case Item.ItemType.Sledge:
-            ManageCrackedWalls.Instance.findClosestWall();
-            gameObject.GetComponent<Animator>().SetBool("BreakingWall", true);
-            ManageCrackedWalls.Instance.breakWall();
-            GeneratorController.breakGenerator(); // This is only called on one generator object. It will not work if you try to break a generator without this specific instance of generatorController
+            // Checks to see if a wall or generator breaks upon using the hammer
+            if(ManageCrackedWalls.Instance.breakWall() || GeneratorController.breakGenerator()){
+                gameObject.GetComponent<Animator>().SetTrigger("SwingHammer");
+            }
             break;
         // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:
