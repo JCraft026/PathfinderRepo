@@ -32,6 +32,8 @@ public class RenderMiniMap : MonoBehaviour
     [SerializeField]
     private Transform tunnelEntranceIcon = null;
 
+    private int currentCrackedWall = 1;           // Current cracked wall ID
+
     // Render the complete minimap within the scene canvas
     public void Render(WallStatus[,] mazeData)
     {
@@ -112,6 +114,10 @@ public class RenderMiniMap : MonoBehaviour
                         topWall.transform.SetParent(GameObject.Find("Minimap").transform, false);
                         topWall.GetComponent<RectTransform>().localPosition = scenePosition + new Vector2(0, cellSize / 2);
                         topWall.GetComponent<RectTransform>().localScale = new Vector2(cellSize, topWall.localScale.y);
+                        if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1 && j != tunnelEntranceHeightIndex && i != tunnelEntranceWidthIndex){
+                            topWall.name = "MMCR" + currentCrackedWall;
+                            currentCrackedWall++;
+                        }
                     }
                 }
 
@@ -131,6 +137,10 @@ public class RenderMiniMap : MonoBehaviour
                         leftWall.GetComponent<RectTransform>().localPosition = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.GetComponent<RectTransform>().localScale  = new Vector2(cellSize, leftWall.localScale.y);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
+                        if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
+                            leftWall.name = "MMCR" + currentCrackedWall;
+                            currentCrackedWall++;
+                        }
                     }
                 }
 

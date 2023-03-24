@@ -107,6 +107,7 @@ public class RenderMaze : NetworkBehaviour
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
+    private int currentCrackedWall = 1;                            // Current cracked wall ID
 
     void Start(){
         // Enable the steam generator for guards
@@ -237,7 +238,8 @@ public class RenderMaze : NetworkBehaviour
                         var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
-                        topWall.name       = "Wall_TB cracked"; 
+                        topWall.name       = "Wall_TB CR" + currentCrackedWall;
+                        currentCrackedWall++; 
                         oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
                     }
                     else{
@@ -303,7 +305,8 @@ public class RenderMaze : NetworkBehaviour
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.localScale  = new Vector2(2, 2);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
-                        leftWall.name        = "Wall_LR cracked"; 
+                        leftWall.name        = "Wall_LR CR" + currentCrackedWall;
+                        currentCrackedWall++; 
                         oldComponents.Add(leftWall);
                     }
                     else{
