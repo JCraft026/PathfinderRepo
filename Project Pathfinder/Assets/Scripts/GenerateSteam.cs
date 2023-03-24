@@ -13,6 +13,7 @@ public class GenerateSteam : MonoBehaviour
     private float steamMultiplier;   // Variable steam generation
     const int generatorCount = 3; // Inital number of generators
     private int toSubtract = 0;
+    public Image steamBarImage; //
 
     public Sprite steamBar0;
     public Sprite steamBar10;
@@ -27,13 +28,18 @@ public class GenerateSteam : MonoBehaviour
     public Sprite steamBar100;
 
 
+    private void Start()
+    {
+        steamBarImage = gameObject.GetComponent<Image>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Generate steam
         if(steam < steamLimit){
             displaySteam = (int)steam;
-            gameObject.GetComponent<TextMeshProUGUI>().text = displaySteam.ToString();
+            gameObject.GetComponentInChildren<TextMeshProUGUI>().text = displaySteam.ToString();
             switch(generatorCount - subtractBrokenGenerators()){
                 case 0: 
                     steamMultiplier = 0f;
@@ -56,10 +62,10 @@ public class GenerateSteam : MonoBehaviour
             switch((int) steam)
             {
                 case 0:
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar0;
+                    steamBarImage.sprite = steamBar0;
                     break;
                 case int n when (n < 20):
-                    GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar10;
+                    steamBarImage.sprite = steamBar10;
                     break;
                 case int n when (n >= 20 && n < 30):
                     GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBarImage")).GetComponent<Image>().sprite = steamBar20;
