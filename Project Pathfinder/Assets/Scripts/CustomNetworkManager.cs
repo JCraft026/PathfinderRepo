@@ -63,17 +63,19 @@ public class CustomNetworkManager : NetworkManager
         if(hostIsRunner && isHost)
         {
             Debug.Log("isRunner=true");
-            isRunner = true; 
+            isRunner = true;
         }
         else if(!hostIsRunner && isHost)
         {
             Debug.Log("isRunner=false");
             isRunner = false;
+            GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
         }
         else if(hostIsRunner && !isHost)
         {
             Debug.Log("isRunner=false");
-            isRunner = false; 
+            isRunner = false;
+            GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
         }
         else if(!hostIsRunner && !isHost)
         {
@@ -82,7 +84,7 @@ public class CustomNetworkManager : NetworkManager
         }
 
         // Find the maze renderer and create the maze (if we are the host)
-        if(NetworkServer.connections.Count == 1){
+        if (NetworkServer.connections.Count == 1){
             Resources.FindObjectsOfTypeAll<GameObject>()
                 .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
                 .GetComponent<RenderMaze>()

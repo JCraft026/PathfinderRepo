@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MainCanvas
   - Torch
+  - SteamBar
   layers:
   - Default
   - TransparentFX

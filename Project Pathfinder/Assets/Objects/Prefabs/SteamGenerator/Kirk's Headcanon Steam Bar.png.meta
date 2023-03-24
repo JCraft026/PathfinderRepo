@@ -110,8 +110,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ae6974dc0b68c5479d36cb4b7cd308b
-      internalID: 1374838275
+      spriteID: 73a8a98cfc6f3454f9197b1379cb2eae
+      internalID: 760002104
       vertices: []
       indices: 
       edges: []
@@ -129,10 +129,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 64
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb34478fdc41035499fc83ead51621c7
-      internalID: 1595793070
+      spriteID: 202d10704a9cd434faa55e81d5e7f8f2
+      internalID: 1968804776
       vertices: []
       indices: 
       edges: []
@@ -150,10 +150,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_2
       rect:
         serializedVersion: 2
-        x: 256
+        x: 128
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,8 +161,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63ed05ce539ca024dae2d7212810adf7
-      internalID: -1399003080
+      spriteID: 7e31a07d9ffdaac44b2085f767c4fe3a
+      internalID: -1050717472
       vertices: []
       indices: 
       edges: []
@@ -171,10 +171,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_3
       rect:
         serializedVersion: 2
-        x: 384
+        x: 192
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f93eae23f7add6f4cafe31cb14adffd2
-      internalID: -1797419695
+      spriteID: 50d5a89d9f56c5841922bddb5d710cc2
+      internalID: -284453408
       vertices: []
       indices: 
       edges: []
@@ -192,10 +192,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_4
       rect:
         serializedVersion: 2
-        x: 512
+        x: 256
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36d39f900de9c04468aad2809744e217
-      internalID: -1568656016
+      spriteID: 47ccdceb6df3e9e4499429bb106cf005
+      internalID: 115692679
       vertices: []
       indices: 
       edges: []
@@ -213,10 +213,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_5
       rect:
         serializedVersion: 2
-        x: 640
+        x: 320
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,8 +224,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1afbdd96979564144ba49b1358c118a4
-      internalID: 915511349
+      spriteID: f8f4e3692be66d44383fc19cf30380e5
+      internalID: 1930097817
       vertices: []
       indices: 
       edges: []
@@ -234,10 +234,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_6
       rect:
         serializedVersion: 2
-        x: 768
+        x: 384
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -245,8 +245,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1cc40a857aa8984188d82fdf8819603
-      internalID: 182180040
+      spriteID: cf455c2c6bf93b14b8f48f73f8ab379a
+      internalID: -1887121046
       vertices: []
       indices: 
       edges: []
@@ -255,10 +255,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_7
       rect:
         serializedVersion: 2
-        x: 896
+        x: 448
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,8 +266,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48f42b3d3b282af4b855d177c07b1c77
-      internalID: 958618908
+      spriteID: 585828db6501dc3428986c9497facf8e
+      internalID: -1166090772
       vertices: []
       indices: 
       edges: []
@@ -276,10 +276,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_8
       rect:
         serializedVersion: 2
-        x: 1024
+        x: 512
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -287,8 +287,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d1bdc67f396fd94784c11d0b7e55aaa
-      internalID: -494141405
+      spriteID: 8098b450529627c45aed60594a7e9f48
+      internalID: 1593626360
       vertices: []
       indices: 
       edges: []
@@ -297,10 +297,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_9
       rect:
         serializedVersion: 2
-        x: 1152
+        x: 576
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -308,8 +308,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd9aaa513640c8f4eb61a69a9d7b3ece
-      internalID: -196270491
+      spriteID: 68c666b54305ab940a3aa6f5e5322384
+      internalID: -886682700
       vertices: []
       indices: 
       edges: []
@@ -318,10 +318,10 @@ TextureImporter:
       name: Kirk's Headcanon Steam Bar_10
       rect:
         serializedVersion: 2
-        x: 1280
+        x: 640
         y: 0
-        width: 128
-        height: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -329,8 +329,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 723a632c7b68c1943898b25d69cfc007
-      internalID: 1029980485
+      spriteID: 6673fd6f0a775dc47a2861bc5a5c7b1a
+      internalID: 918160760
       vertices: []
       indices: 
       edges: []
@@ -346,17 +346,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Kirk's Headcanon Steam Bar_10: 1029980485
-      Kirk's Headcanon Steam Bar_6: 182180040
-      Kirk's Headcanon Steam Bar_3: -1797419695
-      Kirk's Headcanon Steam Bar_0: 1374838275
-      Kirk's Headcanon Steam Bar_2: -1399003080
-      Kirk's Headcanon Steam Bar_9: -196270491
-      Kirk's Headcanon Steam Bar_7: 958618908
-      Kirk's Headcanon Steam Bar_1: 1595793070
-      Kirk's Headcanon Steam Bar_4: -1568656016
-      Kirk's Headcanon Steam Bar_8: -494141405
-      Kirk's Headcanon Steam Bar_5: 915511349
+      Kirk's Headcanon Steam Bar_10: 918160760
+      Kirk's Headcanon Steam Bar_6: -1887121046
+      Kirk's Headcanon Steam Bar_3: -284453408
+      Kirk's Headcanon Steam Bar_0: 760002104
+      Kirk's Headcanon Steam Bar_2: -1050717472
+      Kirk's Headcanon Steam Bar_9: -886682700
+      Kirk's Headcanon Steam Bar_7: -1166090772
+      Kirk's Headcanon Steam Bar_1: 1968804776
+      Kirk's Headcanon Steam Bar_4: 115692679
+      Kirk's Headcanon Steam Bar_8: 1593626360
+      Kirk's Headcanon Steam Bar_5: 1930097817
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
