@@ -7,13 +7,10 @@ using Mirror;
 public class GeneratorController : NetworkBehaviour
 {
     public Animator animator;
-    public GameObject generator {
-        get
-        {
-            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator"));
-        }
-        set{}
-    }
+    
+    // Property for generators
+    public GameObject generator;
+    // Property for player
     public GameObject player {
         get
         {
@@ -21,12 +18,17 @@ public class GeneratorController : NetworkBehaviour
         }
         set{}
     }
+    // Property for engineer
     public GameObject engineer {
         get
         {
-            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
         }
         set{}
+    }
+
+    void Start(){
+        generator = FindClosestGenerator("Engineer(Clone)");
     }
 
     void Update(){
@@ -39,7 +41,7 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().engineer.transform.position) < 3f){
+        if(Utilities.GetDistanceBetweenObjects(new Vector2(FindClosestGenerator("Engineer(Clone)").transform.position.x + 1.25f, generator.transform.position.y -1.25f), generator.GetComponent<GeneratorController>().engineer.transform.position) < 3f){
             Debug.Log("THE ENGINEER IS HERE");
         }
     }
@@ -47,7 +49,7 @@ public class GeneratorController : NetworkBehaviour
      public static bool breakGenerator(){
         bool generatorBroken = false;
         Debug.Log("GeneratorController: breakGenerator called");
-        GameObject generator = GeneratorController.FindGeneratorClosestToRunner();
+        GameObject generator = GeneratorController.FindClosestGenerator("Runner");
 
         if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.5f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
@@ -92,9 +94,9 @@ public class GeneratorController : NetworkBehaviour
     }
 
     // Find the generator closest to the runner
-    private static GameObject FindGeneratorClosestToRunner()
+    private static GameObject FindClosestGenerator(string target)
     {
-        GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First(x => x.name.Contains("Runner"));
+        GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First(x => x.name.Contains(target));
         List<GameObject> allGenerators = Resources.FindObjectsOfTypeAll<GameObject>()
                                             .Where<GameObject>(x => 
                                                 x.GetComponent<GeneratorController>() != null)
