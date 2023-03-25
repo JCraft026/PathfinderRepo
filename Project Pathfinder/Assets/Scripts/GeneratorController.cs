@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Mirror;
+using TMPro;
 
 public class GeneratorController : NetworkBehaviour
 {
@@ -10,6 +11,8 @@ public class GeneratorController : NetworkBehaviour
     
     // Property for generators
     public GameObject generator;
+    public TMP_Text[] textArray;
+    public int repairCount = 0;
     // Property for player
     public GameObject player {
         get
@@ -38,8 +41,31 @@ public class GeneratorController : NetworkBehaviour
 
         // Detects if the Engineer is near to fix the generator
        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) < 3f){
-            Debug.Log("THE ENGINEER IS HERE");
-            animator.SetBool("IsBusted", false);
+            if(repairCount < 60){
+                // Only sets the repairing aura active once
+                if(repairCount < 1 || engineer.transform.GetChild(2).gameObject.activeSelf == false
+                                   || gameObject.transform.GetChild(0).gameObject.activeSelf == false){
+                    engineer.transform.GetChild(2).gameObject.SetActive(true);
+                    gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                    Debug.Log("Set objects to active");
+                }
+                repairCount += 1;
+            }
+            else if(repairCount >= 60){
+                animator.SetBool("IsBusted", false);
+                repairCount = 0;
+                engineer.transform.GetChild(2).gameObject.SetActive(false);
+                gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+        // Turn off repairing UI if away from Generator
+        else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) >= 3f){
+                if(engineer.transform.GetChild(2).gameObject.activeSelf){
+                    engineer.transform.GetChild(2).gameObject.SetActive(false);
+                }
+                if(gameObject.transform.GetChild(0).gameObject.activeSelf){
+                    gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                }
         }
     }
 
