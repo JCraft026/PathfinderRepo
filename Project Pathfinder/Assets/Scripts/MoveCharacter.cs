@@ -94,7 +94,7 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Disable movement on inactive guards
-        if(!CustomNetworkManager.isRunner){
+        if(!runnerExpression.IsMatch(gameObject.name)){
             if(gameObject.GetComponent<ManageActiveCharacters>().guardId != gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
                 canMove = false;
                 isRestricted = true;

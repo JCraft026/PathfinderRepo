@@ -20,6 +20,7 @@ public class ManageActiveCharacters : NetworkBehaviour
     public Material inactiveMaterial;             // Sprite material for inactive character
     public Vector3 offset;                        // Camera position offset
     public int guardId;                           // Parent object's guard ID
+    //[SyncVar]
     public int activeGuardId;                     // Guard ID of the current active guard
     public int nextActiveGuardId;                 // Guard ID of the next active guard
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
