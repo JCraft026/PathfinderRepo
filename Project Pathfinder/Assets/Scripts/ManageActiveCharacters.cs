@@ -183,6 +183,28 @@ public class ManageActiveCharacters : NetworkBehaviour
         {
             Debug.LogError("Could not find a new guard to switch to!");
         }
+
+        rpc_SetNextActiveGuardId(nextActiveGuardId);
+    }
+
+    // Event fired when the active guard changes, syncs nextActiveGuardId
+    [ClientRpc]
+    public void rpc_SetNextActiveGuardId(int nextId)
+    {
+        var chaser = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>();
+        var engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).GetComponent<ManageActiveCharacters>();
+        var trapper = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).GetComponent<ManageActiveCharacters>();
+
+        chaser.nextActiveGuardId = nextId + 1;
+        chaser.activeGuardId = nextId;
+
+        engineer.nextActiveGuardId = nextId + 1;
+        engineer.activeGuardId = nextId;
+
+        trapper.nextActiveGuardId = nextId + 1;
+        trapper.activeGuardId = nextId;
+
+        Debug.Log("ManageActiveCharacters: rpc_SetNextActiveGuardId set nextActiveGuardId to: " + nextId + " for all guard objects on host/client");
     }
 
 }

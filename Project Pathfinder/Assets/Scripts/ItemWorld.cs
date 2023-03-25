@@ -104,6 +104,19 @@ public class ItemWorld : NetworkBehaviour
         //Destroy(gameObject);
     }
 
+    // Command the chest be open on client and server
+    [Command(requiresAuthority=false)]
+    public void cmd_OpenChest(){
+        rpc_OpenChest();
+    }
+
+    // Open the chest for both client and server
+    [ClientRpc]
+    public void rpc_OpenChest()
+    {
+        this.OpenChest();
+    }
+
     // Quick way to give the illusion that the key was picked up and is now gone
     public void PickUpKey()
     {
