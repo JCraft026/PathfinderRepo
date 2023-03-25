@@ -75,7 +75,7 @@ public class CommandManager : NetworkBehaviour
         {
             Debug.LogError("CommandManager: NetworkedSpawnGenerator, GeneratorController.cs is null");
         }
-        generator.GetComponent<GeneratorController>().GeneratorFixed();
+        generator.GetComponent<Animator>().SetBool("IsBusted", false);
     }
     #endregion Steam Generator Commands
 }

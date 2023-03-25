@@ -30,16 +30,16 @@ public class GeneratorController : NetworkBehaviour
     void Update(){
         // Controls turning on and off steam generators when you need to generate
         if(animator.GetBool("IsGenerating") == false && GenerateSteam.steam < 100f && animator.GetBool("IsBusted") == false){
-            GeneratorStart();
+            animator.SetBool("IsGenerating", true);
         }
         else if(animator.GetBool("IsGenerating") == true && GenerateSteam.steam >= 100f && animator.GetBool("IsBusted") == false){
-            GeneratorStop();
+            animator.SetBool("IsGenerating", false);
         }
 
         // Detects if the Engineer is near to fix the generator
-       if(animator.GetBool("IsBusted") && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) < 3f){
+       if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) < 3f){
             Debug.Log("THE ENGINEER IS HERE");
-            GeneratorFixed();
+            animator.SetBool("IsBusted", false);
         }
     }
 
@@ -50,44 +50,11 @@ public class GeneratorController : NetworkBehaviour
 
         if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.5f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
-            generator.GetComponent<GeneratorController>().GeneratorBreak(); 
+            generator.GetComponent<Animator>().SetBool("IBusted", true); 
             generatorBroken = true; 
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
         return generatorBroken;    
-    }
-
-    public void GeneratorBreak()
-    {
-        if(animator.GetBool("IsBusted") == false)
-        {
-            animator.SetBool("IsBusted", true);
-            Debug.Log("GeneratorController: Generator broken");
-        }
-        else
-        {
-            Debug.Log("GeneratorController: Generator already broken");
-        }
-    }
-
-    // Anne's new version
-    public void GeneratorFixed()
-    {
-        if(animator.GetBool("IsBusted") == true)
-        {
-            animator.SetBool("IsBusted", false);
-            Debug.Log("GeneratorController: Generator fixed");
-        }
-    }
-
-    public void GeneratorStart()
-    {
-        animator.SetBool("IsGenerating", true);
-    }
-
-    public void GeneratorStop()
-    {
-        animator.SetBool("IsGenerating", false);
     }
 
     // Find the generator closest to the runner
