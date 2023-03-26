@@ -6,6 +6,31 @@ using System.Linq;
 
 public class CommandManager : NetworkBehaviour
 {
+    // Causes runner to take Chaser dash collision damage
+    [Command(requiresAuthority = false)]
+    public void cmd_TakeDashDamage(int activeGuardId)
+    {
+        rpc_TakeDashDamage(activeGuardId);
+    }
+
+    [ClientRpc]
+    public void rpc_TakeDashDamage(int activeGuardId)
+    {
+        var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+        CameraShake cameraShake;
+        runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+        if(CustomNetworkManager.isRunner){
+            cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
+            StartCoroutine(cameraShake.Shake(.15f, .7f));
+        }
+        else{
+            if(activeGuardId == ManageActiveCharactersConstants.CHASER){
+                cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(C)")).transform.GetChild(0).GetComponent<CameraShake>();
+                StartCoroutine(cameraShake.Shake(.15f, .7f));
+            }
+        }
+    }
+
     // Spawns an item at the in scene location
     [Command(requiresAuthority = false)]
     public void networkedSpawnItemWorld(Vector2 position, Item item)

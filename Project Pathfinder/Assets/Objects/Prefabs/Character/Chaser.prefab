@@ -512,6 +512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaserRigidBody: {fileID: 2696247814498831833}
   animator: {fileID: 2696247814498831813}
+  frameCount: 0
+  trajectoryClear: 0
 --- !u!1 &5795736046306364667
 GameObject:
   m_ObjectHideFlags: 0

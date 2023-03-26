@@ -3,28 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using System;
+using System.Linq;
+using Mirror;
 
-public class ChaserDash : MonoBehaviour
+public class ChaserDash : NetworkBehaviour
 {
     MoveCharacter chaserMoveCharacter; 
     public Rigidbody2D chaserRigidBody;
     private Vector3 dashDirection;
     private float timer;
-    public Animator animator;     // Character's animator manager
-    public int frameCount;        // Amount of frames passed in update statement
-    public bool trajectoryClear;  // Reflects whether the chasers current trajectory is clear of walls
+    public Animator animator;         // Character's animator manager
+    [SyncVar]
+    public int frameCount;            // Amount of frames passed in update statement
+    public bool trajectoryClear;      // Reflects whether the chasers current trajectory is clear of walls
+    public bool attackLanded = false; // Status of dash attack being landed
+    public CameraShake cameraShake;   // Holds the camera shaker script
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
-        this.enabled = false;
     }
 
     // Update is called once per frame
     void Update(){
         frameCount += 1; // Amount of frames passed
 
+        // Reset attack landed status
+        if(attackLanded && !Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<Animator>().GetBool("Dashing")){
+            attackLanded = false;
+        }
+
         // Display chaser dash
-        if(frameCount <= 2 && !CustomNetworkManager.isRunner){
+        if(frameCount <= 2){
             for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                 switch (animator.GetFloat("Facing Direction"))
                 {
@@ -41,7 +50,7 @@ public class ChaserDash : MonoBehaviour
                         trajectoryClear = ImpactTrajectoryClear(gameObject.transform.position, MoveCharacterConstants.RIGHT);
                         break; 
                 }
-                if(trajectoryClear)
+                if(trajectoryClear && !CustomNetworkManager.isRunner)
                 {
                     dashDirection.Normalize();
                     gameObject.transform.position += dashDirection * Time.deltaTime;
@@ -51,7 +60,6 @@ public class ChaserDash : MonoBehaviour
         else{
             animator.SetBool("Dashing", false);
             gameObject.GetComponent<MoveCharacter>().canMove = true;
-            this.enabled = false;
         }
     }
 
@@ -93,18 +101,27 @@ public class ChaserDash : MonoBehaviour
             }
         } 
         animator.SetBool("Dashing", true);
-        timer = 0.0f;
-        this.enabled = true;
         gameObject.GetComponent<MoveCharacter>().canMove = false;
         frameCount = 0;
     }
 
     public bool ImpactTrajectoryClear(Vector2 characterPosition, float moveDirection){
         bool trajectoryClear = true;
-        Regex lrWallExpression = new Regex("LR"); // Match left and right walls
-        Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
+        Regex lrWallExpression = new Regex("LR");     // Match left and right walls
+        Regex tbWallExpression = new Regex("TB");     // Match top and bottom walls
+        Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+        int activeGuardId      = gameObject.GetComponent<ManageActiveCharacters>().activeGuardId;
+                                                      // Guard ID of the current active guard
         Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(characterPosition, 1f);
-                                                  // Collider objects near the runner
+                                                      // Collider objects near the runner
+        GameObject runner          = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
+                                                      // Game object of the runner
+        Vector3 runnerPosition     = runner.transform.position;
+                                                      // Current position of the runner
+
+        if(CustomNetworkManager.isRunner){
+            Debug.Log("IAMTHERUNNER");
+        }
 
         foreach(var nearByObject in nearByObjects){
             // Check if there are any walls close to the left
@@ -130,6 +147,11 @@ public class ChaserDash : MonoBehaviour
                 if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && (nearByObject.transform.position.y-characterPosition.y) <= 2f && Math.Abs(nearByObject.transform.position.x-characterPosition.x) < (Utilities.GetCellSize()/2)){
                     trajectoryClear = false;
                 }
+            }
+            // Check if the runner was hit by the chaser
+            if(runnerExpression.IsMatch(nearByObject.gameObject.name) && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, runnerPosition) <= 1.0f && gameObject.GetComponent<Animator>().GetBool("Dashing") && attackLanded == false){
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_TakeDashDamage(activeGuardId);
+                attackLanded = true;
             }
         }
 
