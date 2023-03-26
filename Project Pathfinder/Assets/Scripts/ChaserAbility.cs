@@ -22,9 +22,9 @@ public class ChaserAbility : NetworkBehaviour
         // When the chaser presses "[q]"
         if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
-            if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 10f){
+            if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 25f){
                 // Subtract from steam
-                GenerateSteam.steam -= 10f;
+                GenerateSteam.steam -= 25f;
 
                 chaserDash.startDash();
                 Debug.Log("Started dash");

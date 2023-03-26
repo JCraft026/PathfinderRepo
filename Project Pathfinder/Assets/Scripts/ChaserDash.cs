@@ -30,7 +30,7 @@ public class ChaserDash : NetworkBehaviour
         }
 
         // Display chaser dash
-        if(frameCount <= 4){
+        if(frameCount <= 2){
             for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                 switch (animator.GetFloat("Facing Direction"))
                 {
