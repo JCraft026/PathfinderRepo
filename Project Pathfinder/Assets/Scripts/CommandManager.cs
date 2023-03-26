@@ -17,8 +17,18 @@ public class CommandManager : NetworkBehaviour
     public void rpc_TakeDashDamage(int activeGuardId)
     {
         var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
-        CameraShake cameraShake;
+                                 // Runner game object
+        CameraShake cameraShake; // Camera shaker
+
+        // If the runner is going to die from the next hit, set the appropriate end game event
+        if(runner.GetComponent<ManageRunnerStats>().health <= 2){
+            HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
+        }
+
+        // Subtract runner damage hp
         runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+
+        // Shake the cooresponding camera of the active character
         if(CustomNetworkManager.isRunner){
             cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
             StartCoroutine(cameraShake.Shake(.15f, .7f));

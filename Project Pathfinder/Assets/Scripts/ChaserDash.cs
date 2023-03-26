@@ -8,17 +8,14 @@ using Mirror;
 
 public class ChaserDash : NetworkBehaviour
 {
-    MoveCharacter chaserMoveCharacter; 
-    public Rigidbody2D chaserRigidBody;
-    private Vector3 dashDirection;
-    private float timer;
-    public Animator animator;         // Character's animator manager
-    [SyncVar]
-    public int frameCount;            // Amount of frames passed in update statement
-    public bool trajectoryClear;      // Reflects whether the chasers current trajectory is clear of walls
-    public bool attackLanded = false; // Status of dash attack being landed
-    public CameraShake cameraShake;   // Holds the camera shaker script
+    MoveCharacter chaserMoveCharacter; // MoveCharacter component of the chaser
+    private Vector3 dashDirection;     // Direction the chaser is dashing
+    public Animator animator;          // Character's animator manager
+    public int frameCount;             // Amount of frames passed in update statement
+    public bool trajectoryClear;       // Reflects whether the chasers current trajectory is clear of walls
+    public bool attackLanded = false;  // Status of dash attack being landed
 
+    // Assign chaser's MoveCharacter component
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
     }
@@ -33,7 +30,7 @@ public class ChaserDash : NetworkBehaviour
         }
 
         // Display chaser dash
-        if(frameCount <= 2){
+        if(frameCount <= 4){
             for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                 switch (animator.GetFloat("Facing Direction"))
                 {
@@ -65,17 +62,16 @@ public class ChaserDash : NetworkBehaviour
 
     // Start the dash ability
     public void startDash(){
-        // If the chaser isn't already attacking
+        // Start dash if the chaser is not attacking
         if(animator.GetBool("Attack") == false){
-            // If the chaser is moving when "[q]" is pressed
+            // If the chaser is already moving, calculate dash direction based on the current movement input
             if(chaserMoveCharacter.movementInput != Vector2.zero){
-                Debug.Log("chaser was moving when activated");
                 dashDirection = chaserMoveCharacter.movementInput;
             }
-            // If the chaser was stationary when "[q]" was pressed
+
+            // If the chaser is not moving, calculate the dash direction based on the facing direction
             else
             {
-                Debug.Log("chaser was still when activated");
                 switch(chaserMoveCharacter.facingDirection){
                     case 1f:
                         dashDirection = new Vector3(0,-1,0);
@@ -95,16 +91,18 @@ public class ChaserDash : NetworkBehaviour
                         break; 
                     default:
                         dashDirection = new Vector3(0,-1,0);
-                        Debug.Log("Direction assigned to facing down by default");
                         break;
                 }
             }
         } 
+
+        // Initialize dash variables
         animator.SetBool("Dashing", true);
         gameObject.GetComponent<MoveCharacter>().canMove = false;
         frameCount = 0;
     }
 
+    // Check if the trajectory of the chaser dash is clear of obsticals
     public bool ImpactTrajectoryClear(Vector2 characterPosition, float moveDirection){
         bool trajectoryClear = true;
         Regex lrWallExpression = new Regex("LR");     // Match left and right walls
@@ -118,10 +116,6 @@ public class ChaserDash : NetworkBehaviour
                                                       // Game object of the runner
         Vector3 runnerPosition     = runner.transform.position;
                                                       // Current position of the runner
-
-        if(CustomNetworkManager.isRunner){
-            Debug.Log("IAMTHERUNNER");
-        }
 
         foreach(var nearByObject in nearByObjects){
             // Check if there are any walls close to the left
