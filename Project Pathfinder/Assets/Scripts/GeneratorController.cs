@@ -76,7 +76,7 @@ public class GeneratorController : NetworkBehaviour
 
         if(Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position) < 1.5f){
             Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
-            generator.GetComponent<Animator>().SetBool("IBusted", true); 
+            generator.GetComponent<Animator>().SetBool("IsBusted", true); 
             generatorBroken = true; 
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1.5f, generator.transform.position.y -1.5f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
