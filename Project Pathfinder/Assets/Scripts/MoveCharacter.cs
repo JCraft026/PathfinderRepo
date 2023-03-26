@@ -33,6 +33,7 @@ public class MoveCharacter : NetworkBehaviour
     private float currentCellY;                              // Y position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
+    public AudioSource audioSource;                          // Makes the player make sounds
 
     private Player_UI playerUi;     // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance; // Makes an instance of this class to access 
@@ -194,6 +195,15 @@ public class MoveCharacter : NetworkBehaviour
         {
             // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
             rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+
+            if(movementInput != Vector2.zero && audioSource.isPlaying == false)
+            {
+                audioSource.Play();
+            }
+            else if(movementInput == Vector2.zero && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 
