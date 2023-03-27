@@ -356,9 +356,9 @@ GameObject:
   - component: {fileID: 1116956338998887871}
   - component: {fileID: 6175056770118232177}
   - component: {fileID: 8143676233623653492}
+  - component: {fileID: 5006190172554554885}
   - component: {fileID: -2189063370500584253}
   - component: {fileID: -6826680997710114329}
-  - component: {fileID: 5006190172554554885}
   - component: {fileID: -1071918989204739396}
   m_Layer: 0
   m_Name: SteamGenerator
@@ -481,6 +481,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5006190172554554885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8368785342619026136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  animator: {fileID: 8143676233623653492}
 --- !u!114 &-2189063370500584253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,24 +530,7 @@ MonoBehaviour:
   syncInterval: 0.1
   animator: {fileID: 8143676233623653492}
   generator: {fileID: 0}
-  textArray: []
   repairCount: 0
---- !u!114 &5006190172554554885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8368785342619026136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 1
-  animator: {fileID: 8143676233623653492}
 --- !u!114 &-1071918989204739396
 MonoBehaviour:
   m_ObjectHideFlags: 0
