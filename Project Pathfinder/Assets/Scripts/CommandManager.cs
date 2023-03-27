@@ -21,12 +21,12 @@ public class CommandManager : NetworkBehaviour
         CameraShake cameraShake; // Camera shaker
 
         // If the runner is going to die from the next hit, set the appropriate end game event
-        if(runner.GetComponent<ManageRunnerStats>().health <= 2){
+        if(runner.GetComponent<ManageRunnerStats>().health <= 1){
             HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
         }
 
         // Subtract runner damage hp
-        runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+        runner.GetComponent<ManageRunnerStats>().TakeDamage(1);
 
         // Shake the cooresponding camera of the active character
         if(CustomNetworkManager.isRunner){
