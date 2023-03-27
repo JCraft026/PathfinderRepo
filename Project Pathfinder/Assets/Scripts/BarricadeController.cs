@@ -22,8 +22,14 @@ public class BarricadeController : NetworkBehaviour
          runnerTooltip = false;      // Whether the tooltip to destroy the barricade is active for the runner
     Regex horizontalBarricadeExpression  = new Regex("Horizontal");  
                                      // Match "Horizontal"
+    private Player_UI playerUi;      // Player UI management script
     
     // Start is called before the first frame update
+    void Start(){
+        // Assign Player UI script
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+    }
+
     void Awake()
     {
         // Get all player instances
@@ -79,7 +85,7 @@ public class BarricadeController : NetworkBehaviour
         }
         else{
             // Tool tip for runner
-            if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5){
+            if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5 && playerUi.activeSelectedItem == Item.ItemType.Sledge){
                 enableTooltip(gameObject.transform.position, runner.transform.position);
                 runnerTooltip = true;
                 if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
