@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using static Utilities;
 
 [Serializable]
 public class PlayerProfile
@@ -48,10 +49,15 @@ public class RegisterProfile : MonoBehaviour
     void Update() {
     }
     
+    // "Register" button pressed
     public void ButtonPress()
     {
         string username_text = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
         registerUsername(username_text);
+        
+        Debug.Log(GetObject("Dropdown"));
+        AddAdjectivesToDropdown();
+        
         return;
     }
     
@@ -155,6 +161,23 @@ public class RegisterProfile : MonoBehaviour
         writer.Close();
         return;
     }
+    
+    
+    
+    public void AddAdjectivesToDropdown() {
+        // > Get User Profile
+        // > Get Dropdown Object
+        // > Add Options
+          //AddOptions(List<String>);
+        
+        
+    }
+    
+    
+    
+    
+    
+    
 }
 
 
