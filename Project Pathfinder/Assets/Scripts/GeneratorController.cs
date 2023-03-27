@@ -11,7 +11,6 @@ public class GeneratorController : NetworkBehaviour
     
     // Property for generators
     public GameObject generator;
-    public TMP_Text[] textArray;
     public int repairCount = 0;
     // Property for player
     public GameObject player {
