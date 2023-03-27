@@ -28,7 +28,7 @@ public class MoveCharacter : NetworkBehaviour
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
     private float mazeHeight = 13;                           // Height of the maze
-    private WallStatus[,] mazeData = new WallStatus[13, 13]; // Maze data
+    public WallStatus[,] mazeData = new WallStatus[13, 13]; // Maze data
     private WallStatus currentCell;                          // Wall status of the cell the parent character object is in
     private float currentCellY;                              // Y position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character

@@ -11,6 +11,7 @@ public class ChestTrap : NetworkBehaviour
     SlowTrapped slowTrapped;      // Instance of SlowTrapped script 
     private bool trapped = false; // Whether the player has been trapped or not
     Animator chestAnimator;       // The Chest's animator controller
+    CameraShake cameraShake;      // Camera shaker
 
     // Called when the object is instantiated
     void Awake(){
@@ -30,6 +31,12 @@ public class ChestTrap : NetworkBehaviour
                 slowTrapped.trapped();
                 trapped = true;
                 chestAnimator.SetBool("Exploding", true);
+
+                // Shake the cooresponding camera of the active character
+                if(CustomNetworkManager.isRunner){
+                    cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
+                    StartCoroutine(cameraShake.Shake(.15f, .7f));
+                }
             }
         }
     }
