@@ -14,6 +14,13 @@ public class ManageInventory : NetworkBehaviour
     private List<Item> itemList;                // The local list of inventory items
     private int slotNumber = 0;                 // The slot number the player is choosing
     public InventoryControls inventoryControls; // Imports the inventory controller
+    public GameObject soundMakerObject;         // GameObject where inventory sounds come from
+    public AudioSource soundMaker {get{return soundMakerObject.GetComponent<AudioSource>();}}
+                                                // Makes and manages inventory sounds
+    public AudioClip swingSledgeHammer;
+    public AudioClip drinkCoffee;
+    public AudioClip popSmoke;
+    public AudioClip putOnGreenScreen;
 
     // Called on awake
     private void Awake(){
@@ -226,17 +233,23 @@ public class ManageInventory : NetworkBehaviour
             break;
         // Sledge Hammer Action
         case Item.ItemType.Sledge:
+            soundMaker.clip = swingSledgeHammer;
+            soundMaker.Play();
             ManageCrackedWalls.Instance.findClosestWall();
             ManageCrackedWalls.Instance.breakWall();
             break;
         // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:
+            soundMaker.clip = popSmoke;
+            soundMaker.Play();
             RenderSmokeScreen.Instance.useSmoke();
             inventory.RemoveItem(item);
             break;
         // Common Grounds Coffee Action
         case Item.ItemType.Coffee:
             if(CoffeeController.Instance.coffeeIsOver){
+                soundMaker.clip = drinkCoffee;
+                soundMaker.Play();
                 Debug.Log("Coffee used");
                 inventory.RemoveItem(item);
                 MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
@@ -250,6 +263,8 @@ public class ManageInventory : NetworkBehaviour
             break;
         case Item.ItemType.GreenScreenSuit:
             if(GreenScreenController.Instance.greenScreenIsOver){
+                soundMaker.clip = putOnGreenScreen;
+                soundMaker.Play();
                 Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
