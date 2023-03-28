@@ -97,4 +97,21 @@ public class CommandManager : NetworkBehaviour
         HandleEvents.currentEvent = currentEvent;
         HandleEvents.endGameEvent = endGameEvent;
     }
+
+    [Command (requiresAuthority = false)]
+    public void cmd_DestroyWall(string wallName)
+    {
+        rpc_DestroyWall(wallName);
+    }
+
+    [ClientRpc]
+    public void rpc_DestroyWall(string wallName)
+    {
+        GameObject wall = GameObject.Find(wallName);
+        var crackedWallManager = Resources.FindObjectsOfTypeAll<GameObject>()
+                                    .FirstOrDefault<GameObject>(x => x.GetComponent<ManageCrackedWalls>() != null)
+                                    .GetComponent<ManageCrackedWalls>();
+        crackedWallManager.DestroyCrackedWall(wall);
+
+    }
 }

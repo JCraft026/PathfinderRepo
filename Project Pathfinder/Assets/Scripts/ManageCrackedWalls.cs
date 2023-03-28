@@ -61,9 +61,15 @@ public class ManageCrackedWalls : MonoBehaviour
                 if(CustomNetworkManager.isRunner){
                     GameObject.Find("MM" + closestWall.name.Substring(8)).SetActive(false);
                 }
-                Destroy(closestWall);
-                crackedWallList.Remove(closestWall);
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_DestroyWall(closestWall.name);
+                //Destroy(closestWall);
+                //crackedWallList.Remove(closestWall);
             }
         }
+    }
+
+    public void DestroyCrackedWall(GameObject wall){
+        Destroy(wall);
+        crackedWallList.Remove(wall);
     }
 }
