@@ -22,11 +22,16 @@ public class ManageRunnerStats : MonoBehaviour
             heart1 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1"));
             heart2 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2"));
             heart3 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3"));
-
-            heart1.SetActive(true);
-            heart2.SetActive(true);
-            heart3.SetActive(true);
         }
+        else{
+            heart1 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart1"));
+            heart2 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart2"));
+            heart3 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3"));
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("RHPLabel")).SetActive(true);
+        }
+        heart1.SetActive(true);
+        heart2.SetActive(true);
+        heart3.SetActive(true);
     }
 
     // Update is called once per frame
@@ -49,28 +54,64 @@ public class ManageRunnerStats : MonoBehaviour
         switch (health)
         {
             case 5:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).GetComponent<Image>().sprite = halfHeart;
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).GetComponent<Image>().sprite = halfHeart;
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).GetComponent<Image>().sprite = halfHeart;
+                }
                 break;
             case 4:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).SetActive(false);
+                }
                 break;
             case 3:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).GetComponent<Image>().sprite = halfHeart;
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).GetComponent<Image>().sprite = halfHeart;
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart2")).GetComponent<Image>().sprite = halfHeart;
+                }
                 break;
             case 2:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart2")).SetActive(false);
+                }
                 break;
             case 1:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).GetComponent<Image>().sprite = halfHeart;
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).GetComponent<Image>().sprite = halfHeart;
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart2")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart1")).GetComponent<Image>().sprite = halfHeart;
+                }
                 break;
             case 0:
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).SetActive(false);
+                if(CustomNetworkManager.isRunner){
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).SetActive(false);
+                }
+                else{
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart3")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart2")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GMHeart1")).SetActive(false);
+                }
                 break;
         }
     }
