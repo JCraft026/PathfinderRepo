@@ -530,6 +530,8 @@ MonoBehaviour:
   syncInterval: 0.1
   animator: {fileID: 8143676233623653492}
   generator: {fileID: 0}
+  repairingEffect: {fileID: 0}
+  repairUI: {fileID: 9012021918931687126}
   repairCount: 0
 --- !u!114 &-1071918989204739396
 MonoBehaviour:

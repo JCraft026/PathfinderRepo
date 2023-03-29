@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1924899588669233278}
   - component: {fileID: 7116551226011799273}
   m_Layer: 0
-  m_Name: ReparingEffect
+  m_Name: RepairingEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
