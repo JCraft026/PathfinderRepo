@@ -30,7 +30,7 @@ public class ChaserDash : NetworkBehaviour
         }
 
         // Display chaser dash
-        if(frameCount <= 2){
+        if(frameCount <= 6){
             for(int moveNudges = 30; moveNudges > 0; moveNudges--){
                 switch (animator.GetFloat("Facing Direction"))
                 {
@@ -54,7 +54,7 @@ public class ChaserDash : NetworkBehaviour
                 }
             }
         }
-        else{
+        else if(animator.GetBool("Dashing")){
             animator.SetBool("Dashing", false);
             gameObject.GetComponent<MoveCharacter>().canMove = true;
         }
