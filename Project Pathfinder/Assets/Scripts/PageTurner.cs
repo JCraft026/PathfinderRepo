@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PageTurner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void TurnRunnerPage()
     {
-        
+        CanvasRenderer.FindObjectOfType<GameObject>(GameObject.Find("RunnerPage"));
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TurnEscapePage()
     {
-        
+
+    }
+
+    public void TurnItemPage()
+    {
+
     }
 }
