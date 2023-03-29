@@ -7,6 +7,7 @@ TagManager:
   - MainCanvas
   - Torch
   - Barricade
+  - Track
   layers:
   - Default
   - TransparentFX

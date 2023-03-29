@@ -19,24 +19,24 @@ public class MoveCharacter : NetworkBehaviour
     public GameObject flashlight;                            // Character's flashlight object (if they have one)
     public float moveSpeed = 5f;                             // Speed at which the character needs to move
     public float facingDirection;                            // Direction the character should face after movement
-    public Vector2 movementInput;                                   // Character's current input direction             
+    public Vector2 movementInput;                            // Character's current input direction             
     public Rigidbody2D rigidBody;                            // Character's RigidBody
     public Animator animator;                                // Character's animator manager
-    public bool canMove = true;                       // Character movement lock status
+    public bool canMove = true;                              // Character movement lock status
     public GameObject PauseCanvas;                           // Exit game menu
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
     private float mazeHeight = 13;                           // Height of the maze
-    public WallStatus[,] mazeData = new WallStatus[13, 13]; // Maze data
+    public WallStatus[,] mazeData = new WallStatus[13, 13];  // Maze data
     private WallStatus currentCell;                          // Wall status of the cell the parent character object is in
     private float currentCellY;                              // Y position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
 
-    private Player_UI playerUi;     // Imports the Player's UI to access what is the player
-    public static MoveCharacter Instance; // Makes an instance of this class to access 
-    Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
+    public static MoveCharacter Instance;                    // Makes an instance of this class to access 
+    Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
