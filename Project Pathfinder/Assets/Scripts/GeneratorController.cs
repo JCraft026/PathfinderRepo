@@ -17,7 +17,7 @@ public class GeneratorController : NetworkBehaviour
     public GameObject player {
         get
         {
-            return GameObject.Find("Runner");
+            return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
         }
     }
     // Property for engineer
@@ -45,37 +45,29 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) < 3f){
+        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y -1f), engineer.transform.position) < 3f){
             if(repairCount < 60){
                 repairCount += 1;
                 // Only sets the repairing UI to true
                 if(engineer.transform.GetChild(2).gameObject.activeSelf == false){
                     cmd_objectEnable("RepairUI", true);
                     cmd_objectEnable("RepairingEffect", true);
-                    // engineer.transform.GetChild(2).gameObject.SetActive(true);
-                    // gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                    Debug.Log("Set engineer repair (" + engineer.transform.GetChild(2).gameObject + ") to active");
-                    Debug.Log("Set generator repair (" + gameObject.transform.GetChild(0).gameObject + ") to active");
                 }
                 if(repairCount >= 60){
                     cmd_objectEnable("RepairUI", false);
                     cmd_objectEnable("RepairingEffect", false);
-                    // engineer.transform.GetChild(2).gameObject.SetActive(false);
-                    // gameObject.transform.GetChild(0).gameObject.SetActive(false);
                     cmd_SetSteam("IsBusted", false);
                     repairCount = 0;
                 }
             }
         }
         // Turn off repairing UI if away from Generator
-        else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 1.25f, gameObject.transform.position.y -1.25f), engineer.transform.position) >= 3f){
+        else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y -1f), engineer.transform.position) >= 3f){
             if(engineer.transform.GetChild(2).gameObject.activeSelf){
                 cmd_objectEnable("RepairingEffect", false);
-                // engineer.transform.GetChild(2).gameObject.SetActive(false);
             }
             if(gameObject.transform.GetChild(0).gameObject.activeSelf){
                 cmd_objectEnable("RepairUI", false);
-                // gameObject.transform.GetChild(0).gameObject.SetActive(false);
             }
         }
     }
@@ -86,12 +78,11 @@ public class GeneratorController : NetworkBehaviour
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
 
-        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position) < 2.0f){
-            Debug.Log("GeneratorController: distance between runner & generator fine. Generator should break");
+        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position) < 2.5f){
             generator.GetComponent<GeneratorController>().cmd_SetSteam("IsBusted", true); 
             generatorBroken = true; 
         }
-        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 1f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
         return generatorBroken;    
     }
 
@@ -127,7 +118,7 @@ public class GeneratorController : NetworkBehaviour
                 repairingEffect.SetActive(setting);
             }
         }
-        else if(target == "RepairUI"){
+        else if(target == "RepairUI" && CustomNetworkManager.isRunner == false){
             if(repairUI == null){
                 Debug.LogWarning("REPAIR UI IS NULL");
             }
@@ -157,7 +148,6 @@ public class GeneratorController : NetworkBehaviour
     void cmd_objectEnable(string target, bool setting)
     {
         rpc_objectEnable(target, setting);
-        //local_objectEnable(target, setting);
         Debug.Log("Called Command to set object");
     }
 
