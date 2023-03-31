@@ -19,7 +19,12 @@ public class PlayerProfile
         { "wins_guards", 0 },
         { "losses_runner", 0 },
         { "losses_guards", 0 },
-        { "fake_stat", 100 }
+        { "chaser_dashes_used", 0 },
+        { "trapper_trapchests_created", 0 },
+        { "trapper_trapchests_triggered", 0 },
+        { "engineer_walls_placed", 0 },
+        { "runner_trapchests_triggered", 0 },
+        { "profile_version", 1 }
     };
     public Dictionary<string, bool> adjectives = new Dictionary<string, bool>
     {
@@ -29,7 +34,7 @@ public class PlayerProfile
     };
 }
 
-public class RegisterProfile : MonoBehaviour
+public class Profile : MonoBehaviour
 {
     public GameObject usernameInputBox;
     public string profilesJSONFilePath = "./Savedata/profiles.json";
@@ -52,12 +57,19 @@ public class RegisterProfile : MonoBehaviour
     // "Register" button pressed
     public void ButtonPress()
     {
+        return;
+    }
+    
+    public void Button_Login() {
+        string username_text = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        loginProfile(LoadProfile(username_text));
+        return;
+    }
+    
+    public void Button_RegisterAndLogin() {
         string username_text = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
         registerUsername(username_text);
-        
-        Debug.Log(GetObject("Dropdown"));
-        AddAdjectivesToDropdown();
-        
+        loginProfile(LoadProfile(username_text));
         return;
     }
     
@@ -97,9 +109,17 @@ public class RegisterProfile : MonoBehaviour
         newProfile.username = username;
         newProfile.passwordHash = "";
         
-        WriteToFile(profilePath, ProfileToString(newProfile));
+        SaveProfile(newProfile);
+        //WriteStringToFile(profilePath, ProfileToString(newProfile));
         Debug.Log("The profile '" + username + "' has been saved!");
         
+        return;
+    }
+    
+    public void loginProfile(PlayerProfile playerProfile) {
+        //var CNM_cl = GetObject("CustomNetworkManager").GetComponent<CustomNetworkManager>();
+        //CNM.GetComponent<CustomNetworkManager>().currentLogin = playerProfile.username;
+        Debug.Log(CustomNetworkManager.currentLogin);
         return;
     }
     
@@ -120,27 +140,58 @@ public class RegisterProfile : MonoBehaviour
     // }
     
     
+    //public PlayerProfile GetCurrentProfile() {
+    //    return new PlayerProfile();
+    //}
     
+    // ORIGIN: CustomNetworkManagerDAO.71
+    // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
+    //public void UpdateServerName()
+    //{
+    //    var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>(); // the dropdown box that sets the server name
+    //    if(dropdown == null)
+    //    {
+    //        Debug.LogError("Dropdown is null");
+    //    }
+    //    Debug.Log(dropdown.captionText.text);
+    //    GetServerBrowserBackend().serverName = dropdown.captionText.text;
+    //}
+    
+    // Saves a profile to its local file.
+    public bool SaveProfile(PlayerProfile profile) {
+        WriteStringToFile(GetProfileFilepath(profile), ProfileToString(profile));
+        return true;
+    }
+    
+    // Loads an already saved player profile from its local file.
+    public PlayerProfile LoadProfile(string username) {
+        return ReadProfileFromFile(GetProfileFilepath(username));
+    }
+    
+    // Serializes a profile into a json string.
     public string ProfileToString(PlayerProfile playerProfile) {
         return JsonConvert.SerializeObject(playerProfile, Formatting.Indented);
     }
     
+    // Deserializes a json string into a profile.
     public PlayerProfile StringToProfile(string playerProfile) {
         return JsonConvert.DeserializeObject<PlayerProfile>(playerProfile);
     }
     
+    // Gets the save file path for a given profile.
     public string GetProfileFilepath(PlayerProfile playerProfile) {
         return GetProfileFilepath(playerProfile.username);
     }
-    
     public string GetProfileFilepath(string username) {
         return "./Savedata/" + username + ".profile";
     }
     
+    // Reads a profile from a given filepath.
     public PlayerProfile ReadProfileFromFile(string filepath) {
         return StringToProfile(ReadFileAsString(filepath));
     }
     
+    // Reads in a text file as a string.
     public string ReadFileAsString(string path)
     {
         if (path == null)
@@ -152,7 +203,8 @@ public class RegisterProfile : MonoBehaviour
         return fileData;
     }
     
-    public void WriteToFile(string path, string saved_string)
+    // Overwrites a file as the contents of a string.
+    public void WriteStringToFile(string path, string saved_string)
     {
         if (path == null)
             return;
@@ -166,17 +218,25 @@ public class RegisterProfile : MonoBehaviour
     
     public void AddAdjectivesToDropdown() {
         // > Get User Profile
-        // > Get Dropdown Object
-        // > Add Options
-          //AddOptions(List<String>);
+        PlayerProfile currentProfile = new PlayerProfile();
         
+        // > Get Dropdown Object
+        GameObject dropdownObject = GameObject.Find("Dropdown");
+        
+        // > Add Options
+        List<string> options = new List<string>();
+        foreach (KeyValuePair<string,bool> adj in currentProfile.adjectives) {
+            if (adj.Value == true)
+                options.Add(adj.Key);
+        }
+        //Debug.Log(JsonConvert.SerializeObject(options));
+        foreach(var component in dropdownObject.GetComponents<Component>()) Debug.Log(component);
+        //Debug.Log(dropdownObject.GetComponent<TMPro.TMP_Dropdown>());
+        dropdownObject.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
+        dropdownObject.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options);
+        //AddOptions(List<String>);
         
     }
-    
-    
-    
-    
-    
     
 }
 
@@ -242,7 +302,7 @@ public class RegisterProfile : MonoBehaviour
             
             if (profilesDB[MAX_PROFILE_ID] == null) {
                 profilesDB[MAX_PROFILE_ID] = new PlayerProfile();
-                WriteToFile(filepath, JsonUtility.ToJson(profilesDB[MAX_PROFILE_ID]));
+                WriteStringToFile(filepath, JsonUtility.ToJson(profilesDB[MAX_PROFILE_ID]));
             }
             
             Debug.Log("loop" + i);

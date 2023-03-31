@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.SceneManagement;
+//using Profile;
 
 /*
     *This class is responsible for all general networking that is not specifically covered by any other class
@@ -23,6 +24,8 @@ public class CustomNetworkManager : NetworkManager
     public static bool isRunner            = false;               
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
     public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
+    
+    public static string currentLogin = null;
 
     [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser

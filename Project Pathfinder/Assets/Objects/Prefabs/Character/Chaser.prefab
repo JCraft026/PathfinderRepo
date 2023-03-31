@@ -458,6 +458,7 @@ MonoBehaviour:
   syncInterval: 0.1
   animator: {fileID: 2696247814498831813}
   damageTaken: 0
+  cameraShake: {fileID: 0}
 --- !u!114 &-4666207054065086445
 MonoBehaviour:
   m_ObjectHideFlags: 0

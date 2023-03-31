@@ -6,12 +6,18 @@ using System;
 
 public class Utilities : MonoBehaviour
 {
-    public static Dictionary<string, GameObject> SeekLibrary = new Dictionary<string, GameObject>();
+    public static Dictionary<string, GameObject> ObjectLibrary = new Dictionary<string, GameObject>();
+    
+    public static void ClearObjectLibrary() {
+        ObjectLibrary = new Dictionary<string, GameObject>();
+    }
     
     public static GameObject GetObject(string objectName) {
-        if (!SeekLibrary.ContainsKey(objectName) || (SeekLibrary[objectName] == null))
-            SeekLibrary.Add(objectName, Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(objectName)));
-        return SeekLibrary[objectName];
+        if (!ObjectLibrary.ContainsKey(objectName))
+            ObjectLibrary.Add(objectName, Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(objectName)));
+        else if ((ObjectLibrary[objectName] == null))
+            ObjectLibrary[objectName] = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(objectName));
+        return ObjectLibrary[objectName];
     }
     
     // Get the scene coordinates corresponding to the given maze cell grid positon
