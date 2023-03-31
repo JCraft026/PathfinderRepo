@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GenerateSteam : MonoBehaviour
 {
-    public static float steam = 90;   // Amount of steam available for use
+    public static float steam = 0;   // Amount of steam available for use
     public int displaySteam;         // Amount of steam displayed
     private float steamLimit = 101f; // Total steam limit
     private float steamMultiplier;   // Variable steam generation
