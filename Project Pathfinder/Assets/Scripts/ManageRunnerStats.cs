@@ -5,11 +5,14 @@ using System.Linq;
 
 public class ManageRunnerStats : MonoBehaviour
 {
-    public int health = 6;    // Runner health
-    public GameObject heart1; // First HP heart
-    public GameObject heart2; // Second HP heart
-    public GameObject heart3; // Third HP heart
-    public Animator animator; // Character's animator manager
+    public int health = 6;           // Runner health
+    public GameObject heart1;        // First HP heart
+    public GameObject heart2;        // Second HP heart
+    public GameObject heart3;        // Third HP heart
+    public Animator animator;        // Character's animator manager
+    public GameObject damageSoundsObject;
+                                     // GameObject that damageSounds comes from
+    public AudioSource damageSounds; // Characters audiosource for taking damage
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +27,11 @@ public class ManageRunnerStats : MonoBehaviour
             heart2.SetActive(true);
             heart3.SetActive(true);
         }
+    }
+
+    void Awake() 
+    {
+        damageSounds = damageSoundsObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -56,6 +64,7 @@ public class ManageRunnerStats : MonoBehaviour
     // Process runner damage
     public void TakeDamage(int damage){
         health -= damage;
+        damageSounds.Play();
         Debug.Log("The runner took: " + damage.ToString() + " damage");
     }
 }
