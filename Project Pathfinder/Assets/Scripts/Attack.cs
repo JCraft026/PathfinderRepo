@@ -15,6 +15,7 @@ public class Attack : NetworkBehaviour
     public Regex engineerExpression = new Regex("Engineer"); // Match "Engineer"
     public Regex trapperExpression = new Regex("Trapper");   // Match "Trapper"
     public CameraShake cameraShake;                          // Holds the camera shaker script
+    public GameObject attackSoundMakerObject;                // References back to the AttackSound object in order to play attack audio
 
     // Update is called once per frame
     void Update()
@@ -25,9 +26,10 @@ public class Attack : NetworkBehaviour
             runnerPosition = runner.transform.position;
             guardPosition  = transform.position;
 
-            // Trigger guard master attack animation
+            // Trigger guard master attack animation and play the attack sound
             animator.SetBool("Attack", true);
             animator.SetBool("Attack Triggered", true);
+            attackSoundMakerObject.GetComponent<AudioSource>().Play();
             
             // If the runner is within attack range, process guard master attack
             if(Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
