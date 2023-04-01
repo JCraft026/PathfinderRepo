@@ -31,6 +31,7 @@ public class MoveCharacter : NetworkBehaviour
     public WallStatus[,] mazeData = new WallStatus[13, 13];  // Maze data
     private WallStatus currentCell;                          // Wall status of the cell the parent character object is in
     private float currentCellY;                              // Y position of the current cell
+    private float currentCellX;                              // X position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
 
@@ -154,7 +155,7 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Facing Direction", facingDirection);
         }
         
-        if(Math.Abs(gameObject.transform.position.x) < (int)(mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (int)(mazeHeight/2) * Utilities.GetCellSize()){
+        if(Math.Abs(gameObject.transform.position.x) < (mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (mazeHeight/2) * Utilities.GetCellSize()){
             // Get cell location of parent character object
             switch (activeCharacterCode)
             {
@@ -173,10 +174,16 @@ public class MoveCharacter : NetworkBehaviour
             }
             currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
             currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
+            currentCellX = characterCellLocation[0] * Utilities.GetCellSize();
 
             // Manage character arrow display
             if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
-                characterArrow.GetComponent<SpriteRenderer>().enabled = true;
+                if(IsNearBottomWall()){
+                    characterArrow.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                else{
+                    characterArrow.GetComponent<SpriteRenderer>().enabled = false;
+                }
             }
             else{
                 characterArrow.GetComponent<SpriteRenderer>().enabled = false;
@@ -221,5 +228,19 @@ public class MoveCharacter : NetworkBehaviour
             }
         }
         Debug.Log("NO GREEN");
+    }
+
+    bool IsNearBottomWall(){
+        bool nearBottomWall = false;
+        Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
+        Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(gameObject.transform.position, 5f);
+
+        foreach(var nearByObject in nearByObjects){
+            if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && nearByObject.transform.position.y < (gameObject.transform.position.y + 1) && nearByObject.transform.position.x == currentCellX){
+                nearBottomWall = true;
+            }
+        }
+
+        return nearBottomWall;
     }
 }
