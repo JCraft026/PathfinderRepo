@@ -341,8 +341,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -802.16, y: 36.1}
-  m_SizeDelta: {x: 270.31, y: 288.2002}
+  m_AnchoredPosition: {x: -802.16, y: 44.1}
+  m_SizeDelta: {x: 270.32, y: 272.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9751741
 MonoBehaviour:
@@ -366,8 +366,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Sledgehammer:
 
-    Use it to destroy cracked walls and steam generators
-    that generate steam for Guardmaster special abilities'
+    Destroys cracked walls and steam generators that generate
+    steam for Guardmaster robots'' special abilities.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4356,7 +4356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: These are the keyholes that are hidden in the control room in the center
+  m_text: These are the keyholes that are located in the control room in the center
     of the maze. Approach a keyhole with the matching colored key to insert it.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5126,9 +5126,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Trapper has the passive abilities of being able to see through the
-    dark in every direction and to spot the trail of the Runner''s footprints when
-    the Runner is using the green screen suit.
+  m_text: 'The Trapper''s passive ability allows him to see in every direction and
+    spot the Runner''s foorptints when the Runner is invisible.
 
 '
   m_isRightToLeft: 0
@@ -5304,7 +5303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &534413657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5794,7 +5793,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -38, y: -456.78}
+  m_AnchoredPosition: {x: 41.05902, y: -470.52}
   m_SizeDelta: {x: 903.7354, y: 133.6496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &592711882
@@ -5817,8 +5816,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fast travel to a different area of the maze by selecting a square cell
-    of the minimap that will appear in the top rightmost corner.
+  m_text: Fast travel to a different area of the maze by clicking a location on the
+    minimap.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5930,8 +5929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 81.09346, y: 139.04253}
-  m_SizeDelta: {x: 813.7508, y: 209.715}
+  m_AnchoredPosition: {x: 81.092, y: 149.95}
+  m_SizeDelta: {x: 813.75, y: 187.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &593695851
 MonoBehaviour:
@@ -7898,7 +7897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &910352960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11327,7 +11326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1267870287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12274,10 +12273,7 @@ MonoBehaviour:
   m_text: 'Common Grounds Coffee:
 
     This caffeinated beverage gives the Runner
-    a temporary speed boost that comes in handy when in a pinch.
-
-    P.S., caffeine
-    overdose stops the heart.'
+    a temporary speed boost that comes in handy when in a pinch.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12663,7 +12659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1400937078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15256,11 +15252,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Closed doors (above) are randomly installed around the perimeter of the
-    maze.
+  m_text: 'Closed doors (above) are located near the corners of the maze.
 
-    Once unlocked, they become open doors (below) that provide an exit
-    to escape.'
+    Once
+    unlocked (below) the doors will automatically open.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
