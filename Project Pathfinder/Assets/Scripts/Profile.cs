@@ -11,8 +11,8 @@ using static Utilities;
 [Serializable]
 public class PlayerProfile
 {
-    public string username = "Guest";
-    public string passwordHash;
+    public string username = "[Guest]";
+    public string password;
     public Dictionary<string, int> stats = new Dictionary<string, int>
     {
         { "wins_runner", 0 },
@@ -29,152 +29,167 @@ public class PlayerProfile
     public Dictionary<string, bool> adjectives = new Dictionary<string, bool>
     {
         { "green", true },
-        { "blue",  true },
-        { "red",   true }
+        { "blue", true },
+        { "red", true }
+    };
+    public Dictionary<string, bool> titles = new Dictionary<string, bool>
+    {
+        { "participator", true },
+        { "victor", false },
+        { "gamer", true }
     };
 }
 
 public class Profile : MonoBehaviour
 {
     public GameObject usernameInputBox;
+    public GameObject passwordInputBox;
     public string profilesJSONFilePath = "./Savedata/profiles.json";
     public string profilesDirectory = "./Savedata/";
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
-    //public Regex profilesFilenameRegex = new Regex("^profile[1-5].profile$");
     public int MAX_USERNAME_LENGTH = 16;
     public int MAX_PROFILE_COUNT = 4;
-    public int MAX_PROFILE_ID;
     
     // Start is called before the first frame update.
     void Start () {
-        MAX_PROFILE_ID = MAX_PROFILE_COUNT - 1;
     }
     
     // Update is called once per frame.
     void Update() {
     }
     
-    // "Register" button pressed
-    public void ButtonPress()
-    {
-        return;
-    }
-    
+    // "Login" button pressed.
     public void Button_Login() {
-        string username_text = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
-        loginProfile(LoadProfile(username_text));
+        string username = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        string password = (passwordInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        if (!DoesProfileExist(username)) {
+            WriteMessageToUser("That profile does not exist on this device.");
+            return;
+        }
+        if (!LoginProfile(username, password)) {
+            WriteMessageToUser("Incorrect password.");
+            return;
+        }
+        AddNamesToDropdownMenus();
+        WriteMessageToUser("You are now logged in as '" + username + "'.");
         return;
     }
     
+    // "Register" button pressed.
     public void Button_RegisterAndLogin() {
-        string username_text = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
-        registerUsername(username_text);
-        loginProfile(LoadProfile(username_text));
+        string username = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        string password = (passwordInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        RegisterProfile(username, password);
+        if (!LoginProfile(username, password))
+            WriteMessageToUser("ERROR: Impossible condition. " +
+                "Password does not match registered account. " +
+                "Could not login the registered profile.");
         return;
     }
     
-    public void registerUsername(string username)
+    // Registers a name into the database, if possible.
+    public void RegisterProfile(string username, string password)
     {
         // > Test if the username is too short.
         if (username.Length <= 0) {
-            Debug.Log("Username invalid: The username must have at least one character!");
+            WriteMessageToUser("Username invalid:\nThe username must have at least one character.");
             return;
         }
         
         // > Test if the username is too long.
         if (username.Length > MAX_USERNAME_LENGTH) {
-            Debug.Log("Username invalid: The username cannot be longer than "
-                + MAX_USERNAME_LENGTH + " characters!");
+            WriteMessageToUser("Username invalid:\nThe username cannot be longer than "
+                + MAX_USERNAME_LENGTH + " characters.");
             return;
         }
         
         // > Test if username contains valid characters.
         if (!usernameRegexRules.IsMatch(username)) {
-            Debug.Log("Username invalid: The username must only contain numbers, letters, and underscores!");
+            WriteMessageToUser("Username invalid:\nThe username must only contain numbers, letters, and underscores.");
             return;
         }
         
-        // > Test if the profile already exists and that it isn't empty or corrupt.
-        string profilePath = GetProfileFilepath(username);
-        
-        if (System.IO.File.Exists(profilePath)
-            && ("" != ReadFileAsString(profilePath))) {
-            Debug.Log("Username invalid: The username '" + username + "' is already in use on this device!");
-            Debug.Log(ReadFileAsString(profilePath));
+        // > Test if the profile already exists.
+        if (DoesProfileExist(username)) {
+            WriteMessageToUser("Username invalid:\nThe username '" + username + "' is already in use on this device.");
             return;
         }
         
         // > Save the newly registered profile as a new file.
         PlayerProfile newProfile = new PlayerProfile();
         newProfile.username = username;
-        newProfile.passwordHash = "";
+        newProfile.password = password;
         
         SaveProfile(newProfile);
-        //WriteStringToFile(profilePath, ProfileToString(newProfile));
-        Debug.Log("The profile '" + username + "' has been saved!");
+        WriteMessageToUser("The profile '" + username + "' has been saved!");
         
         return;
     }
     
-    public void loginProfile(PlayerProfile playerProfile) {
-        //var CNM_cl = GetObject("CustomNetworkManager").GetComponent<CustomNetworkManager>();
-        //CNM.GetComponent<CustomNetworkManager>().currentLogin = playerProfile.username;
-        Debug.Log(CustomNetworkManager.currentLogin);
-        return;
-    }
-    
-    // Future Function Ideas:
-    // LoadProfile(string username?)
-    // SaveProfile(PlayerProfile)
-    // AddGameToStats()
-    // Class GameStats
-    // {
-    //     host_team: 'R' or 'GM'
-    //     host_username: 'username1'
-    //     client_username: 'username2'
-    //     game_result: 'host', 'client', 'disconnect'
-    //     remaining_seconds: 296
-    //     doors_unlocked: 'R__Y'
-    //     trapped_chest_explosions: 4
-    //     cracked_walls_destroyed: 2
-    // }
-    
-    
-    //public PlayerProfile GetCurrentProfile() {
-    //    return new PlayerProfile();
-    //}
-    
-    // ORIGIN: CustomNetworkManagerDAO.71
-    // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
-    //public void UpdateServerName()
-    //{
-    //    var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>(); // the dropdown box that sets the server name
-    //    if(dropdown == null)
-    //    {
-    //        Debug.LogError("Dropdown is null");
-    //    }
-    //    Debug.Log(dropdown.captionText.text);
-    //    GetServerBrowserBackend().serverName = dropdown.captionText.text;
-    //}
-    
-    // Saves a profile to its local file.
-    public bool SaveProfile(PlayerProfile profile) {
-        WriteStringToFile(GetProfileFilepath(profile), ProfileToString(profile));
+    public bool LoginProfile(string username, string password) {
+        PlayerProfile profile = ReadProfileFromFile(GetProfileFilepath(username));
+        if (profile.password != password)
+            return false;
+        CustomNetworkManager.currentLogin = profile;
         return true;
     }
     
-    // Loads an already saved player profile from its local file.
-    public PlayerProfile LoadProfile(string username) {
-        return ReadProfileFromFile(GetProfileFilepath(username));
+    // Future Function Ideas:
+    //   AddGameToStats()
+    //   Class GameStats
+    //   {
+    //       host_team: 'R' or 'GM'
+    //       host_username: 'username1'
+    //       client_username: 'username2'
+    //       game_result: 'host', 'client', 'disconnect'
+    //       remaining_seconds: 296
+    //       doors_unlocked: 'R__Y'
+    //       trapped_chest_explosions: 4
+    //       cracked_walls_destroyed: 2
+    //   }
+    
+    
+    public PlayerProfile GetCurrentLogin() {
+        return CustomNetworkManager.currentLogin;
     }
     
-    // Serializes a profile into a json string.
+    public void WriteMessageToUser(string message) {
+        try {
+            GameObject responseTextbox = GameObject.Find("Response Text");
+            responseTextbox.GetComponent<TMPro.TMP_Text>().text = message;
+        } catch (Exception exception) {
+            Debug.Log("Error: Couldn't send message to the user for this reason:" + exception);
+        }
+        Debug.Log(message);
+    }
+    
+    public bool DoesProfileExist(string username) {
+        return System.IO.File.Exists(GetProfileFilepath(username));
+    }
+    
+    // Saves a profile to its local file.
+    public bool SaveProfile(PlayerProfile profile) {
+        try {
+            WriteStringToFile(GetProfileFilepath(profile), ProfileToString(profile));
+            return true;
+        } catch (Exception error) {
+            Debug.Log(error);
+            return false;
+        }
+    }
+    
+    // Loads an already saved player profile from its local file.
+    //public PlayerProfile LoadProfile(string username, string password) {
+    //    return ReadProfileFromFile(GetProfileFilepath(username));
+    //}
+    
+    // Serializes a profile object into a json string.
     public string ProfileToString(PlayerProfile playerProfile) {
         return JsonConvert.SerializeObject(playerProfile, Formatting.Indented);
     }
     
-    // Deserializes a json string into a profile.
-    public PlayerProfile StringToProfile(string playerProfile) {
+    // Deserializes a json string into a profile object.
+    public PlayerProfile GetProfileFromString(string playerProfile) {
         return JsonConvert.DeserializeObject<PlayerProfile>(playerProfile);
     }
     
@@ -188,12 +203,11 @@ public class Profile : MonoBehaviour
     
     // Reads a profile from a given filepath.
     public PlayerProfile ReadProfileFromFile(string filepath) {
-        return StringToProfile(ReadFileAsString(filepath));
+        return GetProfileFromString(ReadFileAsString(filepath));
     }
     
     // Reads in a text file as a string.
-    public string ReadFileAsString(string path)
-    {
+    public string ReadFileAsString(string path) {
         if (path == null)
             return null;
         string fileData;
@@ -204,8 +218,7 @@ public class Profile : MonoBehaviour
     }
     
     // Overwrites a file as the contents of a string.
-    public void WriteStringToFile(string path, string saved_string)
-    {
+    public void WriteStringToFile(string path, string saved_string) {
         if (path == null)
             return;
         StreamWriter writer = new StreamWriter(path, false);
@@ -214,28 +227,31 @@ public class Profile : MonoBehaviour
         return;
     }
     
-    
-    
-    public void AddAdjectivesToDropdown() {
-        // > Get User Profile
-        PlayerProfile currentProfile = new PlayerProfile();
+    // Adds the adjectives and titles to the server name selection windows.
+    public void AddNamesToDropdownMenus() {
+        PlayerProfile currentProfile = CustomNetworkManager.currentLogin;
         
-        // > Get Dropdown Object
-        GameObject dropdownObject = GameObject.Find("Dropdown");
+        GameObject dropdownAdjective1 = GameObject.Find("Dropdown (Adjective1)");
+        GameObject dropdownAdjective2 = GameObject.Find("Dropdown (Adjective2)");
+        GameObject dropdownTitle      = GameObject.Find("Dropdown (Title)");
         
-        // > Add Options
-        List<string> options = new List<string>();
+        List<string> options_adjectives = new List<string>();
         foreach (KeyValuePair<string,bool> adj in currentProfile.adjectives) {
             if (adj.Value == true)
-                options.Add(adj.Key);
+                options_adjectives.Add(adj.Key);
         }
-        //Debug.Log(JsonConvert.SerializeObject(options));
-        foreach(var component in dropdownObject.GetComponents<Component>()) Debug.Log(component);
-        //Debug.Log(dropdownObject.GetComponent<TMPro.TMP_Dropdown>());
-        dropdownObject.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
-        dropdownObject.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options);
-        //AddOptions(List<String>);
+        List<string> options_titles = new List<string>();
+        foreach (KeyValuePair<string,bool> adj in currentProfile.titles) {
+            if (adj.Value == true)
+                options_titles.Add(adj.Key);
+        }
         
+        dropdownAdjective1.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
+        dropdownAdjective1.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options_adjectives);
+        dropdownAdjective2.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
+        dropdownAdjective2.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options_adjectives);
+        dropdownTitle.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
+        dropdownTitle.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options_titles);
     }
     
 }
@@ -270,6 +286,37 @@ public class Profile : MonoBehaviour
 
 //=============================================================================
 // Random code (for future Keegan):
+
+
+
+
+// ORIGIN: CustomNetworkManagerDAO.71
+    // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
+    //public void UpdateServerName()
+    //{
+    //    var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>(); // the dropdown box that sets the server name
+    //    if(dropdown == null)
+    //    {
+    //        Debug.LogError("Dropdown is null");
+    //    }
+    //    Debug.Log(dropdown.captionText.text);
+    //    GetServerBrowserBackend().serverName = dropdown.captionText.text;
+    //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //for (int i = 0; i < username.Length; i++) { char c = username[i]; }
 //foreach (char c in username) { Debug.Log(c); }
@@ -340,5 +387,8 @@ public class Profile : MonoBehaviour
         
         
         // > Write the updated database into the database file.
+        
+        
+        //foreach(var component in responseTextbox.GetComponent<TMPro.TMP_Text>()) Debug.Log(component);
         
         
