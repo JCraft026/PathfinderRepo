@@ -30,12 +30,17 @@ public class SpawnGenerators : NetworkBehaviour
     {
         Debug.Log("Generating generators");
 
+        // Seeds the random number for each game instance
+        Random.state.Equals((int)System.DateTime.Now.Ticks);
+
+        // Declare a list of possible spawning locations
         List<int> listOfSpawnSpots = new List<int>() {0,1,2,3};
 
+        // Randomly select, use, and remove one of the options of where to spawn a generator 
         for (int spawnLimit = 1; spawnLimit <= spawnCount;)
         {
             Vector2 generatorPos = new Vector2();
-            int spawnPlace = UnityEngine.Random.Range(0, 3);
+            int spawnPlace = UnityEngine.Random.Range(0, 4);
 
             if(listOfSpawnSpots.Contains(spawnPlace)){
                 switch(spawnPlace){
