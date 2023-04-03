@@ -40,8 +40,8 @@ public class EngineerAbility : NetworkBehaviour
         // Update barricade count
         barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
 
-        // When engineer presses "[q]"
-        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
+        // When engineer presses "[k]"
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             

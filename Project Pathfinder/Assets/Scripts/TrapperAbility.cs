@@ -20,8 +20,8 @@ public class TrapperAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // When trapper presses "[q]"
-        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && GenerateSteam.steam >= 25f){
+        // When trapper presses "[k]"
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && GenerateSteam.steam >= 25f){
             // Subtract from steam
             GenerateSteam.steam -= 25f;
 

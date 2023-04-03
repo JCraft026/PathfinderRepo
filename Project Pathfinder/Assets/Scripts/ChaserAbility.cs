@@ -19,8 +19,8 @@ public class ChaserAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // When the chaser presses "[q]"
-        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        // When the chaser presses "[k]"
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
             if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 20f){
                 // Subtract from steam
