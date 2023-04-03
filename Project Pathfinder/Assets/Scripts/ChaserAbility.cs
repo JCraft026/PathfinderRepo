@@ -10,6 +10,7 @@ public class ChaserAbility : NetworkBehaviour
     MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
     ChaserDash chaserDash;                     // ChaserDash instance
     public Animator animator;                  // Chaser's animator controller
+    public GameObject abilitySound;            // Chaser's ability sound game object
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -27,6 +28,7 @@ public class ChaserAbility : NetworkBehaviour
                 GenerateSteam.steam -= 10f;
 
                 chaserDash.startDash();
+                abilitySound.GetComponent<AudioSource>().Play();
                 Debug.Log("Started dash");
             }
         }

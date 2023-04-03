@@ -22,6 +22,7 @@ public class EngineerAbility : NetworkBehaviour
     [SyncVar]
     public int barricadeCount = 0;               // Keeps track of the max number of barricades
     CustomNetworkManager customNetworkManager;   // CustomNetworkManager script instance
+    public GameObject abilitySound;             // Engineer's ability sound gameobject
 
     void Start(){
         // Get engineer's MoveCharacter script
@@ -128,6 +129,7 @@ public class EngineerAbility : NetworkBehaviour
                     }
                     break;
             }
+            abilitySound.GetComponent<AudioSource>().Play();
         }
         // When engineer presses "[q]" but he already has max barricades placed
         else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount >= 3){

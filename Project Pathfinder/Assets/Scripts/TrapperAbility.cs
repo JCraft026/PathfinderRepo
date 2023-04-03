@@ -12,6 +12,7 @@ public class TrapperAbility : NetworkBehaviour
     public GameObject chestTrap;                // Actual chest trap object
     public GameObject tempChestTrap;            // Temporary chest trap object to instantiate
     private MoveCharacter trapperMoveCharacter; // Trapper's MoveCharacter Script
+    public GameObject abilitySound;             // Sound maker object for the trappers ability
 
     void Start(){
         trapperMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -26,6 +27,7 @@ public class TrapperAbility : NetworkBehaviour
             GenerateSteam.steam -= 25f;
 
             placeChestTrap();
+            abilitySound.GetComponent<AudioSource>().Play();
         }
 
         // Reset the ability clicked status

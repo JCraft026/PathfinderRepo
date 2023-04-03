@@ -38,6 +38,8 @@ public class MoveCharacter : NetworkBehaviour
     private Player_UI playerUi;     // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance; // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    [SyncVar]
+    public bool isMoving; // Keeps track of if the player is moving, this way the client can play the correct audio
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -53,7 +55,7 @@ public class MoveCharacter : NetworkBehaviour
     void Awake()
     {
         PauseCanvas = GameObject.Find("PauseCanvas");
-        
+        isMoving = false;
     }
 
     void Start(){
@@ -148,6 +150,16 @@ public class MoveCharacter : NetworkBehaviour
                 }
             }
 
+            // Sync whether or not a player is moving to the other clients
+            if(movementInput.x != 0 || movementInput.y != 0)
+            {
+                cmd_SetIsMoving(true);
+            }
+            else
+            {
+                cmd_SetIsMoving(false);
+            }
+
             // Communicate movement values with the animator controller
             animator.SetFloat("Horizontal Movement", movementInput.x);
             animator.SetFloat("Vertical Movement", movementInput.y);
@@ -196,6 +208,7 @@ public class MoveCharacter : NetworkBehaviour
             // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
             rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
 
+            // Handle footstep audio for the local player
             if(movementInput != Vector2.zero && audioSource.isPlaying == false)
             {
                 audioSource.Play();
@@ -204,6 +217,16 @@ public class MoveCharacter : NetworkBehaviour
             {
                 audioSource.Stop();
             }
+        }
+
+        // Handle footstep audio for the other players (non-local players)
+        if(!isLocalPlayer && canMove && isMoving && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        else if(!isLocalPlayer && canMove && !isMoving && audioSource.isPlaying)
+        {
+            audioSource.Stop();
         }
     }
 
@@ -231,5 +254,12 @@ public class MoveCharacter : NetworkBehaviour
             }
         }
         Debug.Log("NO GREEN");
+    }
+
+    // Required to set isMoving on the server (SyncVars do not sync unless they are set on the server)
+    [Command(requiresAuthority = false)]
+    public void cmd_SetIsMoving(bool set)
+    {
+        isMoving = set;
     }
 }
