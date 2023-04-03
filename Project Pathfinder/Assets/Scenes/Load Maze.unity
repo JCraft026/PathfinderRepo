@@ -1640,7 +1640,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251511404}
   m_CullTransparentMesh: 1
---- !u!43 &288078995
+--- !u!43 &265554031
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4334,8 +4334,8 @@ MonoBehaviour:
   - {x: 0.5, y: 0.5, z: 0}
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
-  m_Mesh: {fileID: 288078995}
-  m_InstanceId: 52796
+  m_Mesh: {fileID: 265554031}
+  m_InstanceId: 48154
 --- !u!212 &768851317
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5774,10 +5774,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pfItemWorld: {fileID: 8837372865486751288, guid: 755af6852d2840b48a340552cc76b58a, type: 3}
   SmokeScreen: {fileID: 7699474653526203615, guid: f4fa75039af0393478725ae6257d4efe, type: 3}
+  EMP: {fileID: 0}
   sledgeSprite: {fileID: 21300000, guid: c164a86ce9fac804ab3c27d5e82b2b38, type: 3}
   smokeBombSprite: {fileID: 21300000, guid: 028476d45f2f9094b972d950356aab15, type: 3}
   coffeeSprite: {fileID: 21300000, guid: 365b2d84f6c21eb41be55ca5a5df9a59, type: 3}
   greenScreenSuitSprite: {fileID: 21300000, guid: 437557b821ffc064daacc2d93aba9d3c, type: 3}
+  empSprite: {fileID: 21300000, guid: a42bfe8ee310d334e8a6cf3e483e9afa, type: 3}
   Keys0Sprite: {fileID: -1297587525, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}
   Keys1Sprite: {fileID: 1983926103, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}
   Keys2Sprite: {fileID: -625650372, guid: cd56c7615840d4e4e8039a3f229c845c, type: 3}

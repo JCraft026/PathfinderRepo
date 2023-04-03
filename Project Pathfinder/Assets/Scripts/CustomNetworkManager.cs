@@ -173,6 +173,7 @@ public class CustomNetworkManager : NetworkManager
         Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
         Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
         Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
+        Item.empSpawnLimit          = Item.initialEMPSpawnLimit;
     }
 
     #endregion
@@ -272,6 +273,7 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnChests(25);
             ItemWorld.SpawnKeys();
         }
+            ItemWorld.SpawnChests(25);
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

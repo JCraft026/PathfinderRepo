@@ -48,7 +48,6 @@ public class ManageInventory : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collider){
         if(isLocalPlayer)
         {
-            Debug.Log("We collided");
             if(collider == null)
             {
                 Debug.LogError("Collider is null");
@@ -250,6 +249,9 @@ public class ManageInventory : NetworkBehaviour
             else{
                 Debug.Log("Still in Use");
             }
+            break;
+        case Item.ItemType.EMP:
+            Debug.Log("EMP Used");
             break;
         }
     }

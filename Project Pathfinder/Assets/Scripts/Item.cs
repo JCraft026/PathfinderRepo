@@ -11,6 +11,7 @@ public class Item
         public const int GREENSCREENSUIT     = 2; // Green screen suit item ID
         public const int SLEDGEHAMMER        = 3; // Sledgehammer item ID
         public const int SMOKEBOMB           = 4; // Smoke bomb item ID
+        public const int EMP                 = 5; // EMP item ID
     }
 
     public enum ItemType{
@@ -19,6 +20,7 @@ public class Item
         Coffee,    // Common Grounds Coffee 
         GreenScreenSuit, 
                    // Green Screen Suit
+        EMP,       // EMP Item
         Keys_0,    // Red Key
         Keys_1,    // Blue Key
         Keys_2,    // Green Key
@@ -30,11 +32,13 @@ public class Item
     public bool selected;     // Whether the item is selected or not
 
     public static int greenScreenSpawnLimit   = 5;  // Spawn in chest limit for the green screen suit
+    public static int empSpawnLimit           = 2;  // Spawn in chest limit for the EMP
     public static int smokeBombSpawnLimit     = 11; // Spawn in chest limit for the smoke bomb
     public static int coffeeSpawnLimit        = 8;  // Spawn in chest limit for the common grounds coffee
     public static int sledgehammerSpawnLimit  = 1;  // Spawn in chest limit for the sledgehammer
     public static int sledgehammerSpawnChance = 12;  // Chance of the runner picking up the sledgehammer
     public static int initialGSSpawnLimit     = 5;  // Initial value for green screen suit spawn limit
+    public static int initialEMPSpawnLimit    = 2;  // Inital value for emp spawn limit 
     public static int initialSBSpawnLimit     = 11; // Initial value for smoke bomb spawn limit
     public static int initialCFSpawnLimit     = 8;  // Initial value for common grounds coffee spawn limit
     public static int initialSHSpawnLimit     = 1;  // Initial value for sledgehammer spawn limit
@@ -48,6 +52,7 @@ public class Item
             case ItemType.Coffee:    return ItemAssets.Instance.coffeeSprite;
             case ItemType.GreenScreenSuit:
                                      return ItemAssets.Instance.greenScreenSuitSprite;
+            case ItemType.EMP:       return ItemAssets.Instance.empSprite;
             case ItemType.Keys_0:    return ItemAssets.Instance.Keys0Sprite;
             case ItemType.Keys_1:    return ItemAssets.Instance.Keys1Sprite;
             case ItemType.Keys_2:    return ItemAssets.Instance.Keys2Sprite;
@@ -134,6 +139,12 @@ public class Item
                     validSpawnItems.Add(ItemConstants.SMOKEBOMB);
                 }
             }
+            if(empSpawnLimit > 0){
+                for (int itemCount = 0; itemCount < empSpawnLimit; itemCount++)
+                {
+                    validSpawnItems.Add(ItemConstants.EMP);
+                }
+            }
 
             // Get random valid spawn item index
             var randomValidSpawnIndex = UnityEngine.Random.Range(0, validSpawnItems.Count);
@@ -156,6 +167,10 @@ public class Item
                 case ItemConstants.SMOKEBOMB:
                     item.itemType = ItemType.SmokeBomb;
                     smokeBombSpawnLimit--;
+                    break;
+                case ItemConstants.EMP:
+                    item.itemType = ItemType.EMP;
+                    empSpawnLimit--;
                     break;
             }
         }
