@@ -42,13 +42,15 @@ public class EngineerAbility : NetworkBehaviour
         barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
 
         // When engineer presses "[q]"
-        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
+        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false
+                && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) 
+                && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
             // Get engineer cell location
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
             
             // Test for null maze Data
             if(customNetworkManager.parsedMazeJson == null){
-                Debug.LogError("Parsed Maze Data is null");
+                Debug.LogError("EngineerAbility Update(): Parsed Maze Data is null");
             }
 
             // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
