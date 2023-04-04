@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 6301061394774261126}
   - component: {fileID: -597221310296035519}
   - component: {fileID: -3445517025355002660}
+  - component: {fileID: 129507311902530686}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -388,6 +389,19 @@ MonoBehaviour:
   barricadeHorizontal: {fileID: 7776396092578743102, guid: a8095f73e82beea4aac2b4f0cd63a639, type: 3}
   barricadeVertical: {fileID: 7776396092578743102, guid: 62f422b8ec2593d47a6ba90748b16e37, type: 3}
   barricadeCount: 0
+--- !u!114 &129507311902530686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5025691c7bb6ca74d98174a7f6a01466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &4426914521127218765
 GameObject:
   m_ObjectHideFlags: 0
