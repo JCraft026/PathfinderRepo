@@ -1208,7 +1208,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 616, y: -135.07}
+  m_AnchoredPosition: {x: 700, y: -135.07}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100205247
@@ -2814,8 +2814,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Engineer has the passive ability of being able to repair destroyed
-    steam generators when within a certain radius.
+  m_text: 'The Engineer''s passive ability allows him to repair destroyed steam generators
+    when within a certain radius.
 
 '
   m_isRightToLeft: 0
@@ -5303,7 +5303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &534413657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7897,7 +7897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &910352960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8645,8 +8645,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The Chaser has the passive ability of moving at the same speed as the
-    Runner, leaving the Trapper and Engineer behind to eat his dust.
+  m_text: 'The Chaser''s passive ability allows him to move at the same speed as
+    the Runner.
 
 '
   m_isRightToLeft: 0
@@ -9982,8 +9982,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 407.74005, y: 157.01}
-  m_SizeDelta: {x: 906.31, y: 114.02}
+  m_AnchoredPosition: {x: 316, y: 157.01}
+  m_SizeDelta: {x: 582.5, y: 114.02}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167956213
 MonoBehaviour:
@@ -10005,7 +10005,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: He attacks by powering up the drill attached to his arm in a menacing way.
+  m_text: He attacks by powering up the drill attached to his arm.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11052,8 +11052,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 368.25, y: -100.359985}
-  m_SizeDelta: {x: 943.5, y: 173.76}
+  m_AnchoredPosition: {x: 365.85, y: -100.79}
+  m_SizeDelta: {x: 973.6083, y: 124.4298}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1254213140
 MonoBehaviour:
@@ -11075,8 +11075,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: He has the active ability of placing down trap chests that explode upon
-    being opened by the unexpecting Runner.
+  m_text: His active ability is placing down trap chests that explode upon being
+    opened by the Runner.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11326,7 +11326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1267870287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11762,8 +11762,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 256, y: -248.53}
-  m_SizeDelta: {x: 469.6, y: 228.94}
+  m_AnchoredPosition: {x: 302.54, y: -212.05}
+  m_SizeDelta: {x: 605.0872, y: 255.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1337254694
 MonoBehaviour:
@@ -11785,8 +11785,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'He has the active ability of dashing at an alarming speed for a brief
-    period of time. '
+  m_text: His active ability is dashing at an alarming speed for a brief period of
+    time, allowing him to ram into the Runner and deal some damage.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12659,7 +12659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1400937078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15229,8 +15229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30, y: -370}
-  m_SizeDelta: {x: 1279.6078, y: 100}
+  m_AnchoredPosition: {x: 45.100025, y: -366.5}
+  m_SizeDelta: {x: 1009.8, y: 93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1672619489
 MonoBehaviour:
@@ -15255,7 +15255,7 @@ MonoBehaviour:
   m_text: 'Closed doors (above) are located near the corners of the maze.
 
     Once
-    unlocked (below) the doors will automatically open.'
+    unlocked, the doors will automatically open (below).'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17143,7 +17143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: His attacks by extending his arms, leaning forward, and grabbing ahead.
+  m_text: He attacks by extending his arms, leaning forward, and grabbing ahead.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17945,8 +17945,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: He has the active ability of placing down barricades that block the Runner
-    from escaping. They can be destroyed by the sledgehammer.
+  m_text: His active ability is placing down barricades that block the Runner from
+    escaping. They can be destroyed by the sledgehammer.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
