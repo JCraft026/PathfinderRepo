@@ -30,6 +30,8 @@ public class ManageMiniMap : MonoBehaviour
     private Transform trapperIcon;  // Trapper icon game object
 
     public bool componentsInitialized = false; // Reflects character icon initialization
+    public float nextSpawnTime;                // Next time to flash the runner icon
+    public float waitTime = 0.25f;             // Next time to flash the runner icon
 
     // Start is called before the first frame update
     public void InitializeMinimapComponents(){
@@ -54,6 +56,13 @@ public class ManageMiniMap : MonoBehaviour
             trapperIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
             trapperIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2), (cellSize/2));
             trapperIcon.name = "TraIcon";
+
+            // Initialize the runner minimap icon
+            runnerIcon = Instantiate(runnerIconPrefab, transform);
+            runnerIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
+            runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2) * 1.2f, (cellSize/2) * 1.2f);
+            runnerIcon.name = "RunIcon";
+            runnerIcon.gameObject.SetActive(false);
         }
 
         // If the user is playing as the runner, intitialize the runner's mini map icon
@@ -63,6 +72,9 @@ public class ManageMiniMap : MonoBehaviour
             runnerIcon.GetComponent<RectTransform>().localScale = new Vector2((cellSize/2) * 1.2f, (cellSize/2) * 1.2f);
             runnerIcon.name = "RunIcon";
         }
+
+        // Initialize the wait time
+        nextSpawnTime = Time.time + waitTime;
     }
 
     // Update is called once per frame
@@ -79,7 +91,7 @@ public class ManageMiniMap : MonoBehaviour
                 componentsInitialized = true;
             }
 
-            // If the player is playing as the guard master, update the guard icons' locations
+            // If the player is playing as the guard master, update all character locations
             if(CustomNetworkManager.isRunner == false){
                 //Debug.Log("isRunner is false");
                 // Update the Chaser Icon's location on the minimap
@@ -114,6 +126,31 @@ public class ManageMiniMap : MonoBehaviour
                         trapperCellLocation[1] = newTrapperCellLocation[1];
                     }
                 }
+
+                // Update the Runner Icon's location on the minimap
+                newRunnerCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.RUNNER);
+                if(((runnerCellLocation[0] != newRunnerCellLocation[0]) || (runnerCellLocation[1] != newRunnerCellLocation[1])) || runnerIconInitialized == false){
+                    if(CellLocationIsValid(newRunnerCellLocation)){
+                        mapCellName  = "cf(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
+                        cellRoofName = "cr(" + newRunnerCellLocation[0] + "," + newRunnerCellLocation[1] + ")";
+                        runnerIcon.GetComponent<RectTransform>().localPosition = GameObject.Find(mapCellName).GetComponent<RectTransform>().localPosition;
+                        Destroy(GameObject.Find(cellRoofName));
+                        runnerCellLocation[0] = newRunnerCellLocation[0];
+                        runnerCellLocation[1] = newRunnerCellLocation[1];
+                        runnerIconInitialized = true;
+                    }
+                }
+
+                // Flash the runner minimap icon on and off
+                if(Time.time > nextSpawnTime){
+                    nextSpawnTime += waitTime;
+                    if(runnerIcon.GetComponent<SpriteRenderer>().enabled == true){
+                        runnerIcon.GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    else{
+                        runnerIcon.GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
             }
 
             // If the player is playing as the runner, update the runner icon location
@@ -143,5 +180,23 @@ public class ManageMiniMap : MonoBehaviour
         else{
             return false;
         }
+    }
+
+    // Start the coroutine to display the alert letting the guard master know that the runner has been detected
+    public void ProcessTrapChestTriggeredAlert(){
+        if(!CustomNetworkManager.isRunner){
+            StartCoroutine(DisplayTrapChestTriggeredAlert());
+        }
+    }
+
+    // Display the alert letting the guard master know that the runner has been detected
+    IEnumerator DisplayTrapChestTriggeredAlert(){
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("alertBackground")).SetActive(true);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("alertText")).SetActive(true);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("RunIcon")).SetActive(true);
+        yield return new WaitForSeconds(4);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("alertBackground")).SetActive(false);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("alertText")).SetActive(false);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("RunIcon")).SetActive(false);
     }
 }
