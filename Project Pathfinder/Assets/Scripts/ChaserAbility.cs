@@ -22,12 +22,17 @@ public class ChaserAbility : NetworkBehaviour
         // When the chaser presses "[k]"
         if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
-            if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 20f){
-                // Subtract from steam
-                GenerateSteam.steam -= 20f;
+            if(animator.GetBool("Attack") == false){
+                if(GenerateSteam.steam >= 20f){
+                    // Subtract from steam
+                    GenerateSteam.steam -= 20f;
 
-                chaserDash.startDash();
-                Debug.Log("Started dash");
+                    chaserDash.startDash();
+                    Debug.Log("Started dash");
+                }
+                else{
+                    GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
+                }
             }
         }
 

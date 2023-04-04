@@ -22,4 +22,18 @@ public class ManagePopups : MonoBehaviour
         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("popupBackground")).SetActive(false);
         popupText.text = "";
     }
+
+    // Process received ability alert display request
+    public void ProcessAbilityAlert(string text, float time){
+        StartCoroutine(DisplayAbilityAlert(text, time));
+    }
+
+    // Display ability alert at the top of the canvas
+    IEnumerator DisplayAbilityAlert(string text, float time){
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("popupBackground")).SetActive(true);
+        popupText.text = text;
+        yield return new WaitForSeconds(time);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("popupBackground")).SetActive(false);
+        popupText.text = "";
+    }
 }
