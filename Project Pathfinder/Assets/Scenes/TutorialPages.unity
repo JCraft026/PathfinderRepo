@@ -1546,7 +1546,7 @@ GameObject:
   - component: {fileID: 109615628}
   - component: {fileID: 109615627}
   m_Layer: 5
-  m_Name: Ekey
+  m_Name: Kkey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1592,7 +1592,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1026766495, guid: f6d89f53b9a4dc948a957eef1fcf0894, type: 3}
+  m_Sprite: {fileID: 1236200097, guid: 97f3962c6bd32c045bd8a504eb43b514, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8509,7 +8509,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press the E-key on the keyboard to use the items you collect from chests
+  m_text: Press the K-key on the keyboard to use the items you collect from chests
     randomly placed around the maze.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11921,7 +11921,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use robot attacks by pressing the E-key.
+  m_text: Use robot attacks by pressing the K-key.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14443,7 +14443,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use robot abilities by pressing the Q-key.
+  m_text: Use robot abilities by pressing the J-key.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16117,7 +16117,7 @@ GameObject:
   - component: {fileID: 1739109335}
   - component: {fileID: 1739109334}
   m_Layer: 5
-  m_Name: Ekey
+  m_Name: Kkey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16163,7 +16163,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1026766495, guid: f6d89f53b9a4dc948a957eef1fcf0894, type: 3}
+  m_Sprite: {fileID: 1236200097, guid: 97f3962c6bd32c045bd8a504eb43b514, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17232,7 +17232,7 @@ GameObject:
   - component: {fileID: 1807901269}
   - component: {fileID: 1807901268}
   m_Layer: 5
-  m_Name: Qkey
+  m_Name: Jkey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17278,7 +17278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2067511415, guid: f6d89f53b9a4dc948a957eef1fcf0894, type: 3}
+  m_Sprite: {fileID: 828448195, guid: 97f3962c6bd32c045bd8a504eb43b514, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
