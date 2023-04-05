@@ -155,4 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  engineerDisableEffect: {fileID: 0}
+  trapperDisableEffect: {fileID: 0}
+  chaserDisableEffect: {fileID: 0}
   EMP: {fileID: 3941776402826085718}
