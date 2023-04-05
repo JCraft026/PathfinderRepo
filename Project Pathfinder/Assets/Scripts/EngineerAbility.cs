@@ -41,102 +41,103 @@ public class EngineerAbility : NetworkBehaviour
         barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
 
         // When engineer presses "[k]"
-        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount < 3){            
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){    
             if(GenerateSteam.steam >= 25f){
-                // Get engineer cell location
-                engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
-                
-                // Test for null maze Data
-                if(customNetworkManager.parsedMazeJson == null){
-                    Debug.LogError("Parsed Maze Data is null");
-                }
+                if(barricadeCount < 3){
+                    // Get engineer cell location
+                    engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
+                    
+                    // Test for null maze Data
+                    if(customNetworkManager.parsedMazeJson == null){
+                        Debug.LogError("Parsed Maze Data is null");
+                    }
 
-                // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
-                currentCell = customNetworkManager.parsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
-                Debug.Log(currentCell);
+                    // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
+                    currentCell = customNetworkManager.parsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
+                    Debug.Log(currentCell);
 
-                // Assign the barricade location to the engineer as default
-                barricadeLocation = engineerMoveCharacter.transform.position;
-                
-                // See if there is already a wall where the Engineer is facing
-                switch(engineerMoveCharacter.facingDirection){
-                    default:
-                        GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Unable to place barricade</color>", 3f);
-                        break;
-                    case 1f:
-                        if(currentCell.HasFlag(WallStatus.BOTTOM)){
-                            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's bottom wall</color>", 3f);
-                        }
-                        else{
-                            placementDirection   = new Vector2(0, -2.5f);
-                            placementOrientation = new Vector3(0,0,0);
-                            barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
-                            scaler               = 9f;
+                    // Assign the barricade location to the engineer as default
+                    barricadeLocation = engineerMoveCharacter.transform.position;
+                    
+                    // See if there is already a wall where the Engineer is facing
+                    switch(engineerMoveCharacter.facingDirection){
+                        default:
+                            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Unable to place barricade</color>", 3f);
+                            break;
+                        case 1f:
+                            if(currentCell.HasFlag(WallStatus.BOTTOM)){
+                                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's bottom wall</color>", 3f);
+                            }
+                            else{
+                                placementDirection   = new Vector2(0, -2.5f);
+                                placementOrientation = new Vector3(0,0,0);
+                                barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
+                                scaler               = 9f;
+                                PlaceBarricade(1, placementDirection.x, placementDirection.y,
+                                    placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                                    barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
+                                // Subtract from steam
+                                GenerateSteam.steam -= 25f;
+                            }
+                            break;
+                        case 2f:
+                            if(currentCell.HasFlag(WallStatus.LEFT)){
+                                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's left wall</color>", 3f);
+                            }
+                            else{
+                                placementDirection   = new Vector2(-2.5f, 0f);
+                                placementOrientation = new Vector3(0,0,90);
+                                barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
+                                scaler               = 10.65f;
+                                PlaceBarricade(0, placementDirection.x, placementDirection.y,
+                                    placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                                    barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
+                                // Subtract from steam
+                                GenerateSteam.steam -= 25f;
+                            }
+                            break;
+                        case 3f:
+                            if(currentCell.HasFlag(WallStatus.TOP)){
+                                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's top wall</color>", 3f);
+                            } 
+                            else{
+                                placementDirection   = new Vector2(0f, 2.5f);
+                                placementOrientation = new Vector3(0,0,0);
+                                barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
+                                scaler               = 9f;
                             PlaceBarricade(1, placementDirection.x, placementDirection.y,
-                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
-                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
-                            // Subtract from steam
-                            GenerateSteam.steam -= 25f;
-                        }
-                        break;
-                    case 2f:
-                        if(currentCell.HasFlag(WallStatus.LEFT)){
-                            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's left wall</color>", 3f);
-                        }
-                        else{
-                            placementDirection   = new Vector2(-2.5f, 0f);
-                            placementOrientation = new Vector3(0,0,90);
-                            barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
-                            scaler               = 10.65f;
-                            PlaceBarricade(0, placementDirection.x, placementDirection.y,
-                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
-                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
-                            // Subtract from steam
-                            GenerateSteam.steam -= 25f;
-                        }
-                        break;
-                    case 3f:
-                        if(currentCell.HasFlag(WallStatus.TOP)){
-                            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's top wall</color>", 3f);
-                        } 
-                        else{
-                            placementDirection   = new Vector2(0f, 2.5f);
-                            placementOrientation = new Vector3(0,0,0);
-                            barricadeLocation    = new Vector2(engineerLocation[0] * 8.0f, engineerMoveCharacter.transform.position.y);
-                            scaler               = 9f;
-                        PlaceBarricade(1, placementDirection.x, placementDirection.y,
-                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
-                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
-                            // Subtract from steam
-                            GenerateSteam.steam -= 25f;
-                        }  
-                        break;
-                    case 4f:
-                        if(currentCell.HasFlag(WallStatus.RIGHT)){
-                            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's right wall</color>", 3f);
-                        }
-                        else{
-                            placementDirection   = new Vector2(2.5f, 0f);
-                            placementOrientation = new Vector3(0,0,90);
-                            barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
-                            scaler               = 10.65f;
-                            PlaceBarricade(0, placementDirection.x, placementDirection.y,
-                                placementOrientation.x, placementOrientation.y, placementOrientation.z,
-                                barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
-                            
-                            // Subtract from steam
-                            GenerateSteam.steam -= 25f;
-                        }
-                        break;
+                                    placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                                    barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 1 to spawn Horizontal version
+                                // Subtract from steam
+                                GenerateSteam.steam -= 25f;
+                            }  
+                            break;
+                        case 4f:
+                            if(currentCell.HasFlag(WallStatus.RIGHT)){
+                                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Barricade cannot be placed on top of cell's right wall</color>", 3f);
+                            }
+                            else{
+                                placementDirection   = new Vector2(2.5f, 0f);
+                                placementOrientation = new Vector3(0,0,90);
+                                barricadeLocation    = new Vector2(engineerMoveCharacter.transform.position.x, engineerLocation[1] * 8.0f);
+                                scaler               = 10.65f;
+                                PlaceBarricade(0, placementDirection.x, placementDirection.y,
+                                    placementOrientation.x, placementOrientation.y, placementOrientation.z,
+                                    barricadeLocation.x, barricadeLocation.y, scaler); // Flag of 0 to spawn Vertical version
+                                
+                                // Subtract from steam
+                                GenerateSteam.steam -= 25f;
+                            }
+                            break;
+                    }
                 }
-            }
+                else{
+                    GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Active barricade limit reached</color>", 3f);
+                }
+            }        
             else{
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
             }
-        }
-        // When engineer presses "[q]" but he already has max barricades placed
-        else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount >= 3){
-            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Active barricade limit reached</color>", 3f);
         }
 
         // Reset the ability clicked status
