@@ -455,6 +455,12 @@ public class RenderMaze : NetworkBehaviour
 
     public static void RenderSteamGenerators()
     {
+        int currentIconIndex = 0;                          // Current icon that is getting its position assigned
+        float mazeWidth      = Utilities.GetMazeWidth(),   // Cell width of the maze
+              mazeHeight     = Utilities.GetMazeHeight();  // Cell height of the maze
+        float cellSize       = GameObject.Find("MazeRenderer").GetComponent<RenderMiniMap>().cellSize;
+        Vector2[] generatorIconLocations = new Vector2[3]; // Array containing the positions of steam generator minimap icons
+
         Debug.Log("Generating generators");
 
         // Seeds the random number for each game instance
@@ -474,25 +480,33 @@ public class RenderMaze : NetworkBehaviour
                     case 0: 
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(24,25);
+                        generatorPos = new Vector2(24,24); // i = 9 j = 9
+                        generatorIconLocations[currentIconIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 9));
+                        currentIconIndex++;
                         Debug.Log("Generating generators: case 0");
                         break;
                     case 1:
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(24,-23);
+                        generatorPos = new Vector2(24,-24); // i = 9 j = 3
+                        generatorIconLocations[currentIconIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 3));
+                        currentIconIndex++;
                         Debug.Log("Generating generators: case 1");
                         break;
                     case 2: 
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(-24,25);
+                        generatorPos = new Vector2(-24,24); // i = 3 j = 9
+                        generatorIconLocations[currentIconIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 9));
+                        currentIconIndex++;
                         Debug.Log("Generating generators: case 2");
                         break;
                     case 3:
                         listOfSpawnSpots.Remove(spawnPlace); 
                         spawnLimit += 1;
-                        generatorPos = new Vector2(-24,-23);
+                        generatorPos = new Vector2(-24,-24);  // i = 3 j = 3
+                        generatorIconLocations[currentIconIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 3));
+                        currentIconIndex++;
                         Debug.Log("Generating generators: case 3");
                         break;
                     default: 
