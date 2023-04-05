@@ -243,4 +243,17 @@ public class MoveCharacter : NetworkBehaviour
 
         return nearBottomWall;
     }
+
+    public void startDisableGuard(){
+        StartCoroutine(disableGuard());
+    }
+
+    IEnumerator disableGuard(){
+        canMove = false;
+        yield return new WaitForSeconds(3);
+        gameObject.GetComponentsInChildren<SpriteRenderer>()
+            .FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect").enabled = false;
+        canMove = true;
+
+    }
 }

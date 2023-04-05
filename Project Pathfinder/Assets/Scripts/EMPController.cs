@@ -6,7 +6,9 @@ using System.Linq;
 
 public class EMPController : NetworkBehaviour
 {
-
+    public SpriteRenderer engineerDisableEffect;
+    public SpriteRenderer trapperDisableEffect;
+    public SpriteRenderer chaserDisableEffect;
     public GameObject engineer{
         get
         {
@@ -31,20 +33,29 @@ public class EMPController : NetworkBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        engineerDisableEffect = engineer.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
+        trapperDisableEffect  =  trapper.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
+        chaserDisableEffect   =   chaser.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
         Destroy(gameObject, 2.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Utilities.GetDistanceBetweenObjects(gameObject.transform.position, engineer.transform.position) < 5.0f){
+        if(engineerDisableEffect.enabled == false && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, engineer.transform.position) < 5.0f){
             Debug.Log("Hit The Engineer");
+            engineerDisableEffect.enabled = true;
+            engineer.GetComponent<MoveCharacter>().startDisableGuard();
         }
-        if(Utilities.GetDistanceBetweenObjects(gameObject.transform.position, trapper.transform.position) < 5.0f){
+        if(trapperDisableEffect.enabled == false && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, trapper.transform.position) < 5.0f){
             Debug.Log("Hit The Trapper");
+            trapperDisableEffect.enabled = true;
+            trapper.GetComponent<MoveCharacter>().startDisableGuard();
         }
-        if(Utilities.GetDistanceBetweenObjects(gameObject.transform.position, chaser.transform.position) < 5.0f){
+        if(chaserDisableEffect.enabled == false && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, chaser.transform.position) < 5.0f){
             Debug.Log("Hit The Chaser");
+            chaserDisableEffect.enabled = true;
+            chaser.GetComponent<MoveCharacter>().startDisableGuard();
         }
     }
 }

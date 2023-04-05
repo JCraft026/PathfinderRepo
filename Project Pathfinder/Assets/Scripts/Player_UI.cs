@@ -158,6 +158,12 @@ public class Player_UI : NetworkBehaviour
                     itemSlotRectTransform.Find("Green Screen Popup").Find("itemDescription").gameObject.name = "Green Screen Description";
                     itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily undetectable to maze guards and trap chests\n\n<color=red>Duration: </color>5 sec\n\n[j] use</align>";
                     break;
+                case Item.ItemType.EMP:
+                    itemSlotRectTransform.gameObject.name = "EMP Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "EMP Popup";
+                    itemSlotRectTransform.Find("EMP Popup").Find("itemDescription").gameObject.name = "EMP Description";
+                    itemSlotRectTransform.Find("EMP Popup").Find("EMP Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>EMP</size></color>\ntemproarily disables any maze guards\n\n<color=red>Duration: </color>5 sec\n\n[j] use</align>";
+                    break;
             }
 
             itemSlotRectTransform.anchoredPosition =
