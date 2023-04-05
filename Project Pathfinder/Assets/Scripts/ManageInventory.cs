@@ -7,6 +7,7 @@ using System.Linq;
 
 public class ManageInventory : NetworkBehaviour
 {
+    public GameObject EMP;                      // Holds the EMP to be spawned
     private Player_UI playerUi;                 // Imports the Player UI's members and functions
     private Inventory inventory;                // Imports the inventory's members and functions
     private ItemWorld itemWorld;                // Imports the Item World Script's members and functions
@@ -252,6 +253,7 @@ public class ManageInventory : NetworkBehaviour
             break;
         case Item.ItemType.EMP:
             Debug.Log("EMP Used");
+            cmd_useEMP();
             break;
         }
     }
@@ -340,5 +342,22 @@ public class ManageInventory : NetworkBehaviour
             }
             counter += 1;
         }
+    }
+
+    void useEMP(){
+        GameObject tempEMP = Instantiate(EMP, gameObject.transform.position, Quaternion.identity);
+        NetworkServer.Spawn(tempEMP);
+    }
+
+    [Command(requiresAuthority = false)]
+    void cmd_useEMP(){
+        Debug.Log("EMP AHHHH");
+        rpc_useEMP();
+    }
+
+    [ClientRpc]
+    void rpc_useEMP(){
+        Debug.Log("EMP AHHHH");
+        useEMP();
     }
 }

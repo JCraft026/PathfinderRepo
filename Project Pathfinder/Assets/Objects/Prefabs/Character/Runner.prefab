@@ -447,6 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  EMP: {fileID: 3941776402826085718, guid: f32e4d97d248c654cb9e528e7ebd0258, type: 3}
 --- !u!114 &5865091273394797179
 MonoBehaviour:
   m_ObjectHideFlags: 0

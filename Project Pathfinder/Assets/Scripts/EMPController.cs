@@ -29,7 +29,7 @@ public class EMPController : NetworkBehaviour
     public GameObject EMP;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Destroy(gameObject, 2.0f);
     }

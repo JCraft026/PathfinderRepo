@@ -71,6 +71,10 @@ public class Item
             return true;
         case ItemType.Coffee:
             return true;
+        case ItemType.GreenScreenSuit:
+            return true;
+        case ItemType.EMP:
+            return true;
         case ItemType.Keys_0:
             return false;
         case ItemType.Keys_1:
