@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class EngineerAbility : NetworkBehaviour
+public class EngineerAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false;   // Status of the ability icon being clicked
     public GameObject barricadeHorizontal;       // Horizontal barricade
@@ -22,7 +22,6 @@ public class EngineerAbility : NetworkBehaviour
     [SyncVar]
     public int barricadeCount = 0;               // Keeps track of the max number of barricades
     CustomNetworkManager customNetworkManager;   // CustomNetworkManager script instance
-    public GameObject abilitySound;             // Engineer's ability sound gameobject
 
     void Start(){
         // Get engineer's MoveCharacter script
@@ -131,7 +130,7 @@ public class EngineerAbility : NetworkBehaviour
                     }
                     break;
             }
-            abilitySound.GetComponent<AudioSource>().Play();
+            cmd_PlaySyncedAbilityAudio();
         }
         // When engineer presses "[q]" but he already has max barricades placed
         else if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && barricadeCount >= 3){

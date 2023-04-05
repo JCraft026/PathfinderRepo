@@ -391,10 +391,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  audioSource: {fileID: 7676797401270955901}
   barricadeHorizontal: {fileID: 7776396092578743102, guid: a8095f73e82beea4aac2b4f0cd63a639, type: 3}
   barricadeVertical: {fileID: 7776396092578743102, guid: 62f422b8ec2593d47a6ba90748b16e37, type: 3}
   barricadeCount: 0
-  abilitySound: {fileID: 7387758124949085360}
 --- !u!82 &2260159572783360599
 AudioSource:
   m_ObjectHideFlags: 0

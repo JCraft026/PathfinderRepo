@@ -6,18 +6,15 @@ using Mirror;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-public class TrapperAbility : NetworkBehaviour
+public class TrapperAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false;  // Status of the ability icon being clicked
     public GameObject chestTrap;                // Actual chest trap object
     public GameObject tempChestTrap;            // Temporary chest trap object to instantiate
     private MoveCharacter trapperMoveCharacter; // Trapper's MoveCharacter Script
-    public GameObject abilitySound;             // Sound maker object for the trappers ability
-    private AudioSource audioSource;            // Sound maker audiosource
 
     void Start(){
         trapperMoveCharacter = gameObject.GetComponent<MoveCharacter>();
-        audioSource = abilitySound.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,23 +28,7 @@ public class TrapperAbility : NetworkBehaviour
             GenerateSteam.steam -= 25f;
 
             placeChestTrap();
-            if(!audioSource.isPlaying && audioSource.clip != null)
-            {
-                audioSource.PlayOneShot(audioSource.clip);
-                Debug.Log("TrapperAbility: audiosource now playing");
-            }
-            else if (audioSource.clip == null)
-            {
-                Debug.Log("TrapperAbility: audioSource.clip == null");
-            }
-            else if (audioSource.isVirtual)
-            {
-                Debug.LogError("TrapperAbility: audioSource.isVirtual == true (sound was culled)");
-            }
-            else
-            {
-                Debug.Log("TrapperAbility: audioSource is playing");
-            }
+            this.cmd_PlaySyncedAbilityAudio();
         }
 
         // Reset the ability clicked status

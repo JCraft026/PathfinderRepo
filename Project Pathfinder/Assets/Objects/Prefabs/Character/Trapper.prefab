@@ -58,7 +58,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2190340873923015205}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 76.92307, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 7.6923075, y: 7.6923075, z: 7.6923075}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121,7 +121,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -518,9 +518,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  audioSource: {fileID: 9044189386165964251}
   chestTrap: {fileID: 3941776402826085718, guid: 2d5d7b215517bd348a7d405ec98679b5, type: 3}
   tempChestTrap: {fileID: 0}
-  abilitySound: {fileID: 2190340873923015205}
 --- !u!82 &-780088295436245693
 AudioSource:
   m_ObjectHideFlags: 0

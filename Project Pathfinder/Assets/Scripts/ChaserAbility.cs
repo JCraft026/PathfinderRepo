@@ -4,19 +4,16 @@ using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 
-public class ChaserAbility : NetworkBehaviour
+public class ChaserAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false; // Status of the ability icon being clicked
     MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
     ChaserDash chaserDash;                     // ChaserDash instance
     public Animator animator;                  // Chaser's animator controller
-    public GameObject abilitySound;            // Chaser's ability sound game object
-    private AudioSource audioSource;           // Chaser's ability audiosource
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
         chaserDash = gameObject.GetComponent<ChaserDash>();
-        audioSource = abilitySound.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,7 +29,7 @@ public class ChaserAbility : NetworkBehaviour
                 GenerateSteam.steam -= 10f;
 
                 chaserDash.startDash();
-                audioSource.Play();
+                cmd_PlaySyncedAbilityAudio();
                 Debug.Log("Started dash");
             }
         }
