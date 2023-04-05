@@ -107,11 +107,18 @@ public class RenderMaze : NetworkBehaviour
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
+    public static int generatorSpawnCount = 3;                     // Amount of steam generators to spawn
 
     void Start(){
         // Enable the steam generator for guards
         if(!CustomNetworkManager.isRunner){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGeneratorUI")).SetActive(true);
+            try{
+                GameObject.FindGameObjectWithTag("SteamBar").SetActive(false);
+            }
+            catch{
+
+            }
         }
     }
 
@@ -444,5 +451,61 @@ public class RenderMaze : NetworkBehaviour
     // Set the MazeDataJson for the client
     public void SetMazeDataJson(string jsonText){
         mazeDataJson = jsonText;
+    }
+
+    public static void RenderSteamGenerators()
+    {
+        Debug.Log("Generating generators");
+
+        // Seeds the random number for each game instance
+        Random.state.Equals((int)System.DateTime.Now.Ticks);
+
+        // Declare a list of possible spawning locations
+        List<int> listOfSpawnSpots = new List<int>() {0,1,2,3};
+
+        // Randomly select, use, and remove one of the options of where to spawn a generator 
+        for (int spawnLimit = 1; spawnLimit <= generatorSpawnCount;)
+        {
+            Vector2 generatorPos = new Vector2();
+            int spawnPlace = UnityEngine.Random.Range(0, 4);
+
+            if(listOfSpawnSpots.Contains(spawnPlace)){
+                switch(spawnPlace){
+                    case 0: 
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(24,25);
+                        Debug.Log("Generating generators: case 0");
+                        break;
+                    case 1:
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(24,-23);
+                        Debug.Log("Generating generators: case 1");
+                        break;
+                    case 2: 
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(-24,25);
+                        Debug.Log("Generating generators: case 2");
+                        break;
+                    case 3:
+                        listOfSpawnSpots.Remove(spawnPlace); 
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(-24,-23);
+                        Debug.Log("Generating generators: case 3");
+                        break;
+                    default: 
+                        Debug.Log("Not one of the 4 steam generator spawn spots picked");
+                        break;
+                }
+
+                // Spawn the steam generator
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().NetworkedSpawnGenerator(generatorPos);
+            }
+            else{
+                Debug.Log("The number " + spawnPlace + " is not in the range");
+            }
+        }
     }
 }
