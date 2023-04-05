@@ -33,6 +33,8 @@ public class CustomNetworkManager : NetworkManager
     public RenderMaze mazeRenderer;         // Enables us to render the maze
     public WallStatus[,] parsedMazeJson;
     public string mazeDataJson = null;
+    public static bool steamGeneratorsSpawned = false;
+                                             // Status of steam generators being spawned in the scene
 
     public RenderMaze GetMazeRendererSafely() 
     {
@@ -277,6 +279,7 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnChests(50);
             ItemWorld.SpawnKeys();
             RenderMaze.RenderSteamGenerators();
+            steamGeneratorsSpawned = true;
         }
         
         // Make the player wait to move until a client joins the game

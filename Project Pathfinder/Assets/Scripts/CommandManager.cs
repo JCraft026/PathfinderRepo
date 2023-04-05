@@ -52,7 +52,7 @@ public class CommandManager : NetworkBehaviour
 
     // Spawn a steam generator over the network
     [Command(requiresAuthority = false)]
-    public void NetworkedSpawnGenerator(Vector2 generatorPos)
+    public void NetworkedSpawnGenerator(Vector2 generatorPos, int generatorIndex)
     {
             // Get the steam generator prefab from the network manager
         var generatorPrefab = CustomNetworkManagerDAO.GetNetworkManagerGameObject()
@@ -65,6 +65,21 @@ public class CommandManager : NetworkBehaviour
         }
                             
         var generator = Instantiate(generatorPrefab, generatorPos, Quaternion.identity);
+
+        // Set Generator name
+        switch (generatorIndex)
+        {
+            case 0:
+                generator.gameObject.name = "MSG1";
+                break;
+            case 1:
+                generator.gameObject.name = "MSG2";
+                break;
+            case 2:
+                generator.gameObject.name = "MSG3";
+                break;
+        }
+
         if(generator == null)
         {
             Debug.LogError("CommandManager: NetworkedSpawnGenerator, GENERATOR IS NULL");

@@ -37,7 +37,7 @@ public class GenerateSteam : MonoBehaviour
     void Update()
     {
         // Generate steam
-        if(steam < steamLimit){
+        if(steam < steamLimit && CustomNetworkManager.steamGeneratorsSpawned){
             displaySteam = (int)steam;
             gameObject.GetComponentInChildren<TextMeshProUGUI>().text = displaySteam.ToString();
             switch(generatorCount - subtractBrokenGenerators()){
@@ -100,10 +100,7 @@ public class GenerateSteam : MonoBehaviour
 
     public int subtractBrokenGenerators(){
         toSubtract = 0;
-        List<GameObject> allGenerators = Resources.FindObjectsOfTypeAll<GameObject>()
-                                            .Where<GameObject>(x => 
-                                                x.GetComponent<GeneratorController>() != null)
-                                            .ToList();
+        List<GameObject> allGenerators = Resources.FindObjectsOfTypeAll<GameObject>().Where<GameObject>(x => x.GetComponent<GeneratorController>() != null).ToList();
         allGenerators.ForEach(x =>{ 
             if(x.GetComponent<Animator>().GetBool("IsBusted") == true) 
                 toSubtract += 1;
