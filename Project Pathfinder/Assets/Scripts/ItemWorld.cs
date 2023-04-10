@@ -124,6 +124,19 @@ public class ItemWorld : NetworkBehaviour
         gameObject.GetComponent<Collider2D>().enabled = false;
     }
 
+    // Launches the RPC to pickup a key
+    [Command(requiresAuthority=false)]
+    public void cmd_PickUpKey()
+    {
+        rpc_PickUpKey();
+    }
+
+    // RPC runs the code to disable the key sprite and collider
+    [ClientRpc]
+    public void rpc_PickUpKey()
+    {
+        this.PickUpKey();
+    }
     // Spawn a specified amount of chests throughout the maze
     public static void SpawnChests(int numberToSpawn)
     {

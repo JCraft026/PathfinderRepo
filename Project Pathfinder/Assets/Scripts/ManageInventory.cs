@@ -67,7 +67,7 @@ public class ManageInventory : NetworkBehaviour
                     Debug.LogError("itemWorld.GetItem() == null");
                 }
                 if(itemWorld.GetItem().isKey()){
-                    itemWorld.PickUpKey();
+                    itemWorld.cmd_PickUpKey();
                     playerUi.SetKey(itemWorld.GetItem());
                 }
                 else{
