@@ -344,18 +344,11 @@ public class ManageInventory : NetworkBehaviour
             counter += 1;
         }
     }
-    void useEMP(){
-        GameObject tempEMP = Instantiate(EMP, gameObject.transform.position, Quaternion.identity);
-        NetworkServer.Spawn(tempEMP);
-    }
 
     [Command(requiresAuthority = false)]
     void cmd_useEMP(){
-        rpc_useEMP();
-    }
-
-    [ClientRpc]
-    void rpc_useEMP(){
-        useEMP();
+        GameObject tempEMP = Instantiate(EMP, gameObject.transform.position, Quaternion.identity);
+        NetworkServer.Spawn(tempEMP);
+        //rpc_useEMP();
     }
 }
