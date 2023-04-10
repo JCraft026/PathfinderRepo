@@ -254,6 +254,7 @@ public class ManageInventory : NetworkBehaviour
         case Item.ItemType.EMP:
             Debug.Log("EMP Used");
             cmd_useEMP();
+            inventory.RemoveItem(item);
             break;
         }
     }
@@ -343,7 +344,6 @@ public class ManageInventory : NetworkBehaviour
             counter += 1;
         }
     }
-
     void useEMP(){
         GameObject tempEMP = Instantiate(EMP, gameObject.transform.position, Quaternion.identity);
         NetworkServer.Spawn(tempEMP);
@@ -351,13 +351,11 @@ public class ManageInventory : NetworkBehaviour
 
     [Command(requiresAuthority = false)]
     void cmd_useEMP(){
-        Debug.Log("EMP AHHHH");
         rpc_useEMP();
     }
 
     [ClientRpc]
     void rpc_useEMP(){
-        Debug.Log("EMP AHHHH");
         useEMP();
     }
 }

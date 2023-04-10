@@ -17,6 +17,7 @@ static class MoveCharacterConstants{
 public class MoveCharacter : NetworkBehaviour
 {
     public GameObject flashlight;                            // Character's flashlight object (if they have one)
+    public GameObject selflight;                             // Character's selflight object (if they have one)
     public float moveSpeed = 5f;                             // Speed at which the character needs to move
     public float facingDirection;                            // Direction the character should face after movement
     public Vector2 movementInput;                            // Character's current input direction             
@@ -249,11 +250,75 @@ public class MoveCharacter : NetworkBehaviour
     }
 
     IEnumerator disableGuard(){
+        Vector3 currentFlashlightPos = new Vector3(); // Retain the Location of the Light before moving it
+        Vector3 currentSelflightPos  = new Vector3(); // Retain the Location of the Light before moving it
+        
+        // Disable movement, sight, and show electricity particles
         canMove = false;
-        yield return new WaitForSeconds(3);
+        gameObject.GetComponent<Attack>().enabled = false;
+
+        // Disable Guard abilities based on which guard you are
+        switch(gameObject.name){
+            case "Chaser(Clone)":
+                gameObject.GetComponent<ChaserAbility>().enabled = false;
+                break;
+            case "Trapper(Clone)":
+                gameObject.GetComponent<TrapperAbility>().enabled = false;
+                break;
+            case "Engineer(Clone)":
+                gameObject.GetComponent<EngineerAbility>().enabled = false;
+                break;
+            default:
+                Debug.LogError("Guard Type " + gameObject.name + " does not exist");
+                break;
+        }
+
+        if(flashlight != null){
+            // Store and move all light sources away from guard
+            currentFlashlightPos = flashlight.transform.position;
+            flashlight.transform.position = new Vector3(-100, 0,0);
+            currentSelflightPos = selflight.transform.position;
+            selflight.transform.position  = new Vector3(-100, 0,0);
+        }
+        else{
+            // Store and move all light sources away from guard
+            currentSelflightPos = selflight.transform.position;
+            selflight.transform.position = new Vector3(-100, 0,0);
+        }
+
+        // Send Popup message that the guard is disabled
+        GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(gameObject.name.Replace("(Clone)", "") + " <color=lightblue>disabled</color> " + "5 seconds", 3f);
+
+        // Wait 5 seconds
+        yield return new WaitForSeconds(5);
+
+        // Take off the diabled effect, move the light sources back to the guard, and enable movement
         gameObject.GetComponentsInChildren<SpriteRenderer>()
             .FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect").enabled = false;
+        if(flashlight != null){
+            flashlight.transform.position = currentFlashlightPos;
+            selflight.transform.position  = currentSelflightPos;
+        }
+        else{
+            selflight.transform.position  = currentSelflightPos;
+        }
         canMove = true;
-
+        gameObject.GetComponent<Attack>().enabled = true;
+        
+        // Enable Guard abilities based on which guard you are
+        switch(gameObject.name){
+            case "Chaser(Clone)":
+                gameObject.GetComponent<ChaserAbility>().enabled = true;
+                break;
+            case "Trapper(Clone)":
+                gameObject.GetComponent<TrapperAbility>().enabled = true;
+                break;
+            case "Engineer(Clone)":
+                gameObject.GetComponent<EngineerAbility>().enabled = true;
+                break;
+            default:
+                Debug.LogError("Guard Type " + gameObject.name + " does not exist");
+                break;
+        }
     }
 }
