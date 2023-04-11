@@ -273,6 +273,7 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnChests(27);
             ItemWorld.SpawnKeys();
         }
+            ItemWorld.SpawnChests(27);
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

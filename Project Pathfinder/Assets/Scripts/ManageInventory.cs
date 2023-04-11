@@ -8,6 +8,7 @@ using System.Linq;
 public class ManageInventory : NetworkBehaviour
 {
     public GameObject EMP;                      // Holds the EMP to be spawned
+    public  Animator  animator;                 // This script's object's animator
     private Player_UI playerUi;                 // Imports the Player UI's members and functions
     private Inventory inventory;                // Imports the inventory's members and functions
     private ItemWorld itemWorld;                // Imports the Item World Script's members and functions
@@ -242,9 +243,9 @@ public class ManageInventory : NetworkBehaviour
                 Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
-                runnerScript.greenScreen();
-                ItemAssets.Instance.GetComponent<CommandManager>().cmd_MakeRunnerInvisible();
                 greenScreenController.setCooldown(5);
+                animator.SetBool("isGreen", true);
+                ItemAssets.Instance.GetComponent<CommandManager>().cmd_MakeRunnerInvisible();
                 inventory.RemoveItem(item);
             }
             else{

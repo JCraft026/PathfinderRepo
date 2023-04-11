@@ -209,28 +209,6 @@ public class MoveCharacter : NetworkBehaviour
         return rigidBody.position;
     }
 
-    public void greenScreen(){
-        Debug.Log("GREEN");
-        animator.SetBool("isGreen", true);
-        if(!runnerExpression.IsMatch(gameObject.name)){
-            if(runnerExpression.IsMatch(gameObject.name)){
-                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
-                runnerRenderer.color = new Color32(255,255,225,20);
-            }
-        }
-    }
-
-    public void notGreenScreen(){
-        animator.SetBool("isGreen", false);
-        if(!runnerExpression.IsMatch(gameObject.name)){
-            if(runnerExpression.IsMatch(gameObject.name)){
-                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
-                runnerRenderer.color = new Color32(255,255,225,255);
-            }
-        }
-        Debug.Log("NO GREEN");
-    }
-
     bool IsNearBottomWall(){
         bool nearBottomWall = false;
         Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
@@ -287,8 +265,11 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Send Popup message that the guard is disabled
-        GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(gameObject.name.Replace("(Clone)", "") + " <color=lightblue>disabled</color> " + "5 seconds", 3f);
-
+        if(CustomNetworkManager.isRunner == false){
+            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().
+               ProcessPopup(gameObject.name.Replace("(Clone)", "") + " <color=lightblue>disabled</color> " + "5 seconds", 3f);
+        }
+        
         // Wait 5 seconds
         yield return new WaitForSeconds(5);
 
