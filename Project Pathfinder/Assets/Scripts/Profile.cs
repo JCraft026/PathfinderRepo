@@ -11,8 +11,8 @@ using static Utilities;
 [Serializable]
 public class PlayerProfile
 {
-    public string username = "[Guest]";
     public string password;
+    public string username = "[Guest]";
     public Dictionary<string, int> stats = new Dictionary<string, int>
     {
         { "wins_runner", 0 },
@@ -49,14 +49,6 @@ public class Profile : MonoBehaviour
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
     public int MAX_USERNAME_LENGTH = 16;
     public int MAX_PROFILE_COUNT = 4;
-    
-    // Start is called before the first frame update.
-    void Start () {
-    }
-    
-    // Update is called once per frame.
-    void Update() {
-    }
     
     // "Login" button pressed.
     public void Button_Login() {
@@ -120,16 +112,27 @@ public class Profile : MonoBehaviour
         newProfile.username = username;
         newProfile.password = password;
         
-        SaveProfile(newProfile);
+        SaveEncodedProfile(newProfile, password);
         WriteMessageToUser("The profile '" + username + "' has been saved!");
         
         return;
     }
     
+    // Reads a user's profile and signs them in if the given password is correct.
     public bool LoginProfile(string username, string password) {
-        PlayerProfile profile = ReadProfileFromFile(GetProfileFilepath(username));
-        if (profile.password != password)
+        string profileString = LoadDecodedProfileString(username, password);
+        string verifyString = "{\"password\":\"" + password + "\","
+                             + "\"username\":\"" + username + "\",";
+        if (!profileString.StartsWith(verifyString)) {
+            //Debug.Log("VERIFY STRING FAILED. STRING = " + verifyString);
+            //Debug.Log("PROFILE STRING = " + profileString);
             return false;
+        }
+        PlayerProfile profile = GetProfileFromString(profileString);
+        if (profile.password != password) {
+            //Debug.Log("PASSWORD != PASSWORD");
+            return false;
+        }
         CustomNetworkManager.currentLogin = profile;
         return true;
     }
@@ -148,7 +151,7 @@ public class Profile : MonoBehaviour
     //       cracked_walls_destroyed: 2
     //   }
     
-    
+    // Gets the profile of the currently logged in user.
     public PlayerProfile GetCurrentLogin() {
         return CustomNetworkManager.currentLogin;
     }
@@ -163,14 +166,20 @@ public class Profile : MonoBehaviour
         Debug.Log(message);
     }
     
+    // Determines if a profile exists on the system or not.
     public bool DoesProfileExist(string username) {
         return System.IO.File.Exists(GetProfileFilepath(username));
     }
     
+    public string LoadDecodedProfileString(string username, string password) {
+        string profile_string = ReadFileAsString(GetProfileFilepath(username));
+        return DecodeProfileString(profile_string, password);
+    }
+    
     // Saves a profile to its local file.
-    public bool SaveProfile(PlayerProfile profile) {
+    public bool SaveEncodedProfile(PlayerProfile profile, string password) {
         try {
-            WriteStringToFile(GetProfileFilepath(profile), ProfileToString(profile));
+            WriteStringToFile(GetProfileFilepath(profile), EncodeProfileString(ProfileToString(profile), password));
             return true;
         } catch (Exception error) {
             Debug.Log(error);
@@ -185,7 +194,7 @@ public class Profile : MonoBehaviour
     
     // Serializes a profile object into a json string.
     public string ProfileToString(PlayerProfile playerProfile) {
-        return JsonConvert.SerializeObject(playerProfile, Formatting.Indented);
+        return JsonConvert.SerializeObject(playerProfile);//, Formatting.Indented);
     }
     
     // Deserializes a json string into a profile object.
@@ -222,7 +231,7 @@ public class Profile : MonoBehaviour
         if (path == null)
             return;
         StreamWriter writer = new StreamWriter(path, false);
-        writer.WriteLine(saved_string);
+        writer.Write(saved_string);
         writer.Close();
         return;
     }
@@ -252,6 +261,76 @@ public class Profile : MonoBehaviour
         dropdownAdjective2.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options_adjectives);
         dropdownTitle.GetComponent<TMPro.TMP_Dropdown>().ClearOptions();
         dropdownTitle.GetComponent<TMPro.TMP_Dropdown>().AddOptions(options_titles);
+    }
+    
+    // Shifts a character into a different character using an ASCII code modifer.
+    public char ShiftCharacter(char character, int modifier) {
+        int newNumber = System.Convert.ToInt32(character)-32 + modifier;
+        while (newNumber < 0)
+            newNumber += 94;
+        while (newNumber >= 94)
+            newNumber -= 94;
+        return System.Convert.ToChar(newNumber + 32);
+        // Characters are contained from ASCII 32 to 126.
+        // This way, only non-control characters are used. (They were causing issues...)
+        // ASCII MINIMUM = 32
+        // ASCII MAXIMUM = 126
+        // ASCII RANGE = MAX - MIN = 94
+    }
+    
+    // Encodes a profile string into a string that cannot be decoded without the password.
+    public string EncodeProfileString(string originalText, string originalPassword) {
+        char[] newText = originalText.ToCharArray();
+        char[] passletterArray = originalPassword.ToCharArray();
+        
+        int passletterIndex;
+        int passwordSum = 0;
+        for (passletterIndex = 0; passletterIndex < passletterArray.Length; passletterIndex++)
+            passwordSum += System.Convert.ToInt32(passletterArray[passletterIndex]);
+        
+        passletterIndex = 0;
+        int newTextIndex;
+        int unicodeModifier;
+        
+        for (newTextIndex = 0; newTextIndex < newText.Length; newTextIndex++) {
+            unicodeModifier = passwordSum + newTextIndex + System.Convert.ToInt32(passletterArray[passletterIndex]);
+            newText[newTextIndex] = ShiftCharacter(newText[newTextIndex], unicodeModifier);
+            passletterIndex++;
+            if (passletterIndex >= passletterArray.Length)
+                passletterIndex = 0;
+        }
+        
+        Debug.Log(newText);
+        Debug.Log(newText.ToString());
+        Debug.Log(new String(newText));
+        
+        return new String(newText);
+    }
+    
+    // Attempts to decode an encoded profile string using a given password.
+    // This is the EXACT same funtion as above, but it shifts DOWN instead of shifting UP.
+    public string DecodeProfileString(string originalText, string originalPassword) {
+        char[] newText = originalText.ToCharArray();
+        char[] passletterArray = originalPassword.ToCharArray();
+        
+        int passletterIndex;
+        int passwordSum = 0;
+        for (passletterIndex = 0; passletterIndex < passletterArray.Length; passletterIndex++)
+            passwordSum += System.Convert.ToInt32(passletterArray[passletterIndex]);
+        
+        passletterIndex = 0;
+        int newTextIndex;
+        int unicodeModifier;
+        
+        for (newTextIndex = 0; newTextIndex < newText.Length; newTextIndex++) {
+            unicodeModifier = passwordSum + newTextIndex + System.Convert.ToInt32(passletterArray[passletterIndex]);
+            newText[newTextIndex] = ShiftCharacter(newText[newTextIndex], -unicodeModifier);
+            passletterIndex++;
+            if (passletterIndex >= passletterArray.Length)
+                passletterIndex = 0;
+        }
+        
+        return new String(newText);
     }
     
 }
