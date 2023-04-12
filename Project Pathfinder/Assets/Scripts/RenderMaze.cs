@@ -480,28 +480,28 @@ public class RenderMaze : NetworkBehaviour
                     case 0: 
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(24,24); // i = 9 j = 9
+                        generatorPos = new Vector2(22.5f,25.5f); // i = 9 j = 9
                         generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 9));
                         Debug.Log("Generating generators: case 0");
                         break;
                     case 1:
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(24,-24); // i = 9 j = 3
+                        generatorPos = new Vector2(22.5f,-22.5f); // i = 9 j = 3
                         generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 3));
                         Debug.Log("Generating generators: case 1");
                         break;
                     case 2: 
                         listOfSpawnSpots.Remove(spawnPlace);
                         spawnLimit += 1;
-                        generatorPos = new Vector2(-24,24); // i = 3 j = 9
+                        generatorPos = new Vector2(-25.5f,25.5f); // i = 3 j = 9
                         generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 9));
                         Debug.Log("Generating generators: case 2");
                         break;
                     case 3:
                         listOfSpawnSpots.Remove(spawnPlace); 
                         spawnLimit += 1;
-                        generatorPos = new Vector2(-24,-24);  // i = 3 j = 3
+                        generatorPos = new Vector2(-25.5f,-22.5f);  // i = 3 j = 3
                         generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 3));
                         Debug.Log("Generating generators: case 3");
                         break;
