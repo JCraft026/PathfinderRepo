@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System.Linq;
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class BarricadeController : NetworkBehaviour
 {
@@ -12,13 +13,23 @@ public class BarricadeController : NetworkBehaviour
                 engineer,            // Gameobject instance of the engineer
                 chaser,              // Gameobject instance of the chaser
                 runner;              // Gameobject instance of the runner
+    public GameObject healthTop,     // Top health bar
+                      healthBottom;  // Bottom health bar
     int hitCount = 0;                // Total number of hits on barricades attacked by a runner
     bool trapperTooltip = false,     // Whether the tooltip to destroy the barricade is active for the trapper
          engineerTooltip = false,    // Whether the tooltip to destroy the barricade is active for the engineer
          chaserTooltip = false,      // Whether the tooltip to destroy the barricade is active for the chaser
          runnerTooltip = false;      // Whether the tooltip to destroy the barricade is active for the runner
+    Regex horizontalBarricadeExpression  = new Regex("Horizontal");  
+                                     // Match "Horizontal"
+    private Player_UI playerUi;      // Player UI management script
     
     // Start is called before the first frame update
+    void Start(){
+        // Assign Player UI script
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+    }
+
     void Awake()
     {
         // Get all player instances
@@ -34,61 +45,62 @@ public class BarricadeController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Tool tip for trapper
-        if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.5){
-            enableTooltip();
-            trapperTooltip = true;
-            if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                engineerAbility.decreseBarricadeCount();
-                destroyBarricade();
-            }
-        }
-        else if(trapperTooltip && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId){
-            disableTooltip();
-            trapperTooltip = false;
-        }
-        // Tool tip for engineer
-        if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.5){
-            enableTooltip();
-            engineerTooltip = true;
-            if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                engineerAbility.decreseBarricadeCount();
-                destroyBarricade();
-            }
-        }
-        else if(engineerTooltip && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId){
-            disableTooltip();
-            engineerTooltip = false;
-        }
-        // Tool tip for chaser
-        if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.5){
-            enableTooltip();
-            chaserTooltip = true;
-            if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                engineerAbility.decreseBarricadeCount();
-                destroyBarricade();
-            }
-        }
-        else if(chaserTooltip && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId){
-            disableTooltip();
-            chaserTooltip = false;
-        }
-        // Tool tip for runner
-        if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5){
-            enableTooltip();
-            runnerTooltip = true;
-            if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
-                hitCount += 1;
-                if(hitCount >= 3){
-                    engineerAbility.decreseBarricadeCount();
+        if(!CustomNetworkManager.isRunner){
+            // Tool tip for trapper
+            if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.5){
+                enableTooltip(gameObject.transform.position, trapper.transform.position);
+                trapperTooltip = true;
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
-                    hitCount = 0;
                 }
             }
+            else if(trapperTooltip && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId){
+                disableTooltip(gameObject.transform.position, trapper.transform.position);
+                trapperTooltip = false;
+            }
+            // Tool tip for engineer
+            if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.5){
+                enableTooltip(gameObject.transform.position, engineer.transform.position);
+                engineerTooltip = true;
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                    destroyBarricade();
+                }
+            }
+            else if(engineerTooltip && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId){
+                disableTooltip(gameObject.transform.position, engineer.transform.position);
+                engineerTooltip = false;
+            }
+            // Tool tip for chaser
+            if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.5){
+                enableTooltip(gameObject.transform.position, chaser.transform.position);
+                chaserTooltip = true;
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                    destroyBarricade();
+                }
+            }
+            else if(chaserTooltip && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId){
+                disableTooltip(gameObject.transform.position, chaser.transform.position);
+                chaserTooltip = false;
+            }
         }
-        else if(runnerTooltip && CustomNetworkManager.isRunner == true){
-            disableTooltip();
-            runnerTooltip = false;
+        else{
+            // Tool tip for runner
+            if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5 && playerUi.activeSelectedItem == Item.ItemType.Sledge){
+                enableTooltip(gameObject.transform.position, runner.transform.position);
+                runnerTooltip = true;
+                if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true){
+                    hitCount += 1;
+                    decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
+                    if(hitCount >= 3){
+                        destroyBarricade();
+                        hitCount = 0;
+                    }
+                }
+            }
+            else if(runnerTooltip && CustomNetworkManager.isRunner == true){
+                disableTooltip(gameObject.transform.position, runner.transform.position);
+                runnerTooltip = false;
+            }
         }
     }
 
@@ -99,12 +111,72 @@ public class BarricadeController : NetworkBehaviour
     }
 
     // Enable the barricade tooltip
-    void enableTooltip(){
-        transform.GetChild(0).gameObject.SetActive(true);
+    void enableTooltip(Vector3 barricadePosition, Vector3 characterPosition){
+        if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
+            if(barricadePosition.y < characterPosition.y){
+                if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthBottom.SetActive(true);
+                }
+                transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else{
+                transform.GetChild(0).gameObject.SetActive(true);
+                if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthTop.SetActive(true);
+                }
+            }
+        }
+        else{
+            transform.GetChild(0).gameObject.SetActive(true);
+            if(CustomNetworkManager.isRunner && hitCount < 3){
+                    healthTop.SetActive(true);
+                }
+        }
     }
 
     // Disable the barriacde tooltip
-    void disableTooltip(){
-        transform.GetChild(0).gameObject.SetActive(false);
+    void disableTooltip(Vector3 barricadePosition, Vector3 characterPosition){
+        if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(1).gameObject.SetActive(false);
+            if(CustomNetworkManager.isRunner){
+                healthTop.SetActive(false);
+                healthBottom.SetActive(false);
+            }
+        }
+        else{
+            transform.GetChild(0).gameObject.SetActive(false);
+            if(CustomNetworkManager.isRunner){
+                healthTop.SetActive(false);
+            }
+        }
+    }
+
+    // Decrease the health displayed on the barricade health bars
+    void decreaseBarricadeHealth(Vector3 barricadePosition, Vector3 characterPosition){
+        if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
+            var healthTopls = healthTop.transform.localScale;
+            var healthBottomls = healthBottom.transform.localScale;
+            if(hitCount >= 3){
+                healthTopls.x = 0;
+                healthBottomls.x = 0;
+            }
+            else{
+                healthTopls.x    -= 1;
+                healthBottomls.x    -= 1;
+            }
+            healthTop.transform.localScale = healthTopls;
+            healthBottom.transform.localScale = healthBottomls;
+        }
+        else{
+            var healthTopls = healthTop.transform.localScale;
+            if(hitCount >= 3){
+                healthTopls.x = 0;
+            }
+            else{
+                healthTopls.x    -= .3f;
+            }
+            healthTop.transform.localScale = healthTopls;
+        }
     }
 }

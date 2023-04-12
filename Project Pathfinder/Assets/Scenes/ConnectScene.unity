@@ -257,14 +257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Mreowllo!!!! Welcome to Project Pathfinder! You can join a lobby, directly
-    connect using an IP adress, or host your own game! If you choose to be the runner,
-    don''t be too scared of the robots chasing you. They only want to hunt you down
-    and destroy you, nothing too serious. While you''re having fun, I''ll be watching
-    from here, enjoying some high-quality catnip. Don''t worry, I''m cheering for
-    YOU!
-
-    Hug-Cat out!" :3'
+  m_text: Join or host a game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3837,7 +3830,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "(=^0\u03C90^=)"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

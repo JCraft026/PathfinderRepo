@@ -20,6 +20,7 @@ public class ManageActiveCharacters : NetworkBehaviour
     public Material inactiveMaterial;             // Sprite material for inactive character
     public Vector3 offset;                        // Camera position offset
     public int guardId;                           // Parent object's guard ID
+    //[SyncVar]
     public int activeGuardId;                     // Guard ID of the current active guard
     public int nextActiveGuardId;                 // Guard ID of the next active guard
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
@@ -80,6 +81,44 @@ public class ManageActiveCharacters : NetworkBehaviour
             activeGuardId = nextActiveGuardId;
         }
         cameraHolder.transform.position = transform.position + offset;
+
+        // Enable UI Ability Icons
+        if(!CustomNetworkManager.isRunner){
+            switch (activeGuardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(true);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(false);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(true);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(false);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("ChaserAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("EngineerAbilityIcon")).SetActive(false);
+                    Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("TrapperAbilityIcon")).SetActive(true);
+                    break;
+            }
+        }
+
+        if(CustomNetworkManager.isRunner == false && isLocalPlayer == true)
+        {
+            if(activeGuardId == guardId)
+            {
+                gameObject.GetComponent<SpriteRenderer>().material = activeMaterial;
+            }
+            else if(gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+            {
+                gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
+            }
+        }
+        else if(isLocalPlayer == false && CustomNetworkManager.isRunner == true && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+        {
+            gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
+        }
     }
 
     // Assign the appropriate guard ID to the guard script owner
@@ -88,7 +127,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         Regex engineerExpression = new Regex("Engineer"); // Match "Engineer"
         Regex trapperExpression  = new Regex("Trapper");  // Match "Trapper"
 
-        // Assign the appropirate guard identification number to the parent object
+        // Assign the appropriate guard identification number to the parent object
         if(chaserExpression.IsMatch(gameObject.name)){
             guardId = ManageActiveCharactersConstants.CHASER;
         }
@@ -142,8 +181,30 @@ public class ManageActiveCharacters : NetworkBehaviour
         }
         else
         {
-            Debug.LogWarning("Could not find a new guard to switch to!");
+            Debug.LogError("Could not find a new guard to switch to!");
         }
+
+        rpc_SetNextActiveGuardId(nextActiveGuardId);
+    }
+
+    // Event fired when the active guard changes, syncs nextActiveGuardId
+    [ClientRpc]
+    public void rpc_SetNextActiveGuardId(int nextId)
+    {
+        var chaser = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>();
+        var engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).GetComponent<ManageActiveCharacters>();
+        var trapper = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).GetComponent<ManageActiveCharacters>();
+
+        chaser.nextActiveGuardId = nextId + 1;
+        chaser.activeGuardId = nextId;
+
+        engineer.nextActiveGuardId = nextId + 1;
+        engineer.activeGuardId = nextId;
+
+        trapper.nextActiveGuardId = nextId + 1;
+        trapper.activeGuardId = nextId;
+
+        Debug.Log("ManageActiveCharacters: rpc_SetNextActiveGuardId set nextActiveGuardId to: " + nextId + " for all guard objects on host/client");
     }
 
 }

@@ -11,6 +11,7 @@ static class HandleEventsConstants{
     public const int RUNNER_CAPTURED  = 3; // Runner was captured
     public const int RUNNER_ESCAPED   = 4; // Runner escaped the maze
     public const int TIMER_ZERO       = 5; // Timer has run down to zero
+    public const int RUNNER_TRAPPED   = 6; // Runner has been defeated by a trap chest
 }
 
 public class HandleEvents : MonoBehaviour
@@ -31,6 +32,11 @@ public class HandleEvents : MonoBehaviour
                 else{
                     SceneManager.LoadScene("Player Loses");
                 }
+                Resources.FindObjectsOfTypeAll<GameObject>()
+                        .Where<GameObject>( x => x.GetComponent<CommandManager>() != null)
+                        .First()
+                        .GetComponent<CommandManager>()
+                        .cmd_TransitionToYouWinYouLose(currentEvent, endGameEvent);
                 currentEvent = HandleEventsConstants.NONE;
                 break;
             case HandleEventsConstants.GUARDMASTER_WINS:
@@ -40,8 +46,19 @@ public class HandleEvents : MonoBehaviour
                 else{
                     SceneManager.LoadScene("Player Loses");
                 }
+                Resources.FindObjectsOfTypeAll<GameObject>()
+                        .Where<GameObject>( x => x.GetComponent<CommandManager>() != null)
+                        .First()
+                        .GetComponent<CommandManager>()
+                        .cmd_TransitionToYouWinYouLose(currentEvent, endGameEvent);
                 currentEvent = HandleEventsConstants.NONE;
                 break;
+        }
+
+        // Disable start screen for client
+        if(!CustomNetworkManager.isHost){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
         }
     }
 

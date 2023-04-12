@@ -8,6 +8,7 @@ public class ManageGoMenuClick : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.SetActive(true);
         // Allow collider trigger interaction with queries
         Physics2D.queriesHitTriggers = true;
     }

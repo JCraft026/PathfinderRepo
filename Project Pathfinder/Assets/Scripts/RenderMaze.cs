@@ -108,6 +108,7 @@ public class RenderMaze : NetworkBehaviour
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
     public static int generatorSpawnCount = 3;                     // Amount of steam generators to spawn
+    private int currentCrackedWall = 1;                            // Current cracked wall ID
 
     void Start(){
         // Enable the steam generator for guards
@@ -231,20 +232,21 @@ public class RenderMaze : NetworkBehaviour
                         var topExit        = Instantiate(exitPrefab, transform) as Transform;
                         topExit.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topExit.localScale = new Vector2(topExit.localScale.x * cellSize, topExit.localScale.y * cellSize);
-                        topExit.name       = exitName + "(Close)";
+                        topExit.name       = exitName + "(Close)TB";
                         currentExit++;
                         oldComponents.Add(topExit);
                         var topExitOpen        = Instantiate(openExitPrefab, transform) as Transform;
                         topExitOpen.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topExitOpen.localScale = new Vector2(topExitOpen.localScale.x * cellSize, topExitOpen.localScale.y * cellSize);
-                        topExitOpen.name       = exitName + "(Open)";
+                        topExitOpen.name       = exitName + "(Open)TB";
                         oldComponents.Add(topExitOpen);
                     }
                     else if(currentCell.HasFlag(WallStatus.TOP_CRACKED) && j != mazeHeight-1 && j != tunnelEntranceHeightIndex && i != tunnelEntranceWidthIndex){
                         var topWall        = Instantiate(crackedWallPrefab, transform) as Transform;
                         topWall.position   = scenePosition + new Vector2(0, cellSize / 1.55f);
                         topWall.localScale = new Vector2(topWall.localScale.x * cellSize, topWall.localScale.y * cellSize);
-                        topWall.name       = "Wall_TB cracked"; 
+                        topWall.name       = "Wall_TB CR" + currentCrackedWall;
+                        currentCrackedWall++; 
                         oldComponents.Add(topWall); //DEBUG: MAKE SURE THIS MATCHES PROD
                     }
                     else{
@@ -295,14 +297,14 @@ public class RenderMaze : NetworkBehaviour
                         leftExit.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftExit.localScale  = new Vector2(leftExit.localScale.x * cellSize, leftExit.localScale.y * cellSize);
                         leftExit.eulerAngles = new Vector3(0, 180, 90);
-                        leftExit.name        = exitName + "(Close)";
+                        leftExit.name        = exitName + "(Close)LR";
                         currentExit++;
                         oldComponents.Add(leftExit);
                         var leftExitOpen         = Instantiate(openExitPrefab, transform) as Transform;
                         leftExitOpen.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftExitOpen.localScale  = new Vector2(leftExitOpen.localScale.x * cellSize, leftExitOpen.localScale.y * cellSize);
                         leftExitOpen.eulerAngles = new Vector3(0, 180, 90);
-                        leftExitOpen.name        = exitName + "(Open)";
+                        leftExitOpen.name        = exitName + "(Open)LR";
                         oldComponents.Add(leftExitOpen);
                     }
                     else if(currentCell.HasFlag(WallStatus.LEFT_CRACKED) && i != 0){
@@ -310,7 +312,8 @@ public class RenderMaze : NetworkBehaviour
                         leftWall.position    = scenePosition + new Vector2(-cellSize / 2, 0);
                         leftWall.localScale  = new Vector2(2, 2);
                         leftWall.eulerAngles = new Vector3(0, 180, 90);
-                        leftWall.name        = "Wall_LR cracked"; 
+                        leftWall.name        = "Wall_LR CR" + currentCrackedWall;
+                        currentCrackedWall++; 
                         oldComponents.Add(leftWall);
                     }
                     else{
@@ -355,13 +358,13 @@ public class RenderMaze : NetworkBehaviour
                             var bottomExit        = Instantiate(exitPrefab, transform) as Transform;
                             bottomExit.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomExit.localScale = new Vector2(bottomExit.localScale.x * cellSize, bottomExit.localScale.y * cellSize);
-                            bottomExit.name       = exitName + "(Close)";
+                            bottomExit.name       = exitName + "(Close)TB";
                             currentExit++;
                             oldComponents.Add(bottomExit);
                             var bottomExitOpen        = Instantiate(openExitPrefab, transform) as Transform;
                             bottomExitOpen.position   = scenePosition + new Vector2(0, -cellSize / 2.9f);
                             bottomExitOpen.localScale = new Vector2(bottomExitOpen.localScale.x * cellSize, bottomExitOpen.localScale.y * cellSize);
-                            bottomExitOpen.name       = exitName + "(Open)";
+                            bottomExitOpen.name       = exitName + "(Open)TB";
                             oldComponents.Add(bottomExitOpen);
                         }
                         else{
@@ -406,14 +409,14 @@ public class RenderMaze : NetworkBehaviour
                             rightExit.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                             rightExit.localScale  = new Vector2(rightExit.localScale.x * cellSize, rightExit.localScale.y * cellSize);
                             rightExit.eulerAngles = new Vector3(0, 180, 90);
-                            rightExit.name        = exitName + "(Close)";
+                            rightExit.name        = exitName + "(Close)LR";
                             currentExit++;
                             oldComponents.Add(rightExit);
                             var rightExitOpen         = Instantiate(openExitPrefab, transform) as Transform;
                             rightExitOpen.position    = scenePosition + new Vector2(+cellSize / 2, 0);
                             rightExitOpen.localScale  = new Vector2(rightExitOpen.localScale.x * cellSize, rightExitOpen.localScale.y * cellSize);
                             rightExitOpen.eulerAngles = new Vector3(0, 180, 90);
-                            rightExitOpen.name        = exitName + "(Open)";
+                            rightExitOpen.name        = exitName + "(Open)LR";
                             oldComponents.Add(rightExitOpen);
                         }
                         else{

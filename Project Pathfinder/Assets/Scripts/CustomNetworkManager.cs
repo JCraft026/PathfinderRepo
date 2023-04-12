@@ -35,6 +35,7 @@ public class CustomNetworkManager : NetworkManager
     public string mazeDataJson = null;
     public static bool steamGeneratorsSpawned = false;
                                              // Status of steam generators being spawned in the scene
+    public static bool hostIsFrozen = true; // Status of host movement being frozen
 
     public RenderMaze GetMazeRendererSafely() 
     {
@@ -167,6 +168,16 @@ public class CustomNetworkManager : NetworkManager
         Debug.Log("OnClientDisconnect");
         mazeRenderer = null; // reset the maze renderer
         GenerateSteam.steam = 0;
+
+        // Reset the end game events
+        HandleEvents.currentEvent = 0;
+        HandleEvents.endGameEvent = 0;
+
+        // Reset chest RNG variables
+        Item.greenScreenSpawnLimit  = Item.initialGSSpawnLimit;
+        Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
+        Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
+        Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
     }
 
     #endregion
@@ -194,7 +205,7 @@ public class CustomNetworkManager : NetworkManager
         try
         {
             if(mazeRenderer == null)
-                Debug.LogError("The error below is because the maze renderer is null");
+                Debug.Log("CustomNetworkManager OnserverConnect(): mazeRenderer was null");
             MazeMessage mazeMessage;
             
             mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
@@ -203,13 +214,12 @@ public class CustomNetworkManager : NetworkManager
                 conn.Send(mazeMessage);
             else
             {
-                Debug.Log("mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
+                Debug.Log("CustomNetworkManager OnServerConnect(): mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
             }
         }
         catch(Exception e)
         {
-            Debug.Log("Exception caught in OnServerConnect!");
-            Debug.LogError(e);
+            Debug.LogError("CustomNetworkManager OnServerConnect()" + e);
         }
     }
     
@@ -217,7 +227,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
-        Debug.Log("OnServerConnect");
+        Debug.Log("CustomNetworkManager: OnServerConnect");
 
         // Determine who is on what team
         if((hostIsRunner && NetworkServer.connections.Count > 1) ||
@@ -244,39 +254,27 @@ public class CustomNetworkManager : NetworkManager
                     chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
-                    chaser.GetComponent<SpriteRenderer>().material
-                       = chaser.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
                     engineer.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, engineer, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
-                    engineer.GetComponent<SpriteRenderer>().material
-                       = engineer.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
                     trapper.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
                     NetworkServer.ReplacePlayerForConnection(conn, trapper, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
-                    trapper.GetComponent<SpriteRenderer>().material
-                       = trapper.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
             }
 
             Destroy(oldPlayer);
 
-            Debug.Log("Replaced conID: " + conn.connectionId);
+            Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
         }
 
-        //Spawn a test item
-            /*Item generatedItem = Item.getRandomItem();
-            Debug.Log("Generated an item");
-            GameObject.Find("ItemAssets")
-                .GetComponent<CommandManager>()
-                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);*/
         if(NetworkServer.connections.Count > 1)
         {
-            ItemWorld.SpawnChests(50);
+            ItemWorld.SpawnChests(25);
             ItemWorld.SpawnKeys();
             RenderMaze.RenderSteamGenerators();
             steamGeneratorsSpawned = true;
@@ -285,6 +283,15 @@ public class CustomNetworkManager : NetworkManager
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));
     }
+
+    public override void OnStopHost()
+    {
+        base.OnStopHost();
+
+        // Reset the end game events
+        HandleEvents.endGameEvent = 0;
+        HandleEvents.currentEvent = 0;
+    }
     #endregion
 
     #region Game Events And Misc. Handlers
@@ -292,9 +299,9 @@ public class CustomNetworkManager : NetworkManager
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
-        Debug.Log("currentActiveGuard = " + currentActiveGuard);
+        Debug.Log("CustomNetworkManager ChangeActiveGuard(): currentActiveGuard = " + currentActiveGuard);
         GameObject newGuardObject;                                 // Result of the guard query
-        Debug.Log("switch nextActiveGuardId = " + nextActiveGuardId.ToString());
+        Debug.Log("CustomNetworkManager ChangeActiveGuard(): switch nextActiveGuardId = " + nextActiveGuardId.ToString());
 
         // Get the next guard's game object and update the active guard identification number
         switch (nextActiveGuardId)
@@ -310,7 +317,7 @@ public class CustomNetworkManager : NetworkManager
                 break;
             default:
                 newGuardObject = null;
-                Debug.LogError("newGuardObject is null");
+                Debug.LogError("CustomNetworkManager ChangeActiveGuard(): newGuardObject is null");
                 break;
         }
 
@@ -321,7 +328,7 @@ public class CustomNetworkManager : NetworkManager
         }
         else
         {
-            Debug.LogWarning("Could not find a new guard to switch to!");
+            Debug.LogWarning("CustomNetworkManager ChangeActiveGuard(): Could not find a new guard to switch to!");
         }
     }
 
@@ -455,8 +462,13 @@ public class CustomNetworkManager : NetworkManager
     //Ensure the host cannot play the game while there are no clients connected
     IEnumerator HostWaitForPlayer(NetworkConnectionToClient host)
     {
-        Debug.Log("Stopping player movement until a client joins...");
+        Debug.Log("CustomNetworkManager HostWaitForPlayer(): Stopping player movement until a client joins...");
         GameObject hostObject = host.identity.gameObject;
+        bool popupDisplayed   = false;
+
+        // Disable popup message
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
 
         // Disable movement for the player
         if(isRunner)
@@ -471,6 +483,13 @@ public class CustomNetworkManager : NetworkManager
             engineer.GetComponent<MoveCharacter>().enabled = false;
             trapper.GetComponent<MoveCharacter>().enabled = false;
         }
+        
+        // Display waiting popup for host
+        if(NetworkServer.connections.Count <= 1){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(true);
+            popupDisplayed = true;
+            Debug.Log("Popup Displayed");
+        }
 
         // Wait for a client to join
         while(NetworkServer.connections.Count <= 1)
@@ -483,16 +502,27 @@ public class CustomNetworkManager : NetworkManager
             hostObject.GetComponent<MoveCharacter>().enabled = true;
         else
         {
-            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
-            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
-            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
 
             chaser.GetComponent<MoveCharacter>().enabled = true;
             engineer.GetComponent<MoveCharacter>().enabled = true;
             trapper.GetComponent<MoveCharacter>().enabled = true;
         }
 
-        Debug.Log("Player movment is now re-enabled");
+        Debug.Log("CustomNetworkManager HostWaitForPlayer(): Player movment is now re-enabled");
+
+        if(popupDisplayed){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(true);
+            yield return new WaitForSeconds(2);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
+            Debug.Log("Popup Removed");
+        }
+        
+        hostIsFrozen = false;
+
         yield return null;
     }
    

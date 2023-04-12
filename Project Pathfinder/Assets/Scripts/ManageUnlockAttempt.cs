@@ -117,6 +117,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                             lockUnlocked = true;
                             runner.GetComponent<Animator>().SetBool("Green Exit Opened", true);
                             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstKeyholeName+"(Locked)")).SetActive(false);
+                            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit1Open")).SetActive(true);
                         }
                         break;
                     case ManageUnlockAttemptConstants.YELLOW: 
@@ -128,6 +129,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                             lockUnlocked = true;
                             runner.GetComponent<Animator>().SetBool("Yellow Exit Opened", true);
                             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondKeyholeName+"(Locked)")).SetActive(false);
+                            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit2Open")).SetActive(true);
                         }
                         break;
                     case ManageUnlockAttemptConstants.BLUE:
@@ -139,6 +141,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                             lockUnlocked = true;
                             runner.GetComponent<Animator>().SetBool("Blue Exit Opened", true);
                             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdKeyholeName+"(Locked)")).SetActive(false);
+                            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit3Open")).SetActive(true);
                         }
                         break;
                     case ManageUnlockAttemptConstants.RED: 
@@ -149,6 +152,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                             GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=red>Red</color> Exit Opened!", 5f);
                             lockUnlocked = true;
                             runner.GetComponent<Animator>().SetBool("Red Exit Opened", true);
+                            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit4Open")).SetActive(true);
                         }
                         break;
                 }
@@ -170,6 +174,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=green>Green</color> Exit Opened!", 5f);
                 greenExitOpened = true;
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(firstKeyholeName+"(Locked)")).SetActive(false);
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit1Open")).SetActive(true);
             }
             if(runner.GetComponent<Animator>().GetBool("Yellow Exit Opened") && yellowExitOpened == false){
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondExitName+"(Open)")).SetActive(true);
@@ -178,6 +183,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=yellow>Yellow</color> Exit Opened!", 5f);
                 yellowExitOpened = true;
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(secondKeyholeName+"(Locked)")).SetActive(false);
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit2Open")).SetActive(true);
             }
             if(runner.GetComponent<Animator>().GetBool("Blue Exit Opened") && blueExitOpened == false){
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdExitName+"(Open)")).SetActive(true);
@@ -186,6 +192,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=#2f2ff5>Blue</color> Exit Opened!", 5f);
                 blueExitOpened = true;
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(thirdKeyholeName+"(Locked)")).SetActive(false);
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit3Open")).SetActive(true);
             }
             if(runner.GetComponent<Animator>().GetBool("Red Exit Opened") && redExitOpened == false){
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(fourthExitName+"(Open)")).SetActive(true);
@@ -194,6 +201,7 @@ public class ManageUnlockAttempt : MonoBehaviour
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=red>Red</color> Exit Opened!", 5f);
                 redExitOpened = true;
                 Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains(fourthKeyholeName+"(Locked)")).SetActive(false);
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MMExit4Open")).SetActive(true);
             }
         }
     }

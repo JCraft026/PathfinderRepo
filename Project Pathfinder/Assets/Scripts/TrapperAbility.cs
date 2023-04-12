@@ -8,6 +8,7 @@ using System.Linq;
 
 public class TrapperAbility : NetworkBehaviour
 {
+    public static bool abilityClicked = false;  // Status of the ability icon being clicked
     public GameObject chestTrap;                // Actual chest trap object
     public GameObject tempChestTrap;            // Temporary chest trap object to instantiate
     private MoveCharacter trapperMoveCharacter; // Trapper's MoveCharacter Script
@@ -19,13 +20,21 @@ public class TrapperAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // When trapper presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && GenerateSteam.steam >= 25f){
-            // Subtract from steam
-            GenerateSteam.steam -= 25f;
+        // When trapper presses "[k]"
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+            if(GenerateSteam.steam >= 25f){
+                // Subtract from steam
+                GenerateSteam.steam -= 25f;
 
-            placeChestTrap();
+                placeChestTrap();
+            }
+            else{
+                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
+            }
         }
+        
+        // Reset the ability clicked status
+        abilityClicked = false;
     }
 
     // Instantiates and spawns the chest trap

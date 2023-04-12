@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 
 public class ChaserAbility : NetworkBehaviour
 {
-
-    MoveCharacter chaserMoveCharacter; // Chaser's MoveCharacter script
-    ChaserDash chaserDash;             // ChaserDash instance
-    public Animator animator;          // Chaser's animator controller
+    public static bool abilityClicked = false; // Status of the ability icon being clicked
+    MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
+    ChaserDash chaserDash;                     // ChaserDash instance
+    public Animator animator;                  // Chaser's animator controller
 
     void Start(){
         chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
@@ -19,16 +19,24 @@ public class ChaserAbility : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // When the chaser presses "[q]"
-        if((Input.GetKeyDown("q") && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        // When the chaser presses "[k]"
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
-            if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 10f){
-                // Subtract from steam
-                GenerateSteam.steam -= 10f;
+            if(animator.GetBool("Attack") == false){
+                if(GenerateSteam.steam >= 20f){
+                    // Subtract from steam
+                    GenerateSteam.steam -= 20f;
 
-                chaserDash.startDash();
-                Debug.Log("Started dash");
+                    chaserDash.startDash();
+                    Debug.Log("Started dash");
+                }
+                else{
+                    GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
+                }
             }
         }
+
+        // Reset the ability clicked status
+        abilityClicked = false;
     }
 }

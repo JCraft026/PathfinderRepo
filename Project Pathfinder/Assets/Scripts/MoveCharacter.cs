@@ -19,24 +19,25 @@ public class MoveCharacter : NetworkBehaviour
     public GameObject flashlight;                            // Character's flashlight object (if they have one)
     public float moveSpeed = 5f;                             // Speed at which the character needs to move
     public float facingDirection;                            // Direction the character should face after movement
-    public Vector2 movementInput;                                   // Character's current input direction             
+    public Vector2 movementInput;                            // Character's current input direction             
     public Rigidbody2D rigidBody;                            // Character's RigidBody
     public Animator animator;                                // Character's animator manager
-    public bool canMove = true;                       // Character movement lock status
+    public bool canMove = true;                              // Character movement lock status
     public GameObject PauseCanvas;                           // Exit game menu
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
     private float mazeHeight = 13;                           // Height of the maze
-    private WallStatus[,] mazeData = new WallStatus[13, 13]; // Maze data
+    public WallStatus[,] mazeData = new WallStatus[13, 13];  // Maze data
     private WallStatus currentCell;                          // Wall status of the cell the parent character object is in
     private float currentCellY;                              // Y position of the current cell
+    private float currentCellX;                              // X position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
 
-    private Player_UI playerUi;     // Imports the Player's UI to access what is the player
-    public static MoveCharacter Instance; // Makes an instance of this class to access 
-    Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
+    public static MoveCharacter Instance;                    // Makes an instance of this class to access 
+    Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -58,8 +59,9 @@ public class MoveCharacter : NetworkBehaviour
     void Start(){
 
         // Process maze data
-        string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
-        mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+        //string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
+        mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+        //mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
 
         // Assign active character code and character arrow
         if(Utilities.runnerRegex.IsMatch(gameObject.name)){
@@ -93,7 +95,7 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Disable movement on inactive guards
-        if(!CustomNetworkManager.isRunner){
+        if(!runnerExpression.IsMatch(gameObject.name)){
             if(gameObject.GetComponent<ManageActiveCharacters>().guardId != gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
                 canMove = false;
                 isRestricted = true;
@@ -153,7 +155,7 @@ public class MoveCharacter : NetworkBehaviour
             animator.SetFloat("Facing Direction", facingDirection);
         }
         
-        if(Math.Abs(gameObject.transform.position.x) < (int)(mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (int)(mazeHeight/2) * Utilities.GetCellSize()){
+        if(Math.Abs(gameObject.transform.position.x) < (mazeWidth/2) * Utilities.GetCellSize() && Math.Abs(gameObject.transform.position.y) < (mazeHeight/2) * Utilities.GetCellSize()){
             // Get cell location of parent character object
             switch (activeCharacterCode)
             {
@@ -172,10 +174,16 @@ public class MoveCharacter : NetworkBehaviour
             }
             currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
             currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
+            currentCellX = characterCellLocation[0] * Utilities.GetCellSize();
 
             // Manage character arrow display
             if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
-                characterArrow.GetComponent<SpriteRenderer>().enabled = true;
+                if(IsNearBottomWall()){
+                    characterArrow.GetComponent<SpriteRenderer>().enabled = true;
+                }
+                else{
+                    characterArrow.GetComponent<SpriteRenderer>().enabled = false;
+                }
             }
             else{
                 characterArrow.GetComponent<SpriteRenderer>().enabled = false;
@@ -220,5 +228,19 @@ public class MoveCharacter : NetworkBehaviour
             }
         }
         Debug.Log("NO GREEN");
+    }
+
+    bool IsNearBottomWall(){
+        bool nearBottomWall = false;
+        Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
+        Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(gameObject.transform.position, 5f);
+
+        foreach(var nearByObject in nearByObjects){
+            if(tbWallExpression.IsMatch(nearByObject.gameObject.name) && nearByObject.transform.position.y < (gameObject.transform.position.y + 1) && nearByObject.transform.position.x == currentCellX){
+                nearBottomWall = true;
+            }
+        }
+
+        return nearBottomWall;
     }
 }

@@ -30,6 +30,9 @@ public class SlowTrapped : MonoBehaviour
         this.enabled = true;
         timeStamp = Time.time + 4f;
         runnerScript.moveSpeed = 2.5f;
-        gameObject.GetComponent<ManageRunnerStats>().TakeDamage(2);
+        if(gameObject.GetComponent<ManageRunnerStats>().health <= 1){
+            HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_TRAPPED;
+        }
+        gameObject.GetComponent<ManageRunnerStats>().TakeDamage(1);
     } 
 }
