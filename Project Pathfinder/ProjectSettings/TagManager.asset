@@ -9,6 +9,7 @@ TagManager:
   - SteamBar
   - Barricade
   - Track
+  - Steam
   layers:
   - Default
   - TransparentFX

@@ -30,6 +30,9 @@ public class ManageTextureLayers : MonoBehaviour
             else if(exitExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
             }
+            else if(gameObject.tag == "Steam"){
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
+            }
         }
         // If the game object is above the active character, adjust order in layer accordingly
         else{
@@ -44,6 +47,9 @@ public class ManageTextureLayers : MonoBehaviour
             }
             else if(exitExpression.IsMatch(gameObject.name)){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            }
+            else if(gameObject.tag == "Steam"){
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
             }
         }
     }

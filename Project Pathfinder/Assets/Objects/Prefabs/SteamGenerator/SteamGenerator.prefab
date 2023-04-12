@@ -360,9 +360,10 @@ GameObject:
   - component: {fileID: -2189063370500584253}
   - component: {fileID: -6826680997710114329}
   - component: {fileID: -1071918989204739396}
+  - component: {fileID: 3561834138998570223}
   m_Layer: 0
   m_Name: SteamGenerator
-  m_TagString: Untagged
+  m_TagString: Steam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -569,6 +570,18 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &3561834138998570223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8368785342619026136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcc8ef0b9815dd4aacc6dabdc620c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9012021918931687126
 GameObject:
   m_ObjectHideFlags: 0

@@ -83,6 +83,7 @@ public class GeneratorController : NetworkBehaviour
             generatorBroken = true; 
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        
         return generatorBroken;    
     }
 
