@@ -8,6 +8,7 @@ public class ManageCrackedWalls : MonoBehaviour
     private GameObject closestWall;            // The closest wall to the runner
     public static ManageCrackedWalls Instance; // Access to an object of this class' methods and attributes
     private float cellSize = 0.0f;             // Used to adjust the detection size of wall breaking
+    public AudioClip WallBreakSound;
 
     [SerializeField]
     RenderMaze mazeRenderer;
@@ -60,6 +61,7 @@ public class ManageCrackedWalls : MonoBehaviour
             < cellSize * 0.25f
             && Mathf.Abs(MoveCharacter.Instance.rigidBody.position.y - closestWall.transform.position.y)
             < cellSize * 0.25f){
+                AudioSource.PlayClipAtPoint(WallBreakSound, closestWall.transform.position);
                 Destroy(closestWall);
                 crackedWallList.Remove(closestWall);
             }
