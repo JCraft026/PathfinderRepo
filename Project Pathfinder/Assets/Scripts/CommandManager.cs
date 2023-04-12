@@ -48,13 +48,17 @@ public class CommandManager : NetworkBehaviour
         runner.GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    #region Steam Generator Commands
-
     // Spawn a steam generator over the network
     [Command(requiresAuthority = false)]
     public void NetworkedSpawnGenerator(Vector2 generatorPos, int generatorIndex)
     {
-            // Get the steam generator prefab from the network manager
+        rpc_NetworkedSpawnGenerator(generatorPos, generatorIndex);
+    }
+
+    [ClientRpc]
+    public void rpc_NetworkedSpawnGenerator(Vector2 generatorPos, int generatorIndex)
+    {
+        // Get the steam generator prefab from the network manager
         var generatorPrefab = CustomNetworkManagerDAO.GetNetworkManagerGameObject()
                             .GetComponent<CustomNetworkManager>().spawnPrefabs
                             .Find(x => x.name.Contains("SteamGenerator"));
@@ -84,7 +88,7 @@ public class CommandManager : NetworkBehaviour
         {
             Debug.LogError("CommandManager: NetworkedSpawnGenerator, GENERATOR IS NULL");
         }
-        NetworkServer.Spawn(generator);
+        //NetworkServer.Spawn(generator);
 
         if(generator.GetComponent<GeneratorController>() == null)
         {
@@ -92,5 +96,47 @@ public class CommandManager : NetworkBehaviour
         }
         generator.GetComponent<Animator>().SetBool("IsBusted", false);
     }
-    #endregion Steam Generator Commands
+
+    // Call an RPC to set steam booleans true or false
+    [Command(requiresAuthority = false)]
+    public void cmd_SetSteam(string parameterToSet, bool setting, string generatorName){
+        rpc_SetSteam(parameterToSet, setting, generatorName);
+        Debug.Log("Called Command to set steam");
+    }
+
+    // Set steam booleans true or false
+    [ClientRpc]
+    public void rpc_SetSteam(string parameterToSet, bool setting, string generatorName)
+    {
+        Debug.Log("Called RPC to set steam");
+
+        if(!CustomNetworkManager.isRunner){
+            if(setting == true){
+                Debug.Log("M" + generatorName + "(Enabled)");
+                GameObject.Find("M" + generatorName + "(Enabled)").GetComponent<SpriteRenderer>().enabled  = false;
+                GameObject.Find("M" + generatorName + "(Disabled)").GetComponent<SpriteRenderer>().enabled = true;
+            }
+            else{
+                GameObject.Find("M" + generatorName + "(Enabled)").GetComponent<SpriteRenderer>().enabled  = true;
+                GameObject.Find("M" + generatorName + "(Disabled)").GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
+
+        GameObject.Find(generatorName).GetComponent<Animator>().SetBool(parameterToSet, setting);
+    }
+
+    // Call an RPC to set objects to avtice or inactive
+    [Command(requiresAuthority = false)]
+    public void cmd_objectEnable(string target, bool setting, string generatorName)
+    {
+        rpc_objectEnable(target, setting, generatorName);
+        Debug.Log("Called Command to set object");
+    }
+
+    // Set objects to avtice or inactive
+    [ClientRpc]
+    public void rpc_objectEnable(string target, bool setting, string generatorName){
+        Debug.Log("Called RPC to set object");
+        GameObject.Find(generatorName).GetComponent<GeneratorController>().local_objectEnable(target, setting);
+    }    
 }

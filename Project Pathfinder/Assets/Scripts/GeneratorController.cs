@@ -50,13 +50,13 @@ public class GeneratorController : NetworkBehaviour
                 repairCount += 1;
                 // Only sets the repairing UI to true
                 if(engineer.transform.GetChild(2).gameObject.activeSelf == false){
-                    cmd_objectEnable("RepairUI", true);
-                    cmd_objectEnable("RepairingEffect", true);
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", true, gameObject.name);
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", true, gameObject.name);
                 }
                 if(repairCount >= 60){
-                    cmd_objectEnable("RepairUI", false);
-                    cmd_objectEnable("RepairingEffect", false);
-                    cmd_SetSteam("IsBusted", false);
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", false, gameObject.name);
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", false, gameObject.name);
                     repairCount = 0;
                 }
             }
@@ -64,10 +64,10 @@ public class GeneratorController : NetworkBehaviour
         // Turn off repairing UI if away from Generator
         else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y -1f), engineer.transform.position) >= 3f){
             if(engineer.transform.GetChild(2).gameObject.activeSelf){
-                cmd_objectEnable("RepairingEffect", false);
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
             }
             if(gameObject.transform.GetChild(0).gameObject.activeSelf){
-                cmd_objectEnable("RepairUI", false);
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", false, gameObject.name);
             }
         }
     }
@@ -79,7 +79,7 @@ public class GeneratorController : NetworkBehaviour
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
 
         if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position) < 2.5f){
-            generator.GetComponent<GeneratorController>().cmd_SetSteam("IsBusted", true); 
+            GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
             generatorBroken = true; 
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
@@ -108,7 +108,7 @@ public class GeneratorController : NetworkBehaviour
         return closestGenerator;
     }
 
-    void local_objectEnable(string target, bool setting){
+    public void local_objectEnable(string target, bool setting){
         Debug.Log("Called locally to set object");
         if(target == "RepairingEffect"){
             if(repairingEffect == null){
@@ -127,34 +127,4 @@ public class GeneratorController : NetworkBehaviour
             }
         }
     }
-
-    // Call an RPC to set steam booleans true or false
-    [Command(requiresAuthority = false)]
-    void cmd_SetSteam(string parameterToSet, bool setting){
-        rpc_SetSteam(parameterToSet, setting);
-        Debug.Log("Called Command to set steam");
-    }
-
-    // Set steam booleans true or false
-    [ClientRpc]
-    void rpc_SetSteam(string parameterToSet, bool setting)
-    {
-        Debug.Log("Called RPC to set steam");
-        animator.SetBool(parameterToSet, setting);
-    }
-
-    // Call an RPC to set objects to avtice or inactive
-    [Command(requiresAuthority = false)]
-    void cmd_objectEnable(string target, bool setting)
-    {
-        rpc_objectEnable(target, setting);
-        Debug.Log("Called Command to set object");
-    }
-
-    // Set objects to avtice or inactive
-    [ClientRpc]
-    void rpc_objectEnable(string target, bool setting){
-        Debug.Log("Called RPC to set object");
-        local_objectEnable(target, setting);
-    }    
 }
