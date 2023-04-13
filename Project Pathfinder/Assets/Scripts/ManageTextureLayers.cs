@@ -16,40 +16,44 @@ public class ManageTextureLayers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If the game object is below the active character, adjust order in layer accordingly
-        if((gameObject.transform.position.y - 1.12f) - HandleLayers.activeCharacterLocation.y < 0){
-            if(gameObject.tag == "Torch"){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 10;
-            }
-            else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
+        if(gameObject.tag == "Steam"){
+            if((gameObject.transform.position.y - 2f) - HandleLayers.activeCharacterLocation.y < 0){
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
             }
-            else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
-            }
-            else if(exitExpression.IsMatch(gameObject.name)){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
-            }
-            else if(gameObject.tag == "Steam"){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
+            else{
+                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
             }
         }
-        // If the game object is above the active character, adjust order in layer accordingly
         else{
-            if(gameObject.tag == "Torch"){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            // If the game object is below the active character, adjust order in layer accordingly
+            if((gameObject.transform.position.y - 1.12f) - HandleLayers.activeCharacterLocation.y < 0){
+                if(gameObject.tag == "Torch"){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 10;
+                }
+                else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 12;
+                }
+                else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 9;
+                }
+                else if(exitExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 11;
+                }
             }
-            else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
-            }
-            else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            }
-            else if(exitExpression.IsMatch(gameObject.name)){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            }
-            else if(gameObject.tag == "Steam"){
-                gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
+            // If the game object is above the active character, adjust order in layer accordingly
+            else{
+                if(gameObject.tag == "Torch"){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+                }
+                else if(tunnelExpression.IsMatch(gameObject.name) || controlRoomExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 4;
+                }
+                else if(wallExpression.IsMatch(gameObject.name) || barricadeExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                }
+                else if(exitExpression.IsMatch(gameObject.name)){
+                    gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                }
             }
         }
     }
