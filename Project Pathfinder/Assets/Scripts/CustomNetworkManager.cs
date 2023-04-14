@@ -36,6 +36,7 @@ public class CustomNetworkManager : NetworkManager
     public static bool steamGeneratorsSpawned = false;
                                              // Status of steam generators being spawned in the scene
     public static bool hostIsFrozen = true; // Status of host movement being frozen
+    public static bool clientJoined = false; // Status of client joining game
 
     public RenderMaze GetMazeRendererSafely() 
     {
@@ -278,6 +279,7 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnKeys();
             RenderMaze.RenderSteamGenerators();
             steamGeneratorsSpawned = true;
+            clientJoined = true;
         }
         
         // Make the player wait to move until a client joins the game
