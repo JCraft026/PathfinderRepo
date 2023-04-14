@@ -61,7 +61,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-
+        
         // Set who the runner is
         if(hostIsRunner && isHost)
         {
@@ -72,13 +72,11 @@ public class CustomNetworkManager : NetworkManager
         {
             Debug.Log("isRunner=false");
             isRunner = false;
-            GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
         }
         else if(hostIsRunner && !isHost)
         {
             Debug.Log("isRunner=false");
             isRunner = false;
-            GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
         }
         else if(!hostIsRunner && !isHost)
         {
@@ -86,7 +84,7 @@ public class CustomNetworkManager : NetworkManager
             isRunner = true;
         }
 
-        // Find the maze renderer and create the maze (if we are the host)
+        // Find the maze renderer and create the maze (if we are the host) (Might be a good idea to move this ServerBrowserBackend.LoadMazeAsync())
         if (NetworkServer.connections.Count == 1){
             Resources.FindObjectsOfTypeAll<GameObject>()
                 .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
@@ -283,7 +281,10 @@ public class CustomNetworkManager : NetworkManager
         }
         
         // Make the player wait to move until a client joins the game
-        StartCoroutine(HostWaitForPlayer(conn));
+        if(isHost)
+        {
+            StartCoroutine(HostWaitForPlayer(conn));
+        }
     }
 
     public override void OnStopHost()
