@@ -101,7 +101,6 @@ public class MoveCharacter : NetworkBehaviour
                 isRestricted = true;
                 animator.SetFloat("Movement Speed", 0.0f);
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
-                Debug.Log("MoveCharacter: froze inactive guard: " + gameObject.name);
             }
             else{
                 if(isRestricted == true){
@@ -110,7 +109,6 @@ public class MoveCharacter : NetworkBehaviour
                 }
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
             }
-            Debug.Log("Controlling Guards");
         }
 
         // Process character movement
