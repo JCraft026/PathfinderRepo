@@ -12,7 +12,11 @@ public class GeneratorController : NetworkBehaviour
     // Property for generators
     public GameObject generator;
     public GameObject repairUI;
+    public GameObject breakPopup;
     public int repairCount = 0;
+
+    private Player_UI playerUi;   // Player UI management script
+
     // Property for runner
     public GameObject runner {
         get
@@ -33,6 +37,11 @@ public class GeneratorController : NetworkBehaviour
         {
             return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("RepairingEffect"));
         }
+    }
+
+    void Start(){
+        // Assign Player UI script
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
     }
 
     void Update(){
@@ -69,6 +78,14 @@ public class GeneratorController : NetworkBehaviour
             if(gameObject.transform.GetChild(0).gameObject.activeSelf){
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", false, gameObject.name);
             }
+        }
+
+        // Display the break popup
+        if(CustomNetworkManager.isRunner && gameObject.GetComponent<Animator>().GetBool("IsBusted") == false && playerUi.activeSelectedItem == Item.ItemType.Sledge && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, runner.transform.position) < 2.5f){
+            breakPopup.SetActive(true);
+        }
+        else{
+            breakPopup.SetActive(false);
         }
     }
 

@@ -109,6 +109,18 @@ public class RenderMaze : NetworkBehaviour
     public float cellSize = 8f;                                    // Size of the maze cell
     public static int generatorSpawnCount = 3;                     // Amount of steam generators to spawn
     private int currentCrackedWall = 1;                            // Current cracked wall ID
+    [SyncVar]
+    public float firstIconX;
+    [SyncVar]
+    public float firstIconY;
+    [SyncVar]
+    public float secondIconX;
+    [SyncVar]
+    public float secondIconY;
+    [SyncVar]
+    public float thirdIconX;
+    [SyncVar]
+    public float thirdIconY;
 
     void Start(){
         // Enable the steam generator for guards
@@ -119,6 +131,9 @@ public class RenderMaze : NetworkBehaviour
             }
             catch{
 
+            }
+            if(!CustomNetworkManager.isHost){
+                GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().StartRenderGeneratorIconsClientGuards();
             }
         }
     }
@@ -463,6 +478,8 @@ public class RenderMaze : NetworkBehaviour
               mazeHeight     = Utilities.GetMazeHeight();  // Cell height of the maze
         float cellSize       = GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().cellSize;
         Vector2[] generatorIconLocations = new Vector2[3]; // Array containing the positions of steam generator minimap icons
+        RenderMaze renderMaze = GameObject.Find("MazeRenderer").GetComponent<RenderMaze>(); 
+                                                           // In game RenderMaze component
 
         Debug.Log("Generating generators");
 
@@ -515,6 +532,23 @@ public class RenderMaze : NetworkBehaviour
 
                 // Spawn the steam generator
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().NetworkedSpawnGenerator(generatorPos, currentGeneratorIndex);
+
+                // Save the generator icon location
+                switch (currentGeneratorIndex)
+                {
+                    case 0:
+                        renderMaze.firstIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.firstIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                    case 1:
+                        renderMaze.secondIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.secondIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                    case 2:
+                        renderMaze.thirdIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.thirdIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                }
 
                 // Increment the current generator index
                 currentGeneratorIndex++;

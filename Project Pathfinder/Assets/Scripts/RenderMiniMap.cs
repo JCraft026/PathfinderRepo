@@ -231,4 +231,14 @@ public class RenderMiniMap : MonoBehaviour
         generatorThreeDisabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[2];
         generatorThreeDisabled.name = "MMSG3(Disabled)";
     }
+
+    // Start the RenderGeneratorIcons for client guard masters
+    public void StartRenderGeneratorIconsClientGuards(){
+        RenderMaze renderMaze = GameObject.Find("MazeRenderer").GetComponent<RenderMaze>(); // In game RenderMaze component
+        Vector2[] generatorIconLocations = new Vector2[]{new Vector2(renderMaze.firstIconX, renderMaze.firstIconY), new Vector2(renderMaze.secondIconX, renderMaze.secondIconY), new Vector2(renderMaze.thirdIconX, renderMaze.thirdIconY)};
+                                                                                            // Array containing the positions of steam generator minimap icons
+        
+        // Render generator icons for client guard masters
+        RenderGeneratorIcons(generatorIconLocations);
+    }
 }
