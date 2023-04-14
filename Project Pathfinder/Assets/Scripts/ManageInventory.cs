@@ -82,12 +82,6 @@ public class ManageInventory : NetworkBehaviour
                     if(inventory.GetItemList().Count < 8 ||
                         inventory.anItemCanStack(itemWorld.GetItem())){
                         inventory.AddItem(itemWorld.GetItem());
-                        // Controls if the item you pick up is selected (ready to be used) or not
-                        if(inventory.GetItemList().Count == 1){
-                            slotNumber = 0;
-                            selectedItem = itemWorld.GetItem();
-                            selectedItem.selected = true;
-                        }
                         playerUi.RefreshInventoryItems();
                         itemWorld.cmd_OpenChest();
                     }
@@ -97,118 +91,6 @@ public class ManageInventory : NetworkBehaviour
                 }
             }
         }
-    }
-
-    // Select the first item slot (Keypad1)
-    void OnInventory1()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 0){
-            selectedItem = itemList[0];
-            selectedItem.selected = true;
-            slotNumber = 0;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the second item slot (Keypad2)
-    void OnInventory2()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 1){
-            selectedItem = itemList[1];
-            selectedItem.selected = true;
-            slotNumber = 1;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the third item slot (Keypad3)
-    void OnInventory3()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 2){
-            selectedItem = itemList[2];
-            selectedItem.selected = true;
-            slotNumber = 2;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the fourth item slot (Keypad4)
-    void OnInventory4()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 3){
-            selectedItem = itemList[3];
-            selectedItem.selected = true;
-            slotNumber = 3;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the fifth item slot (Keypad5)
-    void OnInventory5()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 4){
-            selectedItem = itemList[4];
-            selectedItem.selected = true;
-            slotNumber = 4;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the sixth item slot (Keypad6)
-    void OnInventory6()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 5){
-            selectedItem = itemList[5];
-            selectedItem.selected = true;
-            slotNumber = 5;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the seventh item slot (Keypad7)
-    void OnInventory7()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 6){
-            selectedItem = itemList[6];
-            selectedItem.selected = true;
-            slotNumber = 6;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
-    }
-
-    // Select the eighth item slot (Keypad8)
-    void OnInventory8()
-    {
-        itemList = inventory.GetItemList();
-        if(itemList.Count > 7){
-            selectedItem = itemList[7];
-            selectedItem.selected = true;
-            slotNumber = 7;
-            unselectSlots(slotNumber);
-        }
-        playerUi.RefreshInventoryItems();
-        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Does an action based of of which item is passed
@@ -333,6 +215,118 @@ public class ManageInventory : NetworkBehaviour
                 Debug.LogWarning("Dropping items is disabled");
             }
         }
+    }
+
+        // Select the first item slot (Keypad1)
+    void OnInventory1()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 0){
+            selectedItem = itemList[0];
+            selectedItem.selected = true;
+            slotNumber = 0;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the second item slot (Keypad2)
+    void OnInventory2()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 1){
+            selectedItem = itemList[1];
+            selectedItem.selected = true;
+            slotNumber = 1;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the third item slot (Keypad3)
+    void OnInventory3()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 2){
+            selectedItem = itemList[2];
+            selectedItem.selected = true;
+            slotNumber = 2;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the fourth item slot (Keypad4)
+    void OnInventory4()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 3){
+            selectedItem = itemList[3];
+            selectedItem.selected = true;
+            slotNumber = 3;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the fifth item slot (Keypad5)
+    void OnInventory5()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 4){
+            selectedItem = itemList[4];
+            selectedItem.selected = true;
+            slotNumber = 4;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the sixth item slot (Keypad6)
+    void OnInventory6()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 5){
+            selectedItem = itemList[5];
+            selectedItem.selected = true;
+            slotNumber = 5;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the seventh item slot (Keypad7)
+    void OnInventory7()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 6){
+            selectedItem = itemList[6];
+            selectedItem.selected = true;
+            slotNumber = 6;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    // Select the eighth item slot (Keypad8)
+    void OnInventory8()
+    {
+        itemList = inventory.GetItemList();
+        if(itemList.Count > 7){
+            selectedItem = itemList[7];
+            selectedItem.selected = true;
+            slotNumber = 7;
+            unselectSlots(slotNumber);
+        }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
     }
 
     // Ensures only one slot is selected at a time

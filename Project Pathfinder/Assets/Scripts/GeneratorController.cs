@@ -13,8 +13,8 @@ public class GeneratorController : NetworkBehaviour
     public GameObject generator;
     public GameObject repairUI;
     public int repairCount = 0;
-    // Property for player
-    public GameObject player {
+    // Property for runner
+    public GameObject runner {
         get
         {
             return Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
@@ -72,17 +72,21 @@ public class GeneratorController : NetworkBehaviour
         }
     }
 
-    // Detect if the player can break the generator
+    // Detect if the runner can break the generator
     public static bool breakGenerator(){
         bool generatorBroken = false;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
 
-        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position) < 2.5f){
+        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && 
+            Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, 
+            generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().runner.transform.position) < 2.5f && 
+            generator.GetComponent<GeneratorController>().runner.GetComponent<MoveCharacter>().canMove == true)
+        {
             GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
             generatorBroken = true; 
         }
-        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().player.transform.position).ToString());
+        Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().runner.transform.position).ToString());
         
         return generatorBroken;    
     }
