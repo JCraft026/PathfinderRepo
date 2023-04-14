@@ -24,6 +24,7 @@ public class MoveCharacter : NetworkBehaviour
     public Rigidbody2D rigidBody;                            // Character's RigidBody
     public Animator animator;                                // Character's animator manager
     public bool canMove = true;                              // Character movement lock status
+    public bool isDisabled = false;                          // Character disabled by an EMP
     public GameObject PauseCanvas;                           // Exit game menu
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
@@ -104,7 +105,7 @@ public class MoveCharacter : NetworkBehaviour
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             }
             else{
-                if(isRestricted == true){
+                if(isRestricted == true && isDisabled == false){
                     canMove = true;
                     isRestricted = false;
                 }
@@ -233,6 +234,7 @@ public class MoveCharacter : NetworkBehaviour
         
         // Disable movement, sight, and show electricity particles
         canMove = false;
+        isDisabled = true;
         gameObject.GetComponent<Attack>().enabled = false;
 
         // Disable Guard abilities based on which guard you are
@@ -284,6 +286,7 @@ public class MoveCharacter : NetworkBehaviour
             selflight.transform.position  = currentSelflightPos;
         }
         canMove = true;
+        isDisabled = false;
         gameObject.GetComponent<Attack>().enabled = true;
         
         // Enable Guard abilities based on which guard you are
