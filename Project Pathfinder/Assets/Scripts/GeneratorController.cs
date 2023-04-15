@@ -14,6 +14,10 @@ public class GeneratorController : NetworkBehaviour
     public GameObject repairUI;
     public GameObject breakPopup;
     public int repairCount = 0;
+    [SyncVar]
+    public int healthPoints = 10;
+    public float healthBarXScale;
+    public GameObject healthBar;
 
     private Player_UI playerUi;   // Player UI management script
 
@@ -42,6 +46,9 @@ public class GeneratorController : NetworkBehaviour
     void Start(){
         // Assign Player UI script
         playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+
+        // Assign health bar scale
+        healthBarXScale = healthBar.transform.localScale.x;
     }
 
     void Update(){
@@ -53,8 +60,19 @@ public class GeneratorController : NetworkBehaviour
             animator.SetBool("IsGenerating", false);
         }
 
+        // Set health bar length
+        healthBar.transform.localScale = new Vector3(healthBarXScale * (healthPoints / 10f), healthBar.transform.localScale.y, healthBar.transform.localScale.z);
+
+        // Set health bar color based on generator status
+        if(!animator.GetBool("IsBusted")){
+            healthBar.GetComponent<SpriteRenderer>().color = new Color(190f, 0f, 0f);
+        }
+        else{
+            healthBar.GetComponent<SpriteRenderer>().color = new Color(224f, 182f, 0f);
+        }
+
         // Detects if the Engineer is near to fix the generator
-        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y -1f), engineer.transform.position) < 3f){
+        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f){
             if(repairCount < 60){
                 repairCount += 1;
                 // Only sets the repairing UI to true
@@ -71,7 +89,7 @@ public class GeneratorController : NetworkBehaviour
             }
         }
         // Turn off repairing UI if away from Generator
-        else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.5f, gameObject.transform.position.y -1f), engineer.transform.position) >= 3f){
+        else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) >= 3f){
             if(engineer.transform.GetChild(2).gameObject.activeSelf){
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
             }
@@ -81,11 +99,23 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Display the break popup
-        if(CustomNetworkManager.isRunner && gameObject.GetComponent<Animator>().GetBool("IsBusted") == false && playerUi.activeSelectedItem == Item.ItemType.Sledge && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, runner.transform.position) < 2.5f){
-            breakPopup.SetActive(true);
+        if(CustomNetworkManager.isRunner){
+            if(gameObject.GetComponent<Animator>().GetBool("IsBusted") == false && playerUi.activeSelectedItem == Item.ItemType.Sledge && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), runner.transform.position) < 2.5f){
+                breakPopup.SetActive(true);
+                healthBar.SetActive(true);
+            }
+            else{
+                breakPopup.SetActive(false);
+                healthBar.SetActive(false);
+            }
         }
         else{
-            breakPopup.SetActive(false);
+            if(Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), HandleLayers.activeCharacterLocation) < 3f){
+                healthBar.SetActive(true);
+            }
+            else{
+                healthBar.SetActive(false);
+            }
         }
     }
 
@@ -94,14 +124,19 @@ public class GeneratorController : NetworkBehaviour
         bool generatorBroken = false;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
+        GeneratorController generatorController = generator.GetComponent<GeneratorController>();
 
-        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && 
-            Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, 
-            generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().runner.transform.position) < 2.5f && 
-            generator.GetComponent<GeneratorController>().runner.GetComponent<MoveCharacter>().canMove == true)
+        if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.8f, generator.transform.position.y -1.7f), generator.GetComponent<GeneratorController>().runner.transform.position) < 2.5f && generator.GetComponent<GeneratorController>().runner.GetComponent<MoveCharacter>().canMove == true)
         {
-            GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
-            generatorBroken = true; 
+            if(generatorController.healthPoints > 1){
+                generatorController.healthPoints--;
+            }
+            else{
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
+                generatorBroken = true; 
+                generatorController.healthPoints--;
+            }
+            
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().runner.transform.position).ToString());
         
