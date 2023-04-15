@@ -90,7 +90,7 @@ public class BarricadeController : NetworkBehaviour
                 runnerTooltip = true;
                 if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true && runner.GetComponent<MoveCharacter>().canMove == true){
                     hitCount += 1;
-                    runner.GetComponent<Animator>().SetTrigger("SwingHammer");
+                    runner.GetComponent<Animator>().SetBool("SwingHammer", true);
                     decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
                     if(hitCount >= 3){
                         destroyBarricade();

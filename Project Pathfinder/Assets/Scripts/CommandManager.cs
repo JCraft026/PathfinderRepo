@@ -150,7 +150,7 @@ public class CommandManager : NetworkBehaviour
                 Debug.Log("M" + generatorName + "(Enabled)");
                 GameObject.Find("M" + generatorName + "(Enabled)").GetComponent<SpriteRenderer>().enabled  = false;
                 GameObject.Find("M" + generatorName + "(Disabled)").GetComponent<SpriteRenderer>().enabled = true;
-                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=red>a steam generator has been disabled!</color>", 5f);
+                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup("<color=red>steam generator disabled!</color>", 5f);
             }
             else{
                 GameObject.Find("M" + generatorName + "(Enabled)").GetComponent<SpriteRenderer>().enabled  = true;

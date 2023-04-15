@@ -102,8 +102,8 @@ public class ManageInventory : NetworkBehaviour
         // Sledge Hammer Action
         case Item.ItemType.Sledge:
             // Checks to see if a wall or generator breaks upon using the hammer
-            if(ManageCrackedWalls.Instance.breakWall() || GeneratorController.breakGenerator()){
-                gameObject.GetComponent<Animator>().SetTrigger("SwingHammer");
+            if(!gameObject.GetComponent<Animator>().GetBool("SwingHammer") && (ManageCrackedWalls.Instance.breakWall() || GeneratorController.breakGenerator())){
+                gameObject.GetComponent<Animator>().SetBool("SwingHammer", true);
             }
             break;
         // Smoke Bomb Action

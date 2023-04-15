@@ -194,6 +194,7 @@ public class Player_UI : NetworkBehaviour
             }
             else{
                 uiText.SetText("");
+                itemSlotRectTransform.Find("CountBackground").GetComponent<Image>().enabled = false;
             }
 
             // Controls where item slots are appearing 
