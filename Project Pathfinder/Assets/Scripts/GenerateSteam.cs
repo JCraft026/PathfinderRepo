@@ -11,7 +11,7 @@ public class GenerateSteam : MonoBehaviour
     public int displaySteam;         // Amount of steam displayed
     private float steamLimit = 101f; // Total steam limit
     private float steamMultiplier;   // Variable steam generation
-    const int generatorCount = 3; // Inital number of generators
+    const int GENERATOR_COUNT = 3; // Inital number of generators
     private int toSubtract = 0;
     public Image steamBarImage; //
 
@@ -40,7 +40,7 @@ public class GenerateSteam : MonoBehaviour
         if(steam < steamLimit && CustomNetworkManager.steamGeneratorsSpawned){
             displaySteam = (int)steam;
             gameObject.GetComponentInChildren<TextMeshProUGUI>().text = displaySteam.ToString();
-            switch(generatorCount - subtractBrokenGenerators()){
+            switch(GENERATOR_COUNT - subtractBrokenGenerators()){
                 case 0: 
                     steamMultiplier = 0f;
                     break;
