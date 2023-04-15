@@ -206,4 +206,17 @@ public class CommandManager : NetworkBehaviour
         crackedWallManager.DestroyCrackedWall(wall);
 
     }
+
+    // Call an RPC to set the generator health
+    [Command(requiresAuthority = false)]
+    public void cmd_SetGeneratorHealth(string generatorName, int health){
+        rpc_SetGeneratorHealth(generatorName, health);
+    }
+
+    // Set the generator health
+    [ClientRpc]
+    public void rpc_SetGeneratorHealth(string generatorName, int health)
+    {
+        GameObject.Find(generatorName).GetComponent<GeneratorController>().healthPoints = health;
+    }
 }

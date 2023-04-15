@@ -11,15 +11,15 @@ public class GeneratorController : NetworkBehaviour
     
     // Property for generators
     public GameObject generator;
-    public GameObject repairUI;
     public GameObject breakPopup;
-    public int repairCount = 0;
-    [SyncVar]
     public int healthPoints = 10;
     public float healthBarXScale;
     public GameObject healthBar;
+    private bool repairingGenerator = false;
 
     private Player_UI playerUi;   // Player UI management script
+    public float waitTime = 1f;   // Time to wait in between repairing individual generator hp
+    public float nextHealTime;    // Next time to heal 1 generator hp
 
     // Property for runner
     public GameObject runner {
@@ -68,34 +68,46 @@ public class GeneratorController : NetworkBehaviour
             healthBar.GetComponent<SpriteRenderer>().color = new Color(190f, 0f, 0f);
         }
         else{
-            healthBar.GetComponent<SpriteRenderer>().color = new Color(224f, 182f, 0f);
+            healthBar.GetComponent<SpriteRenderer>().color = new Color(126f, 126f, 126f);
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f){
-            if(repairCount < 60){
-                repairCount += 1;
-                // Only sets the repairing UI to true
+        if(animator.GetBool("IsBusted") == true && healthPoints < 10 && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f){
+            
+            // Set next repair time
+            if(!repairingGenerator){
+                repairingGenerator = true;
+                nextHealTime += waitTime;
+            }
+            if(Time.time > nextHealTime){
+                // Turn on Healing Touch effect
                 if(engineer.transform.GetChild(2).gameObject.activeSelf == false){
-                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", true, gameObject.name);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", true, gameObject.name);
                 }
-                if(repairCount >= 60){
-                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", false, gameObject.name);
+
+                // Repair 1 generator hp
+                healthPoints++;
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(gameObject.name, healthPoints);
+
+                // Turn generator back on and turn off Healing Touch effect
+                if(healthPoints>= 10){
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", false, gameObject.name);
-                    repairCount = 0;
                 }
             }
         }
+
         // Turn off repairing UI if away from Generator
         else if(animator.GetBool("IsBusted") == true && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) >= 3f){
             if(engineer.transform.GetChild(2).gameObject.activeSelf){
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
             }
-            if(gameObject.transform.GetChild(0).gameObject.activeSelf){
-                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairUI", false, gameObject.name);
-            }
+            repairingGenerator = false;
+        }
+
+        // Reset repairing generator status
+        else{
+            repairingGenerator = false;
         }
 
         // Display the break popup
@@ -121,7 +133,7 @@ public class GeneratorController : NetworkBehaviour
 
     // Detect if the runner can break the generator
     public static bool breakGenerator(){
-        bool generatorBroken = false;
+        bool generatorBroken = true;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
         GeneratorController generatorController = generator.GetComponent<GeneratorController>();
@@ -130,6 +142,7 @@ public class GeneratorController : NetworkBehaviour
         {
             if(generatorController.healthPoints > 1){
                 generatorController.healthPoints--;
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(generator.name, generatorController.healthPoints);
             }
             else{
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
@@ -173,14 +186,6 @@ public class GeneratorController : NetworkBehaviour
             }
             else{
                 repairingEffect.SetActive(setting);
-            }
-        }
-        else if(target == "RepairUI" && CustomNetworkManager.isRunner == false){
-            if(repairUI == null){
-                Debug.LogWarning("REPAIR UI IS NULL");
-            }
-            else{
-                repairUI.SetActive(setting);
             }
         }
     }
