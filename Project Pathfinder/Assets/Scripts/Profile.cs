@@ -71,40 +71,45 @@ public class Profile : MonoBehaviour
     public void Button_RegisterAndLogin() {
         string username = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
         string password = (passwordInputBox.GetComponent<TMPro.TMP_InputField>().text);
-        RegisterProfile(username, password);
-        if (!LoginProfile(username, password))
-            WriteMessageToUser("ERROR: Impossible condition. " +
-                "Password does not match registered account. " +
-                "Could not login the registered profile.");
+        if (RegisterProfile(username, password))
+            if (!LoginProfile(username, password))
+                WriteMessageToUser("ERROR: Impossible condition. " +
+                    "Password does not match registered account. " +
+                    "Could not login the registered profile.");
         return;
     }
     
     // Registers a name into the database, if possible.
-    public void RegisterProfile(string username, string password)
+    public bool RegisterProfile(string username, string password)
     {
         // > Test if the username is too short.
         if (username.Length <= 0) {
             WriteMessageToUser("Username invalid:\nThe username must have at least one character.");
-            return;
+            return false;
         }
         
         // > Test if the username is too long.
         if (username.Length > MAX_USERNAME_LENGTH) {
             WriteMessageToUser("Username invalid:\nThe username cannot be longer than "
                 + MAX_USERNAME_LENGTH + " characters.");
-            return;
+            return false;
         }
         
         // > Test if username contains valid characters.
         if (!usernameRegexRules.IsMatch(username)) {
             WriteMessageToUser("Username invalid:\nThe username must only contain numbers, letters, and underscores.");
-            return;
+            return false;
+        }
+        
+        if (IsUsernameCursed(username)) {
+            WriteMessageToUser("... probably shouldn't use that one, bud.");
+            return false;
         }
         
         // > Test if the profile already exists.
         if (DoesProfileExist(username)) {
             WriteMessageToUser("Username invalid:\nThe username '" + username + "' is already in use on this device.");
-            return;
+            return false;
         }
         
         // > Save the newly registered profile as a new file.
@@ -115,7 +120,7 @@ public class Profile : MonoBehaviour
         SaveEncodedProfile(newProfile, password);
         WriteMessageToUser("The profile '" + username + "' has been saved!");
         
-        return;
+        return true;
     }
     
     // Reads a user's profile and signs them in if the given password is correct.
@@ -150,6 +155,10 @@ public class Profile : MonoBehaviour
     //       trapped_chest_explosions: 4
     //       cracked_walls_destroyed: 2
     //   }
+    
+    public bool IsUsernameCursed(string username) {
+        return false;
+    }
     
     // Gets the profile of the currently logged in user.
     public PlayerProfile GetCurrentLogin() {

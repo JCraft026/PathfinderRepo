@@ -65,19 +65,21 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     public void ServerBrowserStartHosting(bool hostIsRunner)
     {
         GetCustomNetworkManager().hostIsRunner = hostIsRunner;
+        UpdateServerName();
         GetServerBrowserBackend().StartHosting();
     }
 
     // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
     public void UpdateServerName()
     {
-        var dropdown = gameObject.GetComponent<TMPro.TMP_Dropdown>(); // the dropdown box that sets the server name
-        if(dropdown == null)
-        {
-            Debug.LogError("Dropdown is null");
-        }
-        Debug.Log(dropdown.captionText.text);
-        GetServerBrowserBackend().serverName = dropdown.captionText.text;
+        var dropdownAdjective1 = GameObject.Find("Dropdown (Adjective1)").GetComponent<TMPro.TMP_Dropdown>();
+        var dropdownAdjective2 = GameObject.Find("Dropdown (Adjective2)").GetComponent<TMPro.TMP_Dropdown>();
+        var dropdownTitle      = GameObject.Find("Dropdown (Title)"     ).GetComponent<TMPro.TMP_Dropdown>();
+        
+        GetServerBrowserBackend().serverName
+        =       dropdownAdjective1.captionText.text
+        + " " + dropdownAdjective2.captionText.text
+        + " " + dropdownTitle.captionText.text;
     }
 
     // Tells the backend to look for servers
