@@ -266,6 +266,11 @@ public class CustomNetworkManager : NetworkManager
             Destroy(oldPlayer);
 
             Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
+
+            // Disable guard reboot display
+            if(NetworkServer.connections.Count == 1){
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(false);
+            }
         }
 
         if(NetworkServer.connections.Count > 1)
@@ -273,7 +278,6 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnChests(27);
             ItemWorld.SpawnKeys();
         }
-            ItemWorld.SpawnChests(27);
 
         // Make the player wait to move until a client joins the game
         StartCoroutine(HostWaitForPlayer(conn));

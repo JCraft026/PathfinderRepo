@@ -162,7 +162,7 @@ public class Player_UI : NetworkBehaviour
                     itemSlotRectTransform.gameObject.name = "EMP Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "EMP Popup";
                     itemSlotRectTransform.Find("EMP Popup").Find("itemDescription").gameObject.name = "EMP Description";
-                    itemSlotRectTransform.Find("EMP Popup").Find("EMP Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>EMP</size></color>\ndisables maze guards in its radius for 3 seconds\n\n<color=red>Duration: </color>2 sec\n\n[j] use</align>";
+                    itemSlotRectTransform.Find("EMP Popup").Find("EMP Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>EMP</size></color>\ndisables maze guards in its radius for <color=red>30</color> seconds\n\n<color=red>Duration: </color>2 sec\n\n[j] use</align>";
                     break;
             }
 

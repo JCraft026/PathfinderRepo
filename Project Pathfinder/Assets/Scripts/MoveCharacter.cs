@@ -6,6 +6,7 @@ using Mirror;
 using System.Linq;
 using Newtonsoft.Json;
 using System;
+using TMPro;
 
 static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
@@ -40,6 +41,8 @@ public class MoveCharacter : NetworkBehaviour
     private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance;                    // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
+    private string disabledPopupText;                        // Text displayed on guard disabled
+    private float disabledTimeLeft = 30.5f;                  // Time left for the guard to be disabled
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -191,6 +194,27 @@ public class MoveCharacter : NetworkBehaviour
                 characterArrow.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
+
+        // Show guard disabled countdown
+        if(!CustomNetworkManager.isRunner && isDisabled && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(true);
+            Debug.Log("Woop");
+        }
+        else{
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(false);
+        }
+
+        // Update guard disabled countdown
+        if(!CustomNetworkManager.isRunner && isDisabled){
+            if(disabledTimeLeft > 0){
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
+                disabledTimeLeft -= Time.deltaTime;
+            }
+            else{
+                disabledTimeLeft    = 30.5f;
+                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
+            }
+        }
     }
 
     // FixedUpdate calling frequency is based on a set timer
@@ -268,12 +292,26 @@ public class MoveCharacter : NetworkBehaviour
 
         // Send Popup message that the guard is disabled
         if(CustomNetworkManager.isRunner == false){
-            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().
-               ProcessPopup(gameObject.name.Replace("(Clone)", "") + " <color=lightblue>disabled</color> " + "5 seconds", 3f);
+            switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    disabledPopupText = "<color=#03fc52>Chaser</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("ChaIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    disabledPopupText = "<color=#fcba03>Engineer</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("EngIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    disabledPopupText = "<color=#0373fc>Trapper</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("TraIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+            }
+            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(disabledPopupText, 5f);
         }
         
         // Wait 5 seconds
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(30);
 
         // Take off the diabled effect, move the light sources back to the guard, and enable movement
         gameObject.GetComponentsInChildren<SpriteRenderer>()
@@ -303,6 +341,23 @@ public class MoveCharacter : NetworkBehaviour
             default:
                 Debug.LogError("Guard Type " + gameObject.name + " does not exist");
                 break;
+        }
+
+        // Change the color of the disabled guard minimap icon back to normal
+        // Send Popup message that the guard is disabled
+        if(CustomNetworkManager.isRunner == false){
+            switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    GameObject.Find("ChaIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    GameObject.Find("EngIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    GameObject.Find("TraIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+            }
         }
     }
 }
