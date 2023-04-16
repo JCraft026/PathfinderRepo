@@ -133,20 +133,21 @@ public class GeneratorController : NetworkBehaviour
 
     // Detect if the runner can break the generator
     public static bool breakGenerator(){
-        bool generatorBroken = true;
+        bool generatorBroken = false;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
         GeneratorController generatorController = generator.GetComponent<GeneratorController>();
 
         if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.8f, generator.transform.position.y -1.7f), generator.GetComponent<GeneratorController>().runner.transform.position) < 2.5f && generator.GetComponent<GeneratorController>().runner.GetComponent<MoveCharacter>().canMove == true)
         {
+            generatorBroken = true; 
+            
             if(generatorController.healthPoints > 1){
                 generatorController.healthPoints--;
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(generator.name, generatorController.healthPoints);
             }
             else{
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
-                generatorBroken = true; 
                 generatorController.healthPoints--;
             }
             
