@@ -37,6 +37,11 @@ public class ChestTrap : NetworkBehaviour
                     cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
                     StartCoroutine(cameraShake.Shake(.15f, .7f));
                 }
+
+                // Show the runner detected alert on the guard master side
+                else{
+                    GameObject.Find("MiniMapHandler").GetComponent<ManageMiniMap>().ProcessTrapChestTriggeredAlert();
+                }
             }
         }
     }

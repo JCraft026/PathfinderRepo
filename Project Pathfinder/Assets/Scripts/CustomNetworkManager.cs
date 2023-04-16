@@ -24,7 +24,7 @@ public class CustomNetworkManager : NetworkManager
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
     public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
 
-    public ItemWorld itemWorld;                                  //
+    public ItemWorld itemWorld;            // I don't know what this is or why it's here (-Caleb)
 
     [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
@@ -33,7 +33,10 @@ public class CustomNetworkManager : NetworkManager
     public RenderMaze mazeRenderer;         // Enables us to render the maze
     public WallStatus[,] parsedMazeJson;
     public string mazeDataJson = null;
+    public static bool steamGeneratorsSpawned = false;
+                                             // Status of steam generators being spawned in the scene
     public static bool hostIsFrozen = true; // Status of host movement being frozen
+    public static bool clientJoined = false; // Status of client joining game
 
     public RenderMaze GetMazeRendererSafely() 
     {
@@ -58,12 +61,12 @@ public class CustomNetworkManager : NetworkManager
     public override void OnStartClient()
     {
         base.OnStartClient();
-
+        
         // Set who the runner is
         if(hostIsRunner && isHost)
         {
             Debug.Log("isRunner=true");
-            isRunner = true; 
+            isRunner = true;
         }
         else if(!hostIsRunner && isHost)
         {
@@ -73,7 +76,7 @@ public class CustomNetworkManager : NetworkManager
         else if(hostIsRunner && !isHost)
         {
             Debug.Log("isRunner=false");
-            isRunner = false; 
+            isRunner = false;
         }
         else if(!hostIsRunner && !isHost)
         {
@@ -81,8 +84,8 @@ public class CustomNetworkManager : NetworkManager
             isRunner = true;
         }
 
-        // Find the maze renderer and create the maze (if we are the host)
-        if(NetworkServer.connections.Count == 1){
+        // Find the maze renderer and create the maze (if we are the host) (Might be a good idea to move this ServerBrowserBackend.LoadMazeAsync())
+        if (NetworkServer.connections.Count == 1){
             Resources.FindObjectsOfTypeAll<GameObject>()
                 .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
                 .GetComponent<RenderMaze>()
@@ -163,6 +166,7 @@ public class CustomNetworkManager : NetworkManager
         StopHost();
         Debug.Log("OnClientDisconnect");
         mazeRenderer = null; // reset the maze renderer
+        GenerateSteam.steam = 0;
 
         // Reset the end game events
         HandleEvents.currentEvent = 0;
@@ -277,10 +281,16 @@ public class CustomNetworkManager : NetworkManager
         {
             ItemWorld.SpawnChests(27);
             ItemWorld.SpawnKeys();
+            RenderMaze.RenderSteamGenerators();
+            steamGeneratorsSpawned = true;
+            clientJoined = true;
         }
-
+        
         // Make the player wait to move until a client joins the game
-        StartCoroutine(HostWaitForPlayer(conn));
+        if(isHost)
+        {
+            StartCoroutine(HostWaitForPlayer(conn));
+        }
     }
 
     public override void OnStopHost()

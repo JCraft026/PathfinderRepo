@@ -32,6 +32,11 @@ public class RenderMiniMap : MonoBehaviour
     [SerializeField]
     private Transform tunnelEntranceIcon = null;
 
+    [SerializeField]
+    private Transform enabledGeneratorIcon = null;
+
+    [SerializeField]
+    private Transform disabledGeneratorIcon = null;
     private int currentCrackedWall = 1;           // Current cracked wall ID
 
     // Render the complete minimap within the scene canvas
@@ -187,5 +192,53 @@ public class RenderMiniMap : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RenderGeneratorIcons(Vector2[] generatorIconLocations){
+        var generatorOneEnabled = Instantiate(enabledGeneratorIcon, transform);
+        generatorOneEnabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorOneEnabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorOneEnabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[0];
+        generatorOneEnabled.name = "MMSG1(Enabled)";
+
+        var generatorOneDisabled = Instantiate(disabledGeneratorIcon, transform);
+        generatorOneDisabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorOneDisabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorOneDisabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[0];
+        generatorOneDisabled.name = "MMSG1(Disabled)";
+
+        var generatorTwoEnabled = Instantiate(enabledGeneratorIcon, transform);
+        generatorTwoEnabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorTwoEnabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorTwoEnabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[1];
+        generatorTwoEnabled.name = "MMSG2(Enabled)";
+
+        var generatorTwoDisabled = Instantiate(disabledGeneratorIcon, transform);
+        generatorTwoDisabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorTwoDisabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorTwoDisabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[1];
+        generatorTwoDisabled.name = "MMSG2(Disabled)";
+
+        var generatorThreeEnabled = Instantiate(enabledGeneratorIcon, transform);
+        generatorThreeEnabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorThreeEnabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorThreeEnabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[2];
+        generatorThreeEnabled.name = "MMSG3(Enabled)";
+
+        var generatorThreeDisabled = Instantiate(disabledGeneratorIcon, transform);
+        generatorThreeDisabled.transform.SetParent(GameObject.Find("Minimap").transform, false);
+        generatorThreeDisabled.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 7, cellSize * 7);
+        generatorThreeDisabled.GetComponent<RectTransform>().localPosition = generatorIconLocations[2];
+        generatorThreeDisabled.name = "MMSG3(Disabled)";
+    }
+
+    // Start the RenderGeneratorIcons for client guard masters
+    public void StartRenderGeneratorIconsClientGuards(){
+        RenderMaze renderMaze = GameObject.Find("MazeRenderer").GetComponent<RenderMaze>(); // In game RenderMaze component
+        Vector2[] generatorIconLocations = new Vector2[]{new Vector2(renderMaze.firstIconX, renderMaze.firstIconY), new Vector2(renderMaze.secondIconX, renderMaze.secondIconY), new Vector2(renderMaze.thirdIconX, renderMaze.thirdIconY)};
+                                                                                            // Array containing the positions of steam generator minimap icons
+        
+        // Render generator icons for client guard masters
+        RenderGeneratorIcons(generatorIconLocations);
     }
 }

@@ -54,18 +54,20 @@ public class ManageCrackedWalls : MonoBehaviour
     }
 
     // Checks to see if the player is within range, then breaks the closest cracked wall
-    public void breakWall(){
+    public bool breakWall(){
+        bool wallBroken = false;
+        findClosestWall();
         if(crackedWallList.Count >= 1){
             if(Mathf.Abs(MoveCharacter.Instance.rigidBody.position.x - closestWall.transform.position.x) < cellSize * 0.25f
                 && Mathf.Abs(MoveCharacter.Instance.rigidBody.position.y - closestWall.transform.position.y) < cellSize * 0.25f){
                 if(CustomNetworkManager.isRunner){
                     GameObject.Find("MM" + closestWall.name.Substring(8)).SetActive(false);
                 }
+                wallBroken = true;
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_DestroyWall(closestWall.name);
-                //Destroy(closestWall);
-                //crackedWallList.Remove(closestWall);
             }
         }
+        return wallBroken;
     }
 
     public void DestroyCrackedWall(GameObject wall){

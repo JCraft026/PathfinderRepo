@@ -99,6 +99,13 @@ public class MoveCharacter : NetworkBehaviour
             characterArrow = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Blue Arrow"));
         }
 
+        // Ensure the mazeData is not null. If it is we should not be using mazeData at all
+        if(mazeData == null)
+        {
+            mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+            
+        }
+
         // Disable movement on inactive guards
         if(!runnerExpression.IsMatch(gameObject.name)){
             if(gameObject.GetComponent<ManageActiveCharacters>().guardId != gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
@@ -177,21 +184,21 @@ public class MoveCharacter : NetworkBehaviour
                     characterCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER);
                     break;
             }
-            currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
-            currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
-            currentCellX = characterCellLocation[0] * Utilities.GetCellSize();
 
-            // Manage character arrow display
-            if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
-                if(IsNearBottomWall()){
+            // Only manage minimap pieces if mazeData is not null
+            if(mazeData != null)
+            {
+                currentCell  = mazeData[characterCellLocation[0] + (int)(mazeWidth/2), characterCellLocation[1] + (int)(mazeHeight/2)];
+                currentCellY = characterCellLocation[1] * Utilities.GetCellSize();
+            
+
+                // Manage character arrow display
+                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
                     characterArrow.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 else{
                     characterArrow.GetComponent<SpriteRenderer>().enabled = false;
                 }
-            }
-            else{
-                characterArrow.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
 

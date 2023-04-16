@@ -21,13 +21,18 @@ public class TrapperAbility : NetworkBehaviour
     void Update()
     {
         // When trapper presses "[k]"
-        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) && GenerateSteam.steam >= 25f){
-            // Subtract from steam
-            GenerateSteam.steam -= 25f;
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+            if(GenerateSteam.steam >= 25f){
+                // Subtract from steam
+                GenerateSteam.steam -= 25f;
 
-            placeChestTrap();
+                placeChestTrap();
+            }
+            else{
+                GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
+            }
         }
-
+        
         // Reset the ability clicked status
         abilityClicked = false;
     }

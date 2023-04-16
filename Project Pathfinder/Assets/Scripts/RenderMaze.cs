@@ -107,12 +107,34 @@ public class RenderMaze : NetworkBehaviour
     private string mazeDataJson;                                   // Json string version of the maze (used to send the maze to the client)
     private List<Transform> oldComponents = new List<Transform>(); // List of wall locations last rendered
     public float cellSize = 8f;                                    // Size of the maze cell
+    public static int generatorSpawnCount = 3;                     // Amount of steam generators to spawn
     private int currentCrackedWall = 1;                            // Current cracked wall ID
+    [SyncVar]
+    public float firstIconX;
+    [SyncVar]
+    public float firstIconY;
+    [SyncVar]
+    public float secondIconX;
+    [SyncVar]
+    public float secondIconY;
+    [SyncVar]
+    public float thirdIconX;
+    [SyncVar]
+    public float thirdIconY;
 
     void Start(){
         // Enable the steam generator for guards
         if(!CustomNetworkManager.isRunner){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGenerator")).SetActive(true);
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGeneratorUI")).SetActive(true);
+            try{
+                GameObject.FindGameObjectWithTag("SteamBar").SetActive(false);
+            }
+            catch{
+
+            }
+            if(!CustomNetworkManager.isHost){
+                GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().StartRenderGeneratorIconsClientGuards();
+            }
         }
     }
 
@@ -447,5 +469,98 @@ public class RenderMaze : NetworkBehaviour
     // Set the MazeDataJson for the client
     public void SetMazeDataJson(string jsonText){
         mazeDataJson = jsonText;
+    }
+
+    public static void RenderSteamGenerators()
+    {
+        int currentGeneratorIndex = 0;                     // Current icon that is getting its position assigned
+        float mazeWidth      = Utilities.GetMazeWidth(),   // Cell width of the maze
+              mazeHeight     = Utilities.GetMazeHeight();  // Cell height of the maze
+        float cellSize       = GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().cellSize;
+        Vector2[] generatorIconLocations = new Vector2[3]; // Array containing the positions of steam generator minimap icons
+        RenderMaze renderMaze = GameObject.Find("MazeRenderer").GetComponent<RenderMaze>(); 
+                                                           // In game RenderMaze component
+
+        Debug.Log("Generating generators");
+
+        // Seeds the random number for each game instance
+        Random.state.Equals((int)System.DateTime.Now.Ticks);
+
+        // Declare a list of possible spawning locations
+        List<int> listOfSpawnSpots = new List<int>() {0,1,2,3};
+
+        // Randomly select, use, and remove one of the options of where to spawn a generator 
+        for (int spawnLimit = 1; spawnLimit <= generatorSpawnCount;)
+        {
+            Vector2 generatorPos = new Vector2();
+            int spawnPlace = UnityEngine.Random.Range(0, 4);
+
+            if(listOfSpawnSpots.Contains(spawnPlace)){
+                switch(spawnPlace){
+                    case 0: 
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(22.5f,25.5f); // i = 9 j = 9
+                        generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 9));
+                        Debug.Log("Generating generators: case 0");
+                        break;
+                    case 1:
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(22.5f,-22.5f); // i = 9 j = 3
+                        generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 9), cellSize * (-mazeHeight / 2 + 3));
+                        Debug.Log("Generating generators: case 1");
+                        break;
+                    case 2: 
+                        listOfSpawnSpots.Remove(spawnPlace);
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(-25.5f,25.5f); // i = 3 j = 9
+                        generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 9));
+                        Debug.Log("Generating generators: case 2");
+                        break;
+                    case 3:
+                        listOfSpawnSpots.Remove(spawnPlace); 
+                        spawnLimit += 1;
+                        generatorPos = new Vector2(-25.5f,-22.5f);  // i = 3 j = 3
+                        generatorIconLocations[currentGeneratorIndex] = new Vector2(cellSize * (-mazeWidth / 2 + 3), cellSize * (-mazeHeight / 2 + 3));
+                        Debug.Log("Generating generators: case 3");
+                        break;
+                    default: 
+                        Debug.Log("Not one of the 4 steam generator spawn spots picked");
+                        break;
+                }
+
+                // Spawn the steam generator
+                GameObject.Find("ItemAssets").GetComponent<CommandManager>().NetworkedSpawnGenerator(generatorPos, currentGeneratorIndex);
+
+                // Save the generator icon location
+                switch (currentGeneratorIndex)
+                {
+                    case 0:
+                        renderMaze.firstIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.firstIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                    case 1:
+                        renderMaze.secondIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.secondIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                    case 2:
+                        renderMaze.thirdIconX = generatorIconLocations[currentGeneratorIndex].x;
+                        renderMaze.thirdIconY = generatorIconLocations[currentGeneratorIndex].y;
+                        break;
+                }
+
+                // Increment the current generator index
+                currentGeneratorIndex++;
+            }
+            else{
+                Debug.Log("The number " + spawnPlace + " is not in the range");
+            }
+        }
+
+        // Display generator icons on the minimap for the guard master
+        if(!CustomNetworkManager.isRunner){
+            GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().RenderGeneratorIcons(generatorIconLocations);
+        }
     }
 }

@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 6497765807274902111}
   - component: {fileID: -3073245883810749708}
   - component: {fileID: 7599089245867032732}
+  - component: {fileID: 7976812551819518495}
   m_Layer: 0
   m_Name: Trapper
   m_TagString: Untagged
@@ -388,6 +389,19 @@ MonoBehaviour:
   syncInterval: 0.1
   chestTrap: {fileID: 3941776402826085718, guid: 2d5d7b215517bd348a7d405ec98679b5, type: 3}
   tempChestTrap: {fileID: 0}
+--- !u!114 &7976812551819518495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5025691c7bb6ca74d98174a7f6a01466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &8806066953676061027
 GameObject:
   m_ObjectHideFlags: 0

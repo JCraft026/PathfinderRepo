@@ -88,8 +88,9 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5 && playerUi.activeSelectedItem == Item.ItemType.Sledge){
                 enableTooltip(gameObject.transform.position, runner.transform.position);
                 runnerTooltip = true;
-                if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true){
+                if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true && runner.GetComponent<MoveCharacter>().canMove == true){
                     hitCount += 1;
+                    runner.GetComponent<Animator>().SetBool("SwingHammer", true);
                     decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
                     if(hitCount >= 3){
                         destroyBarricade();
