@@ -17,6 +17,8 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
+    [SerializeField]
+    private Transform guardRebootCountdownPrefab = null;     // Countdown Prefab until guard restarts from EMP disabling
     public GameObject flashlight;                            // Character's flashlight object (if they have one)
     public GameObject selflight;                             // Character's selflight object (if they have one)
     public float moveSpeed = 5f;                             // Speed at which the character needs to move
@@ -37,12 +39,13 @@ public class MoveCharacter : NetworkBehaviour
     private float currentCellX;                              // X position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
-
     private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance;                    // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
     private string disabledPopupText;                        // Text displayed on guard disabled
     private float disabledTimeLeft = 30.5f;                  // Time left for the guard to be disabled
+    Transform guardRebootCountdown;                          // Countdown until guard restarts from EMP disabling
+    private bool rebootCountdownActive = false;       // Status of reboot countdown being spawned
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -202,24 +205,35 @@ public class MoveCharacter : NetworkBehaviour
             }
         }
 
-        // Show guard disabled countdown
-        if(!CustomNetworkManager.isRunner && isDisabled && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(true);
-            Debug.Log("Woop");
-        }
-        else{
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(false);
-        }
-
-        // Update guard disabled countdown
-        if(!CustomNetworkManager.isRunner && isDisabled){
-            if(disabledTimeLeft > 0){
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
-                disabledTimeLeft -= Time.deltaTime;
+        // Show and update guard disabled countdown
+        if(!CustomNetworkManager.isRunner){
+            if(isDisabled){
+                if(!rebootCountdownActive){
+                    guardRebootCountdown = Instantiate(guardRebootCountdownPrefab, transform);
+                    guardRebootCountdown.transform.SetParent(GameObject.Find("Minimap").transform, false);
+                    rebootCountdownActive = true;
+                }
+                if(rebootCountdownActive){
+                    if(gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
+                        guardRebootCountdown.gameObject.SetActive(true);
+                    }
+                    else{
+                        guardRebootCountdown.gameObject.SetActive(false);
+                    }
+                    guardRebootCountdown.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
+                    if(disabledTimeLeft > 0){
+                        disabledTimeLeft -= Time.deltaTime;
+                    }
+                    else{
+                        disabledTimeLeft    = 30.5f;
+                    }
+                }
             }
             else{
-                disabledTimeLeft    = 30.5f;
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
+                if(rebootCountdownActive){
+                    Destroy(guardRebootCountdown.gameObject);
+                    rebootCountdownActive = false;
+                }
             }
         }
     }

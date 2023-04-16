@@ -25,7 +25,7 @@ public class ManageRunnerProximityAlert : MonoBehaviour
         var guardId = gameObject.GetComponent<ManageActiveCharacters>().guardId;
 
         // Process runner proximity alert if the player is the guard master and the parent guard object is inactive
-        if(!CustomNetworkManager.isRunner && gameObject.GetComponent<ManageActiveCharacters>().activeGuardId != guardId){
+        if(!CustomNetworkManager.isRunner && gameObject.GetComponent<ManageActiveCharacters>().activeGuardId != guardId && !gameObject.GetComponent<MoveCharacter>().isDisabled){
             
             // Calculate runner and guard location data
             var runner     = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));

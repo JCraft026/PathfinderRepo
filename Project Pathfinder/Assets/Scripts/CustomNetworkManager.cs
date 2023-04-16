@@ -270,11 +270,6 @@ public class CustomNetworkManager : NetworkManager
             Destroy(oldPlayer);
 
             Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
-
-            // Disable guard reboot display
-            if(NetworkServer.connections.Count == 1){
-                Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("GuardRebooting")).SetActive(false);
-            }
         }
 
         if(NetworkServer.connections.Count > 1)

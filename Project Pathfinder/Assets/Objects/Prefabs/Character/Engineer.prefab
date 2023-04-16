@@ -331,6 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  guardRebootCountdownPrefab: {fileID: 7511002142692920791, guid: a1491db273ac68b4caa3ad3256baa17d, type: 3}
   flashlight: {fileID: 4426914521127218765}
   selflight: {fileID: 7221724366070273465}
   moveSpeed: 4
