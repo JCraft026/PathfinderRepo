@@ -86,4 +86,19 @@ public class Utilities : MonoBehaviour
 
         return miniMapHandler.GetComponent<RenderMiniMap>().cellSize;
     }
+
+    // Get character's current WallStatus cell data
+    public static WallStatus GetCharacterCellData(int characterCode){
+        int[] cellLocation = GetCharacterCellLocation(characterCode); // Current cell location of the character
+        WallStatus cellData;                                          // Current WallStatus cell data of the character
+        
+        if(CustomNetworkManager.isRunner){
+            cellData = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).GetComponent<MoveCharacter>().mazeData[(cellLocation[0] + (int)(GetMazeWidth()/2)), (cellLocation[1] + (int)(GetMazeHeight()/2))];
+        }
+        else{
+            cellData = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<MoveCharacter>().mazeData[(cellLocation[0] + (int)(GetMazeWidth()/2)), (cellLocation[1] + (int)(GetMazeHeight()/2))];
+        }
+
+        return cellData;
+    }
 }

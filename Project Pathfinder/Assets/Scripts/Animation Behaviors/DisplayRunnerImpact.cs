@@ -87,8 +87,8 @@ public class DisplayRunnerImpact : StateMachineBehaviour
     // Determine whether there are no walls in the way of the guard attack impact trajectory to avoid the runner phasing through walls
     public bool ImpactTrajectoryClear(Vector2 characterPosition, float moveDirection){
         bool trajectoryClear = true;
-        Regex lrWallExpression = new Regex("Wall_LR"); // Match left and right walls
-        Regex tbWallExpression = new Regex("Wall_TB"); // Match top and bottom walls
+        Regex lrWallExpression = new Regex("LR"); // Match left and right walls
+        Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
         Collider2D[] nearByObjects = Physics2D.OverlapCircleAll(characterPosition, 1f);
                                                        // Collider objects near the runner
 
