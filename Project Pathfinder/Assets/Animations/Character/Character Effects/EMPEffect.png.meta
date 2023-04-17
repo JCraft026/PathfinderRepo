@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cb7f34918bf6f2c49a75a9a96e40528b
+guid: 6065c1ebbd21f394ca4727c50c6b2179
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Original Robot Sprites_0
+      name: EMPEffect_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06e921f653993d948a81046e2ed3def3
-      internalID: -474289465
+      spriteID: ca0fbe291cfa2154bbb220b363a50a73
+      internalID: -274864436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Original Robot Sprites_1
+      name: EMPEffect_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fbb2641e62563548a91b16c4eb794e2
+      internalID: 430720966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EMPEffect_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bcb86ea49b9c1a4684d7d2e9e470807
+      internalID: 288124733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EMPEffect_3
       rect:
         serializedVersion: 2
         x: 0
@@ -140,14 +182,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86a565143c3922249817bffbef6eab25
-      internalID: -19648080
+      spriteID: e7142f1b6b2195541b3f7857e9bc453e
+      internalID: -1810309709
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Original Robot Sprites_2
+      name: EMPEffect_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e07ba0115d26cc245859bbeacf2a3aae
+      internalID: -1282485274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EMPEffect_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ce216cd4c2090f4e80d448c59f840f8
+      internalID: 1768180896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EMPEffect_6
       rect:
         serializedVersion: 2
         x: 0
@@ -161,8 +245,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ebe5022ad7021984fa1c01ee21eed631
-      internalID: 952307298
+      spriteID: d90b2a281bb219f4f9c0879d534aba2e
+      internalID: 1003938302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EMPEffect_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d211af483c17c240a35cf816c150b09
+      internalID: 995199927
       vertices: []
       indices: 
       edges: []
@@ -178,9 +283,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Original Robot Sprites_2: 952307298
-      Original Robot Sprites_1: -19648080
-      Original Robot Sprites_0: -474289465
+      EMPEffect_1: 430720966
+      EMPEffect_3: -1810309709
+      EMPEffect_4: -1282485274
+      EMPEffect_0: -274864436
+      EMPEffect_5: 1768180896
+      EMPEffect_2: 288124733
+      EMPEffect_6: 1003938302
+      EMPEffect_7: 995199927
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

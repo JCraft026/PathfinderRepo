@@ -6,6 +6,7 @@ using Mirror;
 using System.Linq;
 using Newtonsoft.Json;
 using System;
+using TMPro;
 
 static class MoveCharacterConstants{
     public const float FORWARD  = 1f; // Character facing forward
@@ -16,13 +17,17 @@ static class MoveCharacterConstants{
 
 public class MoveCharacter : NetworkBehaviour
 {
+    [SerializeField]
+    private Transform guardRebootCountdownPrefab = null;     // Countdown Prefab until guard restarts from EMP disabling
     public GameObject flashlight;                            // Character's flashlight object (if they have one)
+    public GameObject selflight;                             // Character's selflight object (if they have one)
     public float moveSpeed = 5f;                             // Speed at which the character needs to move
     public float facingDirection;                            // Direction the character should face after movement
     public Vector2 movementInput;                            // Character's current input direction             
     public Rigidbody2D rigidBody;                            // Character's RigidBody
     public Animator animator;                                // Character's animator manager
     public bool canMove = true;                              // Character movement lock status
+    public bool isDisabled = false;                          // Character disabled by an EMP
     public GameObject PauseCanvas;                           // Exit game menu
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
@@ -34,10 +39,13 @@ public class MoveCharacter : NetworkBehaviour
     private float currentCellX;                              // X position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
-
     private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance;                    // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
+    private string disabledPopupText;                        // Text displayed on guard disabled
+    private float disabledTimeLeft = 30.5f;                  // Time left for the guard to be disabled
+    Transform guardRebootCountdown;                          // Countdown until guard restarts from EMP disabling
+    private bool rebootCountdownActive = false;       // Status of reboot countdown being spawned
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
@@ -110,7 +118,7 @@ public class MoveCharacter : NetworkBehaviour
                 rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
             }
             else{
-                if(isRestricted == true){
+                if(isRestricted == true && isDisabled == false){
                     canMove = true;
                     isRestricted = false;
                 }
@@ -196,6 +204,38 @@ public class MoveCharacter : NetworkBehaviour
                 }
             }
         }
+
+        // Show and update guard disabled countdown
+        if(!CustomNetworkManager.isRunner){
+            if(isDisabled){
+                if(!rebootCountdownActive){
+                    guardRebootCountdown = Instantiate(guardRebootCountdownPrefab, transform);
+                    guardRebootCountdown.transform.SetParent(GameObject.Find("Minimap").transform, false);
+                    rebootCountdownActive = true;
+                }
+                if(rebootCountdownActive){
+                    if(gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId){
+                        guardRebootCountdown.gameObject.SetActive(true);
+                    }
+                    else{
+                        guardRebootCountdown.gameObject.SetActive(false);
+                    }
+                    guardRebootCountdown.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = ((int)disabledTimeLeft).ToString();
+                    if(disabledTimeLeft > 0){
+                        disabledTimeLeft -= Time.deltaTime;
+                    }
+                    else{
+                        disabledTimeLeft    = 30.5f;
+                    }
+                }
+            }
+            else{
+                if(rebootCountdownActive){
+                    Destroy(guardRebootCountdown.gameObject);
+                    rebootCountdownActive = false;
+                }
+            }
+        }
     }
 
     // FixedUpdate calling frequency is based on a set timer
@@ -215,28 +255,6 @@ public class MoveCharacter : NetworkBehaviour
         return rigidBody.position;
     }
 
-    public void greenScreen(){
-        Debug.Log("GREEN");
-        animator.SetBool("isGreen", true);
-        if(!runnerExpression.IsMatch(gameObject.name)){
-            if(runnerExpression.IsMatch(gameObject.name)){
-                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
-                runnerRenderer.color = new Color32(255,255,225,20);
-            }
-        }
-    }
-
-    public void notGreenScreen(){
-        animator.SetBool("isGreen", false);
-        if(!runnerExpression.IsMatch(gameObject.name)){
-            if(runnerExpression.IsMatch(gameObject.name)){
-                SpriteRenderer runnerRenderer = gameObject.GetComponent<SpriteRenderer>();
-                runnerRenderer.color = new Color32(255,255,225,255);
-            }
-        }
-        Debug.Log("NO GREEN");
-    }
-
     bool IsNearBottomWall(){
         bool nearBottomWall = false;
         Regex tbWallExpression = new Regex("TB"); // Match top and bottom walls
@@ -249,5 +267,118 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         return nearBottomWall;
+    }
+
+    public void startDisableGuard(){
+        StartCoroutine(disableGuard());
+    }
+
+    IEnumerator disableGuard(){
+        Vector3 currentFlashlightPos = new Vector3(); // Retain the Location of the Light before moving it
+        Vector3 currentSelflightPos  = new Vector3(); // Retain the Location of the Light before moving it
+        
+        // Disable movement, sight, and show electricity particles
+        canMove = false;
+        isDisabled = true;
+        gameObject.GetComponent<Attack>().enabled = false;
+
+        // Disable Guard abilities based on which guard you are
+        switch(gameObject.name){
+            case "Chaser(Clone)":
+                gameObject.GetComponent<ChaserAbility>().enabled = false;
+                break;
+            case "Trapper(Clone)":
+                gameObject.GetComponent<TrapperAbility>().enabled = false;
+                break;
+            case "Engineer(Clone)":
+                gameObject.GetComponent<EngineerAbility>().enabled = false;
+                break;
+            default:
+                Debug.LogError("Guard Type " + gameObject.name + " does not exist");
+                break;
+        }
+
+        if(flashlight != null){
+            // Store and move all light sources away from guard
+            currentFlashlightPos = flashlight.transform.position;
+            flashlight.transform.position = new Vector3(-100, 0,0);
+            currentSelflightPos = selflight.transform.position;
+            selflight.transform.position  = new Vector3(-100, 0,0);
+        }
+        else{
+            // Store and move all light sources away from guard
+            currentSelflightPos = selflight.transform.position;
+            selflight.transform.position = new Vector3(-100, 0,0);
+        }
+
+        // Send Popup message that the guard is disabled
+        if(CustomNetworkManager.isRunner == false){
+            switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    disabledPopupText = "<color=#03fc52>Chaser</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("ChaIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    disabledPopupText = "<color=#fcba03>Engineer</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("EngIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    disabledPopupText = "<color=#0373fc>Trapper</color> <color=red>disabled by EMP</color>";
+                    GameObject.Find("TraIcon").GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                    break;
+            }
+            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(disabledPopupText, 5f);
+        }
+        
+        // Wait 5 seconds
+        yield return new WaitForSeconds(30);
+
+        // Take off the diabled effect, move the light sources back to the guard, and enable movement
+        gameObject.GetComponentsInChildren<SpriteRenderer>()
+            .FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect").enabled = false;
+        if(flashlight != null){
+            flashlight.transform.position = currentFlashlightPos;
+            selflight.transform.position  = currentSelflightPos;
+        }
+        else{
+            selflight.transform.position  = currentSelflightPos;
+        }
+        canMove = true;
+        isDisabled = false;
+        gameObject.GetComponent<Attack>().enabled = true;
+        
+        // Enable Guard abilities based on which guard you are
+        switch(gameObject.name){
+            case "Chaser(Clone)":
+                gameObject.GetComponent<ChaserAbility>().enabled = true;
+                break;
+            case "Trapper(Clone)":
+                gameObject.GetComponent<TrapperAbility>().enabled = true;
+                break;
+            case "Engineer(Clone)":
+                gameObject.GetComponent<EngineerAbility>().enabled = true;
+                break;
+            default:
+                Debug.LogError("Guard Type " + gameObject.name + " does not exist");
+                break;
+        }
+
+        // Change the color of the disabled guard minimap icon back to normal
+        // Send Popup message that the guard is disabled
+        if(CustomNetworkManager.isRunner == false){
+            switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
+            {
+                case ManageActiveCharactersConstants.CHASER:
+                    GameObject.Find("ChaIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+                case ManageActiveCharactersConstants.ENGINEER:
+                    GameObject.Find("EngIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+                case ManageActiveCharactersConstants.TRAPPER:
+                    GameObject.Find("TraIcon").GetComponent<SpriteRenderer>().color = new Color(255, 255, 255);
+                    break;
+            }
+        }
     }
 }

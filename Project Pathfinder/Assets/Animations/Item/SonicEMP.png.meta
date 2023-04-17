@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cb7f34918bf6f2c49a75a9a96e40528b
+guid: 757a854cfcc80da4dbbb07cabe08f797
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Original Robot Sprites_0
+      name: SonicEMP_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06e921f653993d948a81046e2ed3def3
-      internalID: -474289465
+      spriteID: 22de4c613e27b294981dc6a3d71a02ae
+      internalID: 1760568417
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Original Robot Sprites_1
+      name: SonicEMP_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 873de26da0873624f877c553bbf48a83
+      internalID: -1380149222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f3e0ed7f8b5335419dd830b979e9600
+      internalID: 1280483116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_3
       rect:
         serializedVersion: 2
         x: 0
@@ -140,14 +182,56 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86a565143c3922249817bffbef6eab25
-      internalID: -19648080
+      spriteID: 8bd1d9739cf3cf748b55a218ca1513d7
+      internalID: 831679757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Original Robot Sprites_2
+      name: SonicEMP_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87b2099fecdbfa241847ad0612ca0500
+      internalID: -175374734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e97b049f15c6da942bbb52094cf51015
+      internalID: -1911885631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_6
       rect:
         serializedVersion: 2
         x: 0
@@ -161,8 +245,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ebe5022ad7021984fa1c01ee21eed631
-      internalID: 952307298
+      spriteID: 4810d6db1fa287646b4829ce00b58dcb
+      internalID: -1022037301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88ff8f393fbb45346b25d0eb547d71a5
+      internalID: 852233360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicEMP_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8475a57977bafb40925d592cfe51b7d
+      internalID: 1143297675
       vertices: []
       indices: 
       edges: []
@@ -178,9 +304,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Original Robot Sprites_2: 952307298
-      Original Robot Sprites_1: -19648080
-      Original Robot Sprites_0: -474289465
+      SonicEMP_6: -1022037301
+      SonicEMP_3: 831679757
+      SonicEMP_2: 1280483116
+      SonicEMP_5: -1911885631
+      SonicEMP_0: 1760568417
+      SonicEMP_4: -175374734
+      SonicEMP_7: 852233360
+      SonicEMP_8: 1143297675
+      SonicEMP_1: -1380149222
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

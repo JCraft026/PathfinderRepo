@@ -177,6 +177,7 @@ public class CustomNetworkManager : NetworkManager
         Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
         Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
         Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
+        Item.empSpawnLimit          = Item.initialEMPSpawnLimit;
     }
 
     #endregion
@@ -273,7 +274,7 @@ public class CustomNetworkManager : NetworkManager
 
         if(NetworkServer.connections.Count > 1)
         {
-            ItemWorld.SpawnChests(25);
+            ItemWorld.SpawnChests(27);
             ItemWorld.SpawnKeys();
             RenderMaze.RenderSteamGenerators();
             steamGeneratorsSpawned = true;

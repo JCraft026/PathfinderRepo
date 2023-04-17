@@ -67,20 +67,30 @@ public class CommandManager : NetworkBehaviour
     [ClientRpc]
     public void rpc_MakeRunnerInvisible()
     {
-        if(!CustomNetworkManager.isRunner)
-        {
-           GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
+        GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
 
-            runner.GetComponent<SpriteRenderer>().enabled = false;
-            StartCoroutine(MakeRunnerVisible());
+        if(CustomNetworkManager.isRunner)
+        {
+            runner.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 30);
         }
+        if(!CustomNetworkManager.isRunner){
+            runner.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        StartCoroutine(MakeRunnerVisible());
     }
 
     IEnumerator MakeRunnerVisible()
     {
         yield return new WaitForSeconds(5);
         GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
-        runner.GetComponent<SpriteRenderer>().enabled = true;
+        if(CustomNetworkManager.isRunner)
+        {
+            runner.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        }
+        if(!CustomNetworkManager.isRunner)
+        {
+            runner.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
     // Spawn a steam generator over the network
