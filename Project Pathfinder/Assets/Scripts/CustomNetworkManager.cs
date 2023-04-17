@@ -165,13 +165,13 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientDisconnect();
         StopHost();
         Debug.Log("OnClientDisconnect");
-        mazeRenderer = null; // reset the maze renderer
-        GenerateSteam.steam = 0;
+        //mazeRenderer = null; // reset the maze renderer
+        //GenerateSteam.steam = 0;
 
         // Reset the end game events
-        HandleEvents.currentEvent = 0;
-        HandleEvents.endGameEvent = 0;
-
+        //HandleEvents.currentEvent = 0;
+        //HandleEvents.endGameEvent = 0;
+        ResetVariables();
         // Reset chest RNG variables
         Item.greenScreenSpawnLimit  = Item.initialGSSpawnLimit;
         Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
@@ -191,8 +191,9 @@ public class CustomNetworkManager : NetworkManager
         this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
         SceneManager.LoadScene(offlineScene);
         Debug.Log("OnServerDisconnect");
-        mazeRenderer = null; // Reset the maze renderer
-        RenderSmokeScreen.smokeScreensSpawned = 0;
+        //mazeRenderer = null; // Reset the maze renderer
+        //RenderSmokeScreen.smokeScreensSpawned = 0;
+        ResetVariables();
     }
 
     // Runs on the server when a client connects
@@ -527,6 +528,24 @@ public class CustomNetworkManager : NetworkManager
         hostIsFrozen = false;
 
         yield return null;
+    }
+
+    public void ResetVariables()
+    {
+        // Static variables
+        steamGeneratorsSpawned = false;
+        playerRoleSet = false;
+        clientJoined = false;
+        hostIsFrozen = true;
+
+        // Non-statics
+        mazeRenderer = null;
+
+        //GenerateSteam
+        GenerateSteam.steam = 0;
+
+        //RenderSmokeScreen
+        RenderSmokeScreen.smokeScreensSpawned = 0;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason
