@@ -114,7 +114,7 @@ public class ManageInventory : NetworkBehaviour
             break;
         // Common Grounds Coffee Action
         case Item.ItemType.Coffee:
-            if(CoffeeController.Instance.coffeeIsOver){
+            if(gameObject.GetComponent<CoffeeController>().coffeeIsOver){
                 Debug.Log("Coffee used");
                 inventory.RemoveItem(item);
                 MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
@@ -127,7 +127,7 @@ public class ManageInventory : NetworkBehaviour
             }
             break;
         case Item.ItemType.GreenScreenSuit:
-            if(GreenScreenController.Instance.greenScreenIsOver){
+            if(gameObject.GetComponent<GreenScreenController>().greenScreenIsOver){
                 Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
