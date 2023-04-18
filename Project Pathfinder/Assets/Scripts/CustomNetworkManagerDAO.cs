@@ -72,9 +72,9 @@ public class CustomNetworkManagerDAO : MonoBehaviour
     // Sets the name that should be advertised on the server browser (NOTE: The name can only come from the dropdown box in the host options screen)
     public void UpdateServerName()
     {
-        var dropdownAdjective1 = GameObject.Find("Dropdown (Adjective1)").GetComponent<TMPro.TMP_Dropdown>();
-        var dropdownAdjective2 = GameObject.Find("Dropdown (Adjective2)").GetComponent<TMPro.TMP_Dropdown>();
-        var dropdownTitle      = GameObject.Find("Dropdown (Title)"     ).GetComponent<TMPro.TMP_Dropdown>();
+        var dropdownAdjective1 = GameObject.Find("Dropdown (3)").GetComponent<TMPro.TMP_Dropdown>();
+        var dropdownAdjective2 = GameObject.Find("Dropdown (1)").GetComponent<TMPro.TMP_Dropdown>();
+        var dropdownTitle      = GameObject.Find("Dropdown (2)").GetComponent<TMPro.TMP_Dropdown>();
         
         GetServerBrowserBackend().serverName
         =       dropdownAdjective1.captionText.text

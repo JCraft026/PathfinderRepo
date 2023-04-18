@@ -28,9 +28,9 @@ public class ConnectScene : MonoBehaviour
     public void AddNamesToDropdownMenus() {
         //PlayerProfile currentProfile = CustomNetworkManager.currentLogin;
         
-        GameObject dropdownAdjective1 = GameObject.Find("Dropdown (Adjective1)");
-        GameObject dropdownAdjective2 = GameObject.Find("Dropdown (Adjective2)");
-        GameObject dropdownTitle      = GameObject.Find("Dropdown (Title)");
+        GameObject dropdownAdjective1 = GameObject.Find("Dropdown (1)");
+        GameObject dropdownAdjective2 = GameObject.Find("Dropdown (3)");
+        GameObject dropdownTitle      = GameObject.Find("Dropdown (2)");
         
         List<string> options_adjectives = new List<string>();
         foreach (KeyValuePair<string,bool> adj in CustomNetworkManager.currentLogin.adjectives) {
