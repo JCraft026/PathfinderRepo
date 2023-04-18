@@ -50,6 +50,54 @@ public class Profile : MonoBehaviour
     public int MAX_USERNAME_LENGTH = 16;
     public int MAX_PROFILE_COUNT = 4;
     
+    // Achievement Lists
+    public string[] titles = {
+        "Beetle",
+        "Cat",
+        "Dingo",
+        "Eagle",
+        "Ferret",
+        "Gorilla",
+        "Jangle",
+        "Kangaroo",
+        "Leopard",
+        "Monkey",
+        "Pear",
+        "Queen",
+        "Roach",
+        "Strawberry",
+        "Turtle",
+        "Zebra",
+    };
+    public string[] adjectives = {
+        "Adept",
+        "Beautiful",
+        "Cautious",
+        "Dramatic",
+        "Elegant",
+        "Fickle",
+        "Grouchy",
+        "Huge",
+        "Ideal",
+        "Jolly",
+        "Keen",
+        "Lazy",
+        "Meek",
+        "Neat",
+        "Observant",
+        "Plain",
+        "Quirky",
+        "Rare",
+        "Small",
+        "Tall",
+        "Unusual",
+        "Valid",
+        "Whimsical",
+        "Xtra",
+        "Youthful",
+        "Zesty",
+    };
+    
     // "Login" button pressed.
     public void Button_Login() {
         string username = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
@@ -76,12 +124,54 @@ public class Profile : MonoBehaviour
                 WriteMessageToUser("ERROR: Impossible condition. " +
                     "Password does not match registered account. " +
                     "Could not login the registered profile.");
+            else
+            {
+                WriteMessageToUser("Welcome to the game," + username + "!"
+                    + "\nPress 'Play' up above to get back to the game!");
+                usernameInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
+                passwordInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
+            }
         return;
     }
     
+    public string PlayerNewUnlock() { //PlayerProfile playerProfile) {
+        PlayerProfile playerProfile = CustomNetworkManager.currentLogin;
+        string reward = null;
+        int rewardType = UnityEngine.Random.Range(0,2);
+        if (rewardType == 0 && (playerProfile.titles.Count < titles.Length))
+        {
+            // Reward Title
+            do {
+                reward = titles[UnityEngine.Random.Range(0,titles.Length)];
+            } while (playerProfile.titles.ContainsKey(reward) && (playerProfile.titles[reward] == true));
+            playerProfile.titles.Add(reward, true);
+        }
+        else if (playerProfile.adjectives.Count < adjectives.Length) {
+            // Reward Adjective
+            do {
+                reward = adjectives[UnityEngine.Random.Range(0,adjectives.Length)];
+            } while (playerProfile.adjectives.ContainsKey(reward) && (playerProfile.adjectives[reward] == true));
+            playerProfile.adjectives.Add(reward, true);
+        }
+        
+        if (reward == null)
+        {
+            return "Play again to get another chance to earn a reward!";
+        }
+        else if (rewardType == 0)
+        {
+            return "You've earned a new title: \"" + reward + "\"!";
+        }
+        else
+        {
+            return "You've earned a new adjective: \"" + reward + "\"!";
+        }
+        
+        //return null;
+    }
+    
     // Registers a name into the database, if possible.
-    public bool RegisterProfile(string username, string password)
-    {
+    public bool RegisterProfile(string username, string password) {
         // > Test if the username is too short.
         if (username.Length <= 0) {
             WriteMessageToUser("Username invalid:\nThe username must have at least one character.");
@@ -156,6 +246,7 @@ public class Profile : MonoBehaviour
     //       cracked_walls_destroyed: 2
     //   }
     
+    // Detects if the given username is inappropriate.
     public bool IsUsernameCursed(string username) {
         return false;
     }
