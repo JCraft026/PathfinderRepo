@@ -229,4 +229,17 @@ public class CommandManager : NetworkBehaviour
     {
         GameObject.Find(generatorName).GetComponent<GeneratorController>().healthPoints = health;
     }
+
+    // Call an RPC to cause the runner to take attack damage
+    [Command(requiresAuthority = false)]
+    public void cmd_TakeAttackDamage(){
+        rpc_TakeAttackDamage();
+    }
+
+    // Cause the runner to take attack damage
+    [ClientRpc]
+    public void rpc_TakeAttackDamage()
+    {
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).GetComponent<ManageRunnerStats>().TakeDamage(2);
+    }
 }

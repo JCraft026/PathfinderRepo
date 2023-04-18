@@ -82,7 +82,9 @@ public class Attack : NetworkBehaviour
                     if(runner.GetComponent<ManageRunnerStats>().health <= 2){
                         HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
                     }
-                    runner.GetComponent<ManageRunnerStats>().TakeDamage(2);
+                    if(!CustomNetworkManager.isRunner){
+                        GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_TakeAttackDamage();
+                    }
                     damageTaken = true;
                 }
                 
