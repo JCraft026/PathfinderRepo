@@ -27,11 +27,26 @@ public class CustomNetworkManager : NetworkManager
     
     public static PlayerProfile currentLogin = new PlayerProfile();
 
+    public ItemWorld itemWorld;                                  //
+
     [SerializeField]
     public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
 
     [SerializeField]
     public RenderMaze mazeRenderer;         // Enables us to render the maze
+
+    public string mazeDataJson = null;
+
+    public RenderMaze GetMazeRendererSafely() 
+    {
+        if(mazeRenderer == null)
+        {
+            mazeRenderer = backend.GetMazeRenderer();
+            return mazeRenderer;
+        }
+        else
+            return mazeRenderer;
+    }
 
     [SerializeField]
     public bool hostIsRunner;               // Used to determine if the host is the runner or not
@@ -70,7 +85,10 @@ public class CustomNetworkManager : NetworkManager
 
         // Find the maze renderer and create the maze (if we are the host)
         if(NetworkServer.connections.Count == 1){
-            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer")).GetComponent<RenderMaze>().CreateMaze();
+            Resources.FindObjectsOfTypeAll<GameObject>()
+                .FirstOrDefault(gObject => gObject.name.Contains("MazeRenderer"))
+                .GetComponent<RenderMaze>()
+                .CreateMaze();
         }
 
         // Reflect that the runner/guard master status has been set
@@ -88,34 +106,55 @@ public class CustomNetworkManager : NetworkManager
     //Called when the client receives the json text of the maze
     public void ReceiveMazeData(MazeMessage mazeText)
     {
+        // Save the mazeText in case we need to regenerate the maze
+        mazeDataJson = mazeText.jsonMaze;
+
         // Don't run this code if the server is also a client as it will cause the maze to double render
         if(!NetworkClient.isHostClient)
         {
             try
             {
                 if(mazeText.jsonMaze == null)
-                    throw(new Exception("mazeText.jsonMaze == null, no data sent!"));
+                    throw(new Exception("CustomNetworkManager: mazeText.jsonMaze == null, no data sent!"));
                 else
                 {
                     // The mazeRenderer will probably be null for the incoming client so we'll need to locate it when we join a server
                     if(mazeRenderer == null)
                     {
-                        mazeRenderer = backend.GetMazeRenderer();
+                        mazeRenderer = backend.GetMazeRenderer(); // MazeRenderer not loading problem is here - its searching the lobby scene
+                      
                         if(mazeRenderer == null)
-                            throw(new Exception("mazeRenderer is still null"));
+                        {
+                            throw(new Exception("CustomNetworkManager: mazeRenderer is still null"));
+                        }
                     }
 
                     // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
                     mazeRenderer.CleanMap();
+                    mazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
                     mazeRenderer.Render(newMaze);
                 }
             }
+            // Any exceptions regarding
             catch(Exception e)
             {
                 Debug.LogError("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
+
+                // If we are not hosting, find the maze generator asyncrhonously and generate the maze
+                if(mazeText.jsonMaze != null)
+                    StartCoroutine(backend.GetMazeRendererAsync());
             }
         }
+    }
+
+    // Fires on the ServerBrowserBackend when GetMazeRendererAsync completes. Generates the maze for the client (hopefully)
+    public void OnMazeRendererAsyncComplete()
+    {
+        Debug.Log("GetMazeRendererAsync completed");
+        WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+        mazeRenderer.CleanMap();
+        mazeRenderer.Render(newMaze);
     }
 
     // Shuts down the client and the host
@@ -189,24 +228,34 @@ public class CustomNetworkManager : NetworkManager
             // Set guard spawn locations
             SetGuardSpawnLocations();
 
+            // Spawn the guards and assign them client authority
             NetworkServer.Spawn(chaser);
-            NetworkServer.Spawn(trapper);
             NetworkServer.Spawn(engineer);
+            NetworkServer.Spawn(trapper);
 
             // Select a random guard to initialize control
             switch (initialActiveGuardId)
             {
                 case ManageActiveCharactersConstants.CHASER:
-                    NetworkServer.ReplacePlayerForConnection(conn, chaser);
+                    chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+                    NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
+                    chaser.GetComponent<SpriteRenderer>().material
+                       = chaser.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.ENGINEER:
-                    NetworkServer.ReplacePlayerForConnection(conn, engineer);
+                    engineer.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+                    NetworkServer.ReplacePlayerForConnection(conn, engineer, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
+                    engineer.GetComponent<SpriteRenderer>().material
+                       = engineer.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
                 case ManageActiveCharactersConstants.TRAPPER:
-                    NetworkServer.ReplacePlayerForConnection(conn, trapper);
+                    trapper.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+                    NetworkServer.ReplacePlayerForConnection(conn, trapper, true);
                     initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
+                    trapper.GetComponent<SpriteRenderer>().material
+                       = trapper.GetComponent<ManageActiveCharacters>().activeMaterial;
                     break;
             }
 
@@ -214,11 +263,26 @@ public class CustomNetworkManager : NetworkManager
 
             Debug.Log("Replaced conID: " + conn.connectionId);
         }
+
+        //Spawn a test item
+            /*Item generatedItem = Item.getRandomItem();
+            Debug.Log("Generated an item");
+            GameObject.Find("ItemAssets")
+                .GetComponent<CommandManager>()
+                .networkedSpawnItemWorld(new Vector2(0, -2), generatedItem);*/
+        if(NetworkServer.connections.Count > 1)
+        {
+            ItemWorld.SpawnChests(50);
+            ItemWorld.SpawnKeys();
+        }
+
+        // Make the player wait to move until a client joins the game
+        StartCoroutine(HostWaitForPlayer(conn));
     }
     #endregion
 
     #region Game Events And Misc. Handlers
-    // Changes the active guard for the guard master
+    // Changes the active guard for the guard master (WARNING: DEPRECATED)
     public static void ChangeActiveGuard(NetworkConnectionToClient conn, int nextActiveGuardId)
     {
         string currentActiveGuard = conn.identity.gameObject.name; // Name of the current active guard object
@@ -230,13 +294,13 @@ public class CustomNetworkManager : NetworkManager
         switch (nextActiveGuardId)
         {
             case ManageActiveCharactersConstants.CHASER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)"));
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+                newGuardObject = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)"));
                 break;
             default:
                 newGuardObject = null;
@@ -247,7 +311,7 @@ public class CustomNetworkManager : NetworkManager
         // Switch guard control from the old guards object to the next guard's object
         if(newGuardObject != null)
         {
-            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject);
+            NetworkServer.ReplacePlayerForConnection(conn, newGuardObject, true);
         }
         else
         {
@@ -380,6 +444,50 @@ public class CustomNetworkManager : NetworkManager
                     break;
             }
         }
+    }
+
+    //Ensure the host cannot play the game while there are no clients connected
+    IEnumerator HostWaitForPlayer(NetworkConnectionToClient host)
+    {
+        Debug.Log("Stopping player movement until a client joins...");
+        GameObject hostObject = host.identity.gameObject;
+
+        // Disable movement for the player
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = false;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = false;
+            engineer.GetComponent<MoveCharacter>().enabled = false;
+            trapper.GetComponent<MoveCharacter>().enabled = false;
+        }
+
+        // Wait for a client to join
+        while(NetworkServer.connections.Count <= 1)
+        {
+            yield return null;
+        }
+        
+        // Enable player movement
+        if(isRunner)
+            hostObject.GetComponent<MoveCharacter>().enabled = true;
+        else
+        {
+            GameObject chaser   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser"));
+            GameObject engineer = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer"));
+            GameObject trapper  = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper"));
+
+            chaser.GetComponent<MoveCharacter>().enabled = true;
+            engineer.GetComponent<MoveCharacter>().enabled = true;
+            trapper.GetComponent<MoveCharacter>().enabled = true;
+        }
+
+        Debug.Log("Player movment is now re-enabled");
+        yield return null;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason
