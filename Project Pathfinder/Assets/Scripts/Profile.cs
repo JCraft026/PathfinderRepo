@@ -11,7 +11,7 @@ using static Utilities;
 [Serializable]
 public class PlayerProfile
 {
-    public string password;
+    public string password = "0";
     public string username = "[Guest]";
     public Dictionary<string, int> stats = new Dictionary<string, int>
     {
@@ -28,15 +28,17 @@ public class PlayerProfile
     };
     public Dictionary<string, bool> adjectives = new Dictionary<string, bool>
     {
-        { "green", true },
-        { "blue", true },
-        { "red", true }
+        { "Ordinary", true },
+        { "Newbie", true },
+        { "Friendly", true },
+        { "Confident", true }
     };
     public Dictionary<string, bool> titles = new Dictionary<string, bool>
     {
-        { "participator", true },
-        { "victor", false },
-        { "gamer", true }
+        { "Gamer", true },
+        { "Person", true },
+        { "Runner", true },
+        { "Guard", true }
     };
 }
 
@@ -278,6 +280,7 @@ public class Profile : MonoBehaviour
     
     // Saves a profile to its local file.
     public bool SaveEncodedProfile(PlayerProfile profile, string password) {
+        // Note for future us: Replace "string password" with "profile.password".
         try {
             WriteStringToFile(GetProfileFilepath(profile), EncodeProfileString(ProfileToString(profile), password));
             return true;
