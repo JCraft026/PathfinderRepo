@@ -301,7 +301,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Break [e]
+  m_text: Break [J]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
   m_sharedMaterial: {fileID: -4680618742065025805, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Break [e]
+  m_text: Break [J]
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
   m_sharedMaterial: {fileID: -4680618742065025805, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
@@ -591,7 +591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8719051080446698129, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_InstanceId
-      value: -41220
+      value: -41980
       objectReference: {fileID: 0}
     - target: {fileID: -8719051080446698129, guid: 48c0ce7df9c646e4c851c64e10012921, type: 3}
       propertyPath: m_ShapePathHash

@@ -88,6 +88,12 @@ public class ServerBrowserBackend : MonoBehaviour
             networkManagerObject.StartHost();
             networkDiscovery.AdvertiseServer();
         }
+
+        // Activate the steam bar if we are playing as the guard
+        if(CustomNetworkManager.isRunner == false)
+        {
+            GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
+        }
     }
 
     //Grab the mazeRenderer script from the gameplay scene (LoadMaze)

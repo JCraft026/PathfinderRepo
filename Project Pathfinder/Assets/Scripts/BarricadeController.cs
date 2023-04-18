@@ -22,8 +22,14 @@ public class BarricadeController : NetworkBehaviour
          runnerTooltip = false;      // Whether the tooltip to destroy the barricade is active for the runner
     Regex horizontalBarricadeExpression  = new Regex("Horizontal");  
                                      // Match "Horizontal"
+    private Player_UI playerUi;      // Player UI management script
     
     // Start is called before the first frame update
+    void Start(){
+        // Assign Player UI script
+        playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();
+    }
+
     void Awake()
     {
         // Get all player instances
@@ -44,7 +50,7 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, trapper.transform.position);
                 trapperTooltip = true;
-                if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
@@ -56,7 +62,7 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, engineer.transform.position);
                 engineerTooltip = true;
-                if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
@@ -68,7 +74,7 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, chaser.transform.position);
                 chaserTooltip = true;
-                if((Input.GetKeyDown("e") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
@@ -79,11 +85,12 @@ public class BarricadeController : NetworkBehaviour
         }
         else{
             // Tool tip for runner
-            if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5){
+            if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5 && playerUi.activeSelectedItem == Item.ItemType.Sledge){
                 enableTooltip(gameObject.transform.position, runner.transform.position);
                 runnerTooltip = true;
-                if(Input.GetKeyDown("e") && CustomNetworkManager.isRunner == true){
+                if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true && runner.GetComponent<MoveCharacter>().canMove == true){
                     hitCount += 1;
+                    runner.GetComponent<Animator>().SetBool("SwingHammer", true);
                     decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
                     if(hitCount >= 3){
                         destroyBarricade();
