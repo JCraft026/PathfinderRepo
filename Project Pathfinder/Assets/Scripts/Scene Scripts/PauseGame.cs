@@ -11,6 +11,8 @@ public class PauseGame : NetworkBehaviour
 {
     public GameObject PauseCanvas;  // Exit menu game object
     public bool pauseCanvasIsEnabled = true;
+    public GameObject runnerHTP;   // How to play popup for the runner
+    public GameObject guardHTP;    // How to play popup for the guard
 
     // Start the game with the exit game menu invisble
     public void Start()
@@ -37,15 +39,19 @@ public class PauseGame : NetworkBehaviour
         {
             Debug.Log(this.gameObject.name + " reacted to escape key");
             //PauseCanvas.gameObject.SetActive(!PauseCanvas.gameObject.activeSelf);
-            if(PauseCanvas.gameObject.activeSelf == false && pauseCanvasIsEnabled)
-            {
-                OpenPauseCanvas();
+            if(Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play")).activeSelf || Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Guard How to Play")).activeSelf){
+                HideHowToPlay();
             }
-            else
-            {
-                ClosePauseCanvas();
+            else{
+                if(PauseCanvas.gameObject.activeSelf == false && pauseCanvasIsEnabled)
+                {
+                    OpenPauseCanvas();
+                }
+                else
+                {
+                    ClosePauseCanvas();
+                } 
             }
-
         }
     }
 
@@ -73,7 +79,7 @@ public class PauseGame : NetworkBehaviour
     {
        PauseCanvas = SceneManager.GetActiveScene()
                                 .GetRootGameObjects()
-                                .FirstOrDefault<GameObject>(x => x.name == "PauseCanvas");
+                                .FirstOrDefault<GameObject>(x => x.name == "PauseCanvas").transform.GetChild(0).gameObject;
         if(PauseCanvas == null)
         {
             throw(new Exception("Could locate exit game menu"));
@@ -99,6 +105,27 @@ public class PauseGame : NetworkBehaviour
         {
             Debug.Log("Close Exit Menu");
             PauseCanvas.SetActive(false);
+        }
+    }
+
+    // Show the How To Play screen to the player
+    public void ShowHowToPlay(){
+        ClosePauseCanvas();
+        if(CustomNetworkManager.isRunner){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play")).SetActive(true);
+        }
+        else{
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Guard How to Play")).SetActive(true);
+        }
+    }
+
+    // Hide the How To Play screen
+    public void HideHowToPlay(){
+        if(CustomNetworkManager.isRunner){
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play")).SetActive(false);
+        }
+        else{
+            Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Guard How to Play")).SetActive(false);
         }
     }
 
