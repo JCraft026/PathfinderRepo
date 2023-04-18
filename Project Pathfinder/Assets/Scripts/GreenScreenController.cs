@@ -5,7 +5,8 @@ using UnityEngine;
 public class GreenScreenController : MonoBehaviour
 {
     private float timeStamp;                      // The time PAST the current time that needs to be reached 
-    public bool greenScreenIsOver = true;                    // Whether or not the coffee cooldown is over  
+    public bool greenScreenIsOver = true;         // Whether or not the coffee cooldown is over  
+    public Animator animator;                    // The runner's animator 
     public static GreenScreenController Instance; // Makes an instance of this class to access attribtues
 
     // Start is called when the game starts
@@ -21,9 +22,8 @@ public class GreenScreenController : MonoBehaviour
             greenScreenIsOver = false;
         } 
         else{
+            animator.SetBool("isGreen", false);
             greenScreenIsOver = true;
-            MoveCharacter runnerMovementScript  = gameObject.GetComponent<MoveCharacter>();
-            runnerMovementScript.notGreenScreen();
             this.enabled = false;
         }
     

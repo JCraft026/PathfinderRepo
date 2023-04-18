@@ -451,6 +451,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   flashlight: {fileID: 0}
+  selflight: {fileID: 0}
   moveSpeed: 5
   facingDirection: 0
   movementInput: {x: 0, y: 0}
@@ -649,6 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   greenScreenIsOver: 1
+  animator: {fileID: 2696247814498831813}
 --- !u!114 &6976342257127737373
 MonoBehaviour:
   m_ObjectHideFlags: 0

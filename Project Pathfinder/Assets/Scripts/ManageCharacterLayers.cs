@@ -51,5 +51,10 @@ public class ManageCharacterLayers : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().sortingOrder    = HandleLayers.trapperElevationRank;
             trapperArrow.GetComponent<SpriteRenderer>().sortingOrder  = HandleLayers.trapperElevationRank;
         }
+
+        // Set disabled guard order in layer
+        if(!CustomNetworkManager.isRunner && gameObject.GetComponent<MoveCharacter>().isDisabled){
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder    = 9;
+        }
     }
 }

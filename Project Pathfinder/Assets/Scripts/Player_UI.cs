@@ -138,25 +138,31 @@ public class Player_UI : NetworkBehaviour
                     itemSlotRectTransform.gameObject.name = "Sledge Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "Sledge Popup";
                     itemSlotRectTransform.Find("Sledge Popup").Find("itemDescription").gameObject.name = "Sledge Description";
-                    itemSlotRectTransform.Find("Sledge Popup").Find("Sledge Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Sledgehammer</size></color>\nhas the power to destroy cracked walls and steam generators\n\nhas unlimited uses\n\n[e] use</align>";
+                    itemSlotRectTransform.Find("Sledge Popup").Find("Sledge Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Sledgehammer</size></color>\nhas the power to destroy cracked walls and steam generators\n\nhas unlimited uses\n\n[j] use</align>";
                     break;
                 case Item.ItemType.Coffee:
                     itemSlotRectTransform.gameObject.name = "Coffee Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "Coffee Popup";
                     itemSlotRectTransform.Find("Coffee Popup").Find("itemDescription").gameObject.name = "Coffee Description";
-                    itemSlotRectTransform.Find("Coffee Popup").Find("Coffee Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=11>common grounds coffee</size></color>\ntemproarily doubles running speed\n\n<color=red>Duration: </color>10 sec\n\n[e] use</align>";
+                    itemSlotRectTransform.Find("Coffee Popup").Find("Coffee Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=11>common grounds coffee</size></color>\ntemproarily doubles running speed\n\n<color=red>Duration: </color>10 sec\n\n[j] use</align>";
                     break;
                 case Item.ItemType.SmokeBomb:
                     itemSlotRectTransform.gameObject.name = "Smoke Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "Smoke Popup";
                     itemSlotRectTransform.Find("Smoke Popup").Find("itemDescription").gameObject.name = "Smoke Description";
-                    itemSlotRectTransform.Find("Smoke Popup").Find("Smoke Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Smoke bomb</size></color>\ncreates a temproary smoke screen across the surrounding area\n\n<color=red>Duration: </color>10 sec\n\n[e] use</align>";
+                    itemSlotRectTransform.Find("Smoke Popup").Find("Smoke Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>Smoke bomb</size></color>\ncreates a temproary smoke screen across the surrounding area\n\n<color=red>Duration: </color>10 sec\n\n[j] use</align>";
                     break;
                 case Item.ItemType.GreenScreenSuit:
                     itemSlotRectTransform.gameObject.name = "Green Screen Item Slot";
                     itemSlotRectTransform.Find("Popup").gameObject.name = "Green Screen Popup";
                     itemSlotRectTransform.Find("Green Screen Popup").Find("itemDescription").gameObject.name = "Green Screen Description";
-                    itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily undetectable to maze guards and trap chests\n\n<color=red>Duration: </color>5 sec\n\n[e] use</align>";
+                    itemSlotRectTransform.Find("Green Screen Popup").Find("Green Screen Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>green screen suit</size></color>\nmakes the wearer temproarily undetectable to maze guards and trap chests\n\n<color=red>Duration: </color>5 sec\n\n[j] use</align>";
+                    break;
+                case Item.ItemType.EMP:
+                    itemSlotRectTransform.gameObject.name = "EMP Item Slot";
+                    itemSlotRectTransform.Find("Popup").gameObject.name = "EMP Popup";
+                    itemSlotRectTransform.Find("EMP Popup").Find("itemDescription").gameObject.name = "EMP Description";
+                    itemSlotRectTransform.Find("EMP Popup").Find("EMP Description").gameObject.GetComponent<TextMeshProUGUI>().text = "<align=center><color=#b58500><size=12>EMP</size></color>\ndisables maze guards in its radius for <color=red>30</color> seconds\n\n<color=red>Duration: </color>2 sec\n\n[j] use</align>";
                     break;
             }
 
@@ -194,6 +200,7 @@ public class Player_UI : NetworkBehaviour
             }
             else{
                 uiText.SetText("");
+                itemSlotRectTransform.Find("CountBackground").GetComponent<Image>().enabled = false;
             }
 
             // Controls where item slots are appearing 
