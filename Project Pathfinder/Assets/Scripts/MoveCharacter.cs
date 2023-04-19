@@ -29,6 +29,8 @@ public class MoveCharacter : NetworkBehaviour
     public bool canMove = true;                              // Character movement lock status
     public bool isDisabled = false;                          // Character disabled by an EMP
     public GameObject PauseCanvas;                           // Exit game menu
+    public GameObject runnerHTP;                             // Runner How to Play screen
+    public GameObject guardHTP;                              // Guard How to Play screen
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
@@ -61,7 +63,8 @@ public class MoveCharacter : NetworkBehaviour
     void Awake()
     {
         PauseCanvas = GameObject.Find("PauseBackground");
-        
+        runnerHTP   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play"));
+        guardHTP    = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Guard How to Play"));
     }
 
     void Start(){
@@ -142,7 +145,7 @@ public class MoveCharacter : NetworkBehaviour
                     flashlight.transform.eulerAngles = new Vector3(0f, 0f, 180f + movementInput.x * 45f * (movementInput.y+2));
             }
 
-            if (PauseCanvas.gameObject.activeSelf == false)
+            if (PauseCanvas.gameObject.activeSelf == false && runnerHTP.gameObject.activeSelf == false && guardHTP.gameObject.activeSelf == false)
             {
                 // Set character idle facing direction
                 if (movementInput.x == 0 && movementInput.y == -1)
@@ -244,7 +247,7 @@ public class MoveCharacter : NetworkBehaviour
         movementInput.Normalize();
 
         // Make sure all of the conditions for movement are correct
-        if(isLocalPlayer && canMove && PauseCanvas.gameObject.activeSelf == false)
+        if(isLocalPlayer && canMove && PauseCanvas.gameObject.activeSelf == false && runnerHTP.gameObject.activeSelf == false && guardHTP.gameObject.activeSelf == false)
         {
             // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
             rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
