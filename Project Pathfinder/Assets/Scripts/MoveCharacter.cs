@@ -60,7 +60,7 @@ public class MoveCharacter : NetworkBehaviour
     // Initialize the exit game menu variable
     void Awake()
     {
-        PauseCanvas = GameObject.Find("PauseCanvas");
+        PauseCanvas = GameObject.Find("PauseBackground");
         
     }
 
