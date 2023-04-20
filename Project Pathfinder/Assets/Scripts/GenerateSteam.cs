@@ -61,8 +61,6 @@ public class GenerateSteam : MonoBehaviour
             }
             steam += Time.deltaTime * steamMultiplier;
 
-            Debug.Log("GenerateSteam: Steam: " + steam + " | steamMultiplier: " + steamMultiplier);
-
             switch((int) steam)
             {
                 case 0:
