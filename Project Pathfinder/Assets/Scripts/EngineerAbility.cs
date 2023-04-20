@@ -41,17 +41,16 @@ public class EngineerAbility : GuardAbilityBase
         barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
 
         // When engineer presses "[k]"
-        if(((Input.GetKeyDown("k") || abilityClicked) 
-                && CustomNetworkManager.isRunner == false
-                && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) 
-                && barricadeCount < 3 && GenerateSteam.steam >= 25f){            
-            // Get engineer cell location
-            engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
-            
-            // Test for null maze Data
-            if(customNetworkManager.parsedMazeJson == null){
-                Debug.LogError("EngineerAbility Update(): Parsed Maze Data is null");
-            }
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){    
+            if(GenerateSteam.steam >= 25f){
+                if(barricadeCount < 3){
+                    // Get engineer cell location
+                    engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
+                    
+                    // Test for null maze Data
+                    if(customNetworkManager.parsedMazeJson == null){
+                        Debug.LogError("Parsed Maze Data is null");
+                    }
 
                     // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
                     currentCell = customNetworkManager.parsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
@@ -139,7 +138,6 @@ public class EngineerAbility : GuardAbilityBase
             else{
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
             }
-            cmd_PlaySyncedAbilityAudio();
         }
 
         // Reset the ability clicked status
@@ -168,6 +166,8 @@ public class EngineerAbility : GuardAbilityBase
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
         NetworkServer.Spawn(tempBarricade);
+
+        this.rpc_PlaySyncedAbilityAudio();
         return;
     }
 }

@@ -185,6 +185,13 @@ public class CustomNetworkManager : NetworkManager
         Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
         Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
         Item.empSpawnLimit          = Item.initialEMPSpawnLimit;
+
+        // Utilities
+        Utilities.ClearObjectLibrary();
+        Utilities.runner = null;
+        Utilities.chaser = null;
+        Utilities.engineer = null;
+        Utilities.trapper = null;
     }
 
     #endregion

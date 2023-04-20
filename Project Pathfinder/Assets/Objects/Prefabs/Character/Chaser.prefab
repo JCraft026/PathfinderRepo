@@ -175,7 +175,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2696247814498831815}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1027210720723463304
 AudioSource:
@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: -7622289301780764670}
   - component: {fileID: -1608640635417500141}
   - component: {fileID: -5999673471117267823}
+  - component: {fileID: 8477483571331672681}
   m_Layer: 0
   m_Name: Chaser
   m_TagString: Untagged
@@ -319,6 +320,7 @@ Transform:
   m_Children:
   - {fileID: 4283335265043179727}
   - {fileID: 5711617766834902542}
+  - {fileID: 7151220681522018815}
   - {fileID: 6581568131577563756}
   - {fileID: 4466043762753826314}
   m_Father: {fileID: 0}
@@ -651,6 +653,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   animator: {fileID: 2696247814498831813}
+  frameCount: 0
+  trajectoryClear: 0
+  attackLanded: 0
 --- !u!82 &-5999673471117267823
 AudioSource:
   m_ObjectHideFlags: 0
@@ -747,6 +752,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8477483571331672681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2696247814498831812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5025691c7bb6ca74d98174a7f6a01466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &5795736046306364667
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +906,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2696247814498831815}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &6892961701543052055
 AudioSource:
