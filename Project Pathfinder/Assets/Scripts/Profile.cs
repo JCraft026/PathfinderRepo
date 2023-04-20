@@ -15,15 +15,21 @@ public class PlayerProfile
     public string username = "[Guest]";
     public Dictionary<string, int> stats = new Dictionary<string, int>
     {
-        { "wins_runner", 0 },
-        { "wins_guards", 0 },
-        { "losses_runner", 0 },
-        { "losses_guards", 0 },
-        { "chaser_dashes_used", 0 },
-        { "trapper_trapchests_created", 0 },
-        { "trapper_trapchests_triggered", 0 },
-        { "engineer_walls_placed", 0 },
+        { "runner_wins", 0 },
+        { "runner_losses", 0 },
+        { "runner_playtime_seconds", 0 },
         { "runner_trapchests_triggered", 0 },
+        { "runner_guards_disabled", 0 }, 
+        { "runner_keys_collected", 0 }, 
+        { "runner_walls_destroyed", 0 }, 
+        { "runner_generators_destroyed", 0 }, 
+        { "guards_wins", 0 },
+        { "guards_losses", 0 },
+        { "guards_playtime_seconds", 0 },
+        { "guards_chaser_dashes_used", 0 },
+        { "guards_trapper_trapchests_created", 0 },
+        { "guards_trapper_trapchests_triggered", 0 },
+        { "guards_engineer_walls_placed", 0 },
         { "profile_version", 1 }
     };
     public Dictionary<string, bool> adjectives = new Dictionary<string, bool>
@@ -100,10 +106,26 @@ public class Profile : MonoBehaviour
         "Zesty",
     };
     
+    // "Logout" button pressed.
+    public void Button_Logout() {
+        usernameInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
+        passwordInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
+        
+        CustomNetworkManager.currentLogin = new PlayerProfile();
+        
+        WriteMessageToUser("You have been logged out.");
+        return;
+    }
+    
     // "Login" button pressed.
     public void Button_Login() {
         string username = (usernameInputBox.GetComponent<TMPro.TMP_InputField>().text);
         string password = (passwordInputBox.GetComponent<TMPro.TMP_InputField>().text);
+        
+        if (password.Length <= 0) {
+            WriteMessageToUser("You must type a password!");
+            return;
+        }
         if (!DoesProfileExist(username)) {
             WriteMessageToUser("That profile does not exist on this device.");
             return;
@@ -128,8 +150,8 @@ public class Profile : MonoBehaviour
                     "Could not login the registered profile.");
             else
             {
-                WriteMessageToUser("Welcome to the game," + username + "!"
-                    + "\nPress 'Play' up above to get back to the game!");
+                WriteMessageToUser("Welcome to the game, " + username + "!"
+                    + "\nPress 'Play' up above to get to the game!");
                 usernameInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
                 passwordInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
             }
@@ -180,6 +202,12 @@ public class Profile : MonoBehaviour
             return false;
         }
         
+        // > Test if the password was typed in.
+        if (password.Length <= 0) {
+            WriteMessageToUser("You must type a password!");
+            return false;
+        }
+        
         // > Test if the username is too long.
         if (username.Length > MAX_USERNAME_LENGTH) {
             WriteMessageToUser("Username invalid:\nThe username cannot be longer than "
@@ -194,7 +222,7 @@ public class Profile : MonoBehaviour
         }
         
         if (IsUsernameCursed(username)) {
-            WriteMessageToUser("... probably shouldn't use that one, bud.");
+            WriteMessageToUser("Please use a different username.");
             return false;
         }
         
@@ -234,22 +262,23 @@ public class Profile : MonoBehaviour
         return true;
     }
     
-    // Future Function Ideas:
-    //   AddGameToStats()
-    //   Class GameStats
-    //   {
-    //       host_team: 'R' or 'GM'
-    //       host_username: 'username1'
-    //       client_username: 'username2'
-    //       game_result: 'host', 'client', 'disconnect'
-    //       remaining_seconds: 296
-    //       doors_unlocked: 'R__Y'
-    //       trapped_chest_explosions: 4
-    //       cracked_walls_destroyed: 2
-    //   }
-    
     // Detects if the given username is inappropriate.
     public bool IsUsernameCursed(string username) {
+        string[] badwords = ReadFileAsString("./Assets/badlist.txt").Split("\n");
+        string tempUsername = username.Replace("_"," ");
+        string regex;
+        for (int b=0; b < badwords.Length; b++) {
+            regex = badwords[b]; //new Regex(badwords[b]);
+            if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
+                return true;
+            tempUsername = tempUsername.Replace(" ","");
+            if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
+                return true;
+            //if (tempUsername.Contains(badwords[b]))
+            //    return true;
+        }
+        //if (Regex.IsMatch(username, cursedRegex, RegexOptions.IgnoreCase))
+        //    return true;
         return false;
     }
     
@@ -437,3 +466,17 @@ public class Profile : MonoBehaviour
     }
     
 }
+
+// Future Function Ideas:
+//   AddGameToStats()
+//   Class GameStats
+//   {
+//       host_team: 'R' or 'GM'
+//       host_username: 'username1'
+//       client_username: 'username2'
+//       game_result: 'host', 'client', 'disconnect'
+//       remaining_seconds: 296
+//       doors_unlocked: 'R__Y'
+//       trapped_chest_explosions: 4
+//       cracked_walls_destroyed: 2
+//   }
