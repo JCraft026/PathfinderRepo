@@ -49,6 +49,9 @@ public class GeneratorController : NetworkBehaviour
 
         // Assign health bar scale
         healthBarXScale = healthBar.transform.localScale.x;
+
+        // Communicate to the CNM that at least ONE steam generator is spawned
+        CustomNetworkManager.steamGeneratorsSpawned = true;
     }
 
     void Update(){
