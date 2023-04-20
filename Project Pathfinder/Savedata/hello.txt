@@ -1,0 +1,2 @@
+This file is saved to keep the /Savedata folder from leaving.
+If there are no files in /Savedata, then GitHub will not care about it. :(
