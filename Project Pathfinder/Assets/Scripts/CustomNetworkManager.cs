@@ -16,7 +16,7 @@ public class CustomNetworkManager : NetworkManager
     // Global Variables
     public static System.Random randomNum  = new System.Random();
                                             // Random number generator
-    public static int initialActiveGuardId = randomNum.Next(1,3);
+    public static int initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                                             // Guard ID of the initial active guard
     public static bool playerRoleSet       = false;
                                             // Status of player role being assigned
@@ -247,25 +247,9 @@ public class CustomNetworkManager : NetworkManager
             NetworkServer.Spawn(engineer);
             NetworkServer.Spawn(trapper);
 
-            // Select a random guard to initialize control
-            switch (initialActiveGuardId)
-            {
-                case ManageActiveCharactersConstants.CHASER:
-                    chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
-                    break;
-                case ManageActiveCharactersConstants.ENGINEER:
-                    engineer.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, engineer, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
-                    break;
-                case ManageActiveCharactersConstants.TRAPPER:
-                    trapper.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, trapper, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
-                    break;
-            }
+            // Set the player as the chaser
+            chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+            NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
 
             Destroy(oldPlayer);
 
