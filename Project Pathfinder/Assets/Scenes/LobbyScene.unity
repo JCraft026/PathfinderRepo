@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: -17
     m_Right: 0
-    m_Top: 25
+    m_Top: 50
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 5
