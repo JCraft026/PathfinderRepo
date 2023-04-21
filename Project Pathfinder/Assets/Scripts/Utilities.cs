@@ -118,7 +118,7 @@ public class Utilities : MonoBehaviour
             cellData = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).GetComponent<MoveCharacter>().mazeData[(cellLocation[0] + (int)(GetMazeWidth()/2)), (cellLocation[1] + (int)(GetMazeHeight()/2))];
         }
         else{
-            cellData = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser")).GetComponent<MoveCharacter>().mazeData[(cellLocation[0] + (int)(GetMazeWidth()/2)), (cellLocation[1] + (int)(GetMazeHeight()/2))];
+            cellData = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<MoveCharacter>().mazeData[(cellLocation[0] + (int)(GetMazeWidth()/2)), (cellLocation[1] + (int)(GetMazeHeight()/2))];
         }
 
         return cellData;
