@@ -158,6 +158,7 @@ public class CustomNetworkManager : NetworkManager
     {
         Debug.Log("GetMazeRendererAsync completed");
         WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+        parsedMazeJson = newMaze;
         mazeRenderer.CleanMap();
         mazeRenderer.Render(newMaze);
     }
@@ -255,7 +256,10 @@ public class CustomNetworkManager : NetworkManager
             chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
             NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
 
-            Destroy(oldPlayer);
+            
+           Destroy(oldPlayer);
+
+           //StartCoroutine(AsyncDestroy(oldPlayer, conn));
 
             Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
         }
@@ -274,6 +278,16 @@ public class CustomNetworkManager : NetworkManager
         {
             StartCoroutine(HostWaitForPlayer(conn));
         }
+    }
+
+    IEnumerator AsyncDestroy(GameObject oldPlayer, NetworkConnectionToClient conn)
+    {
+        while(conn.isReady == false)
+        {
+            Debug.Log("CNM: Waiting to destroy old player object");
+            yield return null;
+        }
+        Destroy(oldPlayer);
     }
 
     public override void OnStopHost()
