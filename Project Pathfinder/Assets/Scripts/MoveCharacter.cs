@@ -199,7 +199,7 @@ public class MoveCharacter : NetworkBehaviour
             
 
                 // Manage character arrow display
-                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
+                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f && !(CustomNetworkManager.isRunner && animator.GetBool("isGreen"))){
                     characterArrow.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 else{
