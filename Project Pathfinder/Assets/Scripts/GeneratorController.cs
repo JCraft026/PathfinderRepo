@@ -136,7 +136,7 @@ public class GeneratorController : NetworkBehaviour
 
     // Detect if the runner can break the generator
     public static bool breakGenerator(){
-        bool generatorBroken = false;
+        bool generatorBroken = true;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
         GeneratorController generatorController = generator.GetComponent<GeneratorController>();
