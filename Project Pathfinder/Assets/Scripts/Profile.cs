@@ -52,8 +52,8 @@ public class Profile : MonoBehaviour
 {
     public GameObject usernameInputBox;
     public GameObject passwordInputBox;
-    public string profilesSubdirectory = "/Savedata/";
-    public string badlistSubdirectory = "/badlist.txt";
+    public string profilesJSONFilePath = "./Savedata/profiles.json";
+    public string profilesDirectory = "./Savedata/";
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
     public int MAX_USERNAME_LENGTH = 16;
     public int MAX_PROFILE_COUNT = 4;
@@ -198,7 +198,7 @@ public class Profile : MonoBehaviour
     public bool RegisterProfile(string username, string password) {
         // > Test if the username is too short.
         if (username.Length <= 0) {
-            WriteMessageToUser("You must type a username!");
+            WriteMessageToUser("Username invalid:\nThe username must have at least one character.");
             return false;
         }
         
@@ -264,17 +264,16 @@ public class Profile : MonoBehaviour
     
     // Detects if the given username is inappropriate.
     public bool IsUsernameCursed(string username) {
-        string[] badwords = ReadFileAsString(Application.streamingAssetsPath + badlistSubdirectory).Split("\n");
+        string[] badwords = ReadFileAsString("./Assets/badlist.txt").Split("\n");
         string tempUsername = username.Replace("_"," ");
         string regex;
         for (int b=0; b < badwords.Length; b++) {
             regex = badwords[b]; //new Regex(badwords[b]);
             if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
                 return true;
-            if (Regex.IsMatch(tempUsername.Replace("_",""), regex, RegexOptions.IgnoreCase))
+            tempUsername = tempUsername.Replace(" ","");
+            if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
                 return true;
-            //if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
-            //    return true;
             //if (tempUsername.Contains(badwords[b]))
             //    return true;
         }
@@ -340,7 +339,7 @@ public class Profile : MonoBehaviour
         return GetProfileFilepath(playerProfile.username);
     }
     public string GetProfileFilepath(string username) {
-        return Application.streamingAssetsPath + profilesSubdirectory + username + ".profile";
+        return "./Savedata/" + username + ".profile";
     }
     
     // Reads a profile from a given filepath.
@@ -433,9 +432,9 @@ public class Profile : MonoBehaviour
                 passletterIndex = 0;
         }
         
-        //Debug.Log(newText);
-        //Debug.Log(newText.ToString());
-        //Debug.Log(new String(newText));
+        Debug.Log(newText);
+        Debug.Log(newText.ToString());
+        Debug.Log(new String(newText));
         
         return new String(newText);
     }
