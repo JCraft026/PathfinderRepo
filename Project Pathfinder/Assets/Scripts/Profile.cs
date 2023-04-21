@@ -264,15 +264,15 @@ public class Profile : MonoBehaviour
     
     // Detects if the given username is inappropriate.
     public bool IsUsernameCursed(string username) {
-        string[] badwords = ReadFileAsString(Application.streamingAssetsPath + badlistSubdirectory).Split("\n");
+        string[] badwords = (ReadFileAsString(Application.streamingAssetsPath + badlistSubdirectory).Split("\r"));
         string tempUsername = username.Replace("_"," ");
         string regex;
         for (int b=0; b < badwords.Length; b++) {
             regex = badwords[b]; //new Regex(badwords[b]);
             if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
                 return true;
-            if (Regex.IsMatch(tempUsername.Replace("_",""), regex, RegexOptions.IgnoreCase))
-                return true;
+            //if (Regex.IsMatch(tempUsername.Replace("_",""), regex, RegexOptions.IgnoreCase))
+            //    return true;
             //if (Regex.IsMatch(tempUsername, regex, RegexOptions.IgnoreCase))
             //    return true;
             //if (tempUsername.Contains(badwords[b]))
@@ -340,7 +340,10 @@ public class Profile : MonoBehaviour
         return GetProfileFilepath(playerProfile.username);
     }
     public string GetProfileFilepath(string username) {
-        return Application.streamingAssetsPath + profilesSubdirectory + username + ".profile";
+        string folderPath = Application.streamingAssetsPath + profilesSubdirectory;
+        if (!System.IO.Directory.Exists(folderPath))
+            System.IO.Directory.CreateDirectory(folderPath);
+        return folderPath + username + ".profile";
     }
     
     // Reads a profile from a given filepath.
