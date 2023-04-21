@@ -75,7 +75,7 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(animator.GetBool("IsBusted") == true && healthPoints < 10 && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f){
+        if(animator.GetBool("IsBusted") == true && healthPoints < 10 && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f && engineer.GetComponent<MoveCharacter>().canMove){
             
             // Set next repair time
             if(!repairingGenerator){
