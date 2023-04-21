@@ -55,19 +55,23 @@ public class Utilities : MonoBehaviour
         switch (characterCode)
         {
             case ManageActiveCharactersConstants.RUNNER:
-                characterObjectPosition = GetRunner().transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position; // Changed from Runner(Clone) to Runner
+                // characterObjectPosition = GetRunner().transform.position;
                 characterObjectPosition.y -= .5f;
                 break;
             case ManageActiveCharactersConstants.CHASER:
-                characterObjectPosition = GetChaser().transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).transform.position;
+                // characterObjectPosition = GetChaser().transform.position;
                 characterObjectPosition.y -= .84f;
                 break;
             case ManageActiveCharactersConstants.ENGINEER:
-                characterObjectPosition = GetEngineer().transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")).transform.position;
+                // characterObjectPosition = GetEngineer().transform.position;
                 characterObjectPosition.y -= .91f;
                 break;
             case ManageActiveCharactersConstants.TRAPPER:
-                characterObjectPosition = GetTrapper().transform.position;
+                characterObjectPosition = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).transform.position;
+                // characterObjectPosition = GetTrapper().transform.position;
                 characterObjectPosition.y -= .76f;
                 break;
             default:
