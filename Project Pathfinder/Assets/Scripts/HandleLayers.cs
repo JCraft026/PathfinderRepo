@@ -25,7 +25,7 @@ public class HandleLayers : MonoBehaviour
         UpdateActiveCharacterLocation();
 
         // Update the elevation rank of each character
-        if(CustomNetworkManager.clientJoined){
+        if(CustomNetworkManager.clientJoined || !CustomNetworkManager.isHost){
             UpdateCharacterElevationOrder();
         }
     }

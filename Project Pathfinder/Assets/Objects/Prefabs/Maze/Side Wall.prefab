@@ -189,9 +189,9 @@ MonoBehaviour:
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
   - {x: -3.4775, y: -0.3675, z: 0}
-  - {x: -3.4775, y: -0.36, z: 0}
-  - {x: 3.4775, y: -0.36, z: 0}
+  - {x: -3.4775002, y: 0.3675, z: 0}
+  - {x: 3.4775002, y: 0.36750007, z: 0}
   - {x: 3.4775, y: -0.3675, z: 0}
-  m_ShapePathHash: -1973623387
+  m_ShapePathHash: -1254479513
   m_Mesh: {fileID: 0}
-  m_InstanceId: 94274
+  m_InstanceId: 72122

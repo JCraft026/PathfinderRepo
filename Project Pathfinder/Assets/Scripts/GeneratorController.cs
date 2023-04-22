@@ -49,6 +49,9 @@ public class GeneratorController : NetworkBehaviour
 
         // Assign health bar scale
         healthBarXScale = healthBar.transform.localScale.x;
+
+        // Communicate to the CNM that at least ONE steam generator is spawned
+        CustomNetworkManager.steamGeneratorsSpawned = true;
     }
 
     void Update(){
@@ -72,7 +75,7 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Detects if the Engineer is near to fix the generator
-        if(animator.GetBool("IsBusted") == true && healthPoints < 10 && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f){
+        if(animator.GetBool("IsBusted") == true && healthPoints < 10 && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), engineer.transform.position) < 3f && engineer.GetComponent<MoveCharacter>().canMove){
             
             // Set next repair time
             if(!repairingGenerator){
@@ -133,27 +136,26 @@ public class GeneratorController : NetworkBehaviour
 
     // Detect if the runner can break the generator
     public static bool breakGenerator(){
-        bool generatorBroken = true;
+        bool generatorHit = false;
         Debug.Log("GeneratorController: breakGenerator called");
         GameObject generator = GeneratorController.FindClosestGenerator("Runner");
         GeneratorController generatorController = generator.GetComponent<GeneratorController>();
 
         if(generator.GetComponent<Animator>().GetBool("IsBusted") == false && Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.8f, generator.transform.position.y -1.7f), generator.GetComponent<GeneratorController>().runner.transform.position) < 2.5f && generator.GetComponent<GeneratorController>().runner.GetComponent<MoveCharacter>().canMove == true)
         {
+            generatorHit = true; 
             if(generatorController.healthPoints > 1){
                 generatorController.healthPoints--;
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(generator.name, generatorController.healthPoints);
             }
             else{
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", true, generator.name);
-                generatorBroken = true; 
                 generatorController.healthPoints--;
             }
-            
         }
         Debug.Log("GeneratorController breakGenerator(): Distance between runner and generator is:" + Utilities.GetDistanceBetweenObjects(new Vector2(generator.transform.position.x + 0.5f, generator.transform.position.y -1f), generator.GetComponent<GeneratorController>().runner.transform.position).ToString());
         
-        return generatorBroken;    
+        return generatorHit;    
     }
 
     // Find the generator closest to the runner

@@ -17,7 +17,7 @@ public class CustomNetworkManager : NetworkManager
     // Global Variables
     public static System.Random randomNum  = new System.Random();
                                             // Random number generator
-    public static int initialActiveGuardId = randomNum.Next(1,3);
+    public static int initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                                             // Guard ID of the initial active guard
     public static bool playerRoleSet       = false;
                                             // Status of player role being assigned
@@ -161,6 +161,7 @@ public class CustomNetworkManager : NetworkManager
     {
         Debug.Log("GetMazeRendererAsync completed");
         WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
+        parsedMazeJson = newMaze;
         mazeRenderer.CleanMap();
         mazeRenderer.Render(newMaze);
     }
@@ -171,14 +172,14 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientDisconnect();
         StopHost();
         Debug.Log("OnClientDisconnect");
-        mazeRenderer = null; // reset the maze renderer
-        GenerateSteam.steam = 0;
+        //mazeRenderer = null; // reset the maze renderer
+        //GenerateSteam.steam = 0;
 
         // Reset the end game events
-        HandleEvents.currentEvent = 0;
-        HandleEvents.endGameEvent = 0;
-
         GetComponent<AudioSource>().Play();
+        //HandleEvents.currentEvent = 0;
+        //HandleEvents.endGameEvent = 0;
+        ResetVariables();
         // Reset chest RNG variables
         Item.greenScreenSpawnLimit  = Item.initialGSSpawnLimit;
         Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
@@ -206,8 +207,9 @@ public class CustomNetworkManager : NetworkManager
         this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
         SceneManager.LoadScene(offlineScene);
         Debug.Log("OnServerDisconnect");
-        mazeRenderer = null; // Reset the maze renderer
-        RenderSmokeScreen.smokeScreensSpawned = 0;
+        //mazeRenderer = null; // Reset the maze renderer
+        //RenderSmokeScreen.smokeScreensSpawned = 0;
+        ResetVariables();
     }
 
     // Runs on the server when a client connects
@@ -261,27 +263,14 @@ public class CustomNetworkManager : NetworkManager
             NetworkServer.Spawn(engineer);
             NetworkServer.Spawn(trapper);
 
-            // Select a random guard to initialize control
-            switch (initialActiveGuardId)
-            {
-                case ManageActiveCharactersConstants.CHASER:
-                    chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
-                    break;
-                case ManageActiveCharactersConstants.ENGINEER:
-                    engineer.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, engineer, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.ENGINEER;
-                    break;
-                case ManageActiveCharactersConstants.TRAPPER:
-                    trapper.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
-                    NetworkServer.ReplacePlayerForConnection(conn, trapper, true);
-                    initialActiveGuardId = ManageActiveCharactersConstants.TRAPPER;
-                    break;
-            }
+            // Set the player as the chaser
+            chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
+            NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
 
-            Destroy(oldPlayer);
+            
+           Destroy(oldPlayer);
+
+           //StartCoroutine(AsyncDestroy(oldPlayer, conn));
 
             Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
         }
@@ -300,6 +289,16 @@ public class CustomNetworkManager : NetworkManager
         {
             StartCoroutine(HostWaitForPlayer(conn));
         }
+    }
+
+    IEnumerator AsyncDestroy(GameObject oldPlayer, NetworkConnectionToClient conn)
+    {
+        while(conn.isReady == false)
+        {
+            Debug.Log("CNM: Waiting to destroy old player object");
+            yield return null;
+        }
+        Destroy(oldPlayer);
     }
 
     public override void OnStopHost()
@@ -542,6 +541,24 @@ public class CustomNetworkManager : NetworkManager
         hostIsFrozen = false;
 
         yield return null;
+    }
+
+    public void ResetVariables()
+    {
+        // Static variables
+        steamGeneratorsSpawned = false;
+        playerRoleSet = false;
+        clientJoined = false;
+        hostIsFrozen = true;
+
+        // Non-statics
+        mazeRenderer = null;
+
+        //GenerateSteam
+        GenerateSteam.steam = 0;
+
+        //RenderSmokeScreen
+        RenderSmokeScreen.smokeScreensSpawned = 0;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason
