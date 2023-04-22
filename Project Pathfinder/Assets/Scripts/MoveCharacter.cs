@@ -239,6 +239,11 @@ public class MoveCharacter : NetworkBehaviour
                 }
             }
         }
+
+        // Restrain the Guard if it's disabled by an EMP
+        if(!CustomNetworkManager.isRunner && isDisabled && canMove == true){
+            canMove = false;
+        }
     }
 
     // FixedUpdate calling frequency is based on a set timer
@@ -282,6 +287,7 @@ public class MoveCharacter : NetworkBehaviour
         
         // Disable movement, sight, and show electricity particles
         canMove = false;
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         isDisabled = true;
         gameObject.GetComponent<Attack>().enabled = false;
 
@@ -334,7 +340,7 @@ public class MoveCharacter : NetworkBehaviour
             GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(disabledPopupText, 5f);
         }
         
-        // Wait 5 seconds
+        // Wait 30 seconds
         yield return new WaitForSeconds(30);
 
         // Take off the diabled effect, move the light sources back to the guard, and enable movement
@@ -349,6 +355,7 @@ public class MoveCharacter : NetworkBehaviour
         }
         canMove = true;
         isDisabled = false;
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         gameObject.GetComponent<Attack>().enabled = true;
         
         // Enable Guard abilities based on which guard you are
