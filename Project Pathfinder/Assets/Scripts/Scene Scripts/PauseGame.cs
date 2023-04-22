@@ -28,6 +28,10 @@ public class PauseGame : NetworkBehaviour
         if(pauseCanvasIsEnabled)
         {
             PauseCanvas = FindPauseCanvas();
+            if(PauseCanvas == null)
+            {
+                StartCoroutine(FindPauseCanvasAsync());
+            }
             PauseCanvas.SetActive(true);
         }
     }
@@ -77,15 +81,58 @@ public class PauseGame : NetworkBehaviour
     // Locate the exit game menu
     public GameObject FindPauseCanvas()
     {
-       PauseCanvas = SceneManager.GetActiveScene()
+        try
+        {
+            PauseCanvas = SceneManager.GetActiveScene()
                                 .GetRootGameObjects()
                                 .FirstOrDefault<GameObject>(x => x.name == "PauseCanvas").transform.GetChild(0).gameObject;
+        }
+        catch(Exception e)
+        {
+            //Debug.LogWarning("PauseGame: Exception: " + e + " Was caught in FindPauseCanvas. The operation is repeating");
+            var scene = SceneManager.GetActiveScene();
+            if(scene == null)
+            {
+                throw(new Exception("PauseGame: Active scene is null"));
+            }
+            var rootGameObjects = scene.GetRootGameObjects();
+            if(rootGameObjects == null || rootGameObjects.Count() <= 0)
+            {
+                throw(new Exception("PauseGame: Root game objects of scene are null or short"));
+            }
+
+            var pauseParent = rootGameObjects.FirstOrDefault<GameObject>(x => x.name == "PauseCanvas");
+
+            var pauseParent2 = pauseParent.transform.GetChild(0);
+
+            if(pauseParent2 == null)
+                throw(new Exception("PauseGame: Pauseparent2 is null"));
+            
+            PauseCanvas = pauseParent2.gameObject;
+        }
+
         if(PauseCanvas == null)
         {
-            throw(new Exception("Could locate exit game menu"));
+            throw(new Exception("Could not locate exit game menu"));
         }
         else
             return PauseCanvas;
+    }
+
+    public IEnumerator FindPauseCanvasAsync()
+    {
+        while(PauseCanvas == null)
+        {
+            try
+            {
+                PauseCanvas = FindPauseCanvas();
+            }
+            catch(Exception e)
+            {
+                Debug.LogWarning("PauseGame: Tried to find pause canvas in scene: " + SceneManager.GetActiveScene().name + " and failed");
+            }
+            yield return null;
+        }
     }
 
     // Open the exit game menu

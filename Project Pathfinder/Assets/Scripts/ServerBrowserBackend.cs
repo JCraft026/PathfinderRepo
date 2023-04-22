@@ -117,7 +117,8 @@ public class ServerBrowserBackend : MonoBehaviour
                                      .FirstOrDefault(x => x != null);
              if(mazeRendererObject == null)
              {
-                 Debug.LogError("ServerBrowserBackend: MAZE RENDERER GAMEOBJECT IS NULL");
+                 //Debug.LogError("ServerBrowserBackend: MAZE RENDERER GAMEOBJECT IS NULL");
+                 throw(new Exception("ServerBrowserBackend: MAZE RENDERER GAMEOBJECT IS NULL"));
              }
         
             // Isolate the RenderMaze script inside of the maze renderer to use in the network manager (the network manager and maze renderer both have references to the same RenderMaze script/object)
@@ -134,6 +135,7 @@ public class ServerBrowserBackend : MonoBehaviour
         {
             Debug.Log("ServerBrowserBackend: Failed to find maze renderer");
             Debug.LogWarning("ServerBrowserBackend: Failed to find maze renderer with exception: " + e);
+            // Fire async version?
             return null;
         }
     }
