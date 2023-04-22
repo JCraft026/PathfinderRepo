@@ -99,7 +99,7 @@ public class CustomNetworkManager : NetworkManager
         playerRoleSet = true;
 
         // Stop the menu music
-        GetComponent<AudioSource>().Stop();
+        //GetComponent<AudioSource>().Stop();
     }
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
@@ -176,7 +176,7 @@ public class CustomNetworkManager : NetworkManager
         //GenerateSteam.steam = 0;
 
         // Reset the end game events
-        GetComponent<AudioSource>().Play();
+        //GetComponent<AudioSource>().Play();
         //HandleEvents.currentEvent = 0;
         //HandleEvents.endGameEvent = 0;
         ResetVariables();

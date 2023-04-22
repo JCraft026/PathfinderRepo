@@ -182,6 +182,10 @@ public class CommandManager : NetworkBehaviour
             }
         }
 
+        // If generator became busted play a break sound
+        if(setting == true)
+            GameObject.Find(generatorName).GetComponent<AudioSource>().Play();
+        
         GameObject.Find(generatorName).GetComponent<Animator>().SetBool(parameterToSet, setting);
     }
 
@@ -241,7 +245,11 @@ public class CommandManager : NetworkBehaviour
     [ClientRpc]
     public void rpc_SetGeneratorHealth(string generatorName, int health)
     {
-        GameObject.Find(generatorName).GetComponent<GeneratorController>().healthPoints = health;
+        var generator = GameObject.Find(generatorName);
+        generator.GetComponent<GeneratorController>().healthPoints = health;
+        // If the generator is taking damage play the damage sound
+        if(health > 0)
+            generator.GetComponent<AudioSource>().Play();
     }
 
     // Call an RPC to cause the runner to take attack damage

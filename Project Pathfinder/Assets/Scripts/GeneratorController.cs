@@ -20,6 +20,7 @@ public class GeneratorController : NetworkBehaviour
     private Player_UI playerUi;   // Player UI management script
     public float waitTime = 1f;   // Time to wait in between repairing individual generator hp
     public float nextHealTime;    // Next time to heal 1 generator hp
+    public AudioSource damageSound;
 
     // Property for runner
     public GameObject runner {

@@ -462,6 +462,8 @@ MonoBehaviour:
   canMove: 1
   isDisabled: 0
   PauseCanvas: {fileID: 0}
+  runnerHTP: {fileID: 0}
+  guardHTP: {fileID: 0}
   isRestricted: 1
   audioSource: {fileID: -1855931696934907547}
   isMoving: 0
@@ -643,6 +645,8 @@ MonoBehaviour:
   syncInterval: 0.1
   PauseCanvas: {fileID: 0}
   pauseCanvasIsEnabled: 1
+  runnerHTP: {fileID: 0}
+  guardHTP: {fileID: 0}
 --- !u!114 &8936649274440453078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,8 +718,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  EMP: {fileID: 0}
-  animator: {fileID: 0}
+  EMP: {fileID: 3941776402826085718, guid: f32e4d97d248c654cb9e528e7ebd0258, type: 3}
+  animator: {fileID: 2696247814498831813}
   soundMakerObject: {fileID: 937718476935866452}
   swingSledgeHammer: {fileID: 8300000, guid: 7da778e45c7660549b7ec85736f15b3f, type: 3}
   drinkCoffee: {fileID: 8300000, guid: 6cb658b64b1472b459937436cfbf366d, type: 3}
