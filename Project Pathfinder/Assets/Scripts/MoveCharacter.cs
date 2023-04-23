@@ -45,7 +45,7 @@ public class MoveCharacter : NetworkBehaviour
     public static MoveCharacter Instance;                    // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
     private string disabledPopupText;                        // Text displayed on guard disabled
-    private float disabledTimeLeft = 30.5f;                  // Time left for the guard to be disabled
+    private float disabledTimeLeft = 10.5f;                  // Time left for the guard to be disabled
     Transform guardRebootCountdown;                          // Countdown until guard restarts from EMP disabling
     private bool rebootCountdownActive = false;       // Status of reboot countdown being spawned
     
@@ -228,7 +228,7 @@ public class MoveCharacter : NetworkBehaviour
                         disabledTimeLeft -= Time.deltaTime;
                     }
                     else{
-                        disabledTimeLeft    = 30.5f;
+                        disabledTimeLeft    = 10.5f;
                     }
                 }
             }
@@ -340,8 +340,8 @@ public class MoveCharacter : NetworkBehaviour
             GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(disabledPopupText, 5f);
         }
         
-        // Wait 30 seconds
-        yield return new WaitForSeconds(30);
+        // Wait 10 seconds
+        yield return new WaitForSeconds(10);
 
         // Take off the diabled effect, move the light sources back to the guard, and enable movement
         gameObject.GetComponentsInChildren<SpriteRenderer>()

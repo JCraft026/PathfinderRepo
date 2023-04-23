@@ -120,7 +120,7 @@ public class ManageInventory : NetworkBehaviour
                 MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
                 CoffeeController coffeeController = gameObject.GetComponent<CoffeeController>();
                 runnerMovementScript.moveSpeed = 10.0f;
-                coffeeController.setCooldown(10);
+                coffeeController.setCooldown(5);
             }
             else{
                 Debug.Log("Still in Use");

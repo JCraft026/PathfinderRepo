@@ -24,13 +24,13 @@ public class ManageMinimapClicks : MonoBehaviour
     // Initiate guard fast travel if the minimap floor parent object is clicked
     void OnMouseDown()
     {
-        if(!CustomNetworkManager.isRunner && GenerateSteam.steam >= 75f){
+        if(!CustomNetworkManager.isRunner && GenerateSteam.steam >= 50f){
             int activeGuardId = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>().activeGuardId;
                                     // Guard ID of the current active guard
             GameObject guard  = null; // Active guard object
 
             // Subtract from steam
-            GenerateSteam.steam -= 75f;
+            GenerateSteam.steam -= 50f;
 
             if(activeGuardId == ManageActiveCharactersConstants.CHASER){
                 guard = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)"));
