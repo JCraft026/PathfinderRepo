@@ -80,7 +80,7 @@ public class GeneratorController : NetworkBehaviour
             // Set next repair time
             if(!repairingGenerator){
                 repairingGenerator = true;
-                nextHealTime += waitTime;
+                nextHealTime  = Time.time + waitTime;
             }
             if(Time.time > nextHealTime){
                 // Turn on Healing Touch effect
@@ -101,7 +101,7 @@ public class GeneratorController : NetworkBehaviour
                 }
 
                 // Set next repair time
-                nextHealTime += waitTime;
+                nextHealTime  = Time.time + waitTime;
             }
         }
 
