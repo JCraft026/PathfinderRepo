@@ -323,7 +323,7 @@ MonoBehaviour:
   guardRebootCountdownPrefab: {fileID: 7511002142692920791, guid: a1491db273ac68b4caa3ad3256baa17d, type: 3}
   flashlight: {fileID: 0}
   selflight: {fileID: 8935183616178449606}
-  moveSpeed: 4
+  moveSpeed: 4.75
   facingDirection: 0
   movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}
@@ -331,6 +331,8 @@ MonoBehaviour:
   canMove: 1
   isDisabled: 0
   PauseCanvas: {fileID: 0}
+  runnerHTP: {fileID: 0}
+  guardHTP: {fileID: 0}
   isRestricted: 1
   audioSource: {fileID: -780088295436245693}
   isMoving: 0
@@ -509,6 +511,8 @@ MonoBehaviour:
   syncInterval: 0.1
   PauseCanvas: {fileID: 0}
   pauseCanvasIsEnabled: 1
+  runnerHTP: {fileID: 0}
+  guardHTP: {fileID: 0}
 --- !u!114 &7599089245867032732
 MonoBehaviour:
   m_ObjectHideFlags: 0

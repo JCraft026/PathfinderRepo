@@ -18,7 +18,7 @@ public class GeneratorController : NetworkBehaviour
     private bool repairingGenerator = false;
 
     private Player_UI playerUi;   // Player UI management script
-    public float waitTime = 1f;   // Time to wait in between repairing individual generator hp
+    public float waitTime = 0.5f;   // Time to wait in between repairing individual generator hp
     public float nextHealTime;    // Next time to heal 1 generator hp
     public AudioSource damageSound;
 
@@ -90,14 +90,19 @@ public class GeneratorController : NetworkBehaviour
                 }
 
                 // Repair 1 generator hp
-                healthPoints++;
-                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(gameObject.name, healthPoints);
+                if(!CustomNetworkManager.isRunner){
+                    healthPoints++;
+                }
 
                 // Turn generator back on and turn off Healing Touch effect
                 if(healthPoints>= 10){
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(gameObject.name, healthPoints);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", false, gameObject.name);
                 }
+
+                // Set next repair time
+                nextHealTime += waitTime;
             }
         }
 

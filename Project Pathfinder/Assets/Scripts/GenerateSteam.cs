@@ -44,13 +44,13 @@ public class GenerateSteam : MonoBehaviour
             gameObject.GetComponentInChildren<TextMeshProUGUI>().text = displaySteam.ToString();
             switch(GENERATOR_COUNT - subtractBrokenGenerators()){
                 case 0: 
-                    steamMultiplier = 0f;
+                    steamMultiplier = 0.25f;
                     break;
                 case 1:
-                    steamMultiplier = 0.33f;
+                    steamMultiplier = 0.5f;
                     break;
                 case 2:
-                    steamMultiplier = 0.66f;
+                    steamMultiplier = 0.75f;
                     break;
                 case 3:
                     steamMultiplier = 1f;

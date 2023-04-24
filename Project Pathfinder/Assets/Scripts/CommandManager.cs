@@ -232,6 +232,7 @@ public class CommandManager : NetworkBehaviour
                                     .FirstOrDefault<GameObject>(x => x.GetComponent<ManageCrackedWalls>() != null)
                                     .GetComponent<ManageCrackedWalls>();
         crackedWallManager.DestroyCrackedWall(wall);
+        GameObject.Find("MM" + wallName.Substring(8)).SetActive(false);
 
     }
 
