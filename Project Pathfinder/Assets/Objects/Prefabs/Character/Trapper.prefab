@@ -192,7 +192,7 @@ MonoBehaviour:
   guardRebootCountdownPrefab: {fileID: 7511002142692920791, guid: a1491db273ac68b4caa3ad3256baa17d, type: 3}
   flashlight: {fileID: 0}
   selflight: {fileID: 8935183616178449606}
-  moveSpeed: 5
+  moveSpeed: 4.75
   facingDirection: 0
   movementInput: {x: 0, y: 0}
   rigidBody: {fileID: 2696247814498831833}

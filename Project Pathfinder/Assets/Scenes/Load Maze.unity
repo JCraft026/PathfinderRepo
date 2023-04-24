@@ -7267,7 +7267,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: <align=center><color=grey><size=12>swift</size></color>\n<color=red>(passive)</color>\nbase
-    speed is 20% faster than the runner</align>
+    speed is 5% faster than the runner</align>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
   m_sharedMaterial: {fileID: -4680618742065025805, guid: 7e68882c760595f4b8af4370a496e689, type: 2}
