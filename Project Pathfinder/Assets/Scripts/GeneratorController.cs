@@ -18,7 +18,7 @@ public class GeneratorController : NetworkBehaviour
     private bool repairingGenerator = false;
 
     private Player_UI playerUi;   // Player UI management script
-    public float waitTime = 1f;   // Time to wait in between repairing individual generator hp
+    public float waitTime = 0.5f;   // Time to wait in between repairing individual generator hp
     public float nextHealTime;    // Next time to heal 1 generator hp
 
     // Property for runner
