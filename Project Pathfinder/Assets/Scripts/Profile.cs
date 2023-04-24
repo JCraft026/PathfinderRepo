@@ -12,7 +12,7 @@ using static Utilities;
 public class PlayerProfile
 {
     public string password = "0";
-    public string username = "[Guest]";
+    public string username = "[Guest]"; // GUEST_USERNAME
     public Dictionary<string, int> stats = new Dictionary<string, int>
     {
         { "runner_wins", 0 },
@@ -56,7 +56,9 @@ public class Profile : MonoBehaviour
     public string badlistSubdirectory = "/badlist.txt";
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
     public int MAX_USERNAME_LENGTH = 16;
+    public int MAX_PASSWORD_LENGTH = 16;
     public int MAX_PROFILE_COUNT = 4;
+    public string GUEST_USERNAME = "[Guest]";
     
     // Achievement Lists
     public string[] titles = {
@@ -111,9 +113,17 @@ public class Profile : MonoBehaviour
         usernameInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
         passwordInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
         
-        CustomNetworkManager.currentLogin = new PlayerProfile();
+        if (CustomNetworkManager.currentLogin.username == GUEST_USERNAME)
+        {
+            WriteMessageToUser("You cannot log out of a guest account.");
+        }
+        else
+        {
+            CustomNetworkManager.currentLogin = new PlayerProfile();
+            WriteMessageToUser("You have been logged out.");
+        }
         
-        WriteMessageToUser("You have been logged out.");
+        
         return;
     }
     
@@ -202,6 +212,13 @@ public class Profile : MonoBehaviour
             return false;
         }
         
+        // > Test if the username is too long.
+        if (username.Length > MAX_USERNAME_LENGTH) {
+            WriteMessageToUser("The username cannot be longer than "
+                + MAX_USERNAME_LENGTH + " characters.");
+            return false;
+        }
+        
         // > Test if the password was typed in.
         if (password.Length <= 0) {
             WriteMessageToUser("You must type a password!");
@@ -209,15 +226,15 @@ public class Profile : MonoBehaviour
         }
         
         // > Test if the username is too long.
-        if (username.Length > MAX_USERNAME_LENGTH) {
-            WriteMessageToUser("Username invalid:\nThe username cannot be longer than "
-                + MAX_USERNAME_LENGTH + " characters.");
+        if (password.Length > MAX_PASSWORD_LENGTH) {
+            WriteMessageToUser("The password cannot be longer than "
+                + MAX_PASSWORD_LENGTH + " characters.");
             return false;
         }
         
         // > Test if username contains valid characters.
         if (!usernameRegexRules.IsMatch(username)) {
-            WriteMessageToUser("Username invalid:\nThe username must only contain numbers, letters, and underscores.");
+            WriteMessageToUser("The username must only contain numbers, letters, and underscores.");
             return false;
         }
         
@@ -228,16 +245,21 @@ public class Profile : MonoBehaviour
         
         // > Test if the profile already exists.
         if (DoesProfileExist(username)) {
-            WriteMessageToUser("Username invalid:\nThe username '" + username + "' is already in use on this device.");
+            WriteMessageToUser("The username '" + username + "' is already in use on this device.");
             return false;
         }
         
         // > Save the newly registered profile as a new file.
-        PlayerProfile newProfile = new PlayerProfile();
-        newProfile.username = username;
-        newProfile.password = password;
-        
-        SaveEncodedProfile(newProfile, password);
+        // > Keeps the data from the Guest account.
+        PlayerProfile newProfile;
+        if (CustomNetworkManager.currentLogin.username != GUEST_USERNAME) {
+            newProfile = new PlayerProfile();
+        } else {
+            CustomNetworkManager.currentLogin.username = username;
+            CustomNetworkManager.currentLogin.password = password;
+            newProfile = CustomNetworkManager.currentLogin;
+        }
+        SaveEncodedProfile(newProfile);
         WriteMessageToUser("The profile '" + username + "' has been saved!");
         
         return true;
@@ -309,10 +331,15 @@ public class Profile : MonoBehaviour
     }
     
     // Saves a profile to its local file.
-    public bool SaveEncodedProfile(PlayerProfile profile, string password) {
+    public bool SaveEncodedProfile(PlayerProfile profile) {
         // Note for future us: Replace "string password" with "profile.password".
         try {
-            WriteStringToFile(GetProfileFilepath(profile), EncodeProfileString(ProfileToString(profile), password));
+            WriteStringToFile(
+                GetProfileFilepath(profile),
+                EncodeProfileString(
+                    ProfileToString(profile),
+                    profile.password
+            ));
             return true;
         } catch (Exception error) {
             Debug.Log(error);

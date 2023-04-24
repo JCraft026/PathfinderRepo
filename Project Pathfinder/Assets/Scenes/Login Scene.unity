@@ -211,8 +211,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -583,10 +583,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usernameInputBox: {fileID: 891867811}
   passwordInputBox: {fileID: 113904228}
-  profilesJSONFilePath: ./Savedata/profiles.json
-  profilesDirectory: ./Savedata/
+  profilesSubdirectory: /Savedata/
+  badlistSubdirectory: /badlist.txt
   MAX_USERNAME_LENGTH: 16
+  MAX_PASSWORD_LENGTH: 16
   MAX_PROFILE_COUNT: 4
+  GUEST_USERNAME: '[Guest]'
   titles:
   - Beetle
   - Cat
@@ -2551,8 +2553,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15, y: 107}
-  m_SizeDelta: {x: -1271.8384, y: -944.4452}
+  m_AnchoredPosition: {x: 500.28, y: 45.8499}
+  m_SizeDelta: {x: -1217.2784, y: -1143.4285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1797472465
 MonoBehaviour:
@@ -2637,7 +2639,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -244.04474, z: 0, w: -243.91504}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2856,10 +2858,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usernameInputBox: {fileID: 891867811}
   passwordInputBox: {fileID: 113904228}
-  profilesJSONFilePath: ./Savedata/profiles.json
-  profilesDirectory: ./Savedata/
+  profilesSubdirectory: /Savedata/
+  badlistSubdirectory: /badlist.txt
   MAX_USERNAME_LENGTH: 16
+  MAX_PASSWORD_LENGTH: 16
   MAX_PROFILE_COUNT: 4
+  GUEST_USERNAME: '[Guest]'
   titles:
   - Beetle
   - Cat
@@ -3053,10 +3057,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   usernameInputBox: {fileID: 891867811}
   passwordInputBox: {fileID: 113904228}
-  profilesJSONFilePath: ./Savedata/profiles.json
-  profilesDirectory: ./Savedata/
+  profilesSubdirectory: /Savedata/
+  badlistSubdirectory: /badlist.txt
   MAX_USERNAME_LENGTH: 16
+  MAX_PASSWORD_LENGTH: 16
   MAX_PROFILE_COUNT: 4
+  GUEST_USERNAME: '[Guest]'
   titles:
   - Beetle
   - Cat

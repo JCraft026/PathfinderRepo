@@ -9,6 +9,6 @@ public class EndScreenStats : MonoBehaviour
     void Start()
     {
         gameObject.GetComponent<TMPro.TMP_Text>().text = gameObject.GetComponent<Profile>().PlayerNewUnlock();
-        gameObject.GetComponent<Profile>().SaveEncodedProfile(CustomNetworkManager.currentLogin, CustomNetworkManager.currentLogin.password);
+        gameObject.GetComponent<Profile>().SaveEncodedProfile(CustomNetworkManager.currentLogin);
     }
 }
