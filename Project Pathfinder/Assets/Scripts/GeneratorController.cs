@@ -89,11 +89,13 @@ public class GeneratorController : NetworkBehaviour
                 }
 
                 // Repair 1 generator hp
-                healthPoints++;
-                GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(gameObject.name, healthPoints);
+                if(!CustomNetworkManager.isRunner){
+                    healthPoints++;
+                }
 
                 // Turn generator back on and turn off Healing Touch effect
                 if(healthPoints>= 10){
+                    GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetGeneratorHealth(gameObject.name, healthPoints);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", false, gameObject.name);
                 }
