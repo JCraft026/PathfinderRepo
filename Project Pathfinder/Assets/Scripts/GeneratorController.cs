@@ -99,6 +99,9 @@ public class GeneratorController : NetworkBehaviour
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_objectEnable("RepairingEffect", false, gameObject.name);
                     GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_SetSteam("IsBusted", false, gameObject.name);
                 }
+
+                // Set next repair time
+                nextHealTime += waitTime;
             }
         }
 
