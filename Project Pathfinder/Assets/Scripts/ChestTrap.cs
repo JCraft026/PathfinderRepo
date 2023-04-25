@@ -31,6 +31,7 @@ public class ChestTrap : NetworkBehaviour
             if(trapped == false){
                 slowTrapped.trapped();
                 trapped = true;
+                explosionNoise.Play();
                 chestAnimator.SetBool("Exploding", true);
 
                 // Shake the cooresponding camera of the active character
