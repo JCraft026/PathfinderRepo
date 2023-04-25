@@ -724,7 +724,7 @@ MonoBehaviour:
   swingSledgeHammer: {fileID: 8300000, guid: 7da778e45c7660549b7ec85736f15b3f, type: 3}
   drinkCoffee: {fileID: 8300000, guid: 6cb658b64b1472b459937436cfbf366d, type: 3}
   popSmoke: {fileID: 8300000, guid: ee80272f40e117a44b19e6921ccb4b11, type: 3}
-  putOnGreenScreen: {fileID: 8300000, guid: 25f58301c814e5544a33408d2a9bd50f, type: 3}
+  putOnGreenScreen: {fileID: 8300000, guid: 26ae7286bd8c33547ac8953ab5c6edf9, type: 3}
 --- !u!114 &5865091273394797179
 MonoBehaviour:
   m_ObjectHideFlags: 0
