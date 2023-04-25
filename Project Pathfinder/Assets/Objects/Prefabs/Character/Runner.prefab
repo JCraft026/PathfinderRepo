@@ -614,7 +614,7 @@ MonoBehaviour:
   heart3: {fileID: 0}
   animator: {fileID: 2696247814498831813}
   currentHeartId: 3
-  halfHeart: {fileID: 0}
+  halfHeart: {fileID: 21300000, guid: 25e6f231c677885419c4511861fc6d93, type: 3}
   damageSoundsObject: {fileID: 1958743238440355660}
   damageSounds: {fileID: 0}
 --- !u!114 &3305301480126540400
