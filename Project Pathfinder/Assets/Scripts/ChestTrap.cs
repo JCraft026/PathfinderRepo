@@ -11,6 +11,7 @@ public class ChestTrap : NetworkBehaviour
     SlowTrapped slowTrapped;      // Instance of SlowTrapped script 
     private bool trapped = false; // Whether the player has been trapped or not
     Animator chestAnimator;       // The Chest's animator controller
+    public AudioSource explosionNoise;
     CameraShake cameraShake;      // Camera shaker
 
     // Called when the object is instantiated

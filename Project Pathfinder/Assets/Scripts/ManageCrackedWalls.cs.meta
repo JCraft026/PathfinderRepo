@@ -3,7 +3,9 @@ guid: 0b27f9da05f4fa44ebfe178159e3c0d8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - WallBreakSound: {fileID: 8300000, guid: 96f7fee5cac13044890826c4b86d5a1b, type: 3}
+  - mazeRenderer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

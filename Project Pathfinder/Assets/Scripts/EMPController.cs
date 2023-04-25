@@ -9,6 +9,9 @@ public class EMPController : NetworkBehaviour
     public SpriteRenderer engineerDisableEffect;
     public SpriteRenderer trapperDisableEffect;
     public SpriteRenderer chaserDisableEffect;
+    public AudioSource EmpSound;
+
+
     public GameObject engineer{
         get
         {
@@ -30,9 +33,9 @@ public class EMPController : NetworkBehaviour
 
     public GameObject EMP;
 
-    // Start is called before the first frame update
     void Awake()
     {
+        EmpSound.Play();
         engineerDisableEffect = engineer.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
         trapperDisableEffect  =  trapper.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
         chaserDisableEffect   =   chaser.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault<SpriteRenderer>(x => x.gameObject.name == "DisableEffect");
