@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class EngineerAbility : NetworkBehaviour
+public class EngineerAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false;   // Status of the ability icon being clicked
     public GameObject barricadeHorizontal;       // Horizontal barricade
@@ -166,6 +166,8 @@ public class EngineerAbility : NetworkBehaviour
             tempBarricade.transform.localScale = new Vector2(tempBarricade.transform.localScale.x * scaler, tempBarricade.transform.localScale.y * scaler);
         }
         NetworkServer.Spawn(tempBarricade);
+
+        this.rpc_PlaySyncedAbilityAudio();
         return;
     }
 }
