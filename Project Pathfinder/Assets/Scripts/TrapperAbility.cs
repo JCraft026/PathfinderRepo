@@ -6,7 +6,7 @@ using Mirror;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-public class TrapperAbility : NetworkBehaviour
+public class TrapperAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false;  // Status of the ability icon being clicked
     public GameObject chestTrap;                // Actual chest trap object
@@ -21,12 +21,14 @@ public class TrapperAbility : NetworkBehaviour
     void Update()
     {
         // When trapper presses "[k]"
-        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false 
+                && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             if(GenerateSteam.steam >= 25f){
                 // Subtract from steam
                 GenerateSteam.steam -= 25f;
 
                 placeChestTrap();
+                this.cmd_PlaySyncedAbilityAudio();
             }
             else{
                 GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);

@@ -13,6 +13,9 @@ public class ManageRunnerStats : MonoBehaviour
     public Animator animator;      // Character's animator manager
     public int currentHeartId = 3; // ID of the current heart being manipulated
     public Sprite halfHeart;        // Half heart image for runner UI
+    public GameObject damageSoundsObject;
+                                     // GameObject that damageSounds comes from
+    public AudioSource damageSounds; // Characters audiosource for taking damage
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,11 @@ public class ManageRunnerStats : MonoBehaviour
         heart3.SetActive(true);
     }
 
+    void Awake() 
+    {
+        damageSounds = damageSoundsObject.GetComponent<AudioSource>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -51,6 +59,8 @@ public class ManageRunnerStats : MonoBehaviour
     // Process runner damage
     public void TakeDamage(int damage){
         health -= damage;
+        damageSounds.Play();
+        Debug.Log("The runner took: " + damage.ToString() + " damage");
         switch (health)
         {
             case 5:

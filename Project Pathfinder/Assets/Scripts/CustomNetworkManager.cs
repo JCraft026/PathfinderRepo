@@ -97,6 +97,9 @@ public class CustomNetworkManager : NetworkManager
 
         // Reflect that the runner/guard master status has been set
         playerRoleSet = true;
+
+        // Stop the menu music
+        //GetComponent<AudioSource>().Stop();
     }
 
     // Runs on the client once connected to the server - registers the message handler for the maze data
@@ -173,6 +176,7 @@ public class CustomNetworkManager : NetworkManager
         //GenerateSteam.steam = 0;
 
         // Reset the end game events
+        //GetComponent<AudioSource>().Play();
         //HandleEvents.currentEvent = 0;
         //HandleEvents.endGameEvent = 0;
         ResetVariables();
@@ -182,6 +186,13 @@ public class CustomNetworkManager : NetworkManager
         Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
         Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
         Item.empSpawnLimit          = Item.initialEMPSpawnLimit;
+
+        // Utilities
+        Utilities.ClearObjectLibrary();
+        Utilities.runner = null;
+        Utilities.chaser = null;
+        Utilities.engineer = null;
+        Utilities.trapper = null;
     }
 
     #endregion

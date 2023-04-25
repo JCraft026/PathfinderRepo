@@ -14,6 +14,9 @@ public class ItemWorld : NetworkBehaviour
     [SyncVar]
     private Item item;                     // The item to be referenced
     private SpriteRenderer spriteRenderer; // Get's the object's spriteRender component
+    public AudioClip ChestOpenSound;
+    public AudioClip KeyPickupSound;
+    public AudioSource audioSource;
     public static System.Random randomNum  = new System.Random();
                                            // Random number generator
 
@@ -33,6 +36,7 @@ public class ItemWorld : NetworkBehaviour
     private void Awake(){
         //Instance = this;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Spawns an item at the in scene location
@@ -101,6 +105,7 @@ public class ItemWorld : NetworkBehaviour
     public void OpenChest(){
         spriteRenderer.sprite = ItemAssets.Instance.ChestOpened;
         gameObject.GetComponent<Collider2D>().enabled = false;
+        audioSource.Play();
         //Destroy(gameObject);
     }
 
@@ -122,6 +127,7 @@ public class ItemWorld : NetworkBehaviour
     {
         spriteRenderer.enabled = false;
         gameObject.GetComponent<Collider2D>().enabled = false;
+        audioSource.Play();
     }
 
     // Launches the RPC to pickup a key

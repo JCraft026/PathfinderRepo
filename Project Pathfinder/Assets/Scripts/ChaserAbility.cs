@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 
-public class ChaserAbility : NetworkBehaviour
+public class ChaserAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false; // Status of the ability icon being clicked
     MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
@@ -20,15 +20,18 @@ public class ChaserAbility : NetworkBehaviour
     void Update()
     {
         // When the chaser presses "[k]"
-        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+        if(((Input.GetKeyDown("k") || abilityClicked)
+                && CustomNetworkManager.isRunner == false 
+                && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
             // If the chaser wasn't already attacking
             if(animator.GetBool("Attack") == false){
                 if(GenerateSteam.steam >= 20f){
                     // Subtract from steam
                     GenerateSteam.steam -= 20f;
 
-                    chaserDash.startDash();
-                    Debug.Log("Started dash");
+                chaserDash.startDash();
+                cmd_PlaySyncedAbilityAudio();
+                Debug.Log("Started dash");
                 }
                 else{
                     GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
