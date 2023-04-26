@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cd56c7615840d4e4e8039a3f229c845c
+guid: 5fa6d81ba4000d64f8fa3443cb445e9f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Keys_0
+      name: Keys (NEW)_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +119,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca1e9d5f0dd97184ca9792a9b20994e8
-      internalID: -1297587525
+      spriteID: 33657a4b75fce424b92788d16b2060ee
+      internalID: 1914582057
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Keys_1
+      name: Keys (NEW)_1
       rect:
         serializedVersion: 2
         x: 32
@@ -140,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1a8dfcf64f2b8c48b9f2b3bf447d307
-      internalID: 1983926103
+      spriteID: d42893b27f42cf44b90ba07226628f2c
+      internalID: 965850907
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Keys_2
+      name: Keys (NEW)_2
       rect:
         serializedVersion: 2
         x: 0
@@ -161,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bab73de0e774ea848b5cfeedd5f26096
-      internalID: -625650372
+      spriteID: 9a56c825337980d4e81372d9fc30c198
+      internalID: -464719825
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Keys_3
+      name: Keys (NEW)_3
       rect:
         serializedVersion: 2
         x: 32
@@ -182,8 +182,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b05ce3b0a25a13649b18fbec380d0fce
-      internalID: 736485243
+      spriteID: 78055f067997a25469eb5bc265dce393
+      internalID: 1967339028
       vertices: []
       indices: 
       edges: []
@@ -199,10 +199,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Keys_1: 1983926103
-      Keys_2: -625650372
-      Keys_3: 736485243
-      Keys_0: -1297587525
+      Keys (NEW)_2: -464719825
+      Keys (NEW)_1: 965850907
+      Keys (NEW)_0: 1914582057
+      Keys (NEW)_3: 1967339028
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
