@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 
@@ -24,13 +22,13 @@ public class ManageAbilityClicks : MonoBehaviour
     void OnMouseDown(){
         // Trigger the cooresponding guard abilities
         if(chaserAbilityExpression.IsMatch(gameObject.name)){
-            ChaserAbility.abilityClicked   = true;
+            GameObject.Find("Chaser(Clone)").GetComponent<ChaserAbility>().AbilityClicked = true;
         }
         else if(engineerAbilityExpression.IsMatch(gameObject.name)){
-            EngineerAbility.abilityClicked = true;
+            GameObject.Find("Engineer(Clone)").GetComponent<EngineerAbility>().AbilityClicked = true;
         }
         else if(trapperAbilityExpression.IsMatch(gameObject.name)){
-            TrapperAbility.abilityClicked  = true;
+            GameObject.Find("Trapper(Clone)").GetComponent<TrapperAbility>().AbilityClicked = true;
         }
     }
 

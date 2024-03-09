@@ -3,17 +3,18 @@ using UnityEngine;
 
 public abstract class GuardAbilityBase : NetworkBehaviour
 {
+    public AudioSource audioSource;
     public MoveCharacter CharacterMovementController { get; set; }
     public abstract float AbilityUseageCost { get; }
-    public abstract bool AbilityClicked { get; set; } // Temporary fix for all "abilityClicked" variables being static to the class
-    protected bool ShouldDoAbility
+    public bool AbilityClicked { get; set; } = false; protected bool ShouldDoAbility
     { 
         get =>
         ((Input.GetKeyDown("k") || AbilityClicked) && !CustomNetworkManager.isRunner 
         && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId);
     }
-    public AudioSource audioSource;
 
+    // Steam should be subtracted the overrides for this method (The ability does not necessarily have to be used)
+    protected abstract void DoAbility();
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -28,12 +29,12 @@ public abstract class GuardAbilityBase : NetworkBehaviour
         if (shouldDoAbilityThisFrame && GenerateSteam.steam >= AbilityUseageCost)
             DoAbility();
         else if (shouldDoAbilityThisFrame && GenerateSteam.steam < AbilityUseageCost) // This little boi isn't working as I'd expect him to (popup doesn't show up when they can't afford it)
-            GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
+            DisplayAbilityAlert("Not enough steam to use ability");
         AbilityClicked = false;
     }
 
-    // Steam should be subtracted the overrides for this method (The ability does not necessarily have to be used)
-    protected abstract void DoAbility();
+    protected void DisplayAbilityAlert(string message, float duration=3f) => 
+        GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert($@"<color=red>{message}</color>", duration);
 
 
     [Command]
