@@ -18,6 +18,13 @@ public class ManageInventory : NetworkBehaviour
     private List<Item> itemList;                // The local list of inventory items
     private int slotNumber = 0;                 // The slot number the player is choosing
     public InventoryControls inventoryControls; // Imports the inventory controller
+    public GameObject soundMakerObject;         // GameObject where inventory sounds come from
+    public AudioSource soundMaker {get{return soundMakerObject.GetComponent<AudioSource>();}}
+                                                // Makes and manages inventory sounds
+    public AudioClip swingSledgeHammer;
+    public AudioClip drinkCoffee;
+    public AudioClip popSmoke;
+    public AudioClip putOnGreenScreen;
 
     // Called on awake
     private void Awake(){
@@ -105,22 +112,28 @@ public class ManageInventory : NetworkBehaviour
             // Checks to see if a wall or generator breaks upon using the hammer
             if(!gameObject.GetComponent<Animator>().GetBool("SwingHammer") && (ManageCrackedWalls.Instance.breakWall() || GeneratorController.breakGenerator())){
                 gameObject.GetComponent<Animator>().SetBool("SwingHammer", true);
+                soundMaker.clip = swingSledgeHammer;
+                soundMaker.Play();
             }
             break;
         // Smoke Bomb Action
         case Item.ItemType.SmokeBomb:
+            soundMaker.clip = popSmoke;
+            soundMaker.Play();
             RenderSmokeScreen.Instance.useSmoke();
             inventory.RemoveItem(item);
             break;
         // Common Grounds Coffee Action
         case Item.ItemType.Coffee:
             if(gameObject.GetComponent<CoffeeController>().coffeeIsOver){
+                soundMaker.clip = drinkCoffee;
+                soundMaker.Play();
                 Debug.Log("Coffee used");
                 inventory.RemoveItem(item);
                 MoveCharacter runnerMovementScript = gameObject.GetComponent<MoveCharacter>();
                 CoffeeController coffeeController = gameObject.GetComponent<CoffeeController>();
                 runnerMovementScript.moveSpeed = 10.0f;
-                coffeeController.setCooldown(10);
+                coffeeController.setCooldown(5);
             }
             else{
                 Debug.Log("Still in Use");
@@ -128,6 +141,8 @@ public class ManageInventory : NetworkBehaviour
             break;
         case Item.ItemType.GreenScreenSuit:
             if(gameObject.GetComponent<GreenScreenController>().greenScreenIsOver){
+                soundMaker.clip = putOnGreenScreen;
+                soundMaker.Play();
                 Debug.Log("Green screen suit applied");
                 MoveCharacter runnerScript = gameObject.GetComponent<MoveCharacter>();
                 GreenScreenController greenScreenController = gameObject.GetComponent<GreenScreenController>();
@@ -141,6 +156,7 @@ public class ManageInventory : NetworkBehaviour
             }
             break;
         case Item.ItemType.EMP:
+            //TODO: add sound for EMP
             Debug.Log("EMP Used");
             cmd_useEMP();
             inventory.RemoveItem(item);

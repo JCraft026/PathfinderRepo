@@ -14,6 +14,7 @@ public class TrapperAbility : GuardAbilityBase
     {
         GenerateSteam.steam -= AbilityUseageCost;
         PlaceChestTrap();
+        this.cmd_PlaySyncedAbilityAudio();
     }
 
     //void Start(){
@@ -34,6 +35,21 @@ public class TrapperAbility : GuardAbilityBase
     //    // Reset the ability clicked status
     //    abilityClicked = false;
     //}
+
+    /* from newer commit (i deleted a bunch from this method tho)*/
+//    void Update()
+//    {
+//        // When trapper presses "[k]"
+//        if(((Input.GetKeyDown("k") || abilityClicked) && CustomNetworkManager.isRunner == false 
+//                && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+//            if(GenerateSteam.steam >= 25f){
+//                // Subtract from steam
+//            }
+//        }
+//        
+//        // Reset the ability clicked status
+//        abilityClicked = false;
+//    }
 
     // Instantiates and spawns the chest trap
     [Command]

@@ -29,6 +29,8 @@ public class MoveCharacter : NetworkBehaviour
     public bool canMove = true;                              // Character movement lock status
     public bool isDisabled = false;                          // Character disabled by an EMP
     public GameObject PauseCanvas;                           // Exit game menu
+    public GameObject runnerHTP;                             // Runner How to Play screen
+    public GameObject guardHTP;                              // Guard How to Play screen
     public bool isRestricted = true;                         // Status of parent guard objects movement restricted
     private GameObject characterArrow;                       // Arrow of the current active character
     private float mazeWidth = 13;                            // Width of the maze
@@ -39,11 +41,14 @@ public class MoveCharacter : NetworkBehaviour
     private float currentCellX;                              // X position of the current cell
     private int[] characterCellLocation = new int[2];        // Cell location of the current character
     private int activeCharacterCode;                         // Code identifying the current active character
+    public AudioSource audioSource;                          // Makes the player make sounds
+    [SyncVar]
+    public bool isMoving; // Keeps track of if the player is moving, this way the client can play the correct audio
     private Player_UI playerUi;                              // Imports the Player's UI to access what is the player
     public static MoveCharacter Instance;                    // Makes an instance of this class to access 
     Regex runnerExpression = new Regex("Runner");            // Match "Runner" 
     private string disabledPopupText;                        // Text displayed on guard disabled
-    private float disabledTimeLeft = 30.5f;                  // Time left for the guard to be disabled
+    private float disabledTimeLeft = 10.5f;                  // Time left for the guard to be disabled
     Transform guardRebootCountdown;                          // Countdown until guard restarts from EMP disabling
     private bool rebootCountdownActive = false;       // Status of reboot countdown being spawned
     
@@ -60,8 +65,9 @@ public class MoveCharacter : NetworkBehaviour
     // Initialize the exit game menu variable
     void Awake()
     {
-        PauseCanvas = GameObject.Find("PauseCanvas");
-        
+        PauseCanvas = GameObject.Find("PauseBackground");
+        runnerHTP   = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play"));
+        guardHTP    = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Guard How to Play"));
     }
 
     void Start(){
@@ -142,7 +148,7 @@ public class MoveCharacter : NetworkBehaviour
                     flashlight.transform.eulerAngles = new Vector3(0f, 0f, 180f + movementInput.x * 45f * (movementInput.y+2));
             }
 
-            if (PauseCanvas.gameObject.activeSelf == false)
+            if (PauseCanvas.gameObject.activeSelf == false && runnerHTP.gameObject.activeSelf == false && guardHTP.gameObject.activeSelf == false)
             {
                 // Set character idle facing direction
                 if (movementInput.x == 0 && movementInput.y == -1)
@@ -161,6 +167,16 @@ public class MoveCharacter : NetworkBehaviour
                 {
                     facingDirection = MoveCharacterConstants.RIGHT;
                 }
+            }
+
+            // Sync whether or not a player is moving to the other clients
+            if(movementInput.x != 0 || movementInput.y != 0)
+            {
+                cmd_SetIsMoving(true);
+            }
+            else
+            {
+                cmd_SetIsMoving(false);
             }
 
             // Communicate movement values with the animator controller
@@ -196,7 +212,7 @@ public class MoveCharacter : NetworkBehaviour
             
 
                 // Manage character arrow display
-                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f){
+                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f && !(CustomNetworkManager.isRunner && animator.GetBool("isGreen"))){
                     characterArrow.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 else{
@@ -225,7 +241,7 @@ public class MoveCharacter : NetworkBehaviour
                         disabledTimeLeft -= Time.deltaTime;
                     }
                     else{
-                        disabledTimeLeft    = 30.5f;
+                        disabledTimeLeft    = 10.5f;
                     }
                 }
             }
@@ -236,6 +252,11 @@ public class MoveCharacter : NetworkBehaviour
                 }
             }
         }
+
+        // Restrain the Guard if it's disabled by an EMP
+        if(!CustomNetworkManager.isRunner && isDisabled && canMove == true){
+            canMove = false;
+        }
     }
 
     // FixedUpdate calling frequency is based on a set timer
@@ -244,10 +265,30 @@ public class MoveCharacter : NetworkBehaviour
         movementInput.Normalize();
 
         // Make sure all of the conditions for movement are correct
-        if(isLocalPlayer && canMove && PauseCanvas.gameObject.activeSelf == false)
+        if(isLocalPlayer && canMove && PauseCanvas.gameObject.activeSelf == false && runnerHTP.gameObject.activeSelf == false && guardHTP.gameObject.activeSelf == false)
         {
             // Move the character based on the current character position, the input data, the move speed, and the elapesed time since the last function call
             rigidBody.MovePosition(rigidBody.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+
+            // Handle footstep audio for the local player
+            if(movementInput != Vector2.zero && audioSource.isPlaying == false)
+            {
+                audioSource.Play();
+            }
+            else if(movementInput == Vector2.zero && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
+
+        // Handle footstep audio for the other players (non-local players)
+        if(!isLocalPlayer && canMove && isMoving && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        else if(!isLocalPlayer && canMove && !isMoving && audioSource.isPlaying)
+        {
+            audioSource.Stop();
         }
     }
 
@@ -279,6 +320,7 @@ public class MoveCharacter : NetworkBehaviour
         
         // Disable movement, sight, and show electricity particles
         canMove = false;
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
         isDisabled = true;
         gameObject.GetComponent<Attack>().enabled = false;
 
@@ -331,8 +373,8 @@ public class MoveCharacter : NetworkBehaviour
             GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessPopup(disabledPopupText, 5f);
         }
         
-        // Wait 5 seconds
-        yield return new WaitForSeconds(30);
+        // Wait 10 seconds
+        yield return new WaitForSeconds(10);
 
         // Take off the diabled effect, move the light sources back to the guard, and enable movement
         gameObject.GetComponentsInChildren<SpriteRenderer>()
@@ -346,6 +388,7 @@ public class MoveCharacter : NetworkBehaviour
         }
         canMove = true;
         isDisabled = false;
+        rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
         gameObject.GetComponent<Attack>().enabled = true;
         
         // Enable Guard abilities based on which guard you are
@@ -380,5 +423,12 @@ public class MoveCharacter : NetworkBehaviour
                     break;
             }
         }
+    }
+
+    // Required to set isMoving on the server (SyncVars do not sync unless they are set on the server)
+    [Command(requiresAuthority = false)]
+    public void cmd_SetIsMoving(bool set)
+    {
+        isMoving = set;
     }
 }

@@ -6,7 +6,7 @@ public class ChaserAbility : GuardAbilityBase
     ChaserDash chaserDash;                     // ChaserDash instance
     public Animator animator;                  // Chaser's animator controller
 
-    public override float AbilityUseageCost { get => 10f; }
+    public override float AbilityUseageCost { get => 20f; }
     public override bool AbilityClicked { get => abilityClicked; set => abilityClicked = value; }
 
     protected override void Start(){
@@ -26,7 +26,9 @@ public class ChaserAbility : GuardAbilityBase
         {
             GenerateSteam.steam -= AbilityUseageCost;
             chaserDash.startDash();
+            cmd_PlaySyncedAbilityAudio();
             Debug.Log("Started dash");
+
         }
     }
 }

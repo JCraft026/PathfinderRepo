@@ -56,6 +56,20 @@ public class CommandManager : NetworkBehaviour
     public void rpc_ClientSetItemSprite(ItemWorld itemWorld, Item item)
     {
         itemWorld.SetItem(item);
+
+        // Set the pickup sound for the item
+        switch(item.itemType)
+        {
+            case Item.ItemType.Keys_0:
+            case Item.ItemType.Keys_1:
+            case Item.ItemType.Keys_2:
+            case Item.ItemType.Keys_3:
+                itemWorld.audioSource.clip = itemWorld.KeyPickupSound;
+            break;
+            default:
+                itemWorld.audioSource.clip = itemWorld.ChestOpenSound;
+            break;
+        }
     }
 
     [Command(requiresAuthority = false)]
@@ -168,6 +182,10 @@ public class CommandManager : NetworkBehaviour
             }
         }
 
+        // If generator became busted play a break sound
+        if(setting == true)
+            GameObject.Find(generatorName).GetComponent<AudioSource>().Play();
+        
         GameObject.Find(generatorName).GetComponent<Animator>().SetBool(parameterToSet, setting);
     }
 
@@ -214,6 +232,7 @@ public class CommandManager : NetworkBehaviour
                                     .FirstOrDefault<GameObject>(x => x.GetComponent<ManageCrackedWalls>() != null)
                                     .GetComponent<ManageCrackedWalls>();
         crackedWallManager.DestroyCrackedWall(wall);
+        GameObject.Find("MM" + wallName.Substring(8)).SetActive(false);
 
     }
 
@@ -227,7 +246,11 @@ public class CommandManager : NetworkBehaviour
     [ClientRpc]
     public void rpc_SetGeneratorHealth(string generatorName, int health)
     {
-        GameObject.Find(generatorName).GetComponent<GeneratorController>().healthPoints = health;
+        var generator = GameObject.Find(generatorName);
+        generator.GetComponent<GeneratorController>().healthPoints = health;
+        // If the generator is taking damage play the damage sound
+        if(health > 0)
+            generator.GetComponent<AudioSource>().Play();
     }
 
     // Call an RPC to cause the runner to take attack damage

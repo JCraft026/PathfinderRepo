@@ -8,6 +8,7 @@ public class ManageCrackedWalls : MonoBehaviour
     private GameObject closestWall;            // The closest wall to the runner
     public static ManageCrackedWalls Instance; // Access to an object of this class' methods and attributes
     private float cellSize = 0.0f;             // Used to adjust the detection size of wall breaking
+    public AudioClip WallBreakSound;
 
     [SerializeField]
     RenderMaze mazeRenderer;
@@ -60,10 +61,8 @@ public class ManageCrackedWalls : MonoBehaviour
         if(crackedWallList.Count >= 1){
             if(Mathf.Abs(MoveCharacter.Instance.rigidBody.position.x - closestWall.transform.position.x) < cellSize * 0.25f
                 && Mathf.Abs(MoveCharacter.Instance.rigidBody.position.y - closestWall.transform.position.y) < cellSize * 0.25f){
-                if(CustomNetworkManager.isRunner){
-                    GameObject.Find("MM" + closestWall.name.Substring(8)).SetActive(false);
-                }
                 wallBroken = true;
+                AudioSource.PlayClipAtPoint(WallBreakSound, closestWall.transform.position);
                 GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_DestroyWall(closestWall.name);
             }
         }

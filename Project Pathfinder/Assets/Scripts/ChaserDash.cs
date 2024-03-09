@@ -10,6 +10,7 @@ public class ChaserDash : NetworkBehaviour
 {
     MoveCharacter chaserMoveCharacter; // MoveCharacter component of the chaser
     private Vector3 dashDirection;     // Direction the chaser is dashing
+    public Vector3 characterPosition;  // Position of the parent character object
     public Animator animator;          // Character's animator manager
     public int frameCount;             // Amount of frames passed in update statement
     public bool trajectoryClear;       // Reflects whether the chasers current trajectory is clear of walls
@@ -32,22 +33,23 @@ public class ChaserDash : NetworkBehaviour
         // Display chaser dash
         if(frameCount <= 6){
             for(int moveNudges = 30; moveNudges > 0; moveNudges--){
+                characterPosition = gameObject.transform.position + new Vector3(0, -0.84f, 0);
                 switch (animator.GetFloat("Facing Direction"))
                 {
                     case MoveCharacterConstants.FORWARD:
-                        trajectoryClear = ImpactTrajectoryClear(gameObject.transform.position, MoveCharacterConstants.FORWARD);
+                        trajectoryClear = ImpactTrajectoryClear(characterPosition, MoveCharacterConstants.FORWARD);
                         break;    
                     case MoveCharacterConstants.LEFT:
-                        trajectoryClear = ImpactTrajectoryClear(gameObject.transform.position, MoveCharacterConstants.LEFT);
+                        trajectoryClear = ImpactTrajectoryClear(characterPosition, MoveCharacterConstants.LEFT);
                         break;   
                     case MoveCharacterConstants.BACKWARD:
-                        trajectoryClear = ImpactTrajectoryClear(gameObject.transform.position, MoveCharacterConstants.BACKWARD);
+                        trajectoryClear = ImpactTrajectoryClear(characterPosition, MoveCharacterConstants.BACKWARD);
                         break;   
                     case MoveCharacterConstants.RIGHT:
-                        trajectoryClear = ImpactTrajectoryClear(gameObject.transform.position, MoveCharacterConstants.RIGHT);
+                        trajectoryClear = ImpactTrajectoryClear(characterPosition, MoveCharacterConstants.RIGHT);
                         break; 
                 }
-                if(trajectoryClear && !CustomNetworkManager.isRunner)
+                if(trajectoryClear && !CustomNetworkManager.isRunner && gameObject.GetComponent<MoveCharacter>().isDisabled == false)
                 {
                     dashDirection.Normalize();
                     gameObject.transform.position += dashDirection * Time.deltaTime;
