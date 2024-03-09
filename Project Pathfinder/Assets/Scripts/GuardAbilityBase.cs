@@ -1,9 +1,5 @@
 using Mirror;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public abstract class GuardAbilityBase : NetworkBehaviour
 {
@@ -33,12 +29,7 @@ public abstract class GuardAbilityBase : NetworkBehaviour
         AbilityClicked = false;
     }
 
-
+    // Steam should be subtracted the overrides for this method (The ability does not necessarily have to be used)
     protected abstract void DoAbility();
-
-   protected void SubtractSteam()
-    {
-        GenerateSteam.steam -= AbilityUseageCost;
-    }
 
 }

@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using System.Text.RegularExpressions;
 
 public class ChaserAbility : GuardAbilityBase
 {
     public static bool abilityClicked = false; // Status of the ability icon being clicked
-    //MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
     ChaserDash chaserDash;                     // ChaserDash instance
     public Animator animator;                  // Chaser's animator controller
 
@@ -19,10 +14,8 @@ public class ChaserAbility : GuardAbilityBase
         chaserDash = gameObject.GetComponent<ChaserDash>();
     }
 
-    // Update is called once per frame
     protected override void Update()
     {
-        // When the chaser presses "[q]"
         if(ShouldDoAbility && !animator.GetBool("Attack"))
             DoAbility();
     }
