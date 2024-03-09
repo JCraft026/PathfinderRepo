@@ -4,36 +4,34 @@ using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 
-public class ChaserAbility : GuardAbilityBase
+public class ChaserAbility : NetworkBehaviour
 {
     public static bool abilityClicked = false; // Status of the ability icon being clicked
-    //MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
+    MoveCharacter chaserMoveCharacter;         // Chaser's MoveCharacter script
     ChaserDash chaserDash;                     // ChaserDash instance
     public Animator animator;                  // Chaser's animator controller
 
-    public override float AbilityUseageCost { get => 10f; }
-    public override bool AbilityClicked { get => abilityClicked; set => abilityClicked = value; }
-
-    protected override void Start(){
-        base.Start();
+    void Start(){
+        chaserMoveCharacter = gameObject.GetComponent<MoveCharacter>();
         chaserDash = gameObject.GetComponent<ChaserDash>();
     }
 
     // Update is called once per frame
-    protected override void Update()
+    void Update()
     {
         // When the chaser presses "[q]"
-        if(ShouldDoAbility && !animator.GetBool("Attack"))
-            DoAbility();
-    }
+        if(((Input.GetKeyDown("q") || abilityClicked) && CustomNetworkManager.isRunner == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId)){
+            // If the chaser wasn't already attacking
+            if(animator.GetBool("Attack") == false && GenerateSteam.steam >= 10f){
+                // Subtract from steam
+                GenerateSteam.steam -= 10f;
 
-    protected override void DoAbility()
-    {
-        if (!animator.GetBool("Attack") && GenerateSteam.steam >= AbilityUseageCost)
-        {
-            GenerateSteam.steam -= AbilityUseageCost;
-            chaserDash.startDash();
-            Debug.Log("Started dash");
+                chaserDash.startDash();
+                Debug.Log("Started dash");
+            }
         }
+
+        // Reset the ability clicked status
+        abilityClicked = false;
     }
 }
