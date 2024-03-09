@@ -19,7 +19,7 @@ public class PlayUnlockSound : MonoBehaviour
     IEnumerator coroutine_PlayGuardAlarm()
     {
         var alarm = GameObject.Find("GuardAlarmSound").GetComponent<AudioSource>();
-        if(CustomNetworkManager.isRunner == false && alarm.isPlaying == false)
+        if(CustomNetworkManager.IsRunner == false && alarm.isPlaying == false)
         {
             alarm.Play();
             Debug.Log("CommandManager: Alarm is playing");

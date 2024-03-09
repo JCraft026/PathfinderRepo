@@ -124,7 +124,7 @@ public class RenderMaze : NetworkBehaviour
 
     void Start(){
         // Enable the steam generator for guards
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("SteamGeneratorUI")).SetActive(true);
             try{
                 GameObject.FindGameObjectWithTag("SteamBar").SetActive(false);
@@ -132,7 +132,7 @@ public class RenderMaze : NetworkBehaviour
             catch{
 
             }
-            if(!CustomNetworkManager.isHost){
+            if(!CustomNetworkManager.IsHost){
                 GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().StartRenderGeneratorIconsClientGuards();
             }
         }
@@ -143,7 +143,7 @@ public class RenderMaze : NetworkBehaviour
     {
         // Get the generated maze data
         WallStatus[,] mazeData = GenerateMaze.Generate(mazeWidth, mazeHeight);
-        CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson = mazeData;
+        CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson = mazeData;
         mazeDataJson = JsonConvert.SerializeObject(mazeData);
 
         // Clean up left over walls and such from the last game
@@ -559,7 +559,7 @@ public class RenderMaze : NetworkBehaviour
         }
 
         // Display generator icons on the minimap for the guard master
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             GameObject.Find("MiniMapHandler").GetComponent<RenderMiniMap>().RenderGeneratorIcons(generatorIconLocations);
         }
     }

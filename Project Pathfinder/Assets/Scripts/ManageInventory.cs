@@ -49,7 +49,7 @@ public class ManageInventory : NetworkBehaviour
         base.OnStartAuthority();
 
         // Set up the inventory for the runner
-        if(CustomNetworkManager.isRunner)
+        if(CustomNetworkManager.IsRunner)
         {
             inventory = new Inventory(UseItem);
             playerUi = GameObject.Find("Player_UI").GetComponent<Player_UI>();

@@ -47,7 +47,7 @@ public class ChaserDash : NetworkBehaviour
                         trajectoryClear = ImpactTrajectoryClear(characterPosition, MoveCharacterConstants.RIGHT);
                         break; 
                 }
-                if(trajectoryClear && !CustomNetworkManager.isRunner && gameObject.GetComponent<MoveCharacter>().isDisabled == false)
+                if(trajectoryClear && !CustomNetworkManager.IsRunner && gameObject.GetComponent<MoveCharacter>().isDisabled == false)
                 {
                     dashDirection.Normalize();
                     gameObject.transform.position += dashDirection * Time.deltaTime;

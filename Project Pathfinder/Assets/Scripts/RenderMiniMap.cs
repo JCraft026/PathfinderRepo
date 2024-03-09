@@ -83,7 +83,7 @@ public class RenderMiniMap : MonoBehaviour
                 cellFloor.name = "cf(" + (i-(int)(mazeWidth/2)) + "," + (j-(int)(mazeHeight/2)) + ")";
 
                 // Render the Control Room Entrance
-                if(CustomNetworkManager.isRunner && j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
+                if(CustomNetworkManager.IsRunner && j == tunnelEntranceHeightIndex && i == tunnelEntranceWidthIndex){
                     if(currentCell.HasFlag(WallStatus.TOP)){
                         var tunnelEntrance = Instantiate(tunnelEntranceIcon, transform);
                         tunnelEntrance.transform.SetParent(GameObject.Find("Minimap").transform, false);
@@ -97,7 +97,7 @@ public class RenderMiniMap : MonoBehaviour
                 }
 
                 // If the player is the runner, render the minimap cell roof
-                if(CustomNetworkManager.isRunner == true){
+                if(CustomNetworkManager.IsRunner == true){
                     var cellRoof = Instantiate(roofPrefab, transform);
                     cellRoof.transform.SetParent(GameObject.Find("Minimap").transform, false);
                     cellRoof.GetComponent<RectTransform>().localScale    = new Vector2(cellSize * 1.1f, cellSize * 1.1f);

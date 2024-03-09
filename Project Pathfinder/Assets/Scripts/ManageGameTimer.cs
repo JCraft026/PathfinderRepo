@@ -15,7 +15,7 @@ public class ManageGameTimer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!CustomNetworkManager.hostIsFrozen || !CustomNetworkManager.isHost){
+        if(!CustomNetworkManager.HostIsFrozen || !CustomNetworkManager.IsHost){
             if(gameTimeLeft > 0){
                 minutes = Mathf.FloorToInt(gameTimeLeft / 60);
                 seconds = Mathf.FloorToInt(gameTimeLeft % 60);

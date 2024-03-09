@@ -38,7 +38,7 @@ public class ManageMiniMap : MonoBehaviour
         float cellSize = Utilities.GetMapCellSize(); // Minimap cell size
 
         // If the user is playing as the guard master, initialize guard mini map icons
-        if(CustomNetworkManager.isRunner == false){
+        if(CustomNetworkManager.IsRunner == false){
             // Initialize chaser minimap icon
             chaserIcon = Instantiate(chaserIconPrefab, transform);
             chaserIcon.transform.SetParent(GameObject.Find("Minimap").transform, false);
@@ -83,7 +83,7 @@ public class ManageMiniMap : MonoBehaviour
                cellRoofName;                  // GameObject name of the minimap cell roof cooresponding to the runner's position
         bool   runnerIconInitialized = false; // Reflects whether the positon of the runner's minimap icon has been initialized
 
-        if(CustomNetworkManager.playerRoleSet == true){
+        if(CustomNetworkManager.PlayerRoleSet == true){
 
             // Initialize minimap components
             if(componentsInitialized == false){
@@ -92,7 +92,7 @@ public class ManageMiniMap : MonoBehaviour
             }
 
             // If the player is playing as the guard master, update all character locations
-            if(CustomNetworkManager.isRunner == false){
+            if(CustomNetworkManager.IsRunner == false){
                 //Debug.Log("isRunner is false");
                 // Update the Chaser Icon's location on the minimap
                 newChaserCellLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.CHASER);
@@ -184,7 +184,7 @@ public class ManageMiniMap : MonoBehaviour
 
     // Start the coroutine to display the alert letting the guard master know that the runner has been detected
     public void ProcessTrapChestTriggeredAlert(){
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             StartCoroutine(DisplayTrapChestTriggeredAlert());
         }
     }

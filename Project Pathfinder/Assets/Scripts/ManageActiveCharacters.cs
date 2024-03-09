@@ -30,7 +30,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         // If the parent object is a guard, initialize its cooresponding guard ID and get the ID of the current active guard
         if(!runnerExpression.IsMatch(gameObject.name)){
             InitializeGuardIdentification();
-            activeGuardId = CustomNetworkManager.initialActiveGuardId;
+            activeGuardId = CustomNetworkManager.InitialActiveGuardId;
         }
     }
 
@@ -57,7 +57,7 @@ public class ManageActiveCharacters : NetworkBehaviour
     public void Update()
     {
         // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
-        if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner == false && !runnerExpression.IsMatch(gameObject.name)){
+        if(Input.GetKeyDown("space") && CustomNetworkManager.IsRunner == false && !runnerExpression.IsMatch(gameObject.name)){
             Debug.Log("attempted guard swap");
             if(activeGuardId >= 3){
                 nextActiveGuardId = 1;
@@ -83,7 +83,7 @@ public class ManageActiveCharacters : NetworkBehaviour
         cameraHolder.transform.position = transform.position + offset;
 
         // Enable UI Ability Icons
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             switch (activeGuardId)
             {
                 case ManageActiveCharactersConstants.CHASER:
@@ -104,7 +104,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             }
         }
 
-        if(CustomNetworkManager.isRunner == false && isLocalPlayer == true)
+        if(CustomNetworkManager.IsRunner == false && isLocalPlayer == true)
         {
             if(activeGuardId == guardId)
             {
@@ -115,7 +115,7 @@ public class ManageActiveCharacters : NetworkBehaviour
                 gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
             }
         }
-        else if(isLocalPlayer == false && CustomNetworkManager.isRunner == true && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+        else if(isLocalPlayer == false && CustomNetworkManager.IsRunner == true && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
         {
             gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
         }

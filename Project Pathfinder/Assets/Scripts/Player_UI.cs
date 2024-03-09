@@ -39,7 +39,7 @@ public class Player_UI : NetworkBehaviour
     }
 
     public override void OnStartClient(){
-        if(CustomNetworkManager.isRunner == false){
+        if(CustomNetworkManager.IsRunner == false){
             itemSlotContainer.gameObject.SetActive(false);
             keySlotContainer.gameObject.SetActive(false);
         }

@@ -21,7 +21,7 @@ public class Attack : NetworkBehaviour
     void Update()
     {
         // Trigger attack processing on both the runner and guard master side if the guard master hits the "E" key
-        if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && animator.GetBool("Attack Triggered") == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) || ((animator.GetBool("Attack Triggered") == true) && CustomNetworkManager.isRunner == true) && !(gameObject.GetComponent<ManageActiveCharacters>().activeGuardId == ManageActiveCharactersConstants.CHASER && animator.GetBool("Dashing"))){
+        if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && animator.GetBool("Attack Triggered") == false && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId) || ((animator.GetBool("Attack Triggered") == true) && CustomNetworkManager.IsRunner == true) && !(gameObject.GetComponent<ManageActiveCharacters>().activeGuardId == ManageActiveCharactersConstants.CHASER && animator.GetBool("Dashing"))){
             var runner = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner"));
             runnerPosition = runner.transform.position;
             guardPosition  = transform.position;
@@ -34,7 +34,7 @@ public class Attack : NetworkBehaviour
             // If the runner is within attack range, process guard master attack
             if(Utilities.GetDistanceBetweenObjects(guardPosition, runnerPosition) <= 2.3f){
                 // Assign camera shaker to the appropriate camera
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
                 }
                 else{
@@ -84,7 +84,7 @@ public class Attack : NetworkBehaviour
                     if(runner.GetComponent<ManageRunnerStats>().health <= 2){
                         HandleEvents.endGameEvent = HandleEventsConstants.RUNNER_CAPTURED;
                     }
-                    if(!CustomNetworkManager.isRunner){
+                    if(!CustomNetworkManager.IsRunner){
                         GameObject.Find("ItemAssets").GetComponent<CommandManager>().cmd_TakeAttackDamage();
                     }
                     damageTaken = true;
@@ -93,7 +93,7 @@ public class Attack : NetworkBehaviour
             }
 
             // Disable attack triggered status if the player is the runner to reset attack processing
-            if(CustomNetworkManager.isRunner){
+            if(CustomNetworkManager.IsRunner){
                 animator.SetBool("Attack Triggered", false);
             }
         }

@@ -7,7 +7,7 @@ public class CurrentLoginDisplayText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string username = CustomNetworkManager.currentLogin.username;
+        string username = CustomNetworkManager.CurrentLogin.username;
         GetComponent<TMPro.TMP_Text>().text = "Currently logged in as " + username +
             ".\nNot you? Login here!";
     }

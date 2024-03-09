@@ -25,7 +25,7 @@ public class HandleLayers : MonoBehaviour
         UpdateActiveCharacterLocation();
 
         // Update the elevation rank of each character
-        if(CustomNetworkManager.clientJoined || !CustomNetworkManager.isHost){
+        if(CustomNetworkManager.ClientJoined || !CustomNetworkManager.IsHost){
             UpdateCharacterElevationOrder();
         }
     }
@@ -33,7 +33,7 @@ public class HandleLayers : MonoBehaviour
     // Update the scene location of the character the player is controlling
     public void UpdateActiveCharacterLocation(){
 
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             activeCharacterLocation = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).transform.position;
             activeCharacterLocation.y -= 0.5f;
         }
@@ -71,7 +71,7 @@ public class HandleLayers : MonoBehaviour
         engineerCellRow = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER)[1];
         trapperCellRow  = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.TRAPPER)[1];
 
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             activeCharacterCellRow = runnerCellRow;
         }
         else{

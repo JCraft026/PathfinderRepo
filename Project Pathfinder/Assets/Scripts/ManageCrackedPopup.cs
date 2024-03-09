@@ -27,7 +27,7 @@ public class ManageCrackedPopup : MonoBehaviour
                                                                                             // Position of the runner game object
         
         // If the runner is close to a cracked wall and is holding the sledgehammer, didplay the popup
-        if(CustomNetworkManager.isRunner && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, runnerPosition) <= 2f && playerUi.activeSelectedItem == Item.ItemType.Sledge){
+        if(CustomNetworkManager.IsRunner && Utilities.GetDistanceBetweenObjects(gameObject.transform.position, runnerPosition) <= 2f && playerUi.activeSelectedItem == Item.ItemType.Sledge){
             if(lrWallExpression.IsMatch(gameObject.name)){
                 if(runnerPosition.x > gameObject.transform.position.x){
                     popUpLeft.SetActive(true);

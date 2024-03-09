@@ -52,7 +52,7 @@ public class GeneratorController : NetworkBehaviour
         healthBarXScale = healthBar.transform.localScale.x;
 
         // Communicate to the CNM that at least ONE steam generator is spawned
-        CustomNetworkManager.steamGeneratorsSpawned = true;
+        CustomNetworkManager.SteamGeneratorsSpawned = true;
     }
 
     void Update(){
@@ -90,7 +90,7 @@ public class GeneratorController : NetworkBehaviour
                 }
 
                 // Repair 1 generator hp
-                if(!CustomNetworkManager.isRunner){
+                if(!CustomNetworkManager.IsRunner){
                     healthPoints++;
                 }
 
@@ -120,7 +120,7 @@ public class GeneratorController : NetworkBehaviour
         }
 
         // Display the break popup
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             if(gameObject.GetComponent<Animator>().GetBool("IsBusted") == false && playerUi.activeSelectedItem == Item.ItemType.Sledge && Utilities.GetDistanceBetweenObjects(new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y -1.7f), runner.transform.position) < 2.5f){
                 breakPopup.SetActive(true);
                 healthBar.SetActive(true);

@@ -27,7 +27,7 @@ public class ServerBrowserBackend : MonoBehaviour
     public void StartHosting()
     {
         discoveredServers.Clear(); // We might as well wipe out the old servers that we won't need anymore once we start hosting
-        CustomNetworkManager.isHost = true; // Set the network manager to run in host mode
+        CustomNetworkManager.IsHost = true; // Set the network manager to run in host mode
 
         // This needs to run within a coroutine as it is a thread safe version of "async" for unity
         StartCoroutine(LoadMazeSceneAsync(true));
@@ -69,12 +69,12 @@ public class ServerBrowserBackend : MonoBehaviour
         Debug.Log("Active Scene: " + SceneManager.GetActiveScene().name);
 
         // Set the networkManager's maze renderer
-        networkManagerObject.mazeRenderer = null; //Used to ensure that the mazeRenderer from an old session is not still being referenced
-        while(networkManagerObject.mazeRenderer == null)
+        networkManagerObject.MazeRenderer = null; //Used to ensure that the mazeRenderer from an old session is not still being referenced
+        while(networkManagerObject.MazeRenderer == null)
         {
             yield return null;
             try{
-                networkManagerObject.mazeRenderer = GetMazeRenderer();
+                networkManagerObject.MazeRenderer = GetMazeRenderer();
             }
             catch{
                 Debug.LogWarning("ServerBrowserBackend: Failed to get MazeRenderer - attempting again next frame");
@@ -90,7 +90,7 @@ public class ServerBrowserBackend : MonoBehaviour
         }
 
         // Activate the steam bar if we are playing as the guard
-        if(CustomNetworkManager.isRunner == false)
+        if(CustomNetworkManager.IsRunner == false)
         {
             GameObject.FindObjectsOfType<GameObject>(true).FirstOrDefault(obj => obj.name.Contains("SteamBar")).SetActive(true);
         }
@@ -149,7 +149,7 @@ public class ServerBrowserBackend : MonoBehaviour
             yield return null;
             Debug.Log("Still in lobby scene...");
         }
-        CusNetMan.mazeRenderer = SceneManager.GetActiveScene()
+        CusNetMan.MazeRenderer = SceneManager.GetActiveScene()
                                      .GetRootGameObjects()
                                      .Select(x => 
                                          {
@@ -188,9 +188,9 @@ public class ServerBrowserBackend : MonoBehaviour
     public void JoinServer(ServerResponse serverInfo, CustomNetworkManager networkManager, bool isHostRunnerFromHost)
     {
         // Tell the network manager to run in client mode and figure out what team we are on
-        CustomNetworkManager.isHost = false;
+        CustomNetworkManager.IsHost = false;
         networkManager.hostIsRunner = isHostRunnerFromHost;
-        CustomNetworkManager.isRunner = !isHostRunnerFromHost;
+        CustomNetworkManager.IsRunner = !isHostRunnerFromHost;
 
         // Stop searching for new servers
         networkDiscovery.StopDiscovery();

@@ -25,7 +25,7 @@ public class DisplayRunnerImpact : StateMachineBehaviour
         frameCount += 1; // Amount of frames passed
 
         // Display runner throwback force from guard master attack
-        if(frameCount <= 4 && CustomNetworkManager.isRunner){
+        if(frameCount <= 4 && CustomNetworkManager.IsRunner){
             switch (animator.GetFloat("Impact Direction"))
             {
                 case MoveCharacterConstants.FORWARD:

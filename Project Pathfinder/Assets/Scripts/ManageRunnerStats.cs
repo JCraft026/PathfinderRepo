@@ -21,7 +21,7 @@ public class ManageRunnerStats : MonoBehaviour
     void Start()
     {
         // Spawn UI hearts
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             heart1 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1"));
             heart2 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2"));
             heart3 = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3"));
@@ -51,7 +51,7 @@ public class ManageRunnerStats : MonoBehaviour
         }
 
         // Trigger unlock exit attempt
-        if(Input.GetKeyDown("space") && CustomNetworkManager.isRunner){
+        if(Input.GetKeyDown("space") && CustomNetworkManager.IsRunner){
             animator.SetBool("Unlock Attempted", true);
         }
     }
@@ -64,7 +64,7 @@ public class ManageRunnerStats : MonoBehaviour
         switch (health)
         {
             case 5:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).GetComponent<Image>().sprite = halfHeart;
                 }
                 else{
@@ -72,7 +72,7 @@ public class ManageRunnerStats : MonoBehaviour
                 }
                 break;
             case 4:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
                 }
                 else{
@@ -80,7 +80,7 @@ public class ManageRunnerStats : MonoBehaviour
                 }
                 break;
             case 3:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).GetComponent<Image>().sprite = halfHeart;
                 }
@@ -90,7 +90,7 @@ public class ManageRunnerStats : MonoBehaviour
                 }
                 break;
             case 2:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
                 }
@@ -100,7 +100,7 @@ public class ManageRunnerStats : MonoBehaviour
                 }
                 break;
             case 1:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).GetComponent<Image>().sprite = halfHeart;
@@ -112,7 +112,7 @@ public class ManageRunnerStats : MonoBehaviour
                 }
                 break;
             case 0:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart3")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart2")).SetActive(false);
                     Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Heart1")).SetActive(false);

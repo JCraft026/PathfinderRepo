@@ -35,7 +35,7 @@ public class ChestTrap : NetworkBehaviour
                 chestAnimator.SetBool("Exploding", true);
 
                 // Shake the cooresponding camera of the active character
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
                     StartCoroutine(cameraShake.Shake(.15f, .7f));
                 }

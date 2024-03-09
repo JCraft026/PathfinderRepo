@@ -113,13 +113,13 @@ public class Profile : MonoBehaviour
         usernameInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
         passwordInputBox.GetComponent<TMPro.TMP_InputField>().text = "";
         
-        if (CustomNetworkManager.currentLogin.username == GUEST_USERNAME)
+        if (CustomNetworkManager.CurrentLogin.username == GUEST_USERNAME)
         {
             WriteMessageToUser("You cannot log out of a guest account.");
         }
         else
         {
-            CustomNetworkManager.currentLogin = new PlayerProfile();
+            CustomNetworkManager.CurrentLogin = new PlayerProfile();
             WriteMessageToUser("You have been logged out.");
         }
         
@@ -169,7 +169,7 @@ public class Profile : MonoBehaviour
     }
     
     public string PlayerNewUnlock() { //PlayerProfile playerProfile) {
-        PlayerProfile playerProfile = CustomNetworkManager.currentLogin;
+        PlayerProfile playerProfile = CustomNetworkManager.CurrentLogin;
         string reward = null;
         int rewardType = UnityEngine.Random.Range(0,2);
         if (rewardType == 0 && (playerProfile.titles.Count < titles.Length))
@@ -252,12 +252,12 @@ public class Profile : MonoBehaviour
         // > Save the newly registered profile as a new file.
         // > Keeps the data from the Guest account.
         PlayerProfile newProfile;
-        if (CustomNetworkManager.currentLogin.username != GUEST_USERNAME) {
+        if (CustomNetworkManager.CurrentLogin.username != GUEST_USERNAME) {
             newProfile = new PlayerProfile();
         } else {
-            CustomNetworkManager.currentLogin.username = username;
-            CustomNetworkManager.currentLogin.password = password;
-            newProfile = CustomNetworkManager.currentLogin;
+            CustomNetworkManager.CurrentLogin.username = username;
+            CustomNetworkManager.CurrentLogin.password = password;
+            newProfile = CustomNetworkManager.CurrentLogin;
         }
         SaveEncodedProfile(newProfile);
         WriteMessageToUser("The profile '" + username + "' has been saved!");
@@ -280,7 +280,7 @@ public class Profile : MonoBehaviour
             //Debug.Log("PASSWORD != PASSWORD");
             return false;
         }
-        CustomNetworkManager.currentLogin = profile;
+        CustomNetworkManager.CurrentLogin = profile;
         return true;
     }
     
@@ -307,7 +307,7 @@ public class Profile : MonoBehaviour
     
     // Gets the profile of the currently logged in user.
     public PlayerProfile GetCurrentLogin() {
-        return CustomNetworkManager.currentLogin;
+        return CustomNetworkManager.CurrentLogin;
     }
     
     public void WriteMessageToUser(string message) {
@@ -401,7 +401,7 @@ public class Profile : MonoBehaviour
     
     // Adds the adjectives and titles to the server name selection windows.
     public void AddNamesToDropdownMenus() {
-        PlayerProfile currentProfile = CustomNetworkManager.currentLogin;
+        PlayerProfile currentProfile = CustomNetworkManager.CurrentLogin;
         
         GameObject dropdownAdjective1 = GameObject.Find("Dropdown (3)");
         GameObject dropdownAdjective2 = GameObject.Find("Dropdown (1)");

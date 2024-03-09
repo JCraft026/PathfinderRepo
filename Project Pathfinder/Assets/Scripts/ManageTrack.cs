@@ -13,7 +13,7 @@ public class ManageTrack : MonoBehaviour
     }
 
     void Update(){
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             if(Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")).GetComponent<ManageActiveCharacters>().activeGuardId != ManageActiveCharactersConstants.TRAPPER || Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")).GetComponent<MoveCharacter>().isDisabled){
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }

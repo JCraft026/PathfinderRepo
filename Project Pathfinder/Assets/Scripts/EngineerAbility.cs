@@ -23,7 +23,7 @@ public class EngineerAbility : GuardAbilityBase
 
         // Get parsed maze data from CustomNetworkManager
         customNetworkManager = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>();
-        if(customNetworkManager.parsedMazeJson == null){
+        if(customNetworkManager.ParsedMazeJson == null){
             Debug.LogError("Parsed Maze Data is null");
         }
     }
@@ -37,12 +37,12 @@ public class EngineerAbility : GuardAbilityBase
             engineerLocation = Utilities.GetCharacterCellLocation(ManageActiveCharactersConstants.ENGINEER);
 
             // Test for null maze Data
-            if (customNetworkManager.parsedMazeJson == null)
+            if (customNetworkManager.ParsedMazeJson == null)
                 Debug.LogError("Parsed Maze Data is null");
             
 
             // Find the engineer's current cell (add 6 to each coordinate to match the orignal 2D array)
-            currentCell = customNetworkManager.parsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
+            currentCell = customNetworkManager.ParsedMazeJson[engineerLocation[0] + 6, engineerLocation[1] + 6];
             Debug.Log(currentCell);
 
             // Assign the barricade location to the engineer as default

@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Mirror.Discovery;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 /*
     *This class is used to grab references to network components when a gameobject does not have a way to access said component

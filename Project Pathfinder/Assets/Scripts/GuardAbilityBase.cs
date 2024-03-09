@@ -9,7 +9,7 @@ public abstract class GuardAbilityBase : NetworkBehaviour
     public bool AbilityClicked { get; set; } = false; protected bool ShouldDoAbility
     { 
         get =>
-        ((Input.GetKeyDown("k") || AbilityClicked) && !CustomNetworkManager.isRunner 
+        ((Input.GetKeyDown("k") || AbilityClicked) && !CustomNetworkManager.IsRunner 
         && gameObject.GetComponent<ManageActiveCharacters>().guardId == gameObject.GetComponent<ManageActiveCharacters>().activeGuardId);
     }
 

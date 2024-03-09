@@ -26,7 +26,7 @@ public class HandleEvents : MonoBehaviour
         switch (currentEvent)
         {
             case HandleEventsConstants.RUNNER_WINS:
-                if(CustomNetworkManager.isRunner){
+                if(CustomNetworkManager.IsRunner){
                     SceneManager.LoadScene("Player Wins");
                 }
                 else{
@@ -40,7 +40,7 @@ public class HandleEvents : MonoBehaviour
                 currentEvent = HandleEventsConstants.NONE;
                 break;
             case HandleEventsConstants.GUARDMASTER_WINS:
-                if(!CustomNetworkManager.isRunner){
+                if(!CustomNetworkManager.IsRunner){
                     SceneManager.LoadScene("Player Wins");
                 }
                 else{
@@ -56,7 +56,7 @@ public class HandleEvents : MonoBehaviour
         }
 
         // Disable start screen for client
-        if(!CustomNetworkManager.isHost){
+        if(!CustomNetworkManager.IsHost){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
         }

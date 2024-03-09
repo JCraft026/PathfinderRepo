@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -76,12 +74,12 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
             playersInGame = NetworkManager.singleton.numPlayers,
-            isHostRunner = networkManagerDao.GetCustomNetworkManager().IsHostRunner()
+            isHostRunner = networkManagerDao.GetCustomNetworkManager().IsHostRunner
             // The available team is changed below
         };
 
         // Determine which team is available and advertise accordingly
-        if(networkManagerDao.GetCustomNetworkManager().IsHostRunner())
+        if(networkManagerDao.GetCustomNetworkManager().IsHostRunner)
         {
             response.teamAvailable = "Guards";
         }

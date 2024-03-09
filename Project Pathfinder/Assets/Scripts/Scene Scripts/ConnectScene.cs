@@ -33,12 +33,12 @@ public class ConnectScene : MonoBehaviour
         GameObject dropdownTitle      = GameObject.Find("Dropdown (2)");
         
         List<string> options_adjectives = new List<string>();
-        foreach (KeyValuePair<string,bool> adj in CustomNetworkManager.currentLogin.adjectives) {
+        foreach (KeyValuePair<string,bool> adj in CustomNetworkManager.CurrentLogin.adjectives) {
             if (adj.Value == true)
                 options_adjectives.Add(adj.Key);
         }
         List<string> options_titles = new List<string>();
-        foreach (KeyValuePair<string,bool> adj in CustomNetworkManager.currentLogin.titles) {
+        foreach (KeyValuePair<string,bool> adj in CustomNetworkManager.CurrentLogin.titles) {
             if (adj.Value == true)
                 options_titles.Add(adj.Key);
         }

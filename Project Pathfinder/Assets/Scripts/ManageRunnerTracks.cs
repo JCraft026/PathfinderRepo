@@ -20,7 +20,7 @@ public class ManageRunnerTracks : MonoBehaviour
     {
         if(Time.time > nextSpawnTime){
             nextSpawnTime += waitTime;
-            if(!CustomNetworkManager.isRunner){
+            if(!CustomNetworkManager.IsRunner){
                 var track      = Instantiate(runnerTrack, transform) as Transform;
                 track.transform.SetParent(GameObject.Find("MazeRenderer").transform, false);
                 track.position = gameObject.transform.position + new Vector3(0, -0.5f, 0);

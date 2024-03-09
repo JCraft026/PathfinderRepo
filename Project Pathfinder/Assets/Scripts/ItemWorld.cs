@@ -146,7 +146,7 @@ public class ItemWorld : NetworkBehaviour
     // Spawn a specified amount of chests throughout the maze
     public static void SpawnChests(int numberToSpawn)
     {
-        WallStatus[,] mazeData      = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+        WallStatus[,] mazeData      = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson;
                                                         // WallStatus data for each cell in the maze
         List<MazeCellIndex> cellIndexList = CreateMazeCellIndexList(mazeData.GetLength(0), mazeData.GetLength(1));
                                                         // List of structs containing the WallStatus indexes for each of the cells
@@ -213,7 +213,7 @@ public class ItemWorld : NetworkBehaviour
     // Spawn all four keys in random locations throughout the maze
     public static void SpawnKeys()
     {
-        WallStatus[,] mazeData      = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+        WallStatus[,] mazeData      = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson;
                                                         // WallStatus data for each cell in the maze
         List<MazeCellIndex> cellIndexList = CreateMazeCellIndexList((int)Utilities.GetMazeWidth(), (int)Utilities.GetMazeHeight());
                                                         // List of structs containing the WallStatus indexes for each of the cells

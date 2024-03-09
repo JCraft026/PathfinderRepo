@@ -45,16 +45,16 @@ public class BarricadeController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             // Tool tip for trapper
             if(Utilities.GetDistanceBetweenObjects(trapper.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, trapper.transform.position);
                 trapperTooltip = true;
-                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
-            else if(trapperTooltip && CustomNetworkManager.isRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId){
+            else if(trapperTooltip && CustomNetworkManager.IsRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId){
                 disableTooltip(gameObject.transform.position, trapper.transform.position);
                 trapperTooltip = false;
             }
@@ -62,11 +62,11 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(engineer.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, engineer.transform.position);
                 engineerTooltip = true;
-                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
-            else if(engineerTooltip && CustomNetworkManager.isRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId){
+            else if(engineerTooltip && CustomNetworkManager.IsRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId){
                 disableTooltip(gameObject.transform.position, engineer.transform.position);
                 engineerTooltip = false;
             }
@@ -74,11 +74,11 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(chaser.transform.position, gameObject.transform.position) < 2.5){
                 enableTooltip(gameObject.transform.position, chaser.transform.position);
                 chaserTooltip = true;
-                if((Input.GetKeyDown("j") && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
+                if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
                     destroyBarricade();
                 }
             }
-            else if(chaserTooltip && CustomNetworkManager.isRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId){
+            else if(chaserTooltip && CustomNetworkManager.IsRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId){
                 disableTooltip(gameObject.transform.position, chaser.transform.position);
                 chaserTooltip = false;
             }
@@ -88,7 +88,7 @@ public class BarricadeController : NetworkBehaviour
             if(Utilities.GetDistanceBetweenObjects(runner.transform.position, gameObject.transform.position) < 2.5 && playerUi.activeSelectedItem == Item.ItemType.Sledge){
                 enableTooltip(gameObject.transform.position, runner.transform.position);
                 runnerTooltip = true;
-                if(Input.GetKeyDown("j") && CustomNetworkManager.isRunner == true && runner.GetComponent<MoveCharacter>().canMove == true){
+                if(Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == true && runner.GetComponent<MoveCharacter>().canMove == true){
                     hitCount += 1;
                     runner.GetComponent<Animator>().SetBool("SwingHammer", true);
                     decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
@@ -98,7 +98,7 @@ public class BarricadeController : NetworkBehaviour
                     }
                 }
             }
-            else if(runnerTooltip && CustomNetworkManager.isRunner == true){
+            else if(runnerTooltip && CustomNetworkManager.IsRunner == true){
                 disableTooltip(gameObject.transform.position, runner.transform.position);
                 runnerTooltip = false;
             }
@@ -115,21 +115,21 @@ public class BarricadeController : NetworkBehaviour
     void enableTooltip(Vector3 barricadePosition, Vector3 characterPosition){
         if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
             if(barricadePosition.y < characterPosition.y){
-                if(CustomNetworkManager.isRunner && hitCount < 3){
+                if(CustomNetworkManager.IsRunner && hitCount < 3){
                     healthBottom.SetActive(true);
                 }
                 transform.GetChild(1).gameObject.SetActive(true);
             }
             else{
                 transform.GetChild(0).gameObject.SetActive(true);
-                if(CustomNetworkManager.isRunner && hitCount < 3){
+                if(CustomNetworkManager.IsRunner && hitCount < 3){
                     healthTop.SetActive(true);
                 }
             }
         }
         else{
             transform.GetChild(0).gameObject.SetActive(true);
-            if(CustomNetworkManager.isRunner && hitCount < 3){
+            if(CustomNetworkManager.IsRunner && hitCount < 3){
                     healthTop.SetActive(true);
                 }
         }
@@ -140,14 +140,14 @@ public class BarricadeController : NetworkBehaviour
         if(horizontalBarricadeExpression.IsMatch(gameObject.name)){
             transform.GetChild(0).gameObject.SetActive(false);
             transform.GetChild(1).gameObject.SetActive(false);
-            if(CustomNetworkManager.isRunner){
+            if(CustomNetworkManager.IsRunner){
                 healthTop.SetActive(false);
                 healthBottom.SetActive(false);
             }
         }
         else{
             transform.GetChild(0).gameObject.SetActive(false);
-            if(CustomNetworkManager.isRunner){
+            if(CustomNetworkManager.IsRunner){
                 healthTop.SetActive(false);
             }
         }

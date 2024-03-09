@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Linq;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.SceneManagement;
-using static Profile;
 
 /*
     *This class is responsible for all general networking that is not specifically covered by any other class
@@ -15,47 +13,45 @@ public class CustomNetworkManager : NetworkManager
 {
     #region Global Variables
     // Global Variables
-    public static System.Random randomNum  = new System.Random();
+    public static System.Random RandomNum  = new System.Random();
                                             // Random number generator
-    public static int initialActiveGuardId = ManageActiveCharactersConstants.CHASER;
+    public static int InitialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                                             // Guard ID of the initial active guard
-    public static bool playerRoleSet       = false;
+    public static bool PlayerRoleSet       = false;
                                             // Status of player role being assigned
-    public static bool isRunner            = false;               
+    public static bool IsRunner            = false;               
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
-    public static bool isHost;              // Each player will have this variable, it is set when you decide to join or jost a game
+    public static bool IsHost;              // Each player will have this variable, it is set when you decide to join or jost a game
     
-    public static PlayerProfile currentLogin = new PlayerProfile();
-
-    public ItemWorld itemWorld;            // I don't know what this is or why it's here (-Caleb)
+    public static PlayerProfile CurrentLogin = new PlayerProfile();
 
     [SerializeField]
-    public ServerBrowserBackend backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
+    public ServerBrowserBackend Backend;    // References the ServerBrowserBackend, this is required when we join from the server browser
 
     [SerializeField]
-    public RenderMaze mazeRenderer;         // Enables us to render the maze
-    public WallStatus[,] parsedMazeJson;
-    public string mazeDataJson = null;
-    public static bool steamGeneratorsSpawned = false;
+    public RenderMaze MazeRenderer;         // Enables us to render the maze
+    public WallStatus[,] ParsedMazeJson;
+    public string MazeDataJson = null;
+    public static bool SteamGeneratorsSpawned = false;
                                              // Status of steam generators being spawned in the scene
-    public static bool hostIsFrozen = true; // Status of host movement being frozen
-    public static bool clientJoined = false; // Status of client joining game
+    public static bool HostIsFrozen = true; // Status of host movement being frozen
+    public static bool ClientJoined = false; // Status of client joining game
 
     public RenderMaze GetMazeRendererSafely() 
     {
-        if(mazeRenderer == null)
+        if(MazeRenderer == null)
         {
-            mazeRenderer = backend.GetMazeRenderer();
-            return mazeRenderer;
+            MazeRenderer = Backend.GetMazeRenderer();
+            return MazeRenderer;
         }
         else
-            return mazeRenderer;
+            return MazeRenderer;
     }
 
     [SerializeField]
     public bool hostIsRunner;               // Used to determine if the host is the runner or not
 
-    public bool IsHostRunner() {return hostIsRunner;}
+    public bool IsHostRunner { get => hostIsRunner; }
                                             // Required for CustomNetworkDiscovery to advertise which team the client will join as
     #endregion
 
@@ -66,25 +62,25 @@ public class CustomNetworkManager : NetworkManager
         base.OnStartClient();
         
         // Set who the runner is
-        if(hostIsRunner && isHost)
+        if(hostIsRunner && IsHost)
         {
             Debug.Log("isRunner=true");
-            isRunner = true;
+            IsRunner = true;
         }
-        else if(!hostIsRunner && isHost)
+        else if(!hostIsRunner && IsHost)
         {
             Debug.Log("isRunner=false");
-            isRunner = false;
+            IsRunner = false;
         }
-        else if(hostIsRunner && !isHost)
+        else if(hostIsRunner && !IsHost)
         {
             Debug.Log("isRunner=false");
-            isRunner = false;
+            IsRunner = false;
         }
-        else if(!hostIsRunner && !isHost)
+        else if(!hostIsRunner && !IsHost)
         {
             Debug.Log("isRunner=true");
-            isRunner = true;
+            IsRunner = true;
         }
 
         // Find the maze renderer and create the maze (if we are the host) (Might be a good idea to move this ServerBrowserBackend.LoadMazeAsync())
@@ -96,7 +92,7 @@ public class CustomNetworkManager : NetworkManager
         }
 
         // Reflect that the runner/guard master status has been set
-        playerRoleSet = true;
+        PlayerRoleSet = true;
 
         // Stop the menu music
         //GetComponent<AudioSource>().Stop();
@@ -114,7 +110,7 @@ public class CustomNetworkManager : NetworkManager
     public void ReceiveMazeData(MazeMessage mazeText)
     {
         // Save the mazeText in case we need to regenerate the maze
-        mazeDataJson = mazeText.jsonMaze;
+        MazeDataJson = mazeText.jsonMaze;
 
         // Don't run this code if the server is also a client as it will cause the maze to double render
         if(!NetworkClient.isHostClient)
@@ -126,22 +122,19 @@ public class CustomNetworkManager : NetworkManager
                 else
                 {
                     // The mazeRenderer will probably be null for the incoming client so we'll need to locate it when we join a server
-                    if(mazeRenderer == null)
+                    if(MazeRenderer == null)
                     {
-                        mazeRenderer = backend.GetMazeRenderer(); // MazeRenderer not loading problem is here - its searching the lobby scene
-                      
-                        if(mazeRenderer == null)
-                        {
+                        MazeRenderer = Backend.GetMazeRenderer(); // MazeRenderer not loading problem is here - its searching the lobby scene
+                        if(MazeRenderer == null)
                             throw(new Exception("CustomNetworkManager: mazeRenderer is still null"));
-                        }
                     }
 
                     // Clean the old map and render the new map
                     WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeText.jsonMaze); //If mazeText.jsonMaze == null major issues occur
-                    parsedMazeJson = newMaze;
-                    mazeRenderer.CleanMap();
-                    mazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
-                    mazeRenderer.Render(newMaze);
+                    ParsedMazeJson = newMaze;
+                    MazeRenderer.CleanMap();
+                    MazeRenderer.SetMazeDataJson(mazeText.jsonMaze);
+                    MazeRenderer.Render(newMaze);
                 }
             }
             // Any exceptions regarding
@@ -149,9 +142,9 @@ public class CustomNetworkManager : NetworkManager
             {
                 Debug.LogError("There was a problem decoding and/or rendering mazeText.jsonMaze resulting in the exception: " + e.Message);
 
-                // If we are not hosting, find the maze generator asyncrhonously and generate the maze
+                // If we are not hosting, find the maze generator and generate the maze
                 if(mazeText.jsonMaze != null)
-                    StartCoroutine(backend.GetMazeRendererAsync());
+                    StartCoroutine(Backend.GetMazeRendererAsync());
             }
         }
     }
@@ -160,10 +153,10 @@ public class CustomNetworkManager : NetworkManager
     public void OnMazeRendererAsyncComplete()
     {
         Debug.Log("GetMazeRendererAsync completed");
-        WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
-        parsedMazeJson = newMaze;
-        mazeRenderer.CleanMap();
-        mazeRenderer.Render(newMaze);
+        WallStatus[,] newMaze = JsonConvert.DeserializeObject<WallStatus[,]>(MazeDataJson);
+        ParsedMazeJson = newMaze;
+        MazeRenderer.CleanMap();
+        MazeRenderer.Render(newMaze);
     }
 
     // Shuts down the client and the host
@@ -172,27 +165,8 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientDisconnect();
         StopHost();
         Debug.Log("OnClientDisconnect");
-        //mazeRenderer = null; // reset the maze renderer
-        //GenerateSteam.steam = 0;
-
-        // Reset the end game events
-        //GetComponent<AudioSource>().Play();
-        //HandleEvents.currentEvent = 0;
-        //HandleEvents.endGameEvent = 0;
         ResetVariables();
-        // Reset chest RNG variables
-        Item.greenScreenSpawnLimit  = Item.initialGSSpawnLimit;
-        Item.smokeBombSpawnLimit    = Item.initialSBSpawnLimit;
-        Item.coffeeSpawnLimit       = Item.initialCFSpawnLimit;
-        Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
-        Item.empSpawnLimit          = Item.initialEMPSpawnLimit;
-
-        // Utilities
-        Utilities.ClearObjectLibrary();
-        Utilities.runner = null;
-        Utilities.chaser = null;
-        Utilities.engineer = null;
-        Utilities.trapper = null;
+        ResetClientVariables();
     }
 
     #endregion
@@ -207,8 +181,6 @@ public class CustomNetworkManager : NetworkManager
         this.gameObject.GetComponent<CustomNetworkDiscovery>().StopDiscovery();
         SceneManager.LoadScene(offlineScene);
         Debug.Log("OnServerDisconnect");
-        //mazeRenderer = null; // Reset the maze renderer
-        //RenderSmokeScreen.smokeScreensSpawned = 0;
         ResetVariables();
     }
 
@@ -220,18 +192,19 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerConnect(conn);
         try
         {
-            if(mazeRenderer == null)
+            if(MazeRenderer == null)
                 Debug.Log("CustomNetworkManager OnserverConnect(): mazeRenderer was null");
-            MazeMessage mazeMessage;
-            
-            mazeMessage.jsonMaze = mazeRenderer.GiveMazeDataToNetworkManager();
+
+            MazeMessage mazeMessage = new()
+            {
+                jsonMaze = MazeRenderer.GiveMazeDataToNetworkManager() 
+            };
 
             if(mazeMessage.jsonMaze != null)
                 conn.Send(mazeMessage);
             else
-            {
                 Debug.Log("CustomNetworkManager OnServerConnect(): mazeMessage.jsonMaze == null, mazeMessage not being sent to client");
-            }
+            
         }
         catch(Exception e)
         {
@@ -280,26 +253,25 @@ public class CustomNetworkManager : NetworkManager
             ItemWorld.SpawnChests(27);
             ItemWorld.SpawnKeys();
             RenderMaze.RenderSteamGenerators();
-            steamGeneratorsSpawned = true;
-            clientJoined = true;
+            SteamGeneratorsSpawned = true;
+            ClientJoined = true;
         }
         
         // Make the player wait to move until a client joins the game
-        if(isHost)
-        {
+        if(IsHost)
             StartCoroutine(HostWaitForPlayer(conn));
-        }
+        
     }
 
-    IEnumerator AsyncDestroy(GameObject oldPlayer, NetworkConnectionToClient conn)
-    {
-        while(conn.isReady == false)
-        {
-            Debug.Log("CNM: Waiting to destroy old player object");
-            yield return null;
-        }
-        Destroy(oldPlayer);
-    }
+    //IEnumerator AsyncDestroy(GameObject oldPlayer, NetworkConnectionToClient conn)
+    //{
+    //    while(conn.isReady == false)
+    //    {
+    //        Debug.Log("CNM: Waiting to destroy old player object");
+    //        yield return null;
+    //    }
+    //    Destroy(oldPlayer);
+    //}
 
     public override void OnStopHost()
     {
@@ -340,13 +312,10 @@ public class CustomNetworkManager : NetworkManager
 
         // Switch guard control from the old guards object to the next guard's object
         if(newGuardObject != null)
-        {
             NetworkServer.ReplacePlayerForConnection(conn, newGuardObject, true);
-        }
+        
         else
-        {
             Debug.LogWarning("CustomNetworkManager ChangeActiveGuard(): Could not find a new guard to switch to!");
-        }
     }
 
     // Position each guard object at a determined spawn location
@@ -372,7 +341,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Chaser spawn position
         while(chaserSet == false){
-            switch (randomNum.Next(1,4))
+            switch (RandomNum.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){
@@ -407,7 +376,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Engineer spawn position
         while(engineerSet == false){
-            switch (randomNum.Next(1,4))
+            switch (RandomNum.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){
@@ -442,7 +411,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Trapper spawn position
         while(trapperSet == false){
-            switch (randomNum.Next(1,4))
+            switch (RandomNum.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){
@@ -488,7 +457,7 @@ public class CustomNetworkManager : NetworkManager
         Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(false);
 
         // Disable movement for the player
-        if(isRunner)
+        if(IsRunner)
             hostObject.GetComponent<MoveCharacter>().enabled = false;
         else
         {
@@ -502,7 +471,8 @@ public class CustomNetworkManager : NetworkManager
         }
         
         // Display waiting popup for host
-        if(NetworkServer.connections.Count <= 1){
+        if(NetworkServer.connections.Count <= 1)
+        {
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(true);
             popupDisplayed = true;
             Debug.Log("Popup Displayed");
@@ -515,7 +485,7 @@ public class CustomNetworkManager : NetworkManager
         }
         
         // Enable player movement
-        if(isRunner)
+        if(IsRunner)
             hostObject.GetComponent<MoveCharacter>().enabled = true;
         else
         {
@@ -530,7 +500,8 @@ public class CustomNetworkManager : NetworkManager
 
         Debug.Log("CustomNetworkManager HostWaitForPlayer(): Player movment is now re-enabled");
 
-        if(popupDisplayed){
+        if(popupDisplayed)
+        {
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("WaitingForOpponent")).SetActive(false);
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("OpponentJoined")).SetActive(true);
             yield return new WaitForSeconds(2);
@@ -538,7 +509,7 @@ public class CustomNetworkManager : NetworkManager
             Debug.Log("Popup Removed");
         }
         
-        hostIsFrozen = false;
+        HostIsFrozen = false;
 
         yield return null;
     }
@@ -546,19 +517,36 @@ public class CustomNetworkManager : NetworkManager
     public void ResetVariables()
     {
         // Static variables
-        steamGeneratorsSpawned = false;
-        playerRoleSet = false;
-        clientJoined = false;
-        hostIsFrozen = true;
+        SteamGeneratorsSpawned = false;
+        PlayerRoleSet = false;
+        ClientJoined = false;
+        HostIsFrozen = true;
 
         // Non-statics
-        mazeRenderer = null;
+        MazeRenderer = null;
 
         //GenerateSteam
         GenerateSteam.steam = 0;
 
         //RenderSmokeScreen
         RenderSmokeScreen.smokeScreensSpawned = 0;
+    }
+
+    public void ResetClientVariables()
+    {
+        // Reset chest RNG variables
+        Item.greenScreenSpawnLimit = Item.initialGSSpawnLimit;
+        Item.smokeBombSpawnLimit = Item.initialSBSpawnLimit;
+        Item.coffeeSpawnLimit = Item.initialCFSpawnLimit;
+        Item.sledgehammerSpawnLimit = Item.initialSHSpawnLimit;
+        Item.empSpawnLimit = Item.initialEMPSpawnLimit;
+
+        // Utilities
+        Utilities.ClearObjectLibrary();
+        Utilities.runner = null;
+        Utilities.chaser = null;
+        Utilities.engineer = null;
+        Utilities.trapper = null;
     }
    
     // Originally was supposed to handle animations but it needs to be empty for some reason

@@ -158,7 +158,7 @@ public class PauseGame : NetworkBehaviour
     // Show the How To Play screen to the player
     public void ShowHowToPlay(){
         ClosePauseCanvas();
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play")).SetActive(true);
         }
         else{
@@ -168,7 +168,7 @@ public class PauseGame : NetworkBehaviour
 
     // Hide the How To Play screen
     public void HideHowToPlay(){
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner How to Play")).SetActive(false);
         }
         else{
@@ -185,7 +185,7 @@ public class PauseGame : NetworkBehaviour
                                             // Reference to the discovery system
         
         // stop host if host mode
-        if(CustomNetworkManager.isHost)
+        if(CustomNetworkManager.IsHost)
         {
             if (NetworkServer.active && NetworkClient.isConnected)
             {
@@ -196,7 +196,7 @@ public class PauseGame : NetworkBehaviour
         }
 
         // stop client if client-only
-        else if(NetworkClient.isConnected && !CustomNetworkManager.isHost)
+        else if(NetworkClient.isConnected && !CustomNetworkManager.IsHost)
         {
             Debug.Log("I quit and I am the client");
             netManager.StopClient();
@@ -206,7 +206,7 @@ public class PauseGame : NetworkBehaviour
         // If we aren't a client or a host but we can still call exit game, something is wrong so throw an error
         else
         {
-            throw(new Exception("ExitGame(): Cannot exit, isHost" + CustomNetworkManager.isHost.ToString() + " and NetworkClient.isConnected is " + NetworkClient.isConnected.ToString()));
+            throw(new Exception("ExitGame(): Cannot exit, isHost" + CustomNetworkManager.IsHost.ToString() + " and NetworkClient.isConnected is " + NetworkClient.isConnected.ToString()));
         }
 
         // Load into the offline scene

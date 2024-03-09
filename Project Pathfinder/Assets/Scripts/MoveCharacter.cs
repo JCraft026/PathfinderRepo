@@ -54,7 +54,7 @@ public class MoveCharacter : NetworkBehaviour
     
     public override void OnStartAuthority(){
         base.OnStartAuthority();
-        if(CustomNetworkManager.isRunner)
+        if(CustomNetworkManager.IsRunner)
         {
             Debug.Log("Initializing runner inventory UI");
             Instance = this;
@@ -74,7 +74,7 @@ public class MoveCharacter : NetworkBehaviour
 
         // Process maze data
         //string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
-        mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+        mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson;
         //mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
 
         // Assign active character code and character arrow
@@ -111,7 +111,7 @@ public class MoveCharacter : NetworkBehaviour
         // Ensure the mazeData is not null. If it is we should not be using mazeData at all
         if(mazeData == null)
         {
-            mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().parsedMazeJson;
+            mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson;
             
         }
 
@@ -212,7 +212,7 @@ public class MoveCharacter : NetworkBehaviour
             
 
                 // Manage character arrow display
-                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f && !(CustomNetworkManager.isRunner && animator.GetBool("isGreen"))){
+                if((currentCell.HasFlag(WallStatus.BOTTOM)) && (currentCellY - gameObject.transform.position.y) > 2.3f && !(CustomNetworkManager.IsRunner && animator.GetBool("isGreen"))){
                     characterArrow.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 else{
@@ -222,7 +222,7 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Show and update guard disabled countdown
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             if(isDisabled){
                 if(!rebootCountdownActive){
                     guardRebootCountdown = Instantiate(guardRebootCountdownPrefab, transform);
@@ -254,7 +254,7 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Restrain the Guard if it's disabled by an EMP
-        if(!CustomNetworkManager.isRunner && isDisabled && canMove == true){
+        if(!CustomNetworkManager.IsRunner && isDisabled && canMove == true){
             canMove = false;
         }
     }
@@ -354,7 +354,7 @@ public class MoveCharacter : NetworkBehaviour
         }
 
         // Send Popup message that the guard is disabled
-        if(CustomNetworkManager.isRunner == false){
+        if(CustomNetworkManager.IsRunner == false){
             switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
             {
                 case ManageActiveCharactersConstants.CHASER:
@@ -409,7 +409,7 @@ public class MoveCharacter : NetworkBehaviour
 
         // Change the color of the disabled guard minimap icon back to normal
         // Send Popup message that the guard is disabled
-        if(CustomNetworkManager.isRunner == false){
+        if(CustomNetworkManager.IsRunner == false){
             switch (gameObject.GetComponent<ManageActiveCharacters>().guardId)
             {
                 case ManageActiveCharactersConstants.CHASER:

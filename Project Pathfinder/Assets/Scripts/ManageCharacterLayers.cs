@@ -53,7 +53,7 @@ public class ManageCharacterLayers : MonoBehaviour
         }
 
         // Set disabled guard order in layer
-        if(!CustomNetworkManager.isRunner && gameObject.GetComponent<MoveCharacter>().isDisabled){
+        if(!CustomNetworkManager.IsRunner && gameObject.GetComponent<MoveCharacter>().isDisabled){
             gameObject.GetComponent<SpriteRenderer>().sortingOrder    = 9;
         }
     }

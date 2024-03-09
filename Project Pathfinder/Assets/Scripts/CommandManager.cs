@@ -29,7 +29,7 @@ public class CommandManager : NetworkBehaviour
         runner.GetComponent<ManageRunnerStats>().TakeDamage(1);
 
         // Shake the cooresponding camera of the active character
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             cameraShake = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("CameraHolder(R)")).transform.GetChild(0).GetComponent<CameraShake>();
             StartCoroutine(cameraShake.Shake(.15f, .7f));
         }
@@ -83,11 +83,11 @@ public class CommandManager : NetworkBehaviour
     {
         GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
 
-        if(CustomNetworkManager.isRunner)
+        if(CustomNetworkManager.IsRunner)
         {
             runner.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 30);
         }
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             runner.GetComponent<SpriteRenderer>().enabled = false;
         }
         StartCoroutine(MakeRunnerVisible());
@@ -97,11 +97,11 @@ public class CommandManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(5);
         GameObject runner = Resources.FindObjectsOfTypeAll<GameObject>().First<GameObject>(x => x.name.Contains("Runner"));
-        if(CustomNetworkManager.isRunner)
+        if(CustomNetworkManager.IsRunner)
         {
             runner.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
         }
-        if(!CustomNetworkManager.isRunner)
+        if(!CustomNetworkManager.IsRunner)
         {
             runner.GetComponent<SpriteRenderer>().enabled = true;
         }
@@ -169,7 +169,7 @@ public class CommandManager : NetworkBehaviour
     {
         Debug.Log("Called RPC to set steam");
 
-        if(!CustomNetworkManager.isRunner){
+        if(!CustomNetworkManager.IsRunner){
             if(setting == true){
                 Debug.Log("M" + generatorName + "(Enabled)");
                 GameObject.Find("M" + generatorName + "(Enabled)").GetComponent<SpriteRenderer>().enabled  = false;

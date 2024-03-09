@@ -48,7 +48,7 @@ public class ManageUnlockAttempt : MonoBehaviour
             // Runner game object
 
         // Show unlock instruction above lock if the runner is close
-        if(CustomNetworkManager.isRunner){
+        if(CustomNetworkManager.IsRunner){
             if(gameObject.transform.position.y - runner.transform.position.y > 0.0f && gameObject.transform.position.y - runner.transform.position.y < 1.5f && runner.transform.position.x - gameObject.transform.position.x > -0.75f && runner.transform.position.x - gameObject.transform.position.x < 0.75f && lockUnlocked == false){
                 switch (lockID)
                 {
@@ -102,7 +102,7 @@ public class ManageUnlockAttempt : MonoBehaviour
         }
 
         // Process opening exits on the runner side
-        if(CustomNetworkManager.isRunner && runner.GetComponent<Animator>().GetBool("Unlock Attempted")){
+        if(CustomNetworkManager.IsRunner && runner.GetComponent<Animator>().GetBool("Unlock Attempted")){
             
             // If the runner is standing in front of the parent object keyhole, open the cooresponding exit and display the appropriate popup message
             if(gameObject.transform.position.y - runner.transform.position.y > 0.0f && gameObject.transform.position.y - runner.transform.position.y < 1.5f && runner.transform.position.x - gameObject.transform.position.x > -0.75f && runner.transform.position.x - gameObject.transform.position.x < 0.75f && lockUnlocked == false){
