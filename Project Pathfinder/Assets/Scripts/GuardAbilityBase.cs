@@ -24,9 +24,10 @@ public abstract class GuardAbilityBase : NetworkBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (ShouldDoAbility && GenerateSteam.steam >= AbilityUseageCost)
+        var shouldDoAbilityThisFrame = ShouldDoAbility; // So we don't have to recalculate the condition every frame
+        if (shouldDoAbilityThisFrame && GenerateSteam.steam >= AbilityUseageCost)
             DoAbility();
-        else if (GenerateSteam.steam < AbilityUseageCost)
+        else if (shouldDoAbilityThisFrame && GenerateSteam.steam < AbilityUseageCost) // This little boi isn't working as I'd expect him to (popup doesn't show up when they can't afford it)
             GameObject.Find("PopupMessageManager").GetComponent<ManagePopups>().ProcessAbilityAlert("<color=red>Not enough steam to use ability</color>", 3f);
         AbilityClicked = false;
     }

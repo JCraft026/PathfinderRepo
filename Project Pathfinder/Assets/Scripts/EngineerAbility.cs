@@ -23,7 +23,11 @@ public class EngineerAbility : GuardAbilityBase
     public int barricadeCount = 0;               // Keeps track of the max number of barricades
     CustomNetworkManager customNetworkManager;   // CustomNetworkManager script instance
 
-    void Start(){
+    public override float AbilityUseageCost => throw new System.NotImplementedException();
+
+    public override bool AbilityClicked { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+    protected override void Start(){
         // Get engineer's MoveCharacter script
         engineerMoveCharacter = gameObject.GetComponent<MoveCharacter>();
 
@@ -35,7 +39,7 @@ public class EngineerAbility : GuardAbilityBase
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         // Update barricade count
         barricadeCount = GameObject.FindGameObjectsWithTag("Barricade").Length;
@@ -169,5 +173,10 @@ public class EngineerAbility : GuardAbilityBase
 
         this.rpc_PlaySyncedAbilityAudio();
         return;
+    }
+
+    protected override void DoAbility()
+    {
+        throw new System.NotImplementedException();
     }
 }
