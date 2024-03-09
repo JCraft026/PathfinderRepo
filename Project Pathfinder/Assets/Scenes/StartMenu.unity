@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: spawnPrefabs.Array.data[0]
@@ -241,11 +241,11 @@ PrefabInstance:
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: spawnPrefabs.Array.data[9]
       value: 
-      objectReference: {fileID: 7699474653526203615, guid: f4fa75039af0393478725ae6257d4efe, type: 3}
+      objectReference: {fileID: 8368785342619026136, guid: a9b06a5c18a00a84fa59b2df440d78dd, type: 3}
     - target: {fileID: 2939840884276580472, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: spawnPrefabs.Array.data[10]
       value: 
-      objectReference: {fileID: 7699474653526203615, guid: f4fa75039af0393478725ae6257d4efe, type: 3}
+      objectReference: {fileID: 3941776402826085718, guid: f32e4d97d248c654cb9e528e7ebd0258, type: 3}
     - target: {fileID: 2939840884276580473, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -618,7 +618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4afb6c96697149845a3fe63822353866, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80dc4b94e6960ff48991f8e7967ad51e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -740,14 +740,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ServerBrowserUI, Scripts
-        m_MethodName: OnTutorialButton
-        m_Mode: 1
+      - m_Target: {fileID: 1866813440}
+        m_TargetAssemblyTypeName: SceneSwitcher, Scripts
+        m_MethodName: OpenScene
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 10
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

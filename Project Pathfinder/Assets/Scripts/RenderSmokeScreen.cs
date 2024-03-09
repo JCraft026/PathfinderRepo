@@ -24,7 +24,7 @@ public class RenderSmokeScreen : NetworkBehaviour
         smokeScreensSpawned += 1;
         //runnerScript = Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Runner")).GetComponent<MoveCharacter>();    
         }
-    // Update is called once per frame
+        
     [Command(requiresAuthority = false)]
     public void useSmoke(){
         GameObject gObject = Instantiate(ItemAssets.Instance.SmokeScreen,
@@ -55,7 +55,6 @@ public class RenderSmokeScreen : NetworkBehaviour
         while(result < tenSeconds)
         {
             result = DateTime.Now.Ticks - initialTime;
-            Debug.Log(result);
             yield return null;
         }
 

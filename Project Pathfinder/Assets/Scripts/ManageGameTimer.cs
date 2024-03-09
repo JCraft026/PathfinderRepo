@@ -21,7 +21,6 @@ public class ManageGameTimer : NetworkBehaviour
                 seconds = Mathf.FloorToInt(gameTimeLeft % 60);
                 gameObject.GetComponent<TextMeshProUGUI>().text = string.Format("{0:00}:{1:00}", minutes, seconds);
                 gameTimeLeft -= Time.deltaTime;
-                Debug.Log("hostIsFrozen, isHost" + (!CustomNetworkManager.hostIsFrozen).ToString() + ", " + (!CustomNetworkManager.isHost).ToString());
             }
             else{
                 HandleEvents.endGameEvent = HandleEventsConstants.TIMER_ZERO;
