@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEditor;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using static Utilities;
 
 [Serializable]
 public class PlayerProfile
@@ -57,7 +54,6 @@ public class Profile : MonoBehaviour
     public Regex usernameRegexRules = new Regex("^([a-zA-Z_0-9])+$");
     public int MAX_USERNAME_LENGTH = 16;
     public int MAX_PASSWORD_LENGTH = 16;
-    public int MAX_PROFILE_COUNT = 4;
     public string GUEST_USERNAME = "[Guest]";
     
     // Achievement Lists
@@ -346,11 +342,6 @@ public class Profile : MonoBehaviour
             return false;
         }
     }
-    
-    // Loads an already saved player profile from its local file.
-    //public PlayerProfile LoadProfile(string username, string password) {
-    //    return ReadProfileFromFile(GetProfileFilepath(username));
-    //}
     
     // Serializes a profile object into a json string.
     public string ProfileToString(PlayerProfile playerProfile) {

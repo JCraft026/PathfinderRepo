@@ -34,7 +34,6 @@ public class DiscoveryResponse : NetworkMessage
 // Used to contain an event for OnServerFound
 public class CustomServerFoundUnityEvent : UnityEvent<ServerResponse, DiscoveryResponse> {};
 
-
 //This class is responsible for advertising and discovering games waiting for players
 public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, DiscoveryResponse>
 {

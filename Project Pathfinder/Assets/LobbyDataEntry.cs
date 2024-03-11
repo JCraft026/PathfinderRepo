@@ -27,13 +27,10 @@ public class LobbyDataEntry : MonoBehaviour
         OnNewServer = CreateNewLobbyEntry; // Assign the delegate function for finding new servers
 
         if(networkManagerInterface.GetCustomNetworkDiscovery() == null)
-        {
             Debug.LogError("networkDiscovery is null");
-        }
+        
         if(networkManagerInterface.GetCustomNetworkDiscovery().OnServerFound == null)
-        {
             Debug.LogError("OnServerFound is null");
-        }
         networkManagerInterface.GetCustomNetworkDiscovery().OnServerFound.AddListener(OnNewServer);
     }
 
@@ -42,12 +39,12 @@ public class LobbyDataEntry : MonoBehaviour
     {
         // Vomit all the information about the incoming responses into the log file
         Debug.Log("Create new lobby entry");
-        Debug.Log("ServerName: " + discoveryResponse.serverName);
+        Debug.Log($"ServerName: {discoveryResponse.serverName}");
         Debug.Log($"Team Available: {discoveryResponse.teamAvailable}");
-        Debug.Log("Players In Game: " + discoveryResponse.playersInGame);
-        Debug.Log("ServerID: " + serverResponse.serverId);
-        Debug.Log("ServerIPEndpoint: " + serverResponse.EndPoint);
-        Debug.Log("ServerURI: " + serverResponse.uri);
+        Debug.Log($"Players In Game: {discoveryResponse.playersInGame}");
+        Debug.Log($"ServerID: {serverResponse.serverId}");
+        Debug.Log($"ServerIPEndpoint: {serverResponse.EndPoint}");
+        Debug.Log($"ServerURI: {serverResponse.uri}");
 
         // If the incoming responses are not already being displayed, display them
         if(!discoveredServers.ContainsKey(serverResponse.EndPoint))
@@ -83,9 +80,8 @@ public class LobbyDataEntry : MonoBehaviour
 
         //TODO: Reset the timer on the servers lifespan if we catch its active discovery packet again
         else
-        {
             serverUpdatedTimes[serverResponse.EndPoint] = DateTime.Now;
-        }
+        
     }
 
     public void DeleteOldEntry(GameObject lobbyEntry)
