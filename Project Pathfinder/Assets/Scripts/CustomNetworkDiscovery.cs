@@ -26,7 +26,7 @@ public class DiscoveryResponse : NetworkMessage
     // Add properties for whatever information you want the server to return to
     // clients for them to display or consume for establishing a connection.
     public string serverName;       // Name of the server set by the host
-    public string teamAvailable;    // The team (runner/guards) available for the client to play as
+    public Team teamAvailable;    // The team (runner/guards) available for the client to play as
     public int playersInGame;       // Number of players in the game
     public bool isHostRunner;       // Used to determine which team the client will join as in the server browser
 }
@@ -69,26 +69,17 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
     /// <returns>A message containing information about this server</returns>
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint) 
     {
+        var isHostRunner = networkManagerDao.GetCustomNetworkManager().IsHostRunner;
+
         // Build the discovery response
-        var response = new DiscoveryResponse()
+        return new DiscoveryResponse()
         {
             serverName = networkManagerDao.GetServerBrowserBackend().serverName,
             playersInGame = NetworkManager.singleton.numPlayers,
-            isHostRunner = networkManagerDao.GetCustomNetworkManager().IsHostRunner
-            // The available team is changed below
+            isHostRunner = isHostRunner,
+            teamAvailable = isHostRunner ? Team.Guards : Team.Runner,
         };
 
-        // Determine which team is available and advertise accordingly
-        if(networkManagerDao.GetCustomNetworkManager().IsHostRunner)
-        {
-            response.teamAvailable = "Guards";
-        }
-        else
-        {
-            response.teamAvailable = "Runner";
-        }
-
-        return response;
     }
 
     // Tell all potential clients to remove this server from their list of joinable games

@@ -13,13 +13,13 @@ public class CustomNetworkManager : NetworkManager
 {
     #region Global Variables
     // Global Variables
-    public static System.Random RandomNum  = new System.Random();
+    public static System.Random RandomNumberGenerator  = new System.Random();
                                             // Random number generator
     public static int InitialActiveGuardId = ManageActiveCharactersConstants.CHASER;
                                             // Guard ID of the initial active guard
     public static bool PlayerRoleSet       = false;
                                             // Status of player role being assigned
-    public static bool IsRunner            = false;               
+    public static bool IsRunner            = false;
                                             // User playing as Runner status (NOTE: not the same as hostIsRunner, this is used for the client to determine their team)
     public static bool IsHost;              // Each player will have this variable, it is set when you decide to join or jost a game
     
@@ -240,10 +240,7 @@ public class CustomNetworkManager : NetworkManager
             chaser.GetComponent<NetworkIdentity>().AssignClientAuthority(conn);
             NetworkServer.ReplacePlayerForConnection(conn, chaser, true);
 
-            
            Destroy(oldPlayer);
-
-           //StartCoroutine(AsyncDestroy(oldPlayer, conn));
 
             Debug.Log("CustomNetworkManager OnServerAddPlayer():  Replaced conID: " + conn.connectionId);
         }
@@ -262,16 +259,6 @@ public class CustomNetworkManager : NetworkManager
             StartCoroutine(HostWaitForPlayer(conn));
         
     }
-
-    //IEnumerator AsyncDestroy(GameObject oldPlayer, NetworkConnectionToClient conn)
-    //{
-    //    while(conn.isReady == false)
-    //    {
-    //        Debug.Log("CNM: Waiting to destroy old player object");
-    //        yield return null;
-    //    }
-    //    Destroy(oldPlayer);
-    //}
 
     public override void OnStopHost()
     {
@@ -341,7 +328,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Chaser spawn position
         while(chaserSet == false){
-            switch (RandomNum.Next(1,4))
+            switch (RandomNumberGenerator.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){
@@ -376,7 +363,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Engineer spawn position
         while(engineerSet == false){
-            switch (RandomNum.Next(1,4))
+            switch (RandomNumberGenerator.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){
@@ -411,7 +398,7 @@ public class CustomNetworkManager : NetworkManager
 
         // Set Trapper spawn position
         while(trapperSet == false){
-            switch (RandomNum.Next(1,4))
+            switch (RandomNumberGenerator.Next(1,4))
             {
                 case 1:
                     if(firstPositionUsed == false){

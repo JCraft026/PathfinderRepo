@@ -43,7 +43,7 @@ public class LobbyDataEntry : MonoBehaviour
         // Vomit all the information about the incoming responses into the log file
         Debug.Log("Create new lobby entry");
         Debug.Log("ServerName: " + discoveryResponse.serverName);
-        Debug.Log("Team Available: " + discoveryResponse.teamAvailable);
+        Debug.Log($"Team Available: {discoveryResponse.teamAvailable}");
         Debug.Log("Players In Game: " + discoveryResponse.playersInGame);
         Debug.Log("ServerID: " + serverResponse.serverId);
         Debug.Log("ServerIPEndpoint: " + serverResponse.EndPoint);
@@ -71,7 +71,7 @@ public class LobbyDataEntry : MonoBehaviour
             newJoinButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener( () => backend.JoinServer(serverResponse, networkManager, discoveryResponse.isHostRunner));
             
             // Set server info displays
-            teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable;
+            teamAvailable.GetComponent<TMP_Text>().text = "Team: " + discoveryResponse.teamAvailable.ToString();
             numOfPlayers.GetComponent<TMP_Text>().text = "Players: " + discoveryResponse.playersInGame.ToString() + "/2";
             //TODO: Put a timer on the server boxes life (6ish seconds)
             serverUpdatedTimes.Add(serverResponse.EndPoint, DateTime.Now);

@@ -302,6 +302,10 @@ PrefabInstance:
       propertyPath: Port
       value: 5100
       objectReference: {fileID: 0}
+    - target: {fileID: 2939840884276580479, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679f3abefdd72b340a45dc664e9b4442, type: 3}
 --- !u!1 &308214968 stripped
