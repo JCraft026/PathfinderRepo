@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
-using TMPro;
 using System.Text.RegularExpressions;
 
 public class BarricadeController : NetworkBehaviour
