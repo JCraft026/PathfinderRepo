@@ -73,9 +73,7 @@ public class MoveCharacter : NetworkBehaviour
     void Start(){
 
         // Process maze data
-        //string mazeDataJson = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().mazeRenderer.GiveMazeDataToNetworkManager();
         mazeData = CustomNetworkManagerDAO.GetNetworkManagerGameObject().GetComponent<CustomNetworkManager>().ParsedMazeJson;
-        //mazeData = JsonConvert.DeserializeObject<WallStatus[,]>(mazeDataJson);
 
         // Assign active character code and character arrow
         if(Utilities.runnerRegex.IsMatch(gameObject.name)){
