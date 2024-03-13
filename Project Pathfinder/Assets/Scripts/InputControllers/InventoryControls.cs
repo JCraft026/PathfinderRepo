@@ -116,6 +116,24 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleInventoryRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1937b2d-6132-4788-98e0-c760f30b1d92"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleInventoryLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""88cc89c8-d046-4234-9639-17005e2d940d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +141,17 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
                     ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0c7c43c-af4e-40eb-9914-d3ab1ba3253a"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -228,6 +257,28 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
                     ""action"": ""Inventory8"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f2c128ad-98ca-4592-a437-121898289ea5"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleInventoryRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72cb2f5a-ac47-46d1-a04f-98da0f512700"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleInventoryLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +358,8 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
         m_Player_Inventory6 = m_Player.FindAction("Inventory6", throwIfNotFound: true);
         m_Player_Inventory7 = m_Player.FindAction("Inventory7", throwIfNotFound: true);
         m_Player_Inventory8 = m_Player.FindAction("Inventory8", throwIfNotFound: true);
+        m_Player_CycleInventoryRight = m_Player.FindAction("CycleInventoryRight", throwIfNotFound: true);
+        m_Player_CycleInventoryLeft = m_Player.FindAction("CycleInventoryLeft", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -376,6 +429,8 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Inventory6;
     private readonly InputAction m_Player_Inventory7;
     private readonly InputAction m_Player_Inventory8;
+    private readonly InputAction m_Player_CycleInventoryRight;
+    private readonly InputAction m_Player_CycleInventoryLeft;
     public struct PlayerActions
     {
         private @InventoryControls m_Wrapper;
@@ -390,6 +445,8 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
         public InputAction @Inventory6 => m_Wrapper.m_Player_Inventory6;
         public InputAction @Inventory7 => m_Wrapper.m_Player_Inventory7;
         public InputAction @Inventory8 => m_Wrapper.m_Player_Inventory8;
+        public InputAction @CycleInventoryRight => m_Wrapper.m_Player_CycleInventoryRight;
+        public InputAction @CycleInventoryLeft => m_Wrapper.m_Player_CycleInventoryLeft;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -429,6 +486,12 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
                 @Inventory8.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory8;
                 @Inventory8.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory8;
                 @Inventory8.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory8;
+                @CycleInventoryRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryRight;
+                @CycleInventoryRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryRight;
+                @CycleInventoryRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryRight;
+                @CycleInventoryLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryLeft;
+                @CycleInventoryLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryLeft;
+                @CycleInventoryLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInventoryLeft;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -463,6 +526,12 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
                 @Inventory8.started += instance.OnInventory8;
                 @Inventory8.performed += instance.OnInventory8;
                 @Inventory8.canceled += instance.OnInventory8;
+                @CycleInventoryRight.started += instance.OnCycleInventoryRight;
+                @CycleInventoryRight.performed += instance.OnCycleInventoryRight;
+                @CycleInventoryRight.canceled += instance.OnCycleInventoryRight;
+                @CycleInventoryLeft.started += instance.OnCycleInventoryLeft;
+                @CycleInventoryLeft.performed += instance.OnCycleInventoryLeft;
+                @CycleInventoryLeft.canceled += instance.OnCycleInventoryLeft;
             }
         }
     }
@@ -524,5 +593,7 @@ public partial class @InventoryControls : IInputActionCollection2, IDisposable
         void OnInventory6(InputAction.CallbackContext context);
         void OnInventory7(InputAction.CallbackContext context);
         void OnInventory8(InputAction.CallbackContext context);
+        void OnCycleInventoryRight(InputAction.CallbackContext context);
+        void OnCycleInventoryLeft(InputAction.CallbackContext context);
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
@@ -347,6 +346,64 @@ public class ManageInventory : NetworkBehaviour
             slotNumber = 7;
             unselectSlots(slotNumber);
         }
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    void OnCycleInventoryRight()
+    {
+        if (!CustomNetworkManager.IsRunner)
+            return;
+
+        itemList = inventory.GetItemList();
+        if (itemList is { Count: 0 })
+            return;
+
+        var index = itemList.FindIndex(item => item.selected); // Get the index of the selected item
+
+        if (index == -1) 
+            index = 0;
+
+        selectedItem = itemList[index];
+        itemList[index].selected = false;
+
+        if (index >= itemList.Count - 1)
+            index = 0;
+        else
+            index += 1;
+
+        selectedItem = itemList[index];
+        selectedItem.selected = true;
+        slotNumber = index;
+        playerUi.RefreshInventoryItems();
+        playerUi.selectedItem = Item.ItemType.None;
+    }
+
+    void OnCycleInventoryLeft()
+    {
+        if (!CustomNetworkManager.IsRunner)
+            return;
+
+        itemList = inventory.GetItemList();
+        if (itemList is { Count: 0 })
+            return;
+
+        var index = itemList.FindIndex(item => item.selected); // Get the index of the selected item
+
+        if (index == -1)
+            index = 0;
+
+        selectedItem = itemList[index];
+        itemList[index].selected = false;
+
+        if (index == 0)
+            index = itemList.Count - 1;
+        else
+            index -= 1;
+
+        selectedItem = itemList[index];
+        selectedItem.selected = true;
+        slotNumber = index;
         playerUi.RefreshInventoryItems();
         playerUi.selectedItem = Item.ItemType.None;
     }
