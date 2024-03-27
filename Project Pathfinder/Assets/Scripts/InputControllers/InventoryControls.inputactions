@@ -121,7 +121,7 @@
                     "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -132,7 +132,7 @@
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -143,7 +143,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "DropItem",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -154,7 +154,7 @@
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -165,7 +165,7 @@
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -176,7 +176,7 @@
                     "path": "<Keyboard>/3",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory3",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -187,7 +187,7 @@
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory4",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -198,7 +198,7 @@
                     "path": "<Keyboard>/5",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory5",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -209,7 +209,7 @@
                     "path": "<Keyboard>/6",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory6",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -220,7 +220,7 @@
                     "path": "<Keyboard>/7",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory7",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -231,7 +231,7 @@
                     "path": "<Keyboard>/8",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "Inventory8",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -242,7 +242,7 @@
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "CycleInventoryRight",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -253,7 +253,7 @@
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "CycleInventoryLeft",
                     "isComposite": false,
                     "isPartOfComposite": false

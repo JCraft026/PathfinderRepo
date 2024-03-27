@@ -48,7 +48,7 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, trapper.transform.position);
                 trapperTooltip = true;
                 if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    destroyBarricade();
+                    DestroyBarricade();
                 }
             }
             else if(trapperTooltip && CustomNetworkManager.IsRunner == false && trapper.GetComponent<ManageActiveCharacters>().guardId == trapper.GetComponent<ManageActiveCharacters>().activeGuardId){
@@ -60,7 +60,7 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, engineer.transform.position);
                 engineerTooltip = true;
                 if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    destroyBarricade();
+                    DestroyBarricade();
                 }
             }
             else if(engineerTooltip && CustomNetworkManager.IsRunner == false && engineer.GetComponent<ManageActiveCharacters>().guardId == engineer.GetComponent<ManageActiveCharacters>().activeGuardId){
@@ -72,7 +72,7 @@ public class BarricadeController : NetworkBehaviour
                 enableTooltip(gameObject.transform.position, chaser.transform.position);
                 chaserTooltip = true;
                 if((Input.GetKeyDown("j") && CustomNetworkManager.IsRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId)){
-                    destroyBarricade();
+                    DestroyBarricade();
                 }
             }
             else if(chaserTooltip && CustomNetworkManager.IsRunner == false && chaser.GetComponent<ManageActiveCharacters>().guardId == chaser.GetComponent<ManageActiveCharacters>().activeGuardId){
@@ -90,7 +90,7 @@ public class BarricadeController : NetworkBehaviour
                     runner.GetComponent<Animator>().SetBool("SwingHammer", true);
                     decreaseBarricadeHealth(gameObject.transform.position, runner.transform.position);
                     if(hitCount >= 3){
-                        destroyBarricade();
+                        DestroyBarricade();
                         hitCount = 0;
                     }
                 }
@@ -104,7 +104,7 @@ public class BarricadeController : NetworkBehaviour
 
     // Destroys both host and client barricade
     [Command(requiresAuthority = false)]
-    public void destroyBarricade(){
+    public void DestroyBarricade(){
         NetworkServer.Destroy(gameObject);
     }
 

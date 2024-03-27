@@ -24,6 +24,11 @@ public class ManageActiveCharacters : NetworkBehaviour
     public int activeGuardId;                     // Guard ID of the current active guard
     public int nextActiveGuardId;                 // Guard ID of the next active guard
     Regex runnerExpression = new Regex("Runner"); // Match "Runner"
+    public List<GameObject> GetGuards => new List<GameObject>() //TODO: Temporary for testing - store these objects
+    { Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Trapper(Clone)")), 
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Engineer(Clone)")), 
+        Resources.FindObjectsOfTypeAll<GameObject>().FirstOrDefault(gObject => gObject.name.Contains("Chaser(Clone)")) 
+    };
 
     // Run when object is created
     public void Start(){
@@ -56,30 +61,7 @@ public class ManageActiveCharacters : NetworkBehaviour
     // Run on every frame
     public void Update()
     {
-        // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
-        if(Input.GetKeyDown("space") && CustomNetworkManager.IsRunner == false && !runnerExpression.IsMatch(gameObject.name)){
-            Debug.Log("attempted guard swap");
-            if(activeGuardId >= 3){
-                nextActiveGuardId = 1;
-            }
-            else{
-                nextActiveGuardId = activeGuardId + 1;
-            }
-
-            // If the parent object is the current active guard, disable its camera and give control to the next active guard
-            if(guardId == activeGuardId){
-                cameraHolder.SetActive(false);
-                ChangeActiveGuard(this.netIdentity, nextActiveGuardId);
-            }
-
-            // If the parent object is the next active guard, enable the camera
-            else if(guardId == nextActiveGuardId){
-                cameraHolder.SetActive(true);
-                SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
-            }
-
-            activeGuardId = nextActiveGuardId;
-        }
+        //Guard swap code used to be here (-caleb)
         cameraHolder.transform.position = transform.position + offset;
 
         // Enable UI Ability Icons
@@ -104,7 +86,7 @@ public class ManageActiveCharacters : NetworkBehaviour
             }
         }
 
-        if(CustomNetworkManager.IsRunner == false && isLocalPlayer == true)
+        if(!CustomNetworkManager.IsRunner && isLocalPlayer)
         {
             if(activeGuardId == guardId)
             {
@@ -115,7 +97,7 @@ public class ManageActiveCharacters : NetworkBehaviour
                 gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
             }
         }
-        else if(isLocalPlayer == false && CustomNetworkManager.IsRunner == true && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
+        else if(!isLocalPlayer && CustomNetworkManager.IsRunner && gameObject.GetComponent<SpriteRenderer>().material != inactiveMaterial)
         {
             gameObject.GetComponent<SpriteRenderer>().material = inactiveMaterial;
         }
@@ -144,6 +126,46 @@ public class ManageActiveCharacters : NetworkBehaviour
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // UI Canvas
 
         canvas.worldCamera = camera;
+    }
+
+    public void OnSwap()
+    {
+        SwapGuards();
+    }
+
+    private void SwapGuards()
+    {
+        // If the user hits the space key, and is playing as the guard master, process switching guard control to the next guard
+        if (!CustomNetworkManager.IsRunner && !runnerExpression.IsMatch(gameObject.name) && !CustomNetworkManager.IsRunner) //Input.GetKeyDown("space") && 
+        {
+            Debug.Log("attempted guard swap");
+            if (activeGuardId >= 3)
+            {
+                nextActiveGuardId = 1;
+            }
+            else
+            {
+                nextActiveGuardId = activeGuardId + 1;
+            }
+
+            
+            // If the parent object is the current active guard, disable its camera and give control to the next active guard
+            if (guardId == activeGuardId)
+            {
+                cameraHolder.SetActive(false);
+                ChangeActiveGuard(this.netIdentity, nextActiveGuardId);
+            }
+
+            // If the parent object is the next active guard, enable the camera
+            else if (guardId == nextActiveGuardId)
+            {
+                cameraHolder.SetActive(true);
+                SetUICamera(cameraHolder.transform.Find("Camera").gameObject.GetComponent<Camera>());
+            }
+
+            activeGuardId = nextActiveGuardId;
+        }
+        cameraHolder.transform.position = transform.position + offset;
     }
 
     [Command]
